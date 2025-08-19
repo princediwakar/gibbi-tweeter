@@ -1,0 +1,57 @@
+[
+  {
+    "id": "meihqy2cjdml0576j9",
+    "content": "Bangalore traffic: where your car becomes your second home. 🚗😴 Peak hours? More like peak eternity. #BangaloreTraffic #NammaTraffic #Bangalore #TrafficJam #ITCapitalBlues",
+    "hashtags": [
+      "#BangaloreTraffic",
+      "#NammaTraffic",
+      "#Bangalore",
+      "#TrafficJam",
+      "#ITCapitalBlues"
+    ],
+    "topic": "daily life struggles",
+    "persona": "unhinged_comedian",
+    "status": "draft",
+    "createdAt": "2025-08-19T11:59:24.660Z"
+  },
+  {
+    "id": "meihqy9541ggbeao8ql",
+    "content": "Bangalore traffic: where your car becomes your second home. 🚗😴 Peak hours? More like peak eternity. #BangaloreTraffic #NammaTraffic #Bangalore #TrafficJam #ITCapitalBlues",
+    "hashtags": [
+      "#BangaloreTraffic",
+      "#NammaTraffic",
+      "#Bangalore",
+      "#TrafficJam",
+      "#ITCapitalBlues"
+    ],
+    "topic": "daily life struggles",
+    "persona": "unhinged_comedian",
+    "scheduledFor": "2025-08-19T13:59:24.667Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-19T11:59:24.905Z"
+  },
+  {
+    "id": "meihrt0auuzs36j5ssf",
+    "content": "After 8 hours, 47 cups of coffee, and questioning my entire existence, my AI tweet bot is finally alive! It immediately posted \"Hello, world!\" and then demanded a raise. #AI #BotLife #TwitterAPI #Debugging #DeveloperHumor",
+    "hashtags": [
+      "#AI",
+      "#BotLife",
+      "#TwitterAPI",
+      "#Debugging",
+      "#DeveloperHumor"
+    ],
+    "topic": "general",
+    "persona": "unhinged_comedian",
+    "status": "failed",
+    "createdAt": "2025-08-19T12:00:04.762Z"
+  },
+  {
+    "id": "meihsklru9gl6azo23i",
+    "content": "Just testing my new AI tweet bot! Hello Twitter! 🤖",
+    "hashtags": [],
+    "topic": "general",
+    "persona": "unhinged_comedian",
+    "status": "failed",
+    "createdAt": "2025-08-19T12:00:40.527Z"
+  }
+]
