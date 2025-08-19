@@ -1,57 +1,89 @@
 [
   {
-    "id": "meihqy2cjdml0576j9",
-    "content": "Bangalore traffic: where your car becomes your second home. 🚗😴 Peak hours? More like peak eternity. #BangaloreTraffic #NammaTraffic #Bangalore #TrafficJam #ITCapitalBlues",
+    "id": "meiuwk9bm35ltoef08",
+    "content": "My Bangalore GPS now has three settings: \"Home,\" \"Work,\" and \"Accept Your Fate.\" Just spent an hour going in a circle because a pothole achieved sentience and is now charging a toll. #BangaloreTraffic #NammaRoads",
     "hashtags": [
       "#BangaloreTraffic",
-      "#NammaTraffic",
-      "#Bangalore",
-      "#TrafficJam",
-      "#ITCapitalBlues"
+      "#NammaRoads"
     ],
     "topic": "daily life struggles",
     "persona": "unhinged_comedian",
     "status": "draft",
-    "createdAt": "2025-08-19T11:59:24.660Z"
+    "createdAt": "2025-08-19T18:07:41.711Z"
   },
   {
-    "id": "meihqy9541ggbeao8ql",
-    "content": "Bangalore traffic: where your car becomes your second home. 🚗😴 Peak hours? More like peak eternity. #BangaloreTraffic #NammaTraffic #Bangalore #TrafficJam #ITCapitalBlues",
+    "id": "meiuwkeczxkyw2gajrr",
+    "content": "My Bangalore GPS now has three settings: \"Home,\" \"Work,\" and \"Accept Your Fate.\" Just spent an hour going in a circle because a pothole achieved sentience and is now charging a toll. #BangaloreTraffic #NammaRoads",
     "hashtags": [
       "#BangaloreTraffic",
-      "#NammaTraffic",
-      "#Bangalore",
-      "#TrafficJam",
-      "#ITCapitalBlues"
+      "#NammaRoads"
     ],
     "topic": "daily life struggles",
     "persona": "unhinged_comedian",
-    "scheduledFor": "2025-08-19T13:59:24.667Z",
+    "scheduledFor": "2025-08-19T18:49:00.000Z",
     "status": "scheduled",
-    "createdAt": "2025-08-19T11:59:24.905Z"
+    "createdAt": "2025-08-19T18:07:41.892Z"
   },
   {
-    "id": "meihrt0auuzs36j5ssf",
-    "content": "After 8 hours, 47 cups of coffee, and questioning my entire existence, my AI tweet bot is finally alive! It immediately posted \"Hello, world!\" and then demanded a raise. #AI #BotLife #TwitterAPI #Debugging #DeveloperHumor",
+    "id": "meiv08aj42tkvrirli4",
+    "content": "When the monsoon knocks you over like a bouncer at home, remember: the best players adjust their stance. A wet outfield? Just a slower pitch to build your innings on. Don't play for the rain, play through it. The cover drive of concentration will find the gap! #WorkFromHome #MonsoonMotivation #LifeInnings",
     "hashtags": [
-      "#AI",
-      "#BotLife",
-      "#TwitterAPI",
-      "#Debugging",
-      "#DeveloperHumor"
+      "#WorkFromHome",
+      "#MonsoonMotivation",
+      "#LifeInnings"
+    ],
+    "topic": "technology",
+    "persona": "cricket_commentator",
+    "status": "draft",
+    "createdAt": "2025-08-19T18:10:32.827Z"
+  },
+  {
+    "id": "meiv818eyve7lfd9poc",
+    "content": "Mumbai's real estate is so wild, you need a second mortgage just to afford the anxiety of living here. My 1BHK is so small, the cockroaches have to form a single-file line. #MumbaiStruggle #ConcreteJungle",
+    "hashtags": [
+      "#MumbaiStruggle",
+      "#ConcreteJungle"
     ],
     "topic": "general",
     "persona": "unhinged_comedian",
-    "status": "failed",
-    "createdAt": "2025-08-19T12:00:04.762Z"
+    "status": "draft",
+    "createdAt": "2025-08-19T18:16:36.927Z"
   },
   {
-    "id": "meihsklru9gl6azo23i",
-    "content": "Just testing my new AI tweet bot! Hello Twitter! 🤖",
-    "hashtags": [],
+    "id": "meiv81gr7fc2vbafr18",
+    "content": "Mumbai's public transport is a masterclass in intimacy. You will be cradled by a stranger's armpit while another man uses your shoulder as a headrest. It's not a commute, it's a group hug no one consented to. #MumbaiLife #LocalTrainTherapy",
+    "hashtags": [
+      "#MumbaiLife",
+      "#LocalTrainTherapy"
+    ],
     "topic": "general",
     "persona": "unhinged_comedian",
-    "status": "failed",
-    "createdAt": "2025-08-19T12:00:40.527Z"
+    "status": "draft",
+    "createdAt": "2025-08-19T18:16:37.227Z"
+  },
+  {
+    "id": "meiv81lw1gt3y6341l3",
+    "content": "Mumbai's infrastructure is a cry for help written in potholes and traffic jams. My daily commute is less 'travel' and more 'applied archaeology.' I've accepted that my Uber driver and I will merge into one being. #MumbaiTraffic #ThisIsFine",
+    "hashtags": [
+      "#MumbaiTraffic",
+      "#ThisIsFine"
+    ],
+    "topic": "general",
+    "persona": "unhinged_comedian",
+    "status": "draft",
+    "createdAt": "2025-08-19T18:16:37.412Z"
+  },
+  {
+    "id": "meiv822g9mqtcc9wh0w",
+    "content": "Mumbai's real estate is a horror movie where the monster is a 300 sq ft '1BHK' that costs your soul & your firstborn. The only thing more fictional than the square footage is the builder's promise of 'world-class amenities'. #Mumbai #HouseHuntingHorror #RentIsAScam",
+    "hashtags": [
+      "#Mumbai",
+      "#HouseHuntingHorror",
+      "#RentIsAScam"
+    ],
+    "topic": "general",
+    "persona": "unhinged_comedian",
+    "status": "draft",
+    "createdAt": "2025-08-19T18:16:38.008Z"
   }
 ]

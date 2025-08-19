@@ -19,15 +19,27 @@ export async function PUT(
 
     if (action === 'post') {
       try {
-        await postTweet(tweet.content);
+        const result = await postTweet(tweet.content);
         tweet.status = 'posted';
         tweet.postedAt = new Date();
+        tweet.twitterId = result.data.id; // Store the Twitter tweet ID
         await saveTweet(tweet);
-        return NextResponse.json(tweet);
+        return NextResponse.json({ 
+          ...tweet, 
+          twitterUrl: `https://x.com/user/status/${result.data.id}`
+        });
       } catch (error) {
         tweet.status = 'failed';
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        tweet.errorMessage = errorMessage;
         await saveTweet(tweet);
-        return NextResponse.json({ error: 'Failed to post tweet' }, { status: 500 });
+        
+        // Return detailed error for better user experience
+        return NextResponse.json({ 
+          error: 'Failed to post tweet',
+          details: errorMessage,
+          tweet: tweet
+        }, { status: 400 });
       }
     }
 

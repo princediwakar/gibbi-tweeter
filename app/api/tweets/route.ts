@@ -57,6 +57,32 @@ export async function POST(request: Request) {
       return NextResponse.json(tweet);
     }
 
+    if (action === 'generate-and-schedule') {
+      const options: TweetGenerationOptions = {
+        topic: data.topic,
+        persona: data.persona,
+        includeHashtags: data.includeHashtags,
+        customPrompt: data.customPrompt,
+      };
+
+      const generatedTweet = await generateTweet(options);
+      const scheduledFor = new Date(data.scheduledFor);
+      
+      const tweet = {
+        id: generateTweetId(),
+        content: generatedTweet.content,
+        hashtags: generatedTweet.hashtags,
+        topic: data.topic || 'general',
+        persona: data.persona || 'unhinged_comedian',
+        scheduledFor,
+        status: 'scheduled' as const,
+        createdAt: new Date(),
+      };
+
+      await saveTweet(tweet);
+      return NextResponse.json(tweet);
+    }
+
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
   } catch (error) {
     console.error('Error in tweets API:', error);

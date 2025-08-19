@@ -23,6 +23,7 @@ import {
   Twitter 
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { getNextOptimalPostTime, getOptimalPostingSchedule, formatOptimalTime } from '@/lib/timing';
 
 interface Tweet {
   id: string;
@@ -70,8 +71,14 @@ const personas = [
   {
     id: 'motivational_whiz',
     name: 'Motivational Whiz', 
-    description: 'Uplifting inspiration and positive energy',
+    description: 'Brutally honest motivation - harsh truths with inspiring energy',
     emoji: '⚡'
+  },
+  {
+    id: 'cricket_commentator',
+    name: 'Cricket Commentator',
+    description: 'Inspirational life lessons through cricket metaphors and commentary',
+    emoji: '🏏'
   }
 ];
 
@@ -83,16 +90,14 @@ export default function TweetDashboard() {
     topic: 'daily life struggles',
     persona: 'unhinged_comedian',
     includeHashtags: true,
-    customPrompt: '',
-    schedulingInterval: 2
+    customPrompt: ''
   });
 
   const [bulkGenerateForm, setBulkGenerateForm] = useState({
     bulkPrompt: '',
-    count: 10,
+    count: 5,
     persona: 'unhinged_comedian',
-    includeHashtags: true,
-    schedulingInterval: 2
+    includeHashtags: true
   });
 
   const [selectedTweets, setSelectedTweets] = useState<string[]>([]);
@@ -105,12 +110,17 @@ export default function TweetDashboard() {
     try {
       const response = await fetch('/api/tweets');
       const data = await response.json();
-      setTweets(data.map((tweet: Tweet & { createdAt: string; scheduledFor?: string; postedAt?: string }) => ({
+      const processedTweets = data.map((tweet: Tweet & { createdAt: string; scheduledFor?: string; postedAt?: string }) => ({
         ...tweet,
         createdAt: new Date(tweet.createdAt),
         scheduledFor: tweet.scheduledFor ? new Date(tweet.scheduledFor) : undefined,
         postedAt: tweet.postedAt ? new Date(tweet.postedAt) : undefined,
-      })));
+      }));
+      
+      // Sort in reverse chronological order (newest first)
+      processedTweets.sort((a: Tweet, b: Tweet) => b.createdAt.getTime() - a.createdAt.getTime());
+      
+      setTweets(processedTweets);
     } catch (error) {
       console.error('Failed to fetch tweets:', error);
       toast.error('Failed to fetch tweets');
@@ -146,42 +156,29 @@ export default function TweetDashboard() {
   const generateAndScheduleTweet = async () => {
     setLoading(true);
     try {
-      const generateResponse = await fetch('/api/tweets', {
+      // Get the next optimal posting time based on existing scheduled tweets
+      const lastScheduledTweet = tweets
+        .filter(t => t.status === 'scheduled' && t.scheduledFor)
+        .sort((a, b) => (b.scheduledFor?.getTime() || 0) - (a.scheduledFor?.getTime() || 0))[0];
+      
+      const startFromTime = lastScheduledTweet?.scheduledFor || new Date();
+      const scheduledFor = getNextOptimalPostTime(startFromTime);
+
+      const response = await fetch('/api/tweets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'generate',
-          ...generateForm
+          action: 'generate-and-schedule',
+          ...generateForm,
+          scheduledFor: scheduledFor.toISOString()
         })
       });
 
-      if (generateResponse.ok) {
-        const generatedTweet = await generateResponse.json();
-        
-        const now = new Date();
-        const scheduledFor = new Date(now.getTime() + (generateForm.schedulingInterval * 60 * 60 * 1000));
-        
-        const scheduleResponse = await fetch('/api/tweets', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'schedule',
-            content: generatedTweet.content,
-            hashtags: generatedTweet.hashtags,
-            topic: generatedTweet.topic,
-            persona: generatedTweet.persona,
-            scheduledFor: scheduledFor.toISOString()
-          })
-        });
-
-        if (scheduleResponse.ok) {
-          toast.success(`Tweet generated and scheduled for ${scheduledFor.toLocaleString()}!`);
-          fetchTweets();
-        } else {
-          toast.error('Generated tweet but failed to schedule');
-        }
+      if (response.ok) {
+        toast.success(`Tweet scheduled for optimal time: ${formatOptimalTime(scheduledFor)}!`);
+        fetchTweets();
       } else {
-        toast.error('Failed to generate tweet');
+        toast.error('Failed to generate and schedule tweet');
       }
     } catch (error) {
       console.error('Failed to generate and schedule tweet:', error);
@@ -238,14 +235,16 @@ export default function TweetDashboard() {
 
     try {
       let scheduledCount = 0;
-      const now = new Date();
+      
+      // Get optimal posting schedule for selected tweets
+      const optimalTimes = getOptimalPostingSchedule(selectedTweets.length);
 
       for (let i = 0; i < selectedTweets.length; i++) {
         const tweetId = selectedTweets[i];
         const tweet = tweets.find(t => t.id === tweetId);
         
         if (tweet && tweet.status === 'draft') {
-          const scheduledFor = new Date(now.getTime() + (i * bulkGenerateForm.schedulingInterval * 60 * 60 * 1000));
+          const scheduledFor = optimalTimes[i];
           
           const response = await fetch('/api/tweets', {
             method: 'POST',
@@ -445,17 +444,9 @@ export default function TweetDashboard() {
                   />
                   Hashtags
                 </label>
-                <select
-                  value={generateForm.schedulingInterval}
-                  onChange={(e) => setGenerateForm(prev => ({ ...prev, schedulingInterval: parseInt(e.target.value) }))}
-                  className="p-1 border rounded text-sm"
-                >
-                  <option value={1}>1h</option>
-                  <option value={2}>2h</option>
-                  <option value={4}>4h</option>
-                  <option value={12}>12h</option>
-                  <option value={24}>24h</option>
-                </select>
+                <span className="text-xs text-gray-500">
+                  ⏰ Next optimal: {formatOptimalTime(getNextOptimalPostTime())}
+                </span>
               </div>
               <div className="flex gap-2">
                 <Button onClick={generateTweet} disabled={loading} size="sm" variant="outline">
@@ -481,7 +472,7 @@ export default function TweetDashboard() {
             <Textarea
               value={bulkGenerateForm.bulkPrompt}
               onChange={(e) => setBulkGenerateForm(prev => ({ ...prev, bulkPrompt: e.target.value }))}
-              placeholder="Generate 10 tweets about bangalore traffic, each unique and hilarious..."
+              placeholder="Generate multiple tweets about bangalore traffic, each unique and hilarious..."
               className="min-h-16 text-sm"
             />
             <div className="flex items-center justify-between">
@@ -507,17 +498,9 @@ export default function TweetDashboard() {
                     </option>
                   ))}
                 </select>
-                <select
-                  value={bulkGenerateForm.schedulingInterval}
-                  onChange={(e) => setBulkGenerateForm(prev => ({ ...prev, schedulingInterval: parseInt(e.target.value) }))}
-                  className="p-1 border rounded text-sm"
-                >
-                  <option value={1}>1h</option>
-                  <option value={2}>2h</option>
-                  <option value={4}>4h</option>
-                  <option value={12}>12h</option>
-                  <option value={24}>24h</option>
-                </select>
+                <span className="text-xs text-gray-500">
+                  📅 Optimal schedule for {bulkGenerateForm.count} tweets
+                </span>
                 <label className="flex items-center gap-1 text-sm">
                   <input
                     type="checkbox"
@@ -620,8 +603,34 @@ export default function TweetDashboard() {
                   </TableCell>
                   <TableCell>
                     {tweet.status === 'scheduled' && tweet.scheduledFor && (
-                      <div className="text-xs text-gray-600">
-                        {tweet.scheduledFor.toLocaleString()}
+                      <div className="space-y-1">
+                        <input
+                          type="datetime-local"
+                          value={tweet.scheduledFor.toISOString().slice(0, 16)}
+                          onChange={async (e) => {
+                            const newTime = new Date(e.target.value);
+                            try {
+                              const response = await fetch(`/api/tweets/${tweet.id}`, {
+                                method: 'PUT',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                  action: 'update',
+                                  scheduledFor: newTime.toISOString()
+                                })
+                              });
+                              if (response.ok) {
+                                fetchTweets();
+                                toast.success('Schedule updated!');
+                              }
+                            } catch (error) {
+                              toast.error('Failed to update schedule');
+                            }
+                          }}
+                          className="text-xs border rounded px-2 py-1 w-full max-w-40"
+                        />
+                        <div className="text-xs text-gray-500">
+                          {formatOptimalTime(tweet.scheduledFor)}
+                        </div>
                       </div>
                     )}
                     {tweet.status === 'posted' && tweet.postedAt && (

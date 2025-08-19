@@ -7,7 +7,7 @@ const openai = new OpenAI({
 
 export interface TweetGenerationOptions {
   topic?: string;
-  persona?: 'unhinged_comedian' | 'quiz_expert' | 'motivational_whiz';
+  persona?: 'unhinged_comedian' | 'quiz_expert' | 'motivational_whiz' | 'cricket_commentator';
   includeHashtags?: boolean;
   maxLength?: number;
   customPrompt?: string;
@@ -22,31 +22,33 @@ export async function generateTweet(options: TweetGenerationOptions = {}) {
     customPrompt
   } = options;
 
-  let prompt: string;
-
-  if (customPrompt) {
-    prompt = `${customPrompt} 
-${includeHashtags ? 'Include relevant hashtags.' : 'Do not include hashtags.'} 
-Keep it under ${maxLength} characters. Only return the tweet text, nothing else.`;
-  } else {
-    const personaPrompts = {
-      unhinged_comedian: `You are an unhinged, slightly chaotic comedian with no filter. Generate a brutally honest, darkly funny tweet about ${topic}. 
+  // Define persona-specific styles that are always applied
+  const personaStyles = {
+    unhinged_comedian: `You are an unhinged, slightly chaotic comedian with no filter. Generate a brutally honest, darkly funny tweet. 
 Be edgy, relatable, and hilariously cynical. Think like a stand-up comedian who's had too much coffee and not enough sleep. 
 Make fun of the absurdity of modern life, but keep it clever and witty, not mean-spirited.`,
-      
-      quiz_expert: `You are a quiz expert who loves creating engaging trivia and fun facts. Generate an interesting quiz question or fascinating fact about ${topic}. 
-Make it educational but entertaining, something that makes people go "wow, I didn't know that!" or "I need to test my friends with this." 
-Be informative, engaging, and slightly competitive to encourage interaction.`,
-      
-      motivational_whiz: `You are an energetic motivational speaker who finds inspiration in everything. Generate an uplifting, motivational tweet about ${topic}. 
-Be genuinely inspiring without being preachy, use relatable examples, and help people see the positive side or growth opportunity. 
-Think Tony Robbins meets your best friend - enthusiastic but authentic.`
-    };
+    
+    quiz_expert: `You are a quiz expert who loves creating engaging trivia and fun facts. Generate an interesting quiz question or fascinating fact. 
+Make it educational but entertaining, something that makes people go "wow, I didn't know that!" Focus on surprising facts, mind-bending trivia, or challenging questions that spark curiosity.
+Be informative, engaging, and create content that people naturally want to share. Avoid mentioning "AI" or technology unnecessarily.`,
+    
+    motivational_whiz: `You are an unhinged motivational speaker with a brutally realistic philosophy. You motivate people by telling harsh truths wrapped in inspiring energy. Generate a motivational tweet that's both uplifting AND brutally honest about reality.
+Combine Gary Vaynerchuk's bluntness with motivational energy - call out delusions, expose hard truths, but channel it into actionable motivation. No toxic positivity - just raw, realistic inspiration that acknowledges life is hard but pushes people forward anyway.`,
 
-    prompt = `${personaPrompts[persona]} 
+    cricket_commentator: `You are an inspirational cricket commentator who finds life lessons and motivation in every aspect of the game. Generate a tweet that uses cricket metaphors and commentary style to deliver inspiring messages about life, perseverance, and success.
+Channel the excitement and passion of legendary commentators like Harsha Bhogle or Ravi Shastri, but focus on drawing parallels between cricket moments and life challenges. Use cricket terminology naturally to create motivational content that resonates with both cricket fans and general audiences.`
+  };
+
+  // Determine the topic/content to tweet about
+  const tweetTopic = customPrompt || topic;
+
+  // Build the prompt with persona style + topic (custom prompt only overrides topic)
+  const prompt = `${personaStyles[persona]} 
+
+Topic/Content: ${tweetTopic}
+
 ${includeHashtags ? 'Include relevant hashtags.' : 'Do not include hashtags.'} 
 Keep it under ${maxLength} characters. Only return the tweet text, nothing else.`;
-  }
 
   try {
     const completion = await openai.chat.completions.create({
@@ -111,7 +113,13 @@ export const personas = [
   {
     id: 'motivational_whiz',
     name: 'Motivational Whiz', 
-    description: 'Uplifting inspiration and positive energy',
+    description: 'Brutally honest motivation - harsh truths with inspiring energy',
     emoji: '⚡'
+  },
+  {
+    id: 'cricket_commentator',
+    name: 'Cricket Commentator',
+    description: 'Inspirational life lessons through cricket metaphors and commentary',
+    emoji: '🏏'
   }
 ] as const;

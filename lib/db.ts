@@ -9,6 +9,9 @@ export interface Tweet {
   persona: string;
   scheduledFor?: Date;
   postedAt?: Date;
+  twitterId?: string; // Twitter/X tweet ID
+  twitterUrl?: string; // Direct link to tweet
+  errorMessage?: string; // Error message for failed tweets
   status: 'draft' | 'scheduled' | 'posted' | 'failed';
   createdAt: Date;
 }
