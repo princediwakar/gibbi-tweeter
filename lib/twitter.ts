@@ -53,7 +53,7 @@ function createOAuthHeader(
   params: Record<string, string> = {},
   credentials: TwitterCredentials
 ): string {
-  const oauthParams = {
+  const oauthParams: Record<string, string> = {
     oauth_consumer_key: credentials.apiKey,
     oauth_token: credentials.accessToken,
     oauth_signature_method: 'HMAC-SHA1',
