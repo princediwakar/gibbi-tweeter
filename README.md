@@ -1,130 +1,151 @@
-# Multi-Persona AI Bot
+# 🤖 AI Tweet Bot
 
-An intelligent AI system with multiple personalities that generates unique tweets and automatically schedules them to post on X (Twitter). Choose from different AI personas: Unhinged Comedian 🎭, Quiz Expert 🧠, or Motivational Whiz ⚡
+A powerful AI-powered tweet generation and scheduling bot with multi-persona support.
 
-## Features
+![Next.js](https://img.shields.io/badge/Next.js-15-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC)
 
-- 🤖 **Multiple AI Personas**: Choose from 3 distinct personalities with unique styles
-  - 🎭 **Unhinged Comedian**: Brutally honest, darkly funny takes with no filter
-  - 🧠 **Quiz Expert**: Engaging trivia questions and fascinating facts
-  - ⚡ **Motivational Whiz**: Uplifting inspiration and positive energy
-- ⏰ **Flexible Scheduling**: Set custom intervals (1-24 hours) for automatic posting
-- ✍️ **Custom Prompts**: Override any persona with your own creative prompts
-- #️⃣ **Smart Hashtags**: Automatically includes relevant hashtags for better reach
-- 🎨 **Modern UI**: Built with Next.js 15, Tailwind CSS, and shadcn/ui
-- 📊 **Management Dashboard**: Monitor, edit, and control all your AI-generated content
-- 🎯 **Versatile Topics**: 15+ topics from daily life to science and technology
+## ✨ Features
 
-## Setup
+### 🎭 Multi-Persona AI
+- **Unhinged Comedian** - Brutally honest, darkly funny takes
+- **Quiz Expert** - Engaging trivia questions and facts
+- **Motivational Whiz** - Uplifting inspiration and positivity
 
-1. **Clone and install dependencies:**
-   ```bash
-   git clone <your-repo>
-   cd tweeter
-   npm install
-   ```
+### 🚀 Tweet Generation
+- **Single Tweets** - Generate individual tweets with custom prompts
+- **Bulk Generation** - Create 5-20 tweets at once on any topic
+- **Smart Scheduling** - Auto-schedule tweets at 1-24 hour intervals
+- **Full Content Preview** - See complete tweet content before posting
 
-2. **Configure environment variables:**
-   Copy `.env.local` and update with your API keys:
-   ```bash
-   OPENAI_API_KEY=your_openai_api_key
-   TWITTER_API_KEY=your_twitter_api_key
-   TWITTER_API_SECRET=your_twitter_api_secret
-   TWITTER_ACCESS_TOKEN=your_twitter_access_token
-   TWITTER_ACCESS_TOKEN_SECRET=your_twitter_access_token_secret
-   ```
+### ⚡ Automation
+- **Auto-Posting Scheduler** - Automatically post scheduled tweets
+- **Batch Operations** - Select and schedule multiple tweets at once
+- **Real-time Dashboard** - Track drafts, scheduled, and posted tweets
 
-3. **Get Twitter API credentials:**
-   - Go to [Twitter Developer Portal](https://developer.twitter.com/)
-   - Create a new app and generate API keys
-   - Make sure your app has write permissions
+## 🛠 Tech Stack
 
-4. **Get OpenAI API key:**
-   - Go to [OpenAI API](https://platform.openai.com/)
-   - Create an API key in your dashboard
+- **Framework:** Next.js 15 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS + shadcn/ui
+- **AI:** OpenAI/DeepSeek API
+- **Social:** Twitter API v2 (OAuth 1.0a)
+- **Scheduling:** Node-cron
+- **Data:** JSON file storage
 
-## Usage
+## 🚀 Quick Start
 
-1. **Start the development server:**
-   ```bash
-   npm run dev
-   ```
+### Prerequisites
+- Node.js 18+
+- Twitter Developer Account
+- OpenAI/DeepSeek API Key
 
-2. **Open your browser:**
-   Navigate to `http://localhost:3000`
+### Installation
 
-3. **Generate comedy gold:**
-   - Select a comedy topic (default: unhinged comedian tone)
-   - Or write a custom prompt to override everything
-   - Click "Generate Tweet" 
-   - Watch the AI roast life's absurdities
-   - Post immediately or schedule for maximum chaos
+1. **Clone the repository**
+```bash
+git clone https://github.com/yourusername/ai-tweet-bot.git
+cd ai-tweet-bot
+```
 
-4. **Start automatic scheduling:**
-   - Click "Start Scheduler" in the dashboard
-   - Tweets will be generated and posted every 2 hours
-   - Monitor progress in the dashboard
+2. **Install dependencies**
+```bash
+npm install
+```
 
-## Comedy Topics
+3. **Environment Setup**
+Create `.env.local` with your API keys:
+```env
+# AI API (Choose one)
+OPENAI_API_KEY=your_openai_key_here
+DEEPSEEK_API_KEY=your_deepseek_key_here
 
-- Daily Life Struggles
-- Traffic and Commuting Nightmares
-- Politics and Politicians
-- Marriage and Relationships
-- Dating in Your 30s/40s
-- Career Burnout and Office Politics
-- Social Media Addiction
-- Parenting Chaos
-- Adulting Failures
-- Modern Technology Problems
-- Gym and Fitness Lies
-- Shopping and Consumerism
-- Food Delivery Obsession
-- Work From Home Reality
-- Getting Older
+# Twitter API v2 (Required)
+TWITTER_API_KEY=your_api_key
+TWITTER_API_SECRET=your_api_secret
+TWITTER_ACCESS_TOKEN=your_access_token
+TWITTER_ACCESS_TOKEN_SECRET=your_access_secret
+```
 
-## Available Tones
+4. **Run the application**
+```bash
+npm run dev
+```
 
-- **Unhinged Comedian** (Default): Brutally honest, darkly funny, no-filter comedy
-- **Professional**: Formal, business-oriented content
-- **Casual**: Relaxed, conversational style
-- **Funny**: Light-hearted, humorous approach
-- **Inspirational**: Motivational and uplifting
-- **Custom Prompt**: Write your own prompt to override everything
+Visit `http://localhost:3000` to start generating tweets!
 
-## Architecture
+## 📱 Usage
 
-- **Frontend**: Next.js 15 with App Router, TypeScript, Tailwind CSS
-- **UI Components**: shadcn/ui for consistent design
-- **AI**: OpenAI GPT-3.5-turbo for content generation
-- **Social Media**: Twitter API v2 for posting
-- **Scheduling**: node-cron for automated tasks
-- **Storage**: JSON file-based storage (can be upgraded to database)
+### Single Tweet Generation
+1. Select persona (Comedian/Quiz Expert/Motivational)
+2. Choose topic or write custom prompt
+3. Click "Generate & Schedule" or "Draft"
 
-## API Endpoints
+### Bulk Tweet Generation
+1. Write prompt like "Generate 10 tweets about coffee"
+2. Select count (5-20 tweets)
+3. Choose persona and scheduling interval
+4. Review generated tweets and select which to schedule
 
-- `GET /api/tweets` - Fetch all tweets
-- `POST /api/tweets` - Generate or schedule new tweet
-- `PUT /api/tweets/[id]` - Update or post a specific tweet
-- `DELETE /api/tweets/[id]` - Delete a tweet
-- `POST /api/scheduler` - Control the scheduler (start/stop/generate)
+### Auto-Posting
+1. Click "Start Auto-Post" to enable scheduler
+2. Scheduled tweets will be posted automatically
+3. Monitor progress in the dashboard
 
-## Security Notes
+## 🔧 Configuration
 
-- Keep your API keys secure and never commit them to version control
-- The Twitter API has rate limits - monitor your usage
-- OpenAI API usage will incur costs based on tokens used
-- Consider implementing user authentication for production use
+### Twitter App Permissions
+Your Twitter app needs **Read and Write** permissions to post tweets. Update in Twitter Developer Console.
 
-## Deployment
+### AI Models
+- **DeepSeek** (Recommended) - Cost-effective, high quality
+- **OpenAI GPT** - Premium option, excellent results
 
-For production deployment:
-1. Deploy to Vercel, Netlify, or your preferred platform
-2. Set environment variables in your deployment platform
-3. Consider upgrading to a proper database (PostgreSQL, MongoDB)
-4. Implement proper error handling and monitoring
-5. Add user authentication and authorization
+## 📈 Dashboard
 
-## License
+The dashboard shows:
+- **Total Tweets** - All tweets in system
+- **Drafts** - Unscheduled tweets ready to edit
+- **Scheduled** - Tweets queued for posting
+- **Posted** - Successfully published tweets
 
-MIT License - feel free to use and modify as needed.
+## 🚀 Deployment
+
+### Vercel (Recommended)
+
+1. **Connect to Vercel**
+```bash
+npx vercel
+```
+
+2. **Add Environment Variables**
+Go to Vercel Dashboard → Project → Settings → Environment Variables
+Add all variables from `.env.local`
+
+3. **Deploy**
+```bash
+npx vercel --prod
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## ⚠️ Disclaimer
+
+This bot posts to Twitter automatically. Use responsibly and ensure compliance with Twitter's Terms of Service.
+
+---
+
+**Built with ❤️ using Next.js and AI**
+
+🤖 *Generated with [Claude Code](https://claude.ai/code)*
