@@ -290,6 +290,36 @@ export default function TweetDashboard() {
     }
   };
 
+  const deleteSelectedTweets = async () => {
+    if (selectedTweets.length === 0) {
+      toast.error('No tweets selected');
+      return;
+    }
+
+    try {
+      // Delete all selected tweets in parallel
+      const deletePromises = selectedTweets.map(tweetId => 
+        fetch(`/api/tweets/${tweetId}`, { method: 'DELETE' })
+      );
+      
+      const responses = await Promise.all(deletePromises);
+      const successCount = responses.filter(r => r.ok).length;
+      
+      if (successCount === selectedTweets.length) {
+        toast.success(`Deleted ${successCount} tweets successfully!`);
+      } else if (successCount > 0) {
+        toast.success(`Deleted ${successCount} of ${selectedTweets.length} tweets`);
+      } else {
+        toast.error('Failed to delete tweets');
+      }
+      
+      setSelectedTweets([]);
+      fetchTweets();
+    } catch (error) {
+      toast.error('Failed to delete selected tweets');
+    }
+  };
+
   const toggleScheduler = async (action: 'start' | 'stop') => {
     try {
       const response = await fetch('/api/scheduler', {
@@ -495,9 +525,18 @@ export default function TweetDashboard() {
           <div className="flex items-center justify-between">
             <CardTitle>Tweet Management</CardTitle>
             {selectedTweets.length > 0 && (
-              <Button onClick={scheduleSelectedTweets} size="sm">
-                Schedule {selectedTweets.length} Selected
-              </Button>
+              <div className="flex gap-2">
+                <Button onClick={scheduleSelectedTweets} size="sm">
+                  Schedule {selectedTweets.length} Selected
+                </Button>
+                <Button 
+                  onClick={deleteSelectedTweets} 
+                  size="sm" 
+                  variant="destructive"
+                >
+                  Delete {selectedTweets.length} Selected
+                </Button>
+              </div>
             )}
           </div>
         </CardHeader>
