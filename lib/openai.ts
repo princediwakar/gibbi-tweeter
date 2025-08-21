@@ -11,6 +11,7 @@ export interface TweetGenerationOptions {
   includeHashtags?: boolean;
   maxLength?: number;
   customPrompt?: string;
+  useGoogleTrends?: boolean;
 }
 
 export async function generateTweet(options: TweetGenerationOptions = {}) {
@@ -18,21 +19,25 @@ export async function generateTweet(options: TweetGenerationOptions = {}) {
     persona = 'unhinged_satirist',
     includeHashtags = true,
     maxLength = 280,
-    customPrompt
+    customPrompt,
+    useGoogleTrends = true
   } = options;
 
   const timestamp = Date.now();
   const randomSeed = Math.random().toString(36).substring(7);
 
-  // Fetch trending topic
+  // Fetch trending topic (only if enabled and not using custom prompt)
   let trendingContext = '';
-  if (persona === 'unhinged_satirist' && !customPrompt) {
+  if (persona === 'unhinged_satirist' && !customPrompt && useGoogleTrends) {
     try {
       const trendingTopic = await getRandomTrendingTopic();
       trendingContext = `\n\nTRENDING NOW: "${trendingTopic.title}" (${trendingTopic.traffic} searches) - Use ${trendingTopic.hashtag} and create satirical commentary about this trending topic.`;
+      console.log(`📈 Using trending topic: ${trendingTopic.title}`);
     } catch (error) {
       console.log('⚠️ Using fallback trending topics');
     }
+  } else if (!useGoogleTrends) {
+    console.log('📈 Google Trends disabled - using general satirical prompts');
   }
 
   // Satirical devices + tones
@@ -67,11 +72,12 @@ export async function generateTweet(options: TweetGenerationOptions = {}) {
     const device = satiricalDevices[Math.floor(Math.random() * satiricalDevices.length)];
     const tone = satiricalTones[Math.floor(Math.random() * satiricalTones.length)];
 
-    const basePrompt = "You are an unhinged Indian satirist. Write a ONE-LINER satirical tweet on today's trending topic in India. \
-Be sharp, sarcastic, and punchy — like a stand-up comic dropping a killer line. \
-Must be under 280 characters, culturally specific, and feel fresh. \
-Always exaggerate, parody, or twist reality into absurd metaphors. \
-Think of it like the sharpest Indian Twitter roast: quick, witty, and bite-sized.";
+    const basePrompt = "You are an unhinged Indian satirist creating VIRAL content. Write a tweet that's INSTANTLY SHAREABLE - like BuzzFeed meets Indian Twitter roasts. \
+SHAREABILITY REQUIREMENTS: Make people think 'OMG THIS IS SO TRUE' and immediately want to tag friends. \
+Use absurd comparisons everyone relates to instantly. Create 'I can't even' moments. \
+Be culturally specific but universally funny within Indian context. \
+HUMOR IS NON-NEGOTIABLE: Every word must serve the punchline. NO filler text. \
+Think viral Indian memes meets stand-up comedy one-liners.";
 
     return [
       `${basePrompt}${trendingContext}\n\n${deviceInstructions[device]}\n${toneInstructions[tone]}\n\nCRITICAL: Must be ONE line only. \
@@ -107,9 +113,17 @@ UNIQUENESS REQUIREMENT: Make this tweet completely different from any previous t
 
 Randomization seed: ${randomSeed} | Timestamp: ${timestamp}
 
-${includeHashtags ? 'Include relevant hashtags.' : 'Do not include hashtags.'}
+VIRAL SHAREABILITY REQUIREMENTS:
+- INSTANT RELATABILITY: Make every Indian think "this is literally my life"
+- SHAREABILITY TRIGGERS: Create "I'm screaming" and "I can't even" moments
+- TAG-WORTHY: People should want to tag friends immediately
+- COMEDIC PRECISION: Punchline should hit within first 5 words
+- CULTURAL CALLBACKS: Reference universal Indian experiences (traffic, aunties, govt offices)
+- ABSURD SPECIFICITY: Be hilariously precise about things everyone relates to
 
-FINAL INSTRUCTION: Your response must be a complete tweet that is ${maxLength} characters or fewer. No exceptions. Only return the tweet text, nothing else.`;
+${includeHashtags ? 'Include relevant hashtags.' : 'No hashtags.'}
+
+CRITICAL: Maximum ${maxLength} characters. Must be INSTANTLY SHAREABLE. Only return the tweet text.`;
 
   try {
     let attempts = 0;

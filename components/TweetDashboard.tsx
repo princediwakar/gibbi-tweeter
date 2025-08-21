@@ -54,6 +54,7 @@ export default function TweetDashboard() {
   const [generateForm, setGenerateForm] = useState({
     persona: 'unhinged_satirist',
     includeHashtags: true,
+    useGoogleTrends: true,
     customPrompt: ''
   });
 
@@ -61,7 +62,8 @@ export default function TweetDashboard() {
     bulkPrompt: '',
     count: 5,
     persona: 'unhinged_satirist',
-    includeHashtags: true
+    includeHashtags: true,
+    useGoogleTrends: true
   });
 
   const [selectedTweets, setSelectedTweets] = useState<string[]>([]);
@@ -432,7 +434,7 @@ export default function TweetDashboard() {
               className="min-h-16 text-sm"
             />
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-4">
                 <label className="flex items-center gap-1 text-sm">
                   <input
                     type="checkbox"
@@ -440,6 +442,14 @@ export default function TweetDashboard() {
                     onChange={(e) => setGenerateForm(prev => ({ ...prev, includeHashtags: e.target.checked }))}
                   />
                   Hashtags
+                </label>
+                <label className="flex items-center gap-1 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={generateForm.useGoogleTrends}
+                    onChange={(e) => setGenerateForm(prev => ({ ...prev, useGoogleTrends: e.target.checked }))}
+                  />
+                  📈 Trending Topics
                 </label>
                 <span className="text-xs text-gray-500">
                   ⏰ Next optimal: {formatOptimalTime(getNextOptimalPostTime())}
@@ -505,6 +515,14 @@ export default function TweetDashboard() {
                     onChange={(e) => setBulkGenerateForm(prev => ({ ...prev, includeHashtags: e.target.checked }))}
                   />
                   #
+                </label>
+                <label className="flex items-center gap-1 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={bulkGenerateForm.useGoogleTrends}
+                    onChange={(e) => setBulkGenerateForm(prev => ({ ...prev, useGoogleTrends: e.target.checked }))}
+                  />
+                  📈
                 </label>
               </div>
               <Button

@@ -21,6 +21,7 @@ export async function POST(request: Request) {
         persona: data.persona,
         includeHashtags: data.includeHashtags,
         customPrompt: data.customPrompt,
+        useGoogleTrends: data.useGoogleTrends,
       };
 
       const generatedTweet = await generateTweet(options);
@@ -59,6 +60,7 @@ export async function POST(request: Request) {
         persona: data.persona,
         includeHashtags: data.includeHashtags,
         customPrompt: data.customPrompt,
+        useGoogleTrends: data.useGoogleTrends,
       };
 
       const generatedTweet = await generateTweet(options);
