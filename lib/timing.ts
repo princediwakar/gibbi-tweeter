@@ -18,7 +18,7 @@ export const OPTIMAL_POSTING_TIMES: OptimalTime[] = [
   { hour: 21, minute: 0, description: 'Prime time scrolling', engagement: 'high' }
 ];
 
-export const WEEKDAY_MULTIPLIERS = {
+export const WEEKDAY_MULTIPLIERS: Record<number, number> = {
   0: 0.7, // Sunday
   1: 1.0, // Monday
   2: 1.1, // Tuesday
@@ -113,7 +113,8 @@ export function formatOptimalTime(date: Date): string {
     day: 'numeric',
     hour: 'numeric',
     minute: '2-digit',
-    hour12: true
+    hour12: true,
+    timeZone: 'Asia/Kolkata'
   };
   
   const formatted = date.toLocaleDateString('en-US', options);
@@ -121,4 +122,29 @@ export function formatOptimalTime(date: Date): string {
   const score = getEngagementScore(date);
   
   return `${formatted} (${score * 100}% engagement${engagement.isOptimal ? ' ⭐' : ''})`;
+}
+
+// Helper function to format date for datetime-local input (assumes IST)
+export function toDateTimeLocal(date: Date): string {
+  // Format date for datetime-local input
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+// Helper function to format date in IST for display
+export function formatISTTime(date: Date): string {
+  return date.toLocaleString('en-US', {
+    timeZone: 'Asia/Kolkata',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
 }

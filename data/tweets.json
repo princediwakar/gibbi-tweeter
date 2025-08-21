@@ -1,89 +1,103 @@
 [
   {
-    "id": "meiuwk9bm35ltoef08",
-    "content": "My Bangalore GPS now has three settings: \"Home,\" \"Work,\" and \"Accept Your Fate.\" Just spent an hour going in a circle because a pothole achieved sentience and is now charging a toll. #BangaloreTraffic #NammaRoads",
+    "id": "meld5hzph69euk74prk",
+    "content": "Delhi traffic is so slow, the BJP and AAP have formed a coalition government by the time you cross the first speed breaker. #DelhiTraffic",
     "hashtags": [
-      "#BangaloreTraffic",
-      "#NammaRoads"
+      "#DelhiTraffic"
     ],
-    "topic": "daily life struggles",
-    "persona": "unhinged_comedian",
-    "status": "draft",
-    "createdAt": "2025-08-19T18:07:41.711Z"
-  },
-  {
-    "id": "meiuwkeczxkyw2gajrr",
-    "content": "My Bangalore GPS now has three settings: \"Home,\" \"Work,\" and \"Accept Your Fate.\" Just spent an hour going in a circle because a pothole achieved sentience and is now charging a toll. #BangaloreTraffic #NammaRoads",
-    "hashtags": [
-      "#BangaloreTraffic",
-      "#NammaRoads"
-    ],
-    "topic": "daily life struggles",
-    "persona": "unhinged_comedian",
-    "scheduledFor": "2025-08-19T18:49:00.000Z",
+    "persona": "unhinged_satirist",
+    "scheduledFor": "2025-08-21T13:30:00.000Z",
     "status": "scheduled",
-    "createdAt": "2025-08-19T18:07:41.892Z"
+    "createdAt": "2025-08-21T12:14:04.117Z"
   },
   {
-    "id": "meiv08aj42tkvrirli4",
-    "content": "When the monsoon knocks you over like a bouncer at home, remember: the best players adjust their stance. A wet outfield? Just a slower pitch to build your innings on. Don't play for the rain, play through it. The cover drive of concentration will find the gap! #WorkFromHome #MonsoonMotivation #LifeInnings",
+    "id": "meld5slo6ntmazxj5c",
+    "content": "Our power grid is so stable, it's like a government promise: you know it's going to fail, but you still hope it won't during your favorite show. #PowerCut",
     "hashtags": [
-      "#WorkFromHome",
-      "#MonsoonMotivation",
-      "#LifeInnings"
+      "#PowerCut"
     ],
-    "topic": "technology",
-    "persona": "cricket_commentator",
-    "status": "draft",
-    "createdAt": "2025-08-19T18:10:32.827Z"
+    "persona": "unhinged_satirist",
+    "scheduledFor": "2025-08-21T15:30:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-21T12:14:17.868Z"
   },
   {
-    "id": "meiv818eyve7lfd9poc",
-    "content": "Mumbai's real estate is so wild, you need a second mortgage just to afford the anxiety of living here. My 1BHK is so small, the cockroaches have to form a single-file line. #MumbaiStruggle #ConcreteJungle",
+    "id": "meldhvmrd2k34ei0rbp",
+    "content": "The power cut is so bad, even the government's excuses are now running on inverter backup. #PowerCut",
     "hashtags": [
-      "#MumbaiStruggle",
-      "#ConcreteJungle"
+      "#PowerCut"
     ],
-    "topic": "general",
-    "persona": "unhinged_comedian",
+    "persona": "unhinged_satirist",
     "status": "draft",
-    "createdAt": "2025-08-19T18:16:36.927Z"
+    "createdAt": "2025-08-21T12:23:41.667Z"
   },
   {
-    "id": "meiv81gr7fc2vbafr18",
-    "content": "Mumbai's public transport is a masterclass in intimacy. You will be cradled by a stranger's armpit while another man uses your shoulder as a headrest. It's not a commute, it's a group hug no one consented to. #MumbaiLife #LocalTrainTherapy",
+    "id": "meldigogwhf26vgcez9",
+    "content": "The monsoon has finally arrived, but don't worry, our GDP growth projections are still more fictional than the 'good boy' backstory of a Salman Khan character. #MonsoonUpdate",
     "hashtags": [
-      "#MumbaiLife",
-      "#LocalTrainTherapy"
+      "#MonsoonUpdate"
     ],
-    "topic": "general",
-    "persona": "unhinged_comedian",
+    "persona": "unhinged_satirist",
     "status": "draft",
-    "createdAt": "2025-08-19T18:16:37.227Z"
+    "createdAt": "2025-08-21T12:24:08.944Z"
   },
   {
-    "id": "meiv81lw1gt3y6341l3",
-    "content": "Mumbai's infrastructure is a cry for help written in potholes and traffic jams. My daily commute is less 'travel' and more 'applied archaeology.' I've accepted that my Uber driver and I will merge into one being. #MumbaiTraffic #ThisIsFine",
-    "hashtags": [
-      "#MumbaiTraffic",
-      "#ThisIsFine"
-    ],
-    "topic": "general",
-    "persona": "unhinged_comedian",
+    "id": "meldixih3epxsoq7x6o",
+    "content": "Indian startup funding has become a game of musical chairs where the music is a remix of 'Challa' and the only one sitting is the bank that gave the founders a personal loan.",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
     "status": "draft",
-    "createdAt": "2025-08-19T18:16:37.412Z"
+    "createdAt": "2025-08-21T12:24:30.761Z"
   },
   {
-    "id": "meiv822g9mqtcc9wh0w",
-    "content": "Mumbai's real estate is a horror movie where the monster is a 300 sq ft '1BHK' that costs your soul & your firstborn. The only thing more fictional than the square footage is the builder's promise of 'world-class amenities'. #Mumbai #HouseHuntingHorror #RentIsAScam",
+    "id": "meldlrq98m29j9kifiw",
+    "content": "Delhi traffic so slow, Kejriwal's next guarantee is to make your car move at the speed of his investigation updates. #DelhiTraffic",
     "hashtags": [
-      "#Mumbai",
-      "#HouseHuntingHorror",
-      "#RentIsAScam"
+      "#DelhiTraffic"
     ],
-    "topic": "general",
-    "persona": "unhinged_comedian",
+    "persona": "unhinged_satirist",
     "status": "draft",
-    "createdAt": "2025-08-19T18:16:38.008Z"
+    "createdAt": "2025-08-21T12:26:43.233Z"
+  },
+  {
+    "id": "meldoz6u0or9ogd61y3k",
+    "content": "#EveningRush is just the nation’s largest open-air audition for a role in a post-apocalyptic film where everyone’s character motivation is crippling regret.",
+    "hashtags": [
+      "#EveningRush"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-21T12:29:12.870Z"
+  },
+  {
+    "id": "meldqgc8xw0mjns4wu",
+    "content": "Now my car's fuel tank has a better ROI than my mutual funds. #PetrolPrice",
+    "hashtags": [
+      "#PetrolPrice"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-21T12:30:21.752Z"
+  },
+  {
+    "id": "meldxngavsfw7ec2dn",
+    "content": "Now when you fill petrol, the pump asks for your Aadhaar, PAN, and a sworn affidavit that you won't use it to escape this reality. #PetrolPrice",
+    "hashtags": [
+      "#PetrolPrice"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-21T12:35:57.562Z"
+  },
+  {
+    "id": "meldz1ft83szcnc24b9",
+    "content": "Our evening traffic is now a govt 'slow TV' project: a 4-hour live stream of a single pothole evolving into a sentient being that swallows Ola drivers. #EveningRush",
+    "hashtags": [
+      "#EveningRush"
+    ],
+    "persona": "unhinged_satirist",
+    "scheduledFor": "2025-08-22T03:30:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-21T12:37:02.345Z"
   }
 ]

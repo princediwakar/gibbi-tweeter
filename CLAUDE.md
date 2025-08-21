@@ -23,10 +23,11 @@ This is an AI-powered tweet generation and scheduling bot built with Next.js 15,
 ## Key Features
 
 ### 🎭 Multi-Persona AI System
-- **Unhinged Comedian** (🎭) - Brutally honest, darkly funny takes with no filter
-- **Quiz Expert** (🧠) - Engaging trivia questions and fascinating facts (avoids unnecessary tech mentions)
-- **Motivational Whiz** (⚡) - Brutally honest motivation with harsh truths wrapped in inspiring energy
-- **Cricket Commentator** (🏏) - Inspirational life lessons through cricket metaphors and commentary
+- **Unhinged Satirist** (🃏) - Sharp Indian satirist with sophisticated uniqueness framework
+  - 4 satirical devices: Exaggeration, Irony, Parody, Absurd Metaphors
+  - 3 style variations: Dark Humor, Playful Meme, Absurd Exaggeration  
+  - Anti-repetition protocol with freshness enforcement
+  - Current Indian events and cultural references required
 
 ### 🚀 Tweet Generation
 - Single tweet generation with custom prompts
@@ -111,23 +112,14 @@ OAUTH_CLIENT_ID=your_oauth_client_id
 OAUTH_CLIENT_SECRET=your_oauth_client_secret
 ```
 
-## Tweet Topics Available
+## Content Generation
 
-- Daily life struggles
-- Technology and gadgets
-- History and culture
-- Science and nature
-- Health and fitness
-- Career and success
-- Relationships and dating
-- Travel and adventure
-- Food and cooking
-- Sports and competition
-- Movies and entertainment
-- Books and learning
-- Money and finance
-- Productivity and habits
-- Creativity and art
+### Persona-Based Generation
+- **No Topic Selection**: Topics dropdown removed for cleaner interface
+- **Pure Persona Voice**: Each persona generates content in their unique style
+- **Enhanced Uniqueness**: Multiple prompt variations per persona prevent repetitive content
+- **High Temperature**: AI temperature set to 1.0 for maximum creativity and variation
+- **Custom Prompts**: Optional custom prompts for specific content needs
 
 ## Development Commands
 
@@ -156,7 +148,6 @@ interface Tweet {
   id: string;
   content: string;
   hashtags: string[];
-  topic: string;
   persona: string;
   scheduledFor?: Date;
   postedAt?: Date;

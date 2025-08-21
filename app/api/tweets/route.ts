@@ -18,7 +18,6 @@ export async function POST(request: Request) {
 
     if (action === 'generate') {
       const options: TweetGenerationOptions = {
-        topic: data.topic,
         persona: data.persona,
         includeHashtags: data.includeHashtags,
         customPrompt: data.customPrompt,
@@ -30,8 +29,7 @@ export async function POST(request: Request) {
         id: generateTweetId(),
         content: generatedTweet.content,
         hashtags: generatedTweet.hashtags,
-        topic: data.topic || 'general',
-        persona: data.persona || 'unhinged_comedian',
+        persona: data.persona || 'unhinged_satirist',
         status: 'draft' as const,
         createdAt: new Date(),
       };
@@ -46,8 +44,7 @@ export async function POST(request: Request) {
         id: generateTweetId(),
         content: data.content,
         hashtags: data.hashtags || [],
-        topic: data.topic || 'general',
-        persona: data.persona || 'unhinged_comedian',
+        persona: data.persona || 'unhinged_satirist',
         scheduledFor,
         status: 'scheduled' as const,
         createdAt: new Date(),
@@ -59,7 +56,6 @@ export async function POST(request: Request) {
 
     if (action === 'generate-and-schedule') {
       const options: TweetGenerationOptions = {
-        topic: data.topic,
         persona: data.persona,
         includeHashtags: data.includeHashtags,
         customPrompt: data.customPrompt,
@@ -72,8 +68,7 @@ export async function POST(request: Request) {
         id: generateTweetId(),
         content: generatedTweet.content,
         hashtags: generatedTweet.hashtags,
-        topic: data.topic || 'general',
-        persona: data.persona || 'unhinged_comedian',
+        persona: data.persona || 'unhinged_satirist',
         scheduledFor,
         status: 'scheduled' as const,
         createdAt: new Date(),

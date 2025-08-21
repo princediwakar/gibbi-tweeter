@@ -5,7 +5,6 @@ export interface Tweet {
   id: string;
   content: string;
   hashtags: string[];
-  topic: string;
   persona: string;
   scheduledFor?: Date;
   postedAt?: Date;

@@ -159,7 +159,7 @@ Current error: ${errorObj.detail || errorText}`);
       throw error;
     }
 
-    if (retryCount < maxRetries && !error instanceof Error) {
+    if (retryCount < maxRetries && !(error instanceof Error)) {
       console.warn(`⚠️ Unexpected error, retrying in ${retryDelay}ms... (${retryCount + 1}/${maxRetries})`);
       await new Promise(resolve => setTimeout(resolve, retryDelay));
       return postTweet(content, retryCount + 1);

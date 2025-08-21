@@ -1,7 +1,7 @@
 import cron from 'node-cron';
 import { getScheduledTweets, saveTweet } from './db';
 import { postTweet } from './twitter';
-import { generateTweet, tweetTopics } from './openai';
+import { generateTweet } from './openai';
 
 let schedulerRunning = false;
 
@@ -40,7 +40,7 @@ async function processScheduledTweets() {
     for (const tweet of scheduledTweets) {
       try {
         console.log(`Posting tweet: ${tweet.content.substring(0, 50)}...`);
-        const result = await postTweet(tweet.content);
+        await postTweet(tweet.content);
         
         tweet.status = 'posted';
         tweet.postedAt = new Date();
@@ -60,14 +60,12 @@ async function processScheduledTweets() {
 
 async function generateAndScheduleTweet() {
   try {
-    const randomTopic = tweetTopics[Math.floor(Math.random() * tweetTopics.length)];
-    const personas = ['unhinged_comedian', 'quiz_expert', 'motivational_whiz'] as const;
+    const personas = ['unhinged_satirist'] as const;
     const randomPersona = personas[Math.floor(Math.random() * personas.length)];
     
-    console.log(`Generating tweet about ${randomTopic} with ${randomPersona} persona`);
+    console.log(`Generating tweet with ${randomPersona} persona`);
     
     const generatedTweet = await generateTweet({
-      topic: randomTopic,
       persona: randomPersona,
       includeHashtags: true,
     });
@@ -79,7 +77,6 @@ async function generateAndScheduleTweet() {
       id: Date.now().toString(36) + Math.random().toString(36).substr(2),
       content: generatedTweet.content,
       hashtags: generatedTweet.hashtags,
-      topic: randomTopic,
       persona: randomPersona,
       scheduledFor,
       status: 'scheduled' as const,

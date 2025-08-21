@@ -11,8 +11,6 @@ export async function GET() {
 
     let twitterValid = false;
     let twitterError = null;
-    let userInfo = null;
-    let permissionsTest = null;
 
     // Test basic credentials
     try {

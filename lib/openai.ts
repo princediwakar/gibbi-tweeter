@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { getRandomTrendingTopic } from './trending';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -6,8 +7,7 @@ const openai = new OpenAI({
 });
 
 export interface TweetGenerationOptions {
-  topic?: string;
-  persona?: 'unhinged_comedian' | 'quiz_expert' | 'motivational_whiz' | 'cricket_commentator';
+  persona?: 'unhinged_satirist';
   includeHashtags?: boolean;
   maxLength?: number;
   customPrompt?: string;
@@ -15,59 +15,154 @@ export interface TweetGenerationOptions {
 
 export async function generateTweet(options: TweetGenerationOptions = {}) {
   const {
-    topic = 'daily life struggles',
-    persona = 'unhinged_comedian',
+    persona = 'unhinged_satirist',
     includeHashtags = true,
     maxLength = 280,
     customPrompt
   } = options;
 
-  // Define persona-specific styles that are always applied
-  const personaStyles = {
-    unhinged_comedian: `You are an unhinged, slightly chaotic comedian with no filter. Generate a brutally honest, darkly funny tweet. 
-Be edgy, relatable, and hilariously cynical. Think like a stand-up comedian who's had too much coffee and not enough sleep. 
-Make fun of the absurdity of modern life, but keep it clever and witty, not mean-spirited.`,
-    
-    quiz_expert: `You are a quiz expert who loves creating engaging trivia and fun facts. Generate an interesting quiz question or fascinating fact. 
-Make it educational but entertaining, something that makes people go "wow, I didn't know that!" Focus on surprising facts, mind-bending trivia, or challenging questions that spark curiosity.
-Be informative, engaging, and create content that people naturally want to share. Avoid mentioning "AI" or technology unnecessarily.`,
-    
-    motivational_whiz: `You are an unhinged motivational speaker with a brutally realistic philosophy. You motivate people by telling harsh truths wrapped in inspiring energy. Generate a motivational tweet that's both uplifting AND brutally honest about reality.
-Combine Gary Vaynerchuk's bluntness with motivational energy - call out delusions, expose hard truths, but channel it into actionable motivation. No toxic positivity - just raw, realistic inspiration that acknowledges life is hard but pushes people forward anyway.`,
+  const timestamp = Date.now();
+  const randomSeed = Math.random().toString(36).substring(7);
 
-    cricket_commentator: `You are an inspirational cricket commentator who finds life lessons and motivation in every aspect of the game. Generate a tweet that uses cricket metaphors and commentary style to deliver inspiring messages about life, perseverance, and success.
-Channel the excitement and passion of legendary commentators like Harsha Bhogle or Ravi Shastri, but focus on drawing parallels between cricket moments and life challenges. Use cricket terminology naturally to create motivational content that resonates with both cricket fans and general audiences.`
+  // Fetch trending topic
+  let trendingContext = '';
+  if (persona === 'unhinged_satirist' && !customPrompt) {
+    try {
+      const trendingTopic = await getRandomTrendingTopic();
+      trendingContext = `\n\nTRENDING NOW: "${trendingTopic.title}" (${trendingTopic.traffic} searches) - Use ${trendingTopic.hashtag} and create satirical commentary about this trending topic.`;
+    } catch (error) {
+      console.log('⚠️ Using fallback trending topics');
+    }
+  }
+
+  // Satirical devices + tones
+  const satiricalDevices = [
+    'exaggeration',
+    'irony',
+    'parody',
+    'absurd_metaphor'
+  ];
+
+  const satiricalTones = [
+    'roast',
+    'dark_humor',
+    'absurd_exaggeration'
+  ];
+
+  const deviceInstructions: Record<string, string> = {
+    exaggeration: "Use EXTREME EXAGGERATION: e.g. 'If potholes were startups, India would be a unicorn factory.'",
+    irony: "Use SHARP IRONY: e.g. 'India is developing at light speed. That’s why the lights go out every evening.'",
+    parody: "Use CLEVER PARODY: e.g. 'Govt launches Digital India 3.0: Now even corruption is available as an app.'",
+    absurd_metaphor: "Use ABSURD METAPHORS: e.g. 'Our democracy is like Indian trains: everyone shouting, no one moving.'"
   };
 
-  // Determine the topic/content to tweet about
-  const tweetTopic = customPrompt || topic;
+  const toneInstructions: Record<string, string> = {
+    roast: "Tone: ROAST — short, savage burns, like an Indian Twitter roast.",
+    dark_humor: "Tone: DARK HUMOR — cynical and biting, but witty.",
+    absurd_exaggeration: "Tone: ABSURD — physics-defying ridiculous, surreal metaphors."
+  };
 
-  // Build the prompt with persona style + topic (custom prompt only overrides topic)
-  const prompt = `${personaStyles[persona]} 
+  // Generate variation
+  const generateSatiristVariations = () => {
+    const device = satiricalDevices[Math.floor(Math.random() * satiricalDevices.length)];
+    const tone = satiricalTones[Math.floor(Math.random() * satiricalTones.length)];
 
-Topic/Content: ${tweetTopic}
+    const basePrompt = "You are an unhinged Indian satirist. Write a ONE-LINER satirical tweet on today's trending topic in India. \
+Be sharp, sarcastic, and punchy — like a stand-up comic dropping a killer line. \
+Must be under 280 characters, culturally specific, and feel fresh. \
+Always exaggerate, parody, or twist reality into absurd metaphors. \
+Think of it like the sharpest Indian Twitter roast: quick, witty, and bite-sized.";
 
-${includeHashtags ? 'Include relevant hashtags.' : 'Do not include hashtags.'} 
-Keep it under ${maxLength} characters. Only return the tweet text, nothing else.`;
+    return [
+      `${basePrompt}${trendingContext}\n\n${deviceInstructions[device]}\n${toneInstructions[tone]}\n\nCRITICAL: Must be ONE line only. \
+No paragraphs. No setup-explanation-punchline — just the punchline. \
+Must reference a CURRENT Indian event, politician, policy, or trending meme. \
+No clichés, no generalities, always feel like it was written TODAY.`,
+    ];
+  };
+
+  const personaVariations = {
+    unhinged_satirist: generateSatiristVariations(),
+  };
+
+  const selectedVariation = personaVariations[persona][0];
+
+  const antiRepetitionInstructions = `
+ANTI-REPETITION PROTOCOL:
+- Must always be a NEW one-liner
+- Never recycle metaphors, structures, or old jokes
+- Must reference specific Indian news, culture, or politics of today
+- Must feel like a fresh roast, not a timeless observation
+- No paragraphs, no explanations — ONLY the satirical one-liner tweet
+`;
+
+  const basePrompt = customPrompt
+    ? `${selectedVariation} Focus on this topic/content: ${customPrompt}`
+    : selectedVariation;
+
+  let prompt = `${basePrompt}${antiRepetitionInstructions}
+
+
+UNIQUENESS REQUIREMENT: Make this tweet completely different from any previous tweets. Use fresh angles, new perspectives, and avoid repetitive patterns or phrases.
+
+Randomization seed: ${randomSeed} | Timestamp: ${timestamp}
+
+${includeHashtags ? 'Include relevant hashtags.' : 'Do not include hashtags.'}
+
+FINAL INSTRUCTION: Your response must be a complete tweet that is ${maxLength} characters or fewer. No exceptions. Only return the tweet text, nothing else.`;
 
   try {
-    const completion = await openai.chat.completions.create({
-      messages: [{ role: 'user', content: prompt }],
-      model: 'deepseek-chat',
-      max_tokens: 100,
-      temperature: 0.8,
-    });
+    let attempts = 0;
+    const maxAttempts = 3;
 
-    const tweet = completion.choices[0]?.message?.content?.trim();
-    if (!tweet) {
-      throw new Error('No tweet generated');
+    while (attempts < maxAttempts) {
+      const completion = await openai.chat.completions.create({
+        messages: [{ role: 'user', content: prompt }],
+        model: 'deepseek-chat',
+        max_tokens: Math.min(120, Math.ceil(maxLength / 2)),
+        temperature: 1.0,
+      });
+
+      let tweet = completion.choices[0]?.message?.content?.trim();
+      if (!tweet) {
+        throw new Error('No tweet generated');
+      }
+
+      if (tweet.length <= maxLength) {
+        console.log(`✅ Generated tweet within limit: ${tweet.length}/${maxLength} chars`);
+        return {
+          content: tweet,
+          hashtags: extractHashtags(tweet),
+          length: tweet.length,
+        };
+      }
+
+      attempts++;
+      console.log(`⚠️ Tweet too long (${tweet.length}/${maxLength} chars), attempt ${attempts}/${maxAttempts}`);
+
+      if (attempts === maxAttempts) {
+        console.log(`🔧 Final attempt - truncating tweet`);
+
+        const truncated = tweet.substring(0, maxLength - 3);
+        const lastSpaceIndex = truncated.lastIndexOf(' ');
+
+        if (lastSpaceIndex > maxLength * 0.7) {
+          tweet = truncated.substring(0, lastSpaceIndex) + '...';
+        } else {
+          tweet = truncated + '...';
+        }
+
+        return {
+          content: tweet,
+          hashtags: extractHashtags(tweet),
+          length: tweet.length,
+        };
+      }
+
+      prompt = prompt + `\n\nPREVIOUS ATTEMPT WAS ${tweet.length} CHARACTERS - TOO LONG! Generate a shorter one-liner tweet that is MAXIMUM ${maxLength} characters.`;
     }
 
-    return {
-      content: tweet,
-      hashtags: extractHashtags(tweet),
-      length: tweet.length,
-    };
+    throw new Error('Failed to generate tweet within character limit');
   } catch (error) {
     console.error('Error generating tweet:', error);
     throw new Error('Failed to generate tweet');
@@ -79,47 +174,11 @@ function extractHashtags(text: string): string[] {
   return text.match(hashtagRegex) || [];
 }
 
-export const tweetTopics = [
-  'daily life struggles',
-  'technology and gadgets', 
-  'history and culture',
-  'science and nature',
-  'health and fitness',
-  'career and success',
-  'relationships and dating',
-  'travel and adventure',
-  'food and cooking',
-  'sports and competition',
-  'movies and entertainment',
-  'books and learning',
-  'money and finance',
-  'productivity and habits',
-  'creativity and art'
-];
-
 export const personas = [
   {
-    id: 'unhinged_comedian',
-    name: 'Unhinged Comedian',
-    description: 'Brutally honest, darkly funny takes with no filter',
-    emoji: '🎭'
+    id: 'unhinged_satirist',
+    name: 'Unhinged Satirist',
+    description: 'Sharp Indian satirist with punchy one-liners, exaggeration, and absurd metaphors',
+    emoji: '🃏'
   },
-  {
-    id: 'quiz_expert', 
-    name: 'Quiz Expert',
-    description: 'Engaging trivia questions and fascinating facts',
-    emoji: '🧠'
-  },
-  {
-    id: 'motivational_whiz',
-    name: 'Motivational Whiz', 
-    description: 'Brutally honest motivation - harsh truths with inspiring energy',
-    emoji: '⚡'
-  },
-  {
-    id: 'cricket_commentator',
-    name: 'Cricket Commentator',
-    description: 'Inspirational life lessons through cricket metaphors and commentary',
-    emoji: '🏏'
-  }
 ] as const;
