@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Pagination } from '@/components/ui/pagination';
 import { Send, Trash2 } from 'lucide-react';
 import { Tweet } from '@/types/dashboard';
 
@@ -18,6 +19,17 @@ interface TweetHistoryProps {
   toDateTimeLocal: (date: Date) => string;
   formatOptimalTime: (date: Date) => string;
   formatISTTime: (date: Date) => string;
+  // Pagination props
+  pagination?: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+  onPageChange?: (page: number) => void;
+  onPageSizeChange?: (limit: number) => void;
 }
 
 export function TweetHistory({
@@ -33,7 +45,10 @@ export function TweetHistory({
   getQualityGradeColor,
   toDateTimeLocal,
   formatOptimalTime,
-  formatISTTime
+  formatISTTime,
+  pagination,
+  onPageChange,
+  onPageSizeChange,
 }: TweetHistoryProps) {
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
@@ -295,6 +310,20 @@ export function TweetHistory({
           </div>
         ))}
       </div>
+
+      {/* Pagination */}
+      {pagination && onPageChange && (
+        <Pagination
+          currentPage={pagination.page}
+          totalPages={pagination.totalPages}
+          total={pagination.total}
+          limit={pagination.limit}
+          hasNext={pagination.hasNext}
+          hasPrev={pagination.hasPrev}
+          onPageChange={onPageChange}
+          onPageSizeChange={onPageSizeChange}
+        />
+      )}
     </section>
   );
 }

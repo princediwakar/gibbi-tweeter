@@ -1,13 +1,22 @@
-import { Twitter } from 'lucide-react';
+import { Twitter, RefreshCw } from 'lucide-react';
 import { DashboardStats } from '@/types/dashboard';
+import { Button } from '@/components/ui/button';
 
 interface DashboardHeaderProps {
   autoSchedulerRunning: boolean;
   schedulerRunning: boolean;
   stats: DashboardStats;
+  onRefresh?: () => void;
+  refreshing?: boolean;
 }
 
-export function DashboardHeader({ autoSchedulerRunning, schedulerRunning, stats }: DashboardHeaderProps) {
+export function DashboardHeader({ 
+  autoSchedulerRunning, 
+  schedulerRunning, 
+  stats, 
+  onRefresh,
+  refreshing = false 
+}: DashboardHeaderProps) {
   return (
     <header className="border-b border-gray-800 pb-8">
       <div className="flex justify-between items-start mb-6">
@@ -30,6 +39,18 @@ export function DashboardHeader({ autoSchedulerRunning, schedulerRunning, stats 
                 {autoSchedulerRunning ? 'ACTIVE' : 'INACTIVE'}
               </span>
             </div>
+            {onRefresh && (
+              <Button
+                onClick={onRefresh}
+                disabled={refreshing}
+                variant="ghost"
+                size="sm"
+                className="text-gray-400 hover:text-white"
+              >
+                <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
+                Refresh
+              </Button>
+            )}
           </div>
           <div className="flex items-center gap-6 text-sm">
             <div className="flex items-center gap-2">

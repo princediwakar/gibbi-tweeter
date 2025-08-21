@@ -25,6 +25,7 @@ export function useTweetDashboard() {
   const [latestTweet, setLatestTweet] = useState<Tweet | null>(null);
   const [selectedTweets, setSelectedTweets] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [autoGenerating, setAutoGenerating] = useState(false);
   const [schedulerRunning, setSchedulerRunning] = useState(false);
   const [autoSchedulerRunning, setAutoSchedulerRunning] = useState(false);
   const [autoSchedulerStats, setAutoSchedulerStats] = useState<AutoSchedulerStats | null>(null);
@@ -35,30 +36,112 @@ export function useTweetDashboard() {
     useTrendingTopics: true,
   });
 
+  // Pagination state
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 10,
+    total: 0,
+    totalPages: 0,
+    hasNext: false,
+    hasPrev: false,
+  });
+
+  // Track if component is mounted to prevent updates after unmount
+  const [isMounted, setIsMounted] = useState(false);
+
   // API Functions
-  const fetchTweets = useCallback(async () => {
+  const fetchTweets = useCallback(async (page = 1, limit = 10) => {
     try {
-      const response = await fetch('/api/tweets');
-      const data = await response.json();
-      setTweets(data.tweets || []);
+      const response = await fetch(`/api/tweets?page=${page}&limit=${limit}`);
+      if (response.ok) {
+        const data = await response.json();
+        
+        // Only update state if component is still mounted
+        if (isMounted) {
+          setTweets(data.data || []);
+          setPagination({
+            page: data.page || 1,
+            limit: data.limit || 10,
+            total: data.total || 0,
+            totalPages: data.totalPages || 0,
+            hasNext: data.hasNext || false,
+            hasPrev: data.hasPrev || false,
+          });
+          
+          // Set the latest tweet to the most recently created one from current page
+          if (data.data && data.data.length > 0) {
+            const latest = data.data.sort((a: Tweet, b: Tweet) => 
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            )[0];
+            setLatestTweet(latest);
+          }
+        }
+      } else {
+        console.warn('Failed to fetch tweets:', response.status);
+        // Only show toast for user-initiated actions, not polling
+      }
     } catch (error) {
-      console.error('Failed to fetch tweets:', error);
-      toast.error('Failed to fetch tweets');
+      console.warn('Failed to fetch tweets:', error);
+      // Only show toast for user-initiated actions, not polling
+    }
+  }, [isMounted]);
+
+  const fetchAllTweets = useCallback(async () => {
+    try {
+      const response = await fetch('/api/tweets?limit=1000'); // Get all tweets for operations that need them
+      if (response.ok) {
+        const data = await response.json();
+        return data.data || [];
+      }
+      return [];
+    } catch (error) {
+      console.warn('Failed to fetch all tweets:', error);
+      return [];
     }
   }, []);
+
+  // Pagination navigation functions
+  const goToPage = useCallback(async (page: number) => {
+    if (page >= 1 && page <= pagination.totalPages) {
+      await fetchTweets(page, pagination.limit);
+    }
+  }, [pagination.totalPages, pagination.limit, fetchTweets]);
+
+  const nextPage = useCallback(async () => {
+    if (pagination.hasNext) {
+      await fetchTweets(pagination.page + 1, pagination.limit);
+    }
+  }, [pagination.hasNext, pagination.page, pagination.limit, fetchTweets]);
+
+  const prevPage = useCallback(async () => {
+    if (pagination.hasPrev) {
+      await fetchTweets(pagination.page - 1, pagination.limit);
+    }
+  }, [pagination.hasPrev, pagination.page, pagination.limit, fetchTweets]);
+
+  const changePageSize = useCallback(async (newLimit: number) => {
+    await fetchTweets(1, newLimit); // Reset to first page when changing page size
+  }, [fetchTweets]);
 
   const fetchAutoSchedulerStats = useCallback(async () => {
     try {
       const response = await fetch('/api/auto-scheduler');
       if (response.ok) {
         const data = await response.json();
-        setAutoSchedulerStats(data);
-        setAutoSchedulerRunning(data?.isRunning || false);
+        // Only update state if component is still mounted
+        if (isMounted) {
+          setAutoSchedulerStats(data);
+          setAutoSchedulerRunning(data?.isRunning || false);
+        }
+      } else {
+        // Only log error, don't show toast for polling failures
+        console.warn('Failed to fetch auto-scheduler stats:', response.status);
       }
     } catch (error) {
-      console.error('Failed to fetch auto-scheduler stats:', error);
+      // Only log error, don't show toast for polling failures
+      console.warn('Failed to fetch auto-scheduler stats:', error);
     }
-  }, []);
+  }, [isMounted]);
 
   const generateTweet = useCallback(async () => {
     if (loading) return;
@@ -296,13 +379,57 @@ export function useTweetDashboard() {
 
   // Effects
   useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
+  useEffect(() => {
+    // Initial data fetch
     fetchTweets();
-    generateTweet();
     fetchAutoSchedulerStats();
     
-    const interval = setInterval(fetchAutoSchedulerStats, 30000);
+    // Auto-generate a tweet on load to show fresh content
+    const autoGenerateOnLoad = async () => {
+      if (isMounted) {
+        setAutoGenerating(true);
+        try {
+          const response = await fetch('/api/tweets', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'generate',
+              persona: 'unhinged_satirist',
+              includeHashtags: true,
+              useTrendingTopics: true,
+            })
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            setLatestTweet(data.tweet);
+            await fetchTweets();
+          }
+        } catch (error) {
+          console.warn('Failed to auto-generate tweet on load:', error);
+        } finally {
+          setAutoGenerating(false);
+        }
+      }
+    };
+
+    // Delay auto-generation slightly to ensure component is fully mounted
+    const timer = setTimeout(autoGenerateOnLoad, 1000);
+    return () => clearTimeout(timer);
+    
+    // Poll auto-scheduler stats every 5 minutes instead of 30 seconds
+    const interval = setInterval(fetchAutoSchedulerStats, 300000);
     return () => clearInterval(interval);
-  }, [generateTweet, fetchTweets, fetchAutoSchedulerStats]);
+  }, []); // Remove dependencies to prevent unnecessary re-renders
+
+  // Manual refresh function
+  const refreshData = useCallback(async () => {
+    await Promise.all([fetchTweets(), fetchAutoSchedulerStats()]);
+  }, [fetchTweets, fetchAutoSchedulerStats]);
 
   // Computed values
   const stats = {
@@ -316,11 +443,13 @@ export function useTweetDashboard() {
     latestTweet,
     selectedTweets,
     loading,
+    autoGenerating,
     schedulerRunning,
     autoSchedulerRunning,
     autoSchedulerStats,
     showHistory,
     generateForm,
+    pagination,
     stats,
     
     // Actions
@@ -337,6 +466,13 @@ export function useTweetDashboard() {
     deleteSelectedTweets,
     toggleAutoScheduler,
     shareOnX,
+    refreshData,
+    
+    // Pagination actions
+    goToPage,
+    nextPage,
+    prevPage,
+    changePageSize,
     
     // Utilities
     getStatusBadgeColor,

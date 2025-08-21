@@ -15,11 +15,13 @@ export default function TweetDashboard() {
     latestTweet,
     selectedTweets,
     loading,
+    autoGenerating,
     schedulerRunning,
     autoSchedulerRunning,
     autoSchedulerStats,
     showHistory,
     generateForm,
+    pagination,
     stats,
     
     // Actions
@@ -36,6 +38,13 @@ export default function TweetDashboard() {
     deleteSelectedTweets,
     toggleAutoScheduler,
     shareOnX,
+    refreshData,
+    
+    // Pagination actions
+    goToPage,
+    nextPage,
+    prevPage,
+    changePageSize,
     
     // Utilities
     getStatusBadgeColor,
@@ -57,6 +66,8 @@ export default function TweetDashboard() {
           autoSchedulerRunning={autoSchedulerRunning}
           schedulerRunning={schedulerRunning}
           stats={stats}
+          onRefresh={refreshData}
+          refreshing={loading}
         />
 
         {latestTweet && (
@@ -64,6 +75,7 @@ export default function TweetDashboard() {
             tweet={latestTweet}
             personas={PERSONAS}
             onShare={shareOnX}
+            loading={autoGenerating}
           />
         )}
 
@@ -106,6 +118,9 @@ export default function TweetDashboard() {
             toDateTimeLocal={toDateTimeLocal}
             formatOptimalTime={formatOptimalTime}
             formatISTTime={formatISTTime}
+            pagination={pagination}
+            onPageChange={goToPage}
+            onPageSizeChange={changePageSize}
           />
         )}
       </div>

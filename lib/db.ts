@@ -15,6 +15,21 @@ export interface Tweet {
   createdAt: Date;
 }
 
+export interface PaginationParams {
+  page: number;
+  limit: number;
+}
+
+export interface PaginatedResult<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+}
+
 const DB_PATH = join(process.cwd(), 'data', 'tweets.json');
 
 async function ensureDataDir() {
@@ -38,6 +53,53 @@ export async function getAllTweets(): Promise<Tweet[]> {
     }));
   } catch (error) {
     return [];
+  }
+}
+
+export async function getPaginatedTweets(params: PaginationParams): Promise<PaginatedResult<Tweet>> {
+  try {
+    await ensureDataDir();
+    const data = await fs.readFile(DB_PATH, 'utf8');
+    const allTweets = JSON.parse(data);
+    
+    // Convert dates
+    const tweets = allTweets.map((tweet: Tweet & { createdAt: string; scheduledFor?: string; postedAt?: string }) => ({
+      ...tweet,
+      createdAt: new Date(tweet.createdAt),
+      scheduledFor: tweet.scheduledFor ? new Date(tweet.scheduledFor) : undefined,
+      postedAt: tweet.postedAt ? new Date(tweet.postedAt) : undefined,
+    }));
+
+    // Sort by creation date (newest first)
+    const sortedTweets = tweets.sort((a: Tweet, b: Tweet) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+
+    const total = sortedTweets.length;
+    const totalPages = Math.ceil(total / params.limit);
+    const startIndex = (params.page - 1) * params.limit;
+    const endIndex = startIndex + params.limit;
+    const paginatedTweets = sortedTweets.slice(startIndex, endIndex);
+
+    return {
+      data: paginatedTweets,
+      total,
+      page: params.page,
+      limit: params.limit,
+      totalPages,
+      hasNext: params.page < totalPages,
+      hasPrev: params.page > 1,
+    };
+  } catch (error) {
+    return {
+      data: [],
+      total: 0,
+      page: params.page,
+      limit: params.limit,
+      totalPages: 0,
+      hasNext: false,
+      hasPrev: false,
+    };
   }
 }
 
