@@ -170,6 +170,16 @@ Current error: ${errorObj.detail || errorText}`);
   }
 }
 
+export async function postToTwitter(content: string, hashtags: string[]): Promise<{ data: { id: string; text: string } }> {
+  // Combine content and hashtags if hashtags aren't already in content
+  const hasHashtagsInContent = hashtags.some(hashtag => content.includes(hashtag));
+  const tweetText = hasHashtagsInContent 
+    ? content 
+    : `${content}${hashtags.length > 0 ? ' ' + hashtags.join(' ') : ''}`;
+
+  return postTweet(tweetText);
+}
+
 export async function validateTwitterCredentials(): Promise<boolean> {
   try {
     const credentials = getCredentials();

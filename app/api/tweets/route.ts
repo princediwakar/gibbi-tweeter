@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAllTweets, saveTweet, generateTweetId } from '@/lib/db';
 import { generateTweet, TweetGenerationOptions } from '@/lib/openai';
+import { calculateQualityScore } from '@/lib/quality-scorer';
 
 export async function GET() {
   try {
@@ -21,10 +22,11 @@ export async function POST(request: Request) {
         persona: data.persona,
         includeHashtags: data.includeHashtags,
         customPrompt: data.customPrompt,
-        useGoogleTrends: data.useGoogleTrends,
+        useTrendingTopics: data.useTrendingTopics,
       };
 
       const generatedTweet = await generateTweet(options);
+      const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, data.persona || 'unhinged_satirist');
       
       const tweet = {
         id: generateTweetId(),
@@ -33,6 +35,7 @@ export async function POST(request: Request) {
         persona: data.persona || 'unhinged_satirist',
         status: 'draft' as const,
         createdAt: new Date(),
+        qualityScore,
       };
 
       await saveTweet(tweet);
@@ -60,10 +63,11 @@ export async function POST(request: Request) {
         persona: data.persona,
         includeHashtags: data.includeHashtags,
         customPrompt: data.customPrompt,
-        useGoogleTrends: data.useGoogleTrends,
+        useTrendingTopics: data.useTrendingTopics,
       };
 
       const generatedTweet = await generateTweet(options);
+      const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, data.persona || 'unhinged_satirist');
       const scheduledFor = new Date(data.scheduledFor);
       
       const tweet = {
@@ -74,6 +78,7 @@ export async function POST(request: Request) {
         scheduledFor,
         status: 'scheduled' as const,
         createdAt: new Date(),
+        qualityScore,
       };
 
       await saveTweet(tweet);

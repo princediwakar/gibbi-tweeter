@@ -1,4 +1,4 @@
-declare module 'google-trends-api' {
+declare module "google-trends-api" {
   export interface DailyTrendsOptions {
     trendDate?: Date;
     geo?: string;
@@ -13,4 +13,11 @@ declare module 'google-trends-api' {
 
   export function dailyTrends(options: DailyTrendsOptions): Promise<string>;
   export function realTimeTrends(options: RealTimeTrendsOptions): Promise<string>;
+
+  const googleTrends: {
+    dailyTrends: typeof dailyTrends;
+    realTimeTrends: typeof realTimeTrends;
+  };
+
+  export default googleTrends;
 }

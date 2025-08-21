@@ -1,198 +1,173 @@
-import OpenAI from 'openai';
-import { getRandomTrendingTopic } from './trending';
+import OpenAI from "openai";
+import { getTrendingTopics, TrendingTopic } from "./trending";
+import fs from "fs/promises"; // Use promises for async file operations
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-  baseURL: 'https://api.deepseek.com',
+  baseURL: "https://api.deepseek.com",
 });
 
+const BASE_DELAY = 2000;
+
 export interface TweetGenerationOptions {
-  persona?: 'unhinged_satirist';
+  persona: "unhinged_satirist"; // Required, not optional
   includeHashtags?: boolean;
   maxLength?: number;
   customPrompt?: string;
-  useGoogleTrends?: boolean;
+  useTrendingTopics?: boolean;
 }
 
-export async function generateTweet(options: TweetGenerationOptions = {}) {
+export interface TweetResponse {
+  content: string;
+  hashtags: string[];
+  length: number;
+  topic: string;
+}
+
+export async function generateTweet(options: TweetGenerationOptions): Promise<TweetResponse> {
   const {
-    persona = 'unhinged_satirist',
+    persona, // Required, no default
     includeHashtags = true,
     maxLength = 280,
     customPrompt,
-    useGoogleTrends = true
+    useTrendingTopics = true,
   } = options;
 
-  const timestamp = Date.now();
-  const randomSeed = Math.random().toString(36).substring(7);
+  let trendingContext = "";
+  let selectedTopic: string = customPrompt || "General Satire";
 
-  // Fetch trending topic (only if enabled and not using custom prompt)
-  let trendingContext = '';
-  if (persona === 'unhinged_satirist' && !customPrompt && useGoogleTrends) {
-    try {
-      const trendingTopic = await getRandomTrendingTopic();
-      trendingContext = `\n\nTRENDING NOW: "${trendingTopic.title}" (${trendingTopic.traffic} searches) - Use ${trendingTopic.hashtag} and create satirical commentary about this trending topic.`;
-      console.log(`📈 Using trending topic: ${trendingTopic.title}`);
-    } catch (error) {
-      console.log('⚠️ Using fallback trending topics');
+  if (useTrendingTopics && !customPrompt) {
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        const trendingTopics = await getTrendingTopics();
+        if (trendingTopics.length > 0) {
+          const randomTopic: TrendingTopic = trendingTopics[Math.floor(Math.random() * trendingTopics.length)];
+          trendingContext = `Trending topic: ${randomTopic.title} (${randomTopic.traffic} searches). Use ${randomTopic.hashtag} only if it helps the joke.`;
+          selectedTopic = randomTopic.title;
+          console.log(`📈 Using trending topic: ${randomTopic.title}`);
+          break;
+        }
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        console.error(`⚠️ Failed to fetch trending topics (attempt ${attempt}/3): ${message}`);
+        if (attempt < 3) {
+          await new Promise((r) => setTimeout(r, BASE_DELAY * 2 ** (attempt - 1)));
+        } else {
+          console.warn("⚠️ Failed to fetch trending topics after 3 attempts, proceeding without trends");
+          trendingContext = "Generate a witty satirical tweet about current Indian life, culture, or society.";
+          selectedTopic = "General Indian Satire";
+        }
+      }
     }
-  } else if (!useGoogleTrends) {
-    console.log('📈 Google Trends disabled - using general satirical prompts');
+  } else if (customPrompt) {
+    trendingContext = `Context: ${customPrompt}`;
+    selectedTopic = customPrompt;
+  } else if (!useTrendingTopics) {
+    // No trends, no custom prompt - generate general satirical content
+    trendingContext = "Generate a witty satirical tweet about current Indian life, culture, or society.";
+    selectedTopic = "General Indian Satire";
   }
 
-  // Satirical devices + tones
-  const satiricalDevices = [
-    'exaggeration',
-    'irony',
-    'parody',
-    'absurd_metaphor'
+  // Infuse variability with random satire angle
+  const satireAngles = [
+    "roast",
+    "parody",
+    "absurd exaggeration",
+    "irony",
+    "wordplay",
+    "self-deprecating humor",
+    "observational comedy",
+    "surreal humor",
+    "dark satire",
+    "cultural mashup",
   ];
+  const randomAngle = satireAngles[Math.floor(Math.random() * satireAngles.length)];
 
-  const satiricalTones = [
-    'roast',
-    'dark_humor',
-    'absurd_exaggeration'
-  ];
+  // Check tweets.json for last 10 jokes to ensure uniqueness
+  let previousTweetsAvoidance = "";
+  try {
+    const data = await fs.readFile("data/tweets.json", "utf8");
+    const tweetsData: Array<{ content: string }> = JSON.parse(data);
+    const last10 = tweetsData.slice(-10).map((t) => t.content);
+    if (last10.length > 0) {
+      previousTweetsAvoidance = `
+Avoid repeating themes, structures, or punchlines from these previous tweets:
+${last10.map((t) => `- ${t}`).join("\n")}
 
-  const deviceInstructions: Record<string, string> = {
-    exaggeration: "Use EXTREME EXAGGERATION: e.g. 'If potholes were startups, India would be a unicorn factory.'",
-    irony: "Use SHARP IRONY: e.g. 'India is developing at light speed. That’s why the lights go out every evening.'",
-    parody: "Use CLEVER PARODY: e.g. 'Govt launches Digital India 3.0: Now even corruption is available as an app.'",
-    absurd_metaphor: "Use ABSURD METAPHORS: e.g. 'Our democracy is like Indian trains: everyone shouting, no one moving.'"
-  };
+Think deeper: Use a ${randomAngle} style, a fresh perspective, and a unique metaphor to create an original tweet.`;
+    }
+  } catch (err) {
+    console.warn("Could not read tweets.json for uniqueness infusion:", err);
+  }
 
-  const toneInstructions: Record<string, string> = {
-    roast: "Tone: ROAST — short, savage burns, like an Indian Twitter roast.",
-    dark_humor: "Tone: DARK HUMOR — cynical and biting, but witty.",
-    absurd_exaggeration: "Tone: ABSURD — physics-defying ridiculous, surreal metaphors."
-  };
+  const basePrompt = `
+You are an **Indian Hasya-Kavi turned Twitter satirist** with the persona "${persona}".
+Your job: write ONE brilliant, witty, poetic one-liner tweet.
 
-  // Generate variation
-  const generateSatiristVariations = () => {
-    const device = satiricalDevices[Math.floor(Math.random() * satiricalDevices.length)];
-    const tone = satiricalTones[Math.floor(Math.random() * satiricalTones.length)];
+Rules:
+- It must be punchy, funny, and intelligent satire.
+- Maintain the rhythm and exaggeration of Hasya-Kavi poetry, but keep it short for Twitter.
+- Sharp social commentary wrapped in humor.
+- Always feel topical and alive (today’s India).
+- Topics can range from geopolitics
+- Hinglish is welcome if it adds flavor.
+- ${includeHashtags ? "Include 1-2 relevant, short hashtags that are meaningful (like #StartupLife #TechHumor)." : "Do not include hashtags."}
+- Maximum ${maxLength} characters.
+- Only output the tweet text, nothing else.
 
-    const basePrompt = "You are an unhinged Indian satirist creating VIRAL content. Write a tweet that's INSTANTLY SHAREABLE - like BuzzFeed meets Indian Twitter roasts. \
-SHAREABILITY REQUIREMENTS: Make people think 'OMG THIS IS SO TRUE' and immediately want to tag friends. \
-Use absurd comparisons everyone relates to instantly. Create 'I can't even' moments. \
-Be culturally specific but universally funny within Indian context. \
-HUMOR IS NON-NEGOTIABLE: Every word must serve the punchline. NO filler text. \
-Think viral Indian memes meets stand-up comedy one-liners.";
+Tone:
+- Clever, biting, and shareable.
+- Surprising perspective using ${randomAngle} style.
+- Sound timeless but tied to the current moment.
+- Intelligent enough for a professor, funny enough for a chaiwala.
 
-    return [
-      `${basePrompt}${trendingContext}\n\n${deviceInstructions[device]}\n${toneInstructions[tone]}\n\nCRITICAL: Must be ONE line only. \
-No paragraphs. No setup-explanation-punchline — just the punchline. \
-Must reference a CURRENT Indian event, politician, policy, or trending meme. \
-No clichés, no generalities, always feel like it was written TODAY.`,
-    ];
-  };
+${trendingContext}${previousTweetsAvoidance}
 
-  const personaVariations = {
-    unhinged_satirist: generateSatiristVariations(),
-  };
-
-  const selectedVariation = personaVariations[persona][0];
-
-  const antiRepetitionInstructions = `
-ANTI-REPETITION PROTOCOL:
-- Must always be a NEW one-liner
-- Never recycle metaphors, structures, or old jokes
-- Must reference specific Indian news, culture, or politics of today
-- Must feel like a fresh roast, not a timeless observation
-- No paragraphs, no explanations — ONLY the satirical one-liner tweet
+Examples of style:
+- "Government speed: launches Digital India, but WiFi still on buffalo speed."
+- "Inflation ne kya jadoo kiya hai, ab middle class bhi premium lagti hai."
 `;
 
-  const basePrompt = customPrompt
-    ? `${selectedVariation} Focus on this topic/content: ${customPrompt}`
-    : selectedVariation;
-
-  let prompt = `${basePrompt}${antiRepetitionInstructions}
-
-
-UNIQUENESS REQUIREMENT: Make this tweet completely different from any previous tweets. Use fresh angles, new perspectives, and avoid repetitive patterns or phrases.
-
-Randomization seed: ${randomSeed} | Timestamp: ${timestamp}
-
-VIRAL SHAREABILITY REQUIREMENTS:
-- INSTANT RELATABILITY: Make every Indian think "this is literally my life"
-- SHAREABILITY TRIGGERS: Create "I'm screaming" and "I can't even" moments
-- TAG-WORTHY: People should want to tag friends immediately
-- COMEDIC PRECISION: Punchline should hit within first 5 words
-- CULTURAL CALLBACKS: Reference universal Indian experiences (traffic, aunties, govt offices)
-- ABSURD SPECIFICITY: Be hilariously precise about things everyone relates to
-
-${includeHashtags ? 'Include relevant hashtags.' : 'No hashtags.'}
-
-CRITICAL: Maximum ${maxLength} characters. Must be INSTANTLY SHAREABLE. Only return the tweet text.`;
-
   try {
-    let attempts = 0;
-    const maxAttempts = 3;
+    console.log("🚀 Generating tweet...");
+    const completion = await openai.chat.completions.create({
+      model: "deepseek-chat",
+      messages: [{ role: "user", content: basePrompt }],
+      max_tokens: Math.min(120, Math.ceil(maxLength / 2)),
+      temperature: 1.2, // Higher temperature for variability
+    });
 
-    while (attempts < maxAttempts) {
-      const completion = await openai.chat.completions.create({
-        messages: [{ role: 'user', content: prompt }],
-        model: 'deepseek-chat',
-        max_tokens: Math.min(120, Math.ceil(maxLength / 2)),
-        temperature: 1.0,
-      });
+    let tweet = completion.choices[0]?.message?.content?.trim();
+    if (!tweet) throw new Error("Empty response from model");
 
-      let tweet = completion.choices[0]?.message?.content?.trim();
-      if (!tweet) {
-        throw new Error('No tweet generated');
-      }
-
-      if (tweet.length <= maxLength) {
-        console.log(`✅ Generated tweet within limit: ${tweet.length}/${maxLength} chars`);
-        return {
-          content: tweet,
-          hashtags: extractHashtags(tweet),
-          length: tweet.length,
-        };
-      }
-
-      attempts++;
-      console.log(`⚠️ Tweet too long (${tweet.length}/${maxLength} chars), attempt ${attempts}/${maxAttempts}`);
-
-      if (attempts === maxAttempts) {
-        console.log(`🔧 Final attempt - truncating tweet`);
-
-        const truncated = tweet.substring(0, maxLength - 3);
-        const lastSpaceIndex = truncated.lastIndexOf(' ');
-
-        if (lastSpaceIndex > maxLength * 0.7) {
-          tweet = truncated.substring(0, lastSpaceIndex) + '...';
-        } else {
-          tweet = truncated + '...';
-        }
-
-        return {
-          content: tweet,
-          hashtags: extractHashtags(tweet),
-          length: tweet.length,
-        };
-      }
-
-      prompt = prompt + `\n\nPREVIOUS ATTEMPT WAS ${tweet.length} CHARACTERS - TOO LONG! Generate a shorter one-liner tweet that is MAXIMUM ${maxLength} characters.`;
+    if (tweet.length > maxLength) {
+      tweet = tweet.slice(0, maxLength - 1) + "…";
     }
 
-    throw new Error('Failed to generate tweet within character limit');
-  } catch (error) {
-    console.error('Error generating tweet:', error);
-    throw new Error('Failed to generate tweet');
+    return {
+      content: tweet,
+      hashtags: extractHashtags(tweet),
+      length: tweet.length,
+      topic: selectedTopic,
+    };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("❌ Error generating tweet:", message);
+    throw new Error("Tweet generation failed");
   }
 }
 
 function extractHashtags(text: string): string[] {
-  const hashtagRegex = /#[a-zA-Z0-9_]+/g;
-  return text.match(hashtagRegex) || [];
+  const regex = /#[a-zA-Z0-9_]+/g;
+  return text.match(regex) || [];
 }
 
 export const personas = [
   {
-    id: 'unhinged_satirist',
-    name: 'Unhinged Satirist',
-    description: 'Sharp Indian satirist with punchy one-liners, exaggeration, and absurd metaphors',
-    emoji: '🃏'
+    id: "unhinged_satirist",
+    name: "Unhinged Satirist",
+    description:
+      "Sharp Indian poet-comedian blending Hasya-Kavi rhythm with modern satire",
+    emoji: "🃏",
   },
 ] as const;

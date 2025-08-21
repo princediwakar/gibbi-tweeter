@@ -1,380 +1,475 @@
-import * as googleTrends from 'google-trends-api';
+import { parseStringPromise } from "xml2js";
+import fetch from "node-fetch";
+import fs from "fs/promises";
+import path from "path";
 
+// ─────────────────────────────────────────────
+// 🔑 Types & Interfaces
+// ─────────────────────────────────────────────
 export interface TrendingTopic {
   title: string;
   hashtag: string;
   traffic: string;
   category?: string;
+  tweetUrl?: string;
+  author?: string;
 }
 
-// Add delay between requests to avoid rate limiting
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+interface Sources {
+  twitter: {
+    handles: string[];
+  };
+  reddit: {
+    subreddits: string[];
+  };
+}
 
-// Production caching to reduce API calls and improve performance
 interface CacheEntry {
   data: TrendingTopic[];
   timestamp: number;
   ttl: number;
 }
 
-const trendsCache: Map<string, CacheEntry> = new Map();
-const CACHE_TTL_MINUTES = 30; // Cache for 30 minutes
-const PRODUCTION_MODE = process.env.NODE_ENV === 'production';
+// RSS response type for xml2js
+interface RSSResponse {
+  rss?: {
+    channel?: Array<{
+      item?: Array<{
+        title?: string[];
+        link?: string[];
+        "ht:approx_traffic"?: string[];
+      }>;
+    }>;
+  };
+}
 
-function getCachedTrends(): TrendingTopic[] | null {
-  const cacheKey = 'trends_india';
-  const cached = trendsCache.get(cacheKey);
+// ─────────────────────────────────────────────
+// 🔧 Constants
+// ─────────────────────────────────────────────
+const CACHE_KEY = "twitter_trends";
+const CACHE_TTL_MS = 30 * 60 * 1000; // 30 mins
+const MAX_TOPICS = 8;
+
+// User agents for better disguise
+const USER_AGENTS = [
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/121.0",
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Safari/605.1.15"
+];
+
+function getRandomUserAgent(): string {
+  return USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)];
+}
+
+const trendsCache: Map<string, CacheEntry> = new Map();
+
+// ─────────────────────────────────────────────
+// 🧰 Utility Helpers
+// ─────────────────────────────────────────────
+const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
+
+const randomInt = (min: number, max: number): number =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
+
+const createHashtagFromTitle = (title: string): string => {
+  // Common stop words to remove for more meaningful hashtags
+  const stopWords = new Set([
+    'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with',
+    'by', 'is', 'are', 'was', 'were', 'been', 'be', 'have', 'has', 'had', 'will', 'would',
+    'could', 'should', 'may', 'might', 'can', 'this', 'that', 'these', 'those', 'i', 'you',
+    'he', 'she', 'it', 'we', 'they', 'me', 'him', 'her', 'us', 'them', 'my', 'your', 'his',
+    'her', 'its', 'our', 'their', 'says', 'said', 'after', 'new', 'how', 'why', 'what',
+    'when', 'where', 'who', 'which'
+  ]);
+
+  // Extract meaningful words and prioritize key terms
+  const words = title
+    .toLowerCase()
+    .replace(/[^\w\s]/g, " ")
+    .split(/\s+/)
+    .filter(word => word.length > 2 && !stopWords.has(word))
+    .map(word => word[0].toUpperCase() + word.slice(1));
+
+  if (words.length === 0) {
+    // Fallback to original method if no meaningful words found
+    const cleaned = title
+      .replace(/[^\w\s]/g, "")
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2) // Take first 2 words
+      .map((word) => word[0].toUpperCase() + word.slice(1))
+      .join("");
+    return "#" + (cleaned.length > 25 ? cleaned.slice(0, 25) : cleaned);
+  }
+
+  // Build hashtag with meaningful words, respecting 20 char limit
+  let hashtag = "";
+  const maxLength = 19; // 20 chars total including the #
   
+  for (const word of words) {
+    if ((hashtag + word).length <= maxLength) {
+      hashtag += word;
+    } else {
+      // If the current word would exceed limit, try to fit a shortened version
+      const remainingSpace = maxLength - hashtag.length;
+      if (remainingSpace >= 3 && hashtag.length > 0) {
+        // Only add abbreviated word if we have at least 3 chars space and already have content
+        hashtag += word.slice(0, remainingSpace);
+      }
+      break;
+    }
+  }
+
+  // If hashtag is still empty or too short, take first significant word
+  if (hashtag.length < 3) {
+    const firstWord = words[0] || title.replace(/[^\w]/g, "").slice(0, 10);
+    hashtag = firstWord.slice(0, maxLength);
+  }
+
+  return "#" + hashtag;
+};
+
+// ─────────────────────────────────────────────
+// 📦 Cache Logic
+// ─────────────────────────────────────────────
+function getCachedTrends(): TrendingTopic[] | null {
+  const cached = trendsCache.get(CACHE_KEY);
   if (cached && Date.now() < cached.timestamp + cached.ttl) {
-    console.log('📦 Using cached trending topics');
+    console.log("📦 Using cached Twitter trending topics");
     return cached.data;
   }
-  
   return null;
 }
 
-function setCachedTrends(topics: TrendingTopic[]): void {
-  const cacheKey = 'trends_india';
-  const ttl = CACHE_TTL_MINUTES * 60 * 1000; // Convert to milliseconds
-  
-  trendsCache.set(cacheKey, {
-    data: topics,
+function setCachedTrends(data: TrendingTopic[]): void {
+  trendsCache.set(CACHE_KEY, {
+    data,
     timestamp: Date.now(),
-    ttl
+    ttl: CACHE_TTL_MS,
   });
-  
-  console.log(`💾 Cached ${topics.length} trending topics for ${CACHE_TTL_MINUTES} minutes`);
+  console.log(`💾 Cached ${data.length} Twitter topics for ${CACHE_TTL_MS / 60000} minutes`);
 }
 
-// Production-ready method to fetch Google Trends with proper headers and retry logic
-async function fetchGoogleTrendsProduction(): Promise<TrendingTopic[]> {
-  const maxRetries = 3;
-  const baseDelay = 2000; // Start with 2 seconds
-  
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      console.log(`🚀 Production Google Trends attempt ${attempt}/${maxRetries}...`);
-      
-      // Add delay between attempts (exponential backoff)
-      if (attempt > 1) {
-        const waitTime = baseDelay * Math.pow(2, attempt - 1);
-        console.log(`⏳ Waiting ${waitTime}ms before retry...`);
-        await delay(waitTime);
-      }
-
-      // Try different date approaches - sometimes yesterday works better
-      const dates = [
-        new Date(), // Today
-        new Date(Date.now() - 24 * 60 * 60 * 1000), // Yesterday  
-        new Date(Date.now() - 48 * 60 * 60 * 1000), // 2 days ago
-      ];
-
-      for (const trendDate of dates) {
-        try {
-          console.log(`📅 Trying date: ${trendDate.toISOString().split('T')[0]}`);
-          
-          const trendingData = await googleTrends.dailyTrends({
-            trendDate,
-            geo: 'IN',
-            hl: 'en-IN',
-          });
-
-          // Check if we got valid JSON (not HTML error page)
-          if (trendingData && typeof trendingData === 'string') {
-            // Skip if it looks like an HTML error page
-            if (trendingData.includes('<!doctype') || trendingData.includes('<html')) {
-              console.log('❌ Received HTML error page, trying next date...');
-              continue;
-            }
-
-            try {
-              const parsed = JSON.parse(trendingData);
-              
-              if (parsed?.default?.trendingSearchesDays?.[0]?.trendingSearches) {
-                const trends = parsed.default.trendingSearchesDays[0].trendingSearches;
-                const topics: TrendingTopic[] = trends.slice(0, 8).map((trend: {
-                  title?: { query?: string };
-                  formattedTraffic?: string;
-                  articles?: Array<{ source?: string }>;
-                }) => ({
-                  title: trend.title?.query || 'Trending Topic',
-                  hashtag: createHashtagFromTitle(trend.title?.query || 'Trending'),
-                  traffic: trend.formattedTraffic || `${Math.floor(Math.random() * 500 + 100)}K+`,
-                  category: trend.articles?.[0]?.source || 'Google Trends'
-                }));
-
-                if (topics.length > 0) {
-                  console.log(`✅ SUCCESS! Found ${topics.length} REAL trending topics from Google:`, 
-                    topics.map(t => t.title).slice(0, 3).join(', ') + '...');
-                  return topics;
-                }
-              }
-            } catch (parseError) {
-              console.log('⚠️ JSON parsing failed for this date, trying next...');
-              continue;
-            }
-          }
-        } catch (dateError) {
-          console.log(`📅 Date ${trendDate.toISOString().split('T')[0]} failed:`, dateError.message);
-          continue;
-        }
-      }
-      
-      // If dailyTrends failed, try realTimeTrends
-      console.log('⚡ Trying realTimeTrends as fallback...');
-      try {
-        const realTimeData = await googleTrends.realTimeTrends({
-          geo: 'IN',
-          hl: 'en-IN',
-        });
-
-        if (realTimeData && typeof realTimeData === 'string' && !realTimeData.includes('<!doctype')) {
-          const parsed = JSON.parse(realTimeData);
-          
-          if (parsed?.storySummaries?.trendingStories) {
-            const stories = parsed.storySummaries.trendingStories;
-            const topics: TrendingTopic[] = stories.slice(0, 8).map((story: {
-              title?: string;
-              articles?: Array<{ title?: string; source?: string }>;
-            }) => ({
-              title: story.articles?.[0]?.title || story.title || 'Breaking News',
-              hashtag: createHashtagFromTitle(story.articles?.[0]?.title || story.title || 'Breaking'),
-              traffic: `${Math.floor(Math.random() * 300 + 50)}K+`,
-              category: story.articles?.[0]?.source || 'Google News'
-            }));
-
-            if (topics.length > 0) {
-              console.log(`✅ SUCCESS! Found ${topics.length} REAL trending stories:`,
-                topics.map(t => t.title).slice(0, 3).join(', ') + '...');
-              return topics;
-            }
-          }
-        }
-      } catch (realTimeError) {
-        console.log('⚡ RealTime trends also failed:', realTimeError.message);
-      }
-
-    } catch (error) {
-      console.log(`❌ Attempt ${attempt} failed:`, error.message);
-      if (attempt === maxRetries) {
-        throw error;
-      }
-    }
-  }
-  
-  throw new Error('All Google Trends methods exhausted');
-}
-
-// Enhanced RSS method with better parsing and headers
-async function fetchTrendsViaRSS(): Promise<TrendingTopic[]> {
+// ─────────────────────────────────────────────
+// 🚨 Failure Logging
+// ─────────────────────────────────────────────
+async function logFailure(method: string, error: string): Promise<void> {
+  const logEntry = {
+    timestamp: new Date().toISOString(),
+    method,
+    error,
+  };
   try {
-    console.log('📡 Trying enhanced RSS method...');
-    
+    const fs = await import("fs/promises");
+    await fs.appendFile("failures.log", JSON.stringify(logEntry) + "\n");
+    console.warn(`📉 Logged failure for ${method}: ${error}`);
+  } catch (e) {
+    console.error("❌ Failed to log error to file:", e);
+  }
+}
+
+// ─────────────────────────────────────────────
+// 🐦 Twitter RSS Feed System
+// ─────────────────────────────────────────────
+async function loadSources(): Promise<Sources> {
+  try {
+    const sourcesPath = path.join(process.cwd(), 'lib', 'sources.json');
+    const data = await fs.readFile(sourcesPath, 'utf8');
+    const sources: Sources = JSON.parse(data);
+    return sources;
+  } catch (error) {
+    console.warn('⚠️ Could not load sources, using defaults');
+    return {
+      twitter: {
+        handles: ['@Inc42', '@livemint', '@EconomicTimes', '@anandmahindra', '@udaykotak']
+      },
+      reddit: {
+        subreddits: ['delhi', 'bengaluru', 'IndiaTech']
+      }
+    };
+  }
+}
+
+function getRandomTwitterHandles(handles: string[], count: number = 5): string[] {
+  const shuffled = [...handles].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+}
+
+function getRandomSubreddits(subreddits: string[], count: number = 5): string[] {
+  const shuffled = [...subreddits].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+}
+
+async function fetchFromTwitterRSS(): Promise<TrendingTopic[]> {
+  console.log('🐦 Fetching Twitter RSS feeds via Google News...');
+  
+  const userAgent = getRandomUserAgent();
+  const sources = await loadSources();
+  const selectedHandles = getRandomTwitterHandles(sources.twitter.handles, 8);
+  
+  const allTopics: TrendingTopic[] = [];
+  
+  for (const handle of selectedHandles) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
     
-    // Add random delay to avoid being detected as bot
-    await delay(Math.random() * 1000 + 500);
-    
-    const response = await fetch('https://trends.google.com/trending/rss?geo=IN', {
-      headers: {
-        'User-Agent': `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${Math.floor(Math.random() * 10 + 110)}.0.0.0 Safari/537.36`,
-        'Accept': 'application/rss+xml, application/xml, text/xml, */*',
-        'Accept-Language': 'en-IN,en-US;q=0.9,en;q=0.8',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache',
-        'Sec-Fetch-Dest': 'document',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'none',
-        'Upgrade-Insecure-Requests': '1',
-      },
-      signal: controller.signal,
-    });
-    
-    clearTimeout(timeoutId);
+    try {
+      // Clean handle (remove @ if present)
+      const cleanHandle = handle.replace('@', '');
+      
+      // Use exact URL format specified by user
+      const searchUrl = `https://news.google.com/rss/search?q=site:x.com/${cleanHandle}+when:1d&hl=en-IN&gl=IN&ceid=IN:en`;
+      
+      console.log(`🔍 Searching Twitter content for ${handle}...`);
+      
+      const response = await fetch(searchUrl, {
+        headers: {
+          'User-Agent': userAgent,
+          'Accept': 'application/rss+xml,application/xml,text/xml',
+          'Accept-Language': 'en-IN,en;q=0.9',
+        },
+        signal: controller.signal,
+      });
 
-    if (response.ok) {
-      const xmlData = await response.text();
-      
-      // Enhanced XML parsing - handle different RSS formats
-      let titleMatches = xmlData.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/g);
-      if (!titleMatches) {
-        titleMatches = xmlData.match(/<title>(.*?)<\/title>/g);
+      if (!response.ok) {
+        throw new Error(`RSS fetch failed: ${response.status}`);
       }
-      
-      if (titleMatches && titleMatches.length > 1) {
-        const topics: TrendingTopic[] = titleMatches
-          .slice(1, 9) // Skip channel title
-          .map(match => {
-            let title = match.match(/<!\[CDATA\[(.*?)\]\]>/)?.[1] || 
-                       match.match(/<title>(.*?)<\/title>/)?.[1] || 
-                       'Trending Topic';
-            
-            // Clean up title
-            title = title.replace(/\s+/g, ' ').trim();
+
+      const xml = await response.text();
+      const parsed: RSSResponse = await parseStringPromise(xml);
+      const items = parsed?.rss?.channel?.[0]?.item ?? [];
+
+      if (Array.isArray(items) && items.length > 0) {
+        const topics: TrendingTopic[] = items
+          .slice(0, 3) // Take max 3 per handle
+          .filter((item) => {
+            const title = item.title?.[0]?.trim();
+            // Filter for substantial content
+            return title && title.length > 20 && !title.includes('...');
+          })
+          .map((item) => {
+            const title = item.title?.[0]?.trim() ?? "Twitter Update";
+            // Clean the title from news formatting
+            const cleanTitle = title
+              .replace(/^.*?:\s*/, '') // Remove news source prefix
+              .replace(/\s*-\s*(Twitter|X\.com).*$/i, '') // Remove Twitter suffix
+              .replace(/\s*\.\.\.$/, '') // Remove trailing ellipsis
+              .replace(/^["']|["']$/g, '') // Remove quotes
+              .trim();
             
             return {
-              title,
-              hashtag: createHashtagFromTitle(title),
-              traffic: `${Math.floor(Math.random() * 800 + 200)}K+`,
-              category: 'Google Trends RSS'
+              title: cleanTitle || title,
+              hashtag: createHashtagFromTitle(cleanTitle || title),
+              traffic: `${randomInt(10, 100)}K`,
+              category: `Twitter via ${handle}`,
+              author: handle,
+              tweetUrl: item.link?.[0] || `https://x.com/${cleanHandle}`,
             };
-          })
-          .filter(topic => topic.title.length > 3); // Filter out too short titles
+          });
 
+        allTopics.push(...topics);
         if (topics.length > 0) {
-          console.log(`✅ SUCCESS! Found ${topics.length} trending topics via RSS:`,
-            topics.map(t => t.title).slice(0, 3).join(', ') + '...');
-          return topics;
+          console.log(`✅ Found ${topics.length} tweets from ${handle}`);
         }
+      } else {
+        console.log(`📭 No recent tweets found for ${handle}`);
       }
-    } else {
-      console.log(`📡 RSS response not OK: ${response.status} ${response.statusText}`);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      console.log(`⚠️ Twitter RSS failed for ${handle}: ${message}`);
+      await logFailure(`TwitterRSS-${handle}`, message);
+    } finally {
+      clearTimeout(timeoutId);
     }
     
-    throw new Error('RSS parsing failed');
-  } catch (error) {
-    console.log('📡 Enhanced RSS method failed:', error.message);
-    throw error;
+    // Small delay between requests to be respectful
+    await delay(randomInt(1000, 2000));
   }
-}
-
-export async function getTrendingTopicsIndia(): Promise<TrendingTopic[]> {
-  try {
-    // Check cache first to reduce API calls
-    const cachedTopics = getCachedTrends();
-    if (cachedTopics) {
-      return cachedTopics;
-    }
-
-    console.log('🔍 PRODUCTION: Fetching real Google Trends for India...');
-    
-    // In production, be more aggressive with API attempts
-    const isProduction = PRODUCTION_MODE;
-    
-    // Method 1: Production-ready Google Trends API with retry logic
-    if (isProduction) {
-      try {
-        const topics = await fetchGoogleTrendsProduction();
-        if (topics && topics.length > 0) {
-          setCachedTrends(topics);
-          return topics;
-        }
-      } catch (error) {
-        console.log('🚀 Production Google Trends failed, trying RSS...');
-      }
-    }
-
-    // Method 2: Enhanced RSS scraping with better headers
-    try {
-      const topics = await fetchTrendsViaRSS();
-      if (topics && topics.length > 0) {
-        setCachedTrends(topics);
-        return topics;
-      }
-    } catch (error) {
-      console.log('📡 Enhanced RSS failed...');
-    }
-
-    // Method 3: Try basic Google Trends API (development/fallback)
-    if (!isProduction) {
-      try {
-        console.log('🔧 Development mode: trying basic Google Trends API...');
-        const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
-        
-        const trendingData = await googleTrends.dailyTrends({
-          trendDate: yesterday,
-          geo: 'IN',
-          hl: 'en-IN',
-        });
-
-        if (trendingData && typeof trendingData === 'string' && !trendingData.includes('<!doctype')) {
-          const parsed = JSON.parse(trendingData);
-          
-          if (parsed?.default?.trendingSearchesDays?.[0]?.trendingSearches) {
-            const trends = parsed.default.trendingSearchesDays[0].trendingSearches;
-            const topics: TrendingTopic[] = trends.slice(0, 8).map((trend: {
-              title?: { query?: string };
-              formattedTraffic?: string;
-              articles?: Array<{ source?: string }>;
-            }) => ({
-              title: trend.title?.query || 'Trending Topic',
-              hashtag: createHashtagFromTitle(trend.title?.query || 'Trending'),
-              traffic: trend.formattedTraffic || `${Math.floor(Math.random() * 500 + 100)}K+`,
-              category: trend.articles?.[0]?.source || 'Google Trends'
-            }));
-
-            if (topics.length > 0) {
-              console.log(`✅ Dev mode success: Found ${topics.length} trending topics`);
-              setCachedTrends(topics);
-              return topics;
-            }
-          }
-        }
-      } catch (devError) {
-        console.log('🔧 Development API also failed:', devError.message);
-      }
-    }
-
-    console.log('⚠️ All methods failed, using intelligent fallback');
-    const fallbackTopics = getFallbackTrendingTopics();
-    
-    // Cache fallback topics for shorter duration to retry sooner
-    trendsCache.set('trends_india', {
-      data: fallbackTopics,
-      timestamp: Date.now(),
-      ttl: 5 * 60 * 1000 // Cache fallback for only 5 minutes
-    });
-    
-    return fallbackTopics;
-    
-  } catch (error) {
-    console.log('❌ Critical error in trending topics:', error.message);
-    return getFallbackTrendingTopics();
-  }
-}
-
-function createHashtagFromTitle(title: string): string {
-  return '#' + title
-    .replace(/[^a-zA-Z0-9\s]/g, '') // Remove special chars
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join('')
-    .substring(0, 20); // Keep reasonable length
-}
-
-function getFallbackTrendingTopics(): TrendingTopic[] {
-  const currentHour = new Date().getHours();
-  const isWeekend = [0, 6].includes(new Date().getDay());
   
-  // Different trending topics based on time/day for realism
+  if (allTopics.length > 0) {
+    // Shuffle and take top topics
+    const shuffled = allTopics.sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, MAX_TOPICS);
+    console.log(`✅ Twitter RSS successful - ${selected.length} topics from ${selectedHandles.length} handles`);
+    return selected;
+  }
+  
+  throw new Error('No Twitter content found from any handles');
+}
+
+// ─────────────────────────────────────────────
+// 🔴 Reddit RSS Feed System
+// ─────────────────────────────────────────────
+async function fetchFromRedditRSS(): Promise<TrendingTopic[]> {
+  console.log('🔴 Fetching Reddit RSS feeds...');
+  
+  const userAgent = getRandomUserAgent();
+  const sources = await loadSources();
+  const selectedSubreddits = getRandomSubreddits(sources.reddit.subreddits, 6);
+  
+  const allTopics: TrendingTopic[] = [];
+  
+  for (const subreddit of selectedSubreddits) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    
+    try {
+      // Use direct Reddit RSS URL format
+      const rssUrl = `https://www.reddit.com/r/${subreddit}.rss`;
+      
+      console.log(`🔍 Fetching content from r/${subreddit}...`);
+      
+      const response = await fetch(rssUrl, {
+        headers: {
+          'User-Agent': userAgent,
+          'Accept': 'application/rss+xml,application/xml,text/xml',
+          'Accept-Language': 'en-IN,en;q=0.9',
+        },
+        signal: controller.signal,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Reddit RSS fetch failed: ${response.status}`);
+      }
+
+      const xml = await response.text();
+      const parsed: RSSResponse = await parseStringPromise(xml);
+      const items = parsed?.rss?.channel?.[0]?.item ?? [];
+
+      if (Array.isArray(items) && items.length > 0) {
+        const topics: TrendingTopic[] = items
+          .slice(0, 4) // Take max 4 per subreddit
+          .filter((item) => {
+            const title = item.title?.[0]?.trim();
+            // Filter for substantial content and exclude deleted/removed posts
+            return title && title.length > 15 && 
+                   !title.includes('[deleted]') && 
+                   !title.includes('[removed]') &&
+                   !title.includes('...') &&
+                   !title.match(/^\[.*\]$/); // Skip posts that are just [category] tags
+          })
+          .map((item) => {
+            const title = item.title?.[0]?.trim() ?? "Reddit Post";
+            // Clean the title from Reddit formatting
+            const cleanTitle = title
+              .replace(/^submitted by .*? to .*?$/i, '') // Remove submission info
+              .replace(/\s*\[.*?\]\s*/g, '') // Remove category tags
+              .replace(/^r\/.*?:\s*/, '') // Remove subreddit prefix
+              .replace(/\s*\.\.\.$/, '') // Remove trailing ellipsis
+              .replace(/^["']|["']$/g, '') // Remove quotes
+              .trim();
+            
+            return {
+              title: cleanTitle || title,
+              hashtag: createHashtagFromTitle(cleanTitle || title),
+              traffic: `${randomInt(5, 50)}K`, // Reddit traffic is generally lower
+              category: `Reddit r/${subreddit}`,
+              author: `r/${subreddit}`,
+              tweetUrl: item.link?.[0] || `https://www.reddit.com/r/${subreddit}`,
+            };
+          });
+
+        allTopics.push(...topics);
+        if (topics.length > 0) {
+          console.log(`✅ Found ${topics.length} posts from r/${subreddit}`);
+        }
+      } else {
+        console.log(`📭 No recent posts found for r/${subreddit}`);
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      console.log(`⚠️ Reddit RSS failed for r/${subreddit}: ${message}`);
+      await logFailure(`RedditRSS-${subreddit}`, message);
+    } finally {
+      clearTimeout(timeoutId);
+    }
+    
+    // Small delay between requests to be respectful
+    await delay(randomInt(1000, 2000));
+  }
+  
+  if (allTopics.length > 0) {
+    // Shuffle and take top topics
+    const shuffled = allTopics.sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, MAX_TOPICS);
+    console.log(`✅ Reddit RSS successful - ${selected.length} topics from ${selectedSubreddits.length} subreddits`);
+    return selected;
+  }
+  
+  throw new Error('No Reddit content found from any subreddits');
+}
+
+// ─────────────────────────────────────────────
+// 🏗️ Static Fallback Topics  
+// ─────────────────────────────────────────────
+function getStaticFallbackTopics(): TrendingTopic[] {
   const fallbackTopics = [
-    { title: 'Monsoon Update', hashtag: '#MonsoonUpdate', traffic: '500K+' },
-    { title: 'Petrol Price Hike', hashtag: '#PetrolPrice', traffic: '1M+' },
-    { title: 'Power Cut Alert', hashtag: '#PowerCut', traffic: '200K+' },
-    { title: 'Traffic Jam Delhi', hashtag: '#DelhiTraffic', traffic: '300K+' },
-    { title: 'Cricket Match Live', hashtag: '#CricketLive', traffic: '2M+' },
-    { title: 'Bollywood News', hashtag: '#BollywoodNews', traffic: '800K+' },
-    { title: 'Startup Funding', hashtag: '#StartupNews', traffic: '150K+' },
-    { title: 'Election Updates', hashtag: '#ElectionUpdate', traffic: '1.2M+' },
-    { title: 'Digital India', hashtag: '#DigitalIndia', traffic: '400K+' },
-    { title: 'Smart City Project', hashtag: '#SmartCity', traffic: '250K+' }
+    { title: "Indian Startup Ecosystem", traffic: "500K", category: "Business" },
+    { title: "Digital India Initiatives", traffic: "800K", category: "Technology" },
+    { title: "Bollywood Industry Updates", traffic: "300K", category: "Entertainment" },
+    { title: "Cricket Season Highlights", traffic: "400K", category: "Sports" },
+    { title: "Tech Innovation in India", traffic: "250K", category: "Technology" },
+    { title: "Indian Political Landscape", traffic: "600K", category: "Politics" },
+    { title: "Economic Policy Changes", traffic: "350K", category: "Economy" },
+    { title: "Social Media Trends", traffic: "450K", category: "Social" },
   ];
 
-  // Add time/context-based trends
-  if (currentHour >= 17 && currentHour <= 21) {
-    fallbackTopics.unshift({ title: 'Evening Traffic', hashtag: '#EveningRush', traffic: '600K+' });
-  }
-  
-  if (isWeekend) {
-    fallbackTopics.unshift({ title: 'Weekend Plans', hashtag: '#WeekendVibes', traffic: '400K+' });
-  }
-
-  return fallbackTopics.slice(0, 5);
+  return fallbackTopics.map(topic => ({
+    ...topic,
+    hashtag: createHashtagFromTitle(topic.title),
+  }));
 }
 
-export async function getRandomTrendingTopic(): Promise<TrendingTopic> {
-  const topics = await getTrendingTopicsIndia();
-  return topics[Math.floor(Math.random() * topics.length)];
+// ─────────────────────────────────────────────
+// 🎯 Main API
+// ─────────────────────────────────────────────
+export async function getTrendingTopics(): Promise<TrendingTopic[]> {
+  const cached = getCachedTrends();
+  if (cached) {
+    return cached;
+  }
+
+  console.log("🚀 Attempting to fetch from multiple RSS sources...");
+  
+  const allTopics: TrendingTopic[] = [];
+
+  // Try Twitter RSS feeds first
+  try {
+    console.log("🐦 Attempting Twitter RSS feeds...");
+    const twitterTopics = await fetchFromTwitterRSS();
+    if (twitterTopics.length > 0) {
+      console.log(`✅ Twitter RSS successful - ${twitterTopics.length} topics`);
+      allTopics.push(...twitterTopics.slice(0, Math.floor(MAX_TOPICS / 2))); // Take half from Twitter
+    }
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.log(`⚠️ Twitter RSS failed: ${message}`);
+  }
+
+  // Try Reddit RSS feeds
+  try {
+    console.log("🔴 Attempting Reddit RSS feeds...");
+    const redditTopics = await fetchFromRedditRSS();
+    if (redditTopics.length > 0) {
+      console.log(`✅ Reddit RSS successful - ${redditTopics.length} topics`);
+      allTopics.push(...redditTopics.slice(0, MAX_TOPICS - allTopics.length)); // Fill remaining slots
+    }
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.log(`⚠️ Reddit RSS failed: ${message}`);
+  }
+
+  // If we got some topics from either source, use them
+  if (allTopics.length > 0) {
+    console.log(`✅ Combined RSS successful - ${allTopics.length} topics from multiple sources`);
+    setCachedTrends(allTopics);
+    return allTopics;
+  }
+
+  // Final fallback: Static topics
+  console.log("📋 All RSS sources failed, using static fallback topics");
+  const staticTopics = getStaticFallbackTopics();
+  setCachedTrends(staticTopics);
+  return staticTopics;
 }
