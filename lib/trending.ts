@@ -88,12 +88,13 @@ const randomInt = (min: number, max: number): number =>
 const createHashtagFromTitle = (title: string): string => {
   // Common stop words to remove for more meaningful hashtags
   const stopWords = new Set([
-    'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with',
-    'by', 'is', 'are', 'was', 'were', 'been', 'be', 'have', 'has', 'had', 'will', 'would',
-    'could', 'should', 'may', 'might', 'can', 'this', 'that', 'these', 'those', 'i', 'you',
-    'he', 'she', 'it', 'we', 'they', 'me', 'him', 'her', 'us', 'them', 'my', 'your', 'his',
-    'her', 'its', 'our', 'their', 'says', 'said', 'after', 'new', 'how', 'why', 'what',
-    'when', 'where', 'who', 'which'
+    // 'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with',
+    // 'by', 'is', 'are', 'was', 'were', 'been', 'be', 'have', 'has', 'had', 'will', 'would',
+    // 'could', 'should', 'may', 'can', 'this', 'that', 'these', 'those', 'i', 'you',
+    // 'he', 'she', 'it', 'we', 'they', 'me', 'him', 'her', 'us', 'them', 'my', 'your', 'his',
+    // 'her', 'its', 'our', 'their', 'says', 'said', 'after', 'new', 'how', 'why', 'what',
+    // 'when', 'where', 'who', 
+    'might'
   ]);
 
   // Extract meaningful words and prioritize key terms

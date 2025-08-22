@@ -8,117 +8,1094 @@
    - Environments: .env.local
 
  ✓ Starting...
- ✓ Ready in 2.4s
- ○ Compiling /api/tweets ...
- ✓ Compiled /api/tweets in 4.8s
- GET /api/tweets?page=1&limit=1 200 in 5247ms
- GET /api/tweets?page=1&limit=10 200 in 141ms
- ○ Compiling /api/auto-scheduler ...
- ✓ Compiled /api/auto-scheduler in 755ms
- GET /api/auto-scheduler 200 in 889ms
-🚀 Generating tweet...
- POST /api/tweets 200 in 5213ms
- GET /api/tweets?page=1&limit=10 200 in 116ms
- GET /api/auto-scheduler 200 in 67ms
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
-}
- ○ Compiling /_error ...
- ✓ Compiled /_error in 1912ms
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.khwgqr9xn7'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.khwgqr9xn7'
-}
-[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
-}
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.su3it02cxgb'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.su3it02cxgb'
-}
-[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.rt6mu55w0gm'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.rt6mu55w0gm'
-}
+ ✓ Ready in 2.5s
  ○ Compiling / ...
- ✓ Compiled / in 6.9s
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.sd7dcs7p93'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.sd7dcs7p93'
-}
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.prwnrqeu0xn'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.prwnrqeu0xn'
-}
-[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.sd7dcs7p93'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.sd7dcs7p93'
-}
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.auxaxoxu09'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.auxaxoxu09'
-}
-[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.0i5ttob7png7'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.0i5ttob7png7'
-}
+ ✓ Compiled / in 8.9s
+ GET / 200 in 10059ms
  ○ Compiling /favicon.ico ...
- ✓ Compiled /favicon.ico in 537ms
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.3up8y5ylbpf'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.3up8y5ylbpf'
-}
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/tweets/[__metadata_id__]/route/app-paths-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/server/app/api/tweets/[__metadata_id__]/route/app-paths-manifest.json'
-}
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/pages/_app/build-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/server/pages/_app/build-manifest.json'
-}
-[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/tweets/[__metadata_id__]/route/app-paths-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/server/app/api/tweets/[__metadata_id__]/route/app-paths-manifest.json'
-}
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/pages/_app/build-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/server/pages/_app/build-manifest.json'
-}
-[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/pages/_app/build-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/prince/Developer/tweeter/.next/server/pages/_app/build-manifest.json'
-}
+ GET /favicon.ico?favicon.45db1c09.ico 200 in 1845ms
+ ✓ Compiled /favicon.ico in 2.5s
+ GET /api/auto-scheduler 200 in 2886ms
+🔄 Cache expired or not found, fetching fresh data
+🚀 Attempting to fetch from multiple RSS sources...
+🐦 Attempting Twitter RSS feeds...
+🐦 Fetching Twitter RSS feeds via Google News...
+🎯 Priority handles included: @Inc42, @ETtech, @paraschopra, @livemint
+🐦 Selected handles for RSS fetching: @Inc42, @ETtech, @paraschopra, @livemint, @BrowserStack, @FactorDaily, @forbes_india, @hvgoenka
+🔍 Searching Twitter content for @Inc42...
+🔍 Special attention: @Inc42 is known to be active
+ GET /api/tweets?page=1&limit=10 200 in 3021ms
+ GET /api/auto-scheduler 200 in 285ms
+ GET /api/tweets?page=1&limit=10 200 in 189ms
+✅ Found content using URL format 1: site:x.com/Inc42+when:3d
+✅ Found 2 tweets from @Inc42
+📝 Sample topics from @Inc42: [
+  '(1/3)...',
+  '34 PM. The stock was 7.23% lower on the BSE at last check. (...'
+]
+🔍 Searching Twitter content for @ETtech...
+✅ Found content using URL format 1: site:x.com/ETtech+when:3d
+✅ Found 2 tweets from @ETtech
+📝 Sample topics from @ETtech: [
+  '⚡⚡ Industry insiders estimate that nearly 40% of Indian good...',
+  '💵🔔As the government considers banning real money gaming, g...'
+]
+🔄 Cache expired or not found, fetching fresh data
+🚀 Attempting to fetch from multiple RSS sources...
+🐦 Attempting Twitter RSS feeds...
+🐦 Fetching Twitter RSS feeds via Google News...
+🎯 Priority handles included: @Inc42, @ETtech, @paraschopra, @livemint
+🐦 Selected handles for RSS fetching: @Inc42, @ETtech, @paraschopra, @livemint, @mihirssharma, @sundarpichai, @bibekdebroy, @Nithin0dha
+🔍 Searching Twitter content for @Inc42...
+🔍 Special attention: @Inc42 is known to be active
+✅ Found content using URL format 1: site:x.com/Inc42+when:3d
+✅ Found 2 tweets from @Inc42
+📝 Sample topics from @Inc42: [
+  '(1/3)...',
+  '34 PM. The stock was 7.23% lower on the BSE at last check. (...'
+]
+🔍 Searching Twitter content for @ETtech...
+✅ Found content using URL format 1: site:x.com/ETtech+when:3d
+✅ Found 2 tweets from @ETtech
+📝 Sample topics from @ETtech: [
+  '⚡⚡ Industry insiders estimate that nearly 40% of Indian good...',
+  '💵🔔As the government considers banning real money gaming, g...'
+]
+🔍 Searching Twitter content for @paraschopra...
+🔍 Searching Twitter content for @paraschopra...
+✅ Found content using URL format 4: site:x.com/paraschopra
+✅ Found 1 tweets from @paraschopra
+📝 Sample topics from @paraschopra: [ 'Absolutely bonkers that this tiny model can follow instructi...' ]
+✅ Found content using URL format 4: site:x.com/paraschopra
+✅ Found 1 tweets from @paraschopra
+📝 Sample topics from @paraschopra: [ 'Absolutely bonkers that this tiny model can follow instructi...' ]
+🔍 Searching Twitter content for @livemint...
+🔍 Searching Twitter content for @livemint...
+✅ Found content using URL format 1: site:x.com/livemint+when:3d
+✅ Found 3 tweets from @livemint
+📝 Sample topics from @livemint: [
+  '‘Yellow alert’ for today amid heavy rainfall, IMD issues ‘fl...',
+  'Rajya Sabha LIVE 🔴 Heated Opposition-Centre clash in Monsoo...'
+]
+✅ Found content using URL format 1: site:x.com/livemint+when:3d
+✅ Found 3 tweets from @livemint
+📝 Sample topics from @livemint: [
+  '‘Yellow alert’ for today amid heavy rainfall, IMD issues ‘fl...',
+  'Rajya Sabha LIVE 🔴 Heated Opposition-Centre clash in Monsoo...'
+]
+ ✓ Compiled /api/tweets/[id] in 261ms
+ DELETE /api/tweets/mem983901xdgghchjx4 200 in 1123ms
+ GET /api/tweets?page=1&limit=10 200 in 225ms
+🔍 Searching Twitter content for @mihirssharma...
+🔍 Searching Twitter content for @BrowserStack...
+✅ Found content using URL format 1: site:x.com/BrowserStack+when:3d
+✅ Found 2 tweets from @BrowserStack
+📝 Sample topics from @BrowserStack: [
+  '30 PM — an evening of live demos, expert talks, and networki...',
+  "The First 30 Days' on August 27th, 6PM CEST Register her..."
+]
+✅ Found content using URL format 4: site:x.com/mihirssharma
+✅ Found 2 tweets from @mihirssharma
+📝 Sample topics from @mihirssharma: [
+  'Old Picture of Indira Gandhi and her son!...',
+  'Mihir Sharma (@mihirssharma)...'
+]
+🔍 Searching Twitter content for @FactorDaily...
+🔍 Searching Twitter content for @sundarpichai...
+✅ Found content using URL format 1: site:x.com/sundarpichai+when:3d
+✅ Found 1 tweets from @sundarpichai
+📝 Sample topics from @sundarpichai: [ 'Putting together an all star lineup 😉...' ]
+✅ Found content using URL format 4: site:x.com/FactorDaily
+✅ Found 2 tweets from @FactorDaily
+📝 Sample topics from @FactorDaily: [
+  'FactorDaily...',
+  'Hema Ravichandar talks about how #technology will impact #Hu...'
+]
+🔍 Searching Twitter content for @bibekdebroy...
+🔍 Searching Twitter content for @forbes_india...
+✅ Found content using URL format 4: site:x.com/bibekdebroy
+✅ Found 2 tweets from @bibekdebroy
+📝 Sample topics from @bibekdebroy: [
+  'For those interested. Have finished translation of Kurma Pur...',
+  'Bibek Debroy (@bibekdebroy)...'
+]
+✅ Found content using URL format 5: site:twitter.com/forbes_india
+✅ Found 3 tweets from @forbes_india
+📝 Sample topics from @forbes_india: [
+  '#ForbesIndiaCeleb100 | @shahidkapoor ranked at #44 this year...',
+  '//forbesindia.com/lists/2015-celebrity-100/1519/1…...'
+]
+🔍 Searching Twitter content for @Nithin0dha...
+✅ Found content using URL format 1: site:x.com/Nithin0dha+when:3d
+🔍 Searching Twitter content for @hvgoenka...
+✅ Found content using URL format 1: site:x.com/hvgoenka+when:3d
+✅ Found 3 tweets from @hvgoenka
+📝 Sample topics from @hvgoenka: [
+  'largest economy, strongest military, biggest global influenc...',
+  'Very soon in the low cost airlines, tickets will be free and...'
+]
+✅ Twitter RSS successful - 8 topics from 8 handles
+✅ Twitter RSS successful - 8 topics
+🔴 Attempting Reddit RSS feeds...
+🔴 Fetching Reddit RSS feeds...
+🔍 Fetching content from r/IndianStartups...
+✅ Twitter RSS successful - 8 topics from 8 handles
+✅ Twitter RSS successful - 8 topics
+🔴 Attempting Reddit RSS feeds...
+🔴 Fetching Reddit RSS feeds...
+🔍 Fetching content from r/delhi...
+✅ Successfully fetched from https://www.reddit.com/r/IndianStartups.rss
+✅ Found 5 posts from r/IndianStartups
+✅ Successfully fetched from https://www.reddit.com/r/delhi.rss
+✅ Found 5 posts from r/delhi
+🔍 Fetching content from r/geopolitics...
+✅ Successfully fetched from https://www.reddit.com/r/geopolitics.rss
+✅ Found 4 posts from r/geopolitics
+🔍 Fetching content from r/geopolitics...
+🔍 Fetching content from r/IndiaInvestments...
+✅ Successfully fetched from https://www.reddit.com/r/geopolitics.rss
+✅ Found 4 posts from r/geopolitics
+🔍 Fetching content from r/Futurology...
+✅ Successfully fetched from https://www.reddit.com/r/IndiaInvestments.rss
+✅ Found 4 posts from r/IndiaInvestments
+✅ Successfully fetched from https://www.reddit.com/r/Futurology.rss
+✅ Found 4 posts from r/Futurology
+🔍 Fetching content from r/Futurology...
+✅ Successfully fetched from https://www.reddit.com/r/Futurology.rss
+✅ Found 4 posts from r/Futurology
+🔍 Fetching content from r/IndiaInvestments...
+🔍 Fetching content from r/bengaluru...
+✅ Successfully fetched from https://www.reddit.com/r/IndiaInvestments.rss
+✅ Found 4 posts from r/IndiaInvestments
+✅ Successfully fetched from https://www.reddit.com/r/bengaluru.rss
+✅ Found 3 posts from r/bengaluru
+🔍 Fetching content from r/india...
+🔍 Fetching content from r/IndiaTech...
+✅ Successfully fetched from https://www.reddit.com/r/india.rss
+✅ Found 5 posts from r/india
+✅ Successfully fetched from https://www.reddit.com/r/IndiaTech.rss
+✅ Found 5 posts from r/IndiaTech
+🔍 Fetching content from r/mumbai...
+✅ Reddit RSS successful - 8 topics from 6 subreddits
+✅ Reddit RSS successful - 8 topics
+✅ Combined RSS successful - 8 topics from multiple sources
+📊 Sample topics: [
+  '(1/3) (Twitter via @Inc42)',
+  '34 PM. The stock was 7.23% lower on the BSE at last check. (3/3) #Nazara #gametech #tech (Twitter via @Inc42)',
+  'For those interested. Have finished translation of Kurma Purana. One volume. Just over 165,000 words. Matsya Purana next, in two volumes. (Twitter via @bibekdebroy)'
+]
+💾 Cached 8 Twitter topics for 30 minutes
+📈 Using trending topic: Chesterfield Planning Commission greenlights nuclear fusion plant - It would be the first fusion plant connected to a commercial power grid.
+🚀 Generating tweet...
+✅ Successfully fetched from https://www.reddit.com/r/mumbai.rss
+✅ Found 5 posts from r/mumbai
+✅ Reddit RSS successful - 8 topics from 6 subreddits
+✅ Reddit RSS successful - 8 topics
+✅ Combined RSS successful - 8 topics from multiple sources
+📊 Sample topics: [
+  '‘Yellow alert’ for today amid heavy rainfall, IMD issues ‘flash flood risk’🚨 (Twitter via @livemint)',
+  'Absolutely bonkers that this tiny model can follow instructions and also knows multiple languages. (Twitter via @paraschopra)',
+  '💵🔔As the government considers banning real money gaming, gamers are rushing to withdraw their funds while they still can. (Twitter via @ETtech)'
+]
+💾 Cached 8 Twitter topics for 30 minutes
+📈 Using trending topic: ‘Yellow alert’ for today amid heavy rainfall, IMD issues ‘flash flood risk’🚨
+🚀 Generating tweet...
+ POST /api/tweets 200 in 40149ms
+ POST /api/tweets 200 in 46035ms
+ GET /api/tweets?page=1&limit=10 200 in 157ms
+ GET /api/tweets?page=1&limit=1 200 in 84ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: 💵🔔As the government considers banning real money gaming, gamers are rushing to withdraw their funds while they still can.
+🚀 Generating tweet...
+ POST /api/tweets 200 in 5021ms
+ GET /api/tweets?page=1&limit=10 200 in 181ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: ‘Yellow alert’ for today amid heavy rainfall, IMD issues ‘flash flood risk’🚨
+🚀 Generating tweet...
+ POST /api/tweets 200 in 5242ms
+ GET /api/tweets?page=1&limit=10 200 in 179ms
+🚀 Starting automated tweet scheduler...
+✅ Auto-scheduler started successfully
+📅 Schedule: 10-15 posts daily on weekdays (8am-10pm)
+ POST /api/auto-scheduler 200 in 222ms
+ GET /api/auto-scheduler 200 in 126ms
+ DELETE /api/tweets/memc5fhnq8li43njkq 200 in 91ms
+ POST /api/tweets/memc6fs77oh68mi5q9x 405 in 77ms
+ POST /api/tweets 200 in 115ms
+ ✓ Compiled in 419ms
+ GET /api/tweets?page=1&limit=10 200 in 108ms
+ GET /api/auto-scheduler 200 in 133ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: Why do Indian parents feel the need to “control” their kids even after they’re adults?
+🚀 Generating tweet...
+ POST /api/tweets 200 in 5785ms
+ GET /api/tweets?page=1&limit=10 200 in 89ms
+ ✓ Compiled in 434ms
+ GET /api/auto-scheduler 200 in 126ms
+ GET /api/tweets?page=1&limit=10 200 in 142ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: Amit Syngle, MD & CEO, @asianpaints #ForbesIndiaCXOSpea
+🚀 Generating tweet...
+ ✓ Compiled in 310ms
+ POST /api/tweets 200 in 5815ms
+ GET /api/auto-scheduler 200 in 78ms
+ GET /api/tweets?page=1&limit=10 200 in 170ms
+ GET /api/tweets?page=1&limit=10 200 in 100ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: First Municipality to Collab with God
+🚀 Generating tweet...
+ ✓ Compiled in 213ms
+ GET /api/tweets?page=1&limit=10 200 in 131ms
+ GET /api/auto-scheduler 200 in 169ms
+ POST /api/tweets 200 in 5304ms
+ GET /api/tweets?page=1&limit=10 200 in 122ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: Absolutely bonkers that this tiny model can follow instructions and also knows multiple languages.
+🚀 Generating tweet...
+ POST /api/tweets 200 in 4878ms
+ GET /api/tweets?page=1&limit=10 200 in 149ms
+ ✓ Compiled in 451ms
+ GET /api/tweets?page=1&limit=10 200 in 132ms
+ GET /api/auto-scheduler 200 in 147ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: Will FIIs come back? Despite S&P global rating upgrade to ‘BBB’ and GST rejig, the earnings have not shown a good recovery.
+🚀 Generating tweet...
+ POST /api/tweets 200 in 5921ms
+ GET /api/tweets?page=1&limit=10 200 in 153ms
+ ✓ Compiled in 283ms
+ GET /api/auto-scheduler 200 in 100ms
+ GET /api/tweets?page=1&limit=10 200 in 117ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: 💵🔔As the government considers banning real money gaming, gamers are rushing to withdraw their funds while they still can.
+🚀 Generating tweet...
+ POST /api/tweets 200 in 4731ms
+ GET /api/tweets?page=1&limit=10 200 in 187ms
+ POST /api/tweets/memc94x029lkmrseqbq 405 in 160ms
+ ✓ Compiled in 189ms
+ DELETE /api/tweets/memc8rxlb43er916hrg 200 in 95ms
+ GET /api/tweets?page=1&limit=10 200 in 155ms
+ ✓ Compiled in 355ms
+ ✓ Compiled in 265ms
+ GET /api/auto-scheduler 200 in 329ms
+ GET /api/auto-scheduler 200 in 153ms
+ GET /api/tweets?page=2&limit=10 200 in 93ms
+🚀 Starting automated tweet scheduler...
+✅ Auto-scheduler started successfully
+📅 Schedule: 10-15 posts daily on weekdays (8am-10pm)
+ POST /api/auto-scheduler 200 in 332ms
+ DELETE /api/tweets/mem8wl0tryxh6nufew 200 in 127ms
+ GET /api/tweets?page=1&limit=10 200 in 196ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: 💵🔔As the government considers banning real money gaming, gamers are rushing to withdraw their funds while they still can.
+🚀 Generating tweet...
+ POST /api/tweets 200 in 5158ms
+ GET /api/tweets?page=2&limit=10 200 in 81ms
+ GET / 200 in 1330ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: First Municipality to Collab with God
+🚀 Generating tweet...
+ GET /favicon.ico?favicon.45db1c09.ico 200 in 294ms
+ GET /api/auto-scheduler 200 in 167ms
+ GET /api/tweets?page=1&limit=10 200 in 172ms
+ GET /api/auto-scheduler 200 in 164ms
+ GET /api/tweets?page=1&limit=10 200 in 176ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: Will FIIs come back? Despite S&P global rating upgrade to ‘BBB’ and GST rejig, the earnings have not shown a good recovery.
+🚀 Generating tweet...
+ GET /api/tweets?page=2&limit=10 200 in 99ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: Will FIIs come back? Despite S&P global rating upgrade to ‘BBB’ and GST rejig, the earnings have not shown a good recovery.
+🚀 Generating tweet...
+ DELETE /api/tweets/mem91mf8l9ed6k843y 200 in 185ms
+ POST /api/tweets 200 in 7036ms
+ GET /api/tweets?page=1&limit=10 200 in 251ms
+ GET /api/tweets?page=1&limit=10 200 in 163ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: Will FIIs come back? Despite S&P global rating upgrade to ‘BBB’ and GST rejig, the earnings have not shown a good recovery.
+🚀 Generating tweet...
+ POST /api/tweets 200 in 16962ms
+ POST /api/tweets 200 in 90ms
+ GET / 200 in 171ms
+ GET / 200 in 448ms
+ GET /favicon.ico?favicon.45db1c09.ico 200 in 402ms
+ GET /api/auto-scheduler 200 in 140ms
+ GET /api/tweets?page=1&limit=10 200 in 150ms
+ GET /api/tweets?page=1&limit=10 200 in 486ms
+ GET /api/auto-scheduler 200 in 511ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: Absolutely bonkers that this tiny model can follow instructions and also knows multiple languages.
+🚀 Generating tweet...
+ POST /api/tweets 200 in 5219ms
+ GET /api/tweets?page=1&limit=10 200 in 229ms
+ GET / 200 in 579ms
+ GET /favicon.ico?favicon.45db1c09.ico 200 in 297ms
+ GET /api/auto-scheduler 200 in 160ms
+ GET /api/tweets?page=1&limit=10 200 in 162ms
+ GET /api/tweets?page=1&limit=10 200 in 189ms
+ GET /api/auto-scheduler 200 in 199ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: 💵🔔As the government considers banning real money gaming, gamers are rushing to withdraw their funds while they still can.
+🚀 Generating tweet...
+ POST /api/tweets 200 in 5269ms
+ GET /api/tweets?page=1&limit=10 200 in 175ms
+ GET / 200 in 248ms
+ GET /api/auto-scheduler 200 in 232ms
+ GET /api/auto-scheduler 200 in 100ms
+ GET / 200 in 733ms
+ GET /api/tweets?page=1&limit=10 200 in 105ms
+ GET /api/auto-scheduler 200 in 124ms
+ GET /api/auto-scheduler 200 in 464ms
+ GET /api/tweets?page=1&limit=10 200 in 634ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: Why do Indian parents feel the need to “control” their kids even after they’re adults?
+🚀 Generating tweet...
+ POST /api/tweets 200 in 4701ms
+ GET /api/tweets?page=1&limit=10 200 in 551ms
+ POST /api/tweets/memccne5qwapcg5n2q 405 in 203ms
+ POST /api/tweets 200 in 491ms
+ GET /api/tweets?page=1&limit=10 200 in 347ms
+ GET /api/auto-scheduler 200 in 333ms
+ GET /api/auto-scheduler 200 in 783ms
+🔄 Cache expired or not found, fetching fresh data
+🚀 Attempting to fetch from multiple RSS sources...
+🐦 Attempting Twitter RSS feeds...
+🐦 Fetching Twitter RSS feeds via Google News...
+🎯 Priority handles included: @Inc42, @ETtech, @paraschopra, @livemint
+🐦 Selected handles for RSS fetching: @Inc42, @ETtech, @paraschopra, @livemint, @BlumeVentures, @bhash, @bsindia, @AdityaRajKaul
+🔍 Searching Twitter content for @Inc42...
+🔍 Special attention: @Inc42 is known to be active
+✅ Found content using URL format 1: site:x.com/Inc42+when:3d
+✅ Found 2 tweets from @Inc42
+📝 Sample topics from @Inc42: [
+  '(1/3)...',
+  '34 PM. The stock was 7.23% lower on the BSE at last check. (...'
+]
+🔍 Searching Twitter content for @ETtech...
+✅ Found content using URL format 1: site:x.com/ETtech+when:3d
+✅ Found 2 tweets from @ETtech
+📝 Sample topics from @ETtech: [
+  '⚡⚡ Industry insiders estimate that nearly 40% of Indian good...',
+  '💵🔔As the government considers banning real money gaming, g...'
+]
+🔍 Searching Twitter content for @paraschopra...
+✅ Found content using URL format 4: site:x.com/paraschopra
+✅ Found 1 tweets from @paraschopra
+📝 Sample topics from @paraschopra: [ 'Absolutely bonkers that this tiny model can follow instructi...' ]
+🔍 Searching Twitter content for @livemint...
+✅ Found content using URL format 1: site:x.com/livemint+when:3d
+✅ Found 3 tweets from @livemint
+📝 Sample topics from @livemint: [
+  '‘Yellow alert’ for today amid heavy rainfall, IMD issues ‘fl...',
+  'Rajya Sabha LIVE 🔴 Heated Opposition-Centre clash in Monsoo...'
+]
+ GET /api/auto-scheduler 200 in 193ms
+🔍 Searching Twitter content for @BlumeVentures...
+✅ Found content using URL format 1: site:x.com/BlumeVentures+when:3d
+✅ Found 3 tweets from @BlumeVentures
+📝 Sample topics from @BlumeVentures: [
+  'Transcript: https://blume.vc/podcasts/blume-podcast/s4-e0-bl...',
+  'https://youtu.be/JHzWAgzsrL4?si=6m...'
+]
+🔍 Searching Twitter content for @bhash...
+✅ Found content using URL format 1: site:x.com/bhash+when:3d
+✅ Found 2 tweets from @bhash
+📝 Sample topics from @bhash: [
+  'Great meeting you today @wadhwa! Loved our conversation abou...',
+  'Thank you @authoramish and Shivani for this absolutely beaut...'
+]
+🔍 Searching Twitter content for @bsindia...
+✅ Found content using URL format 1: site:x.com/bsindia+when:3d
+✅ Found 3 tweets from @bsindia
+📝 Sample topics from @bsindia: [
+  'Pre-orders live now, check benefits #CODBlackOps #CallOfDuty...',
+  'CoinSwitch @KGaurav2806 shares details. Read here👇 #Bitcoin...'
+]
+🔍 Searching Twitter content for @AdityaRajKaul...
+✅ Found content using URL format 1: site:x.com/AdityaRajKaul+when:3d
+✅ Found 1 tweets from @AdityaRajKaul
+📝 Sample topics from @AdityaRajKaul: [ 'Successful test-firing of ‘Agni 5’ Intermediate Range Ballis...' ]
+✅ Twitter RSS successful - 8 topics from 8 handles
+✅ Twitter RSS successful - 8 topics
+🔴 Attempting Reddit RSS feeds...
+🔴 Fetching Reddit RSS feeds...
+🔍 Fetching content from r/india...
+✅ Successfully fetched from https://www.reddit.com/r/india.rss
+✅ Found 5 posts from r/india
+🔍 Fetching content from r/geopolitics...
+✅ Successfully fetched from https://www.reddit.com/r/geopolitics.rss
+✅ Found 4 posts from r/geopolitics
+🔍 Fetching content from r/mumbai...
+✅ Successfully fetched from https://www.reddit.com/r/mumbai.rss
+✅ Found 5 posts from r/mumbai
+🔍 Fetching content from r/economics...
+✅ Successfully fetched from https://www.reddit.com/r/economics.rss
+✅ Found 5 posts from r/economics
+🔍 Fetching content from r/delhi...
+✅ Successfully fetched from https://www.reddit.com/r/delhi.rss
+✅ Found 5 posts from r/delhi
+🔍 Fetching content from r/bengaluru...
+✅ Successfully fetched from https://www.reddit.com/r/bengaluru.rss
+✅ Found 4 posts from r/bengaluru
+✅ Reddit RSS successful - 8 topics from 6 subreddits
+✅ Reddit RSS successful - 8 topics
+✅ Combined RSS successful - 8 topics from multiple sources
+📊 Sample topics: [
+  'Thank you @authoramish and Shivani for this absolutely beautiful handpainted Hanuman Chalisa Pichwai! ❤️🙏🏼 (Twitter via @bhash)',
+  'Great meeting you today @wadhwa! Loved our conversation about technology, world class manufacturing, and building the future in our country! All the best with Vionix! (Twitter via @bhash)',
+  'https://youtu.be/JHzWAgzsrL4?si=6m (Twitter via @BlumeVentures)'
+]
+💾 Cached 8 Twitter topics for 30 minutes
+📈 Using trending topic: Thank you @authoramish and Shivani for this absolutely beautiful handpainted Hanuman Chalisa Pichwai! ❤️🙏🏼
+🚀 Generating tweet...
+ POST /api/tweets 200 in 40137ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: https://youtu.be/JHzWAgzsrL4?si=6m
+🚀 Generating tweet...
+ POST /api/tweets 200 in 5531ms
+ GET /api/tweets/memcr8kfwtzako6636o 200 in 514ms
+ POST /api/tweets 200 in 170ms
+ GET /api/tweets?page=1&limit=10 200 in 231ms
+ POST /api/tweets 200 in 158ms
+ GET /api/tweets?page=1&limit=10 200 in 232ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: Mumbai Social Club - Weekly Discussion Thread - Meetups/Q&A/Relationships/Life
+🚀 Generating tweet...
+📦 Using cached Twitter trending topics
+📈 Using trending topic: Flat & Flatmates? More like Flat & Fmates.
+🚀 Generating tweet...
+ GET /api/auto-scheduler 200 in 159ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: Flat & Flatmates? More like Flat & Fmates.
+🚀 Generating tweet...
+📦 Using cached Twitter trending topics
+📈 Using trending topic: US says road to peace in Russia-Ukraine runs through India; no relief from 50% tariff
+🚀 Generating tweet...
+📦 Using cached Twitter trending topics
+📈 Using trending topic: Thank you @authoramish and Shivani for this absolutely beautiful handpainted Hanuman Chalisa Pichwai! ❤️🙏🏼
+🚀 Generating tweet...
+ POST /api/tweets 200 in 35980ms
+ GET /api/tweets?page=1&limit=10 200 in 190ms
+ GET /api/auto-scheduler 200 in 134ms
+ POST /api/tweets 200 in 162ms
+ GET /api/tweets?page=1&limit=10 200 in 286ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: Mumbai Social Club - Weekly Discussion Thread - Meetups/Q&A/Relationships/Life
+🚀 Generating tweet...
+ POST /api/tweets 200 in 5822ms
+ GET /api/tweets?page=1&limit=10 200 in 201ms
+ GET /api/auto-scheduler 200 in 203ms
+ GET /api/auto-scheduler 200 in 132ms
+ GET /api/auto-scheduler 200 in 148ms
+ GET /api/auto-scheduler 200 in 106ms
+ GET / 200 in 604ms
+ GET /api/auto-scheduler 200 in 233ms
+ GET /api/tweets?page=1&limit=10 200 in 267ms
+ GET /api/auto-scheduler 200 in 141ms
+ GET /favicon.ico?favicon.45db1c09.ico 200 in 577ms
+ GET /api/tweets?page=1&limit=10 200 in 210ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: US says road to peace in Russia-Ukraine runs through India; no relief from 50% tariff
+🚀 Generating tweet...
+ POST /api/tweets 200 in 4766ms
+ GET /api/tweets?page=1&limit=10 200 in 159ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: First Municipality to Collab with God
+🚀 Generating tweet...
+ POST /api/tweets 200 in 5176ms
+ GET /api/tweets?page=1&limit=10 200 in 131ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: Flat & Flatmates? More like Flat & Fmates.
+🚀 Generating tweet...
+ POST /api/tweets 200 in 5388ms
+ GET /api/tweets?page=1&limit=10 200 in 183ms
+ GET /api/auto-scheduler 200 in 168ms
+ GET /api/auto-scheduler 200 in 533ms
+ POST /api/tweets/memd7351zas3mmx88mk 405 in 216ms
+ GET / 200 in 478ms
+ GET /api/auto-scheduler 200 in 618ms
+ GET /api/tweets?page=1&limit=10 200 in 637ms
+ GET /api/auto-scheduler 200 in 247ms
+ GET /api/tweets?page=1&limit=10 200 in 284ms
+🔄 Cache expired or not found, fetching fresh data
+🚀 Attempting to fetch from multiple RSS sources...
+🐦 Attempting Twitter RSS feeds...
+🐦 Fetching Twitter RSS feeds via Google News...
+🎯 Priority handles included: @Inc42, @ETtech, @paraschopra, @livemint
+🐦 Selected handles for RSS fetching: @Inc42, @ETtech, @paraschopra, @livemint, @ARanganathan72, @InMobi, @nixxin, @CBinsights
+🔍 Searching Twitter content for @Inc42...
+🔍 Special attention: @Inc42 is known to be active
+✅ Found content using URL format 1: site:x.com/Inc42+when:3d
+✅ Found 2 tweets from @Inc42
+📝 Sample topics from @Inc42: [
+  '(1/3)...',
+  '34 PM. The stock was 7.23% lower on the BSE at last check. (...'
+]
+🔍 Searching Twitter content for @ETtech...
+✅ Found content using URL format 1: site:x.com/ETtech+when:3d
+✅ Found 2 tweets from @ETtech
+📝 Sample topics from @ETtech: [
+  '⚡⚡ Industry insiders estimate that nearly 40% of Indian good...',
+  '💵🔔As the government considers banning real money gaming, g...'
+]
+🔍 Searching Twitter content for @paraschopra...
+✅ Found content using URL format 4: site:x.com/paraschopra
+✅ Found 1 tweets from @paraschopra
+📝 Sample topics from @paraschopra: [ 'Absolutely bonkers that this tiny model can follow instructi...' ]
+🔍 Searching Twitter content for @livemint...
+🔄 Cache expired or not found, fetching fresh data
+🚀 Attempting to fetch from multiple RSS sources...
+🐦 Attempting Twitter RSS feeds...
+🐦 Fetching Twitter RSS feeds via Google News...
+🎯 Priority handles included: @Inc42, @ETtech, @paraschopra, @livemint
+🐦 Selected handles for RSS fetching: @Inc42, @ETtech, @paraschopra, @livemint, @bsindia, @Google, @TechCircleIndia, @RedSeer
+🔍 Searching Twitter content for @Inc42...
+🔍 Special attention: @Inc42 is known to be active
+✅ Found content using URL format 1: site:x.com/Inc42+when:3d
+✅ Found 2 tweets from @Inc42
+📝 Sample topics from @Inc42: [
+  '(1/3)...',
+  '34 PM. The stock was 7.23% lower on the BSE at last check. (...'
+]
+✅ Found content using URL format 1: site:x.com/livemint+when:3d
+✅ Found 3 tweets from @livemint
+📝 Sample topics from @livemint: [
+  '‘Yellow alert’ for today amid heavy rainfall, IMD issues ‘fl...',
+  'Rajya Sabha LIVE 🔴 Heated Opposition-Centre clash in Monsoo...'
+]
+🔍 Searching Twitter content for @ETtech...
+🔍 Searching Twitter content for @ARanganathan72...
+✅ Found content using URL format 1: site:x.com/ETtech+when:3d
+✅ Found 2 tweets from @ETtech
+📝 Sample topics from @ETtech: [
+  '⚡⚡ Industry insiders estimate that nearly 40% of Indian good...',
+  '💵🔔As the government considers banning real money gaming, g...'
+]
+✅ Found content using URL format 1: site:x.com/ARanganathan72+when:3d
+✅ Found 2 tweets from @ARanganathan72
+📝 Sample topics from @ARanganathan72: [
+  'The Congress, that demanded Chief Minister Kejriwal’s resign...',
+  'The theory that Communism and free democracy can work togeth...'
+]
+🔍 Searching Twitter content for @paraschopra...
+🔍 Searching Twitter content for @InMobi...
+✅ Found content using URL format 4: site:x.com/paraschopra
+✅ Found 1 tweets from @paraschopra
+📝 Sample topics from @paraschopra: [ 'Absolutely bonkers that this tiny model can follow instructi...' ]
+✅ Found content using URL format 3: "InMobi"+when:3d
+✅ Found 3 tweets from @InMobi
+📝 Sample topics from @InMobi: [
+  'Swapnil Ravindran appointed Chief Revenue Officer – South at...',
+  'Swapnil Ravindran joins HT Media Group as chief revenue offi...'
+]
+🔍 Searching Twitter content for @livemint...
+✅ Found content using URL format 1: site:x.com/livemint+when:3d
+✅ Found 3 tweets from @livemint
+📝 Sample topics from @livemint: [
+  '‘Yellow alert’ for today amid heavy rainfall, IMD issues ‘fl...',
+  'Rajya Sabha LIVE 🔴 Heated Opposition-Centre clash in Monsoo...'
+]
+🔍 Searching Twitter content for @nixxin...
+✅ Found content using URL format 1: site:x.com/nixxin+when:3d
+✅ Found 1 tweets from @nixxin
+📝 Sample topics from @nixxin: [ 'Umm... Why platform? Why centralise messaging with a govt ba...' ]
+🔍 Searching Twitter content for @bsindia...
+🔍 Searching Twitter content for @CBinsights...
+✅ Found content using URL format 1: site:x.com/bsindia+when:3d
+✅ Found 3 tweets from @bsindia
+📝 Sample topics from @bsindia: [
+  'Pre-orders live now, check benefits #CODBlackOps #CallOfDuty...',
+  'CoinSwitch @KGaurav2806 shares details. Read here👇 #Bitcoin...'
+]
+✅ Found content using URL format 4: site:x.com/CBinsights
+✅ Found 3 tweets from @CBinsights
+📝 Sample topics from @CBinsights: [
+  'Why do startups #fail? We identified the top 20 reasons, gle...',
+  '🤖 Hire our team of agents Our AI agents work around the clo...'
+]
+🔍 Searching Twitter content for @Google...
+✅ Found content using URL format 1: site:x.com/Google+when:3d
+✅ Found 3 tweets from @Google
+📝 Sample topics from @Google: [
+  'Live from New York, it’s #MadeByGoogle! Tune into our livest...',
+  '//goo.gle/4oGMAIG #MadeByGoogle...'
+]
+✅ Twitter RSS successful - 8 topics from 8 handles
+✅ Twitter RSS successful - 8 topics
+🔴 Attempting Reddit RSS feeds...
+🔴 Fetching Reddit RSS feeds...
+🔍 Fetching content from r/IndiaTech...
+🔍 Searching Twitter content for @TechCircleIndia...
+✅ Successfully fetched from https://www.reddit.com/r/IndiaTech.rss
+✅ Found 5 posts from r/IndiaTech
+✅ Found content using URL format 4: site:x.com/TechCircleIndia
+✅ Found 3 tweets from @TechCircleIndia
+📝 Sample topics from @TechCircleIndia: [
+  '//techcircle.in/2024/04/08/who-is-who-is-srini-pallia-wipro-...',
+  'https://bit.ly/3QxTTUj #MartechInnovation #TechInsights #Mar...'
+]
+🔍 Fetching content from r/india...
+✅ Successfully fetched from https://www.reddit.com/r/india.rss
+✅ Found 5 posts from r/india
+🔍 Searching Twitter content for @RedSeer...
+✅ Found content using URL format 4: site:x.com/RedSeer
+✅ Found 3 tweets from @RedSeer
+📝 Sample topics from @RedSeer: [
+  'https://na2.hubs.ly/y0HDj70 #Redseer #Redsights #Consumer...',
+  'https:/...'
+]
+🔍 Fetching content from r/Futurology...
+✅ Successfully fetched from https://www.reddit.com/r/Futurology.rss
+✅ Found 4 posts from r/Futurology
+✅ Twitter RSS successful - 8 topics from 8 handles
+✅ Twitter RSS successful - 8 topics
+🔴 Attempting Reddit RSS feeds...
+🔴 Fetching Reddit RSS feeds...
+🔍 Fetching content from r/economics...
+✅ Successfully fetched from https://www.reddit.com/r/economics.rss
+✅ Found 5 posts from r/economics
+🔍 Fetching content from r/delhi...
+🔍 Fetching content from r/bengaluru...
+✅ Successfully fetched from https://www.reddit.com/r/delhi.rss
+✅ Found 5 posts from r/delhi
+✅ Successfully fetched from https://www.reddit.com/r/bengaluru.rss
+✅ Found 4 posts from r/bengaluru
+🔍 Fetching content from r/economics...
+✅ Successfully fetched from https://www.reddit.com/r/economics.rss
+✅ Found 5 posts from r/economics
+🔍 Fetching content from r/Futurology...
+✅ Successfully fetched from https://www.reddit.com/r/Futurology.rss
+✅ Found 4 posts from r/Futurology
+🔍 Fetching content from r/IndiaInvestments...
+🔍 Fetching content from r/delhi...
+✅ Successfully fetched from https://www.reddit.com/r/delhi.rss
+✅ Found 5 posts from r/delhi
+✅ Successfully fetched from https://www.reddit.com/r/IndiaInvestments.rss
+✅ Found 4 posts from r/IndiaInvestments
+🔍 Fetching content from r/mumbai...
+✅ Reddit RSS successful - 8 topics from 6 subreddits
+✅ Reddit RSS successful - 8 topics
+✅ Combined RSS successful - 8 topics from multiple sources
+📊 Sample topics: [
+  'Umm... Why platform? Why centralise messaging with a govt backed private entity with zero accountability like ondc? Why not an open protocol. XMPP already exists. (Twitter via @nixxin)',
+  'Why do startups #fail? We identified the top 20 reasons, gleaned from 101+ #startup post-mortems. Please consider this a cautionary tale and not a checklist, unlike #Theranos. (Twitter via @CBinsights)',
+  '(1/3) (Twitter via @Inc42)'
+]
+💾 Cached 8 Twitter topics for 30 minutes
+📈 Using trending topic: Join the Discord
+🚀 Generating tweet...
+✅ Successfully fetched from https://www.reddit.com/r/mumbai.rss
+✅ Found 5 posts from r/mumbai
+🔍 Fetching content from r/geopolitics...
+✅ Successfully fetched from https://www.reddit.com/r/geopolitics.rss
+✅ Found 4 posts from r/geopolitics
+✅ Reddit RSS successful - 8 topics from 6 subreddits
+✅ Reddit RSS successful - 8 topics
+✅ Combined RSS successful - 8 topics from multiple sources
+📊 Sample topics: [
+  '//techcircle.in/2024/04/08/who-is-who-is-srini-pallia-wipro-s-new-ceo-and-md… #TechCircleInsights #TechCircle #techcommunity #techleaders #technologists #TechCircleUpdates #ciocommunity #Wipro (Twitter via @TechCircleIndia)',
+  '//goo.gle/4oGMAIG #MadeByGoogle (Twitter via @Google)',
+  'Live from New York, it’s #MadeByGoogle! Tune into our livestream, starting now ↓ (Twitter via @Google)'
+]
+💾 Cached 8 Twitter topics for 30 minutes
+📈 Using trending topic: //goo.gle/4oGMAIG #MadeByGoogle
+🚀 Generating tweet...
+ POST /api/tweets 200 in 42376ms
+ GET /api/tweets?page=1&limit=10 200 in 126ms
+ POST /api/tweets 200 in 39299ms
+ GET /api/tweets?page=1&limit=10 200 in 134ms
+ GET /api/auto-scheduler 200 in 86ms
+ POST /api/tweets/memdbqs7e7n0qofyhr 405 in 125ms
+ GET /api/auto-scheduler 200 in 106ms
+✅ Tweet posted successfully to X/Twitter!
+📝 Content: My phone's facial recognition works better with my mask on than my actual face, a true 'Made in India' feature for the post-apocalypse. #GooGle4ogmaigMadeby
+🆔 Tweet ID: 1958758276717326583
+📊 Length: 156 characters
+🔗 URL: https://x.com/user/status/1958758276717326583
+ POST /api/tweets/memdbqs7e7n0qofyhr 200 in 1232ms
+ GET /api/tweets?page=1&limit=10 200 in 275ms
+ GET /api/auto-scheduler 200 in 129ms
+ GET /api/auto-scheduler 200 in 204ms
+ GET /api/auto-scheduler 200 in 109ms
+ DELETE /api/tweets/memd6ubda3k187a5y6b 200 in 219ms
+ GET /api/tweets?page=1&limit=10 200 in 242ms
+ DELETE /api/tweets/memdbn10ag39nvgg21k 200 in 156ms
+ GET /api/tweets?page=1&limit=10 200 in 251ms
+ GET /api/auto-scheduler 200 in 195ms
+ GET /api/auto-scheduler 200 in 485ms
+🔄 Cache expired or not found, fetching fresh data
+🚀 Attempting to fetch from multiple RSS sources...
+🐦 Attempting Twitter RSS feeds...
+🐦 Fetching Twitter RSS feeds via Google News...
+🎯 Priority handles included: @Inc42, @ETtech, @paraschopra, @livemint
+🐦 Selected handles for RSS fetching: @Inc42, @ETtech, @paraschopra, @livemint, @iitguwahati, @TheKenWeb, @AkshatShrivastava, @BDUTT
+🔍 Searching Twitter content for @Inc42...
+🔍 Special attention: @Inc42 is known to be active
+✅ Found content using URL format 1: site:x.com/Inc42+when:3d
+✅ Found 2 tweets from @Inc42
+📝 Sample topics from @Inc42: [
+  '(1/3)...',
+  '34 PM. The stock was 7.23% lower on the BSE at last check. (...'
+]
+🔍 Searching Twitter content for @ETtech...
+✅ Found content using URL format 1: site:x.com/ETtech+when:3d
+✅ Found 2 tweets from @ETtech
+📝 Sample topics from @ETtech: [
+  '⚡⚡ Industry insiders estimate that nearly 40% of Indian good...',
+  '💵🔔As the government considers banning real money gaming, g...'
+]
+🔍 Searching Twitter content for @paraschopra...
+✅ Found content using URL format 4: site:x.com/paraschopra
+✅ Found 1 tweets from @paraschopra
+📝 Sample topics from @paraschopra: [ 'Absolutely bonkers that this tiny model can follow instructi...' ]
+🔍 Searching Twitter content for @livemint...
+✅ Found content using URL format 1: site:x.com/livemint+when:3d
+✅ Found 3 tweets from @livemint
+📝 Sample topics from @livemint: [
+  '‘Yellow alert’ for today amid heavy rainfall, IMD issues ‘fl...',
+  'Rajya Sabha LIVE 🔴 Heated Opposition-Centre clash in Monsoo...'
+]
+🔍 Searching Twitter content for @iitguwahati...
+✅ Found content using URL format 4: site:x.com/iitguwahati
+✅ Found 3 tweets from @iitguwahati
+📝 Sample topics from @iitguwahati: [
+  'The topper (in terms of Cumulative Performance Index) at the...',
+  'A delegation from the #ManekshawCenter comprising Chief Patr...'
+]
+🔍 Searching Twitter content for @TheKenWeb...
+✅ Found content using URL format 1: site:x.com/TheKenWeb+when:3d
+✅ Found 2 tweets from @TheKenWeb
+📝 Sample topics from @TheKenWeb: [
+  'top talent is walking out, old allies are cashing out, and...',
+  '//podcasts.apple.com/in/podcast/360-one-wrote-the-wealth-man...'
+]
+🔍 Searching Twitter content for @AkshatShrivastava...
+✅ Found content using URL format 7: AkshatShrivastava+india
+✅ Found 3 tweets from @AkshatShrivastava
+📝 Sample topics from @AkshatShrivastava: [
+  'Finfluencer Akshat Shrivastava shares why the next 10 years ...',
+  'Investor Akshat Shrivastava explains gravity of US tariffs -...'
+]
+🔍 Searching Twitter content for @BDUTT...
+✅ Found content using URL format 1: site:x.com/BDUTT+when:3d
+✅ Found 1 tweets from @BDUTT
+📝 Sample topics from @BDUTT: [ 'This should be fabulous...' ]
+✅ Twitter RSS successful - 8 topics from 8 handles
+✅ Twitter RSS successful - 8 topics
+🔴 Attempting Reddit RSS feeds...
+🔴 Fetching Reddit RSS feeds...
+🔍 Fetching content from r/geopolitics...
+✅ Successfully fetched from https://www.reddit.com/r/geopolitics.rss
+✅ Found 4 posts from r/geopolitics
+🔍 Fetching content from r/Futurology...
+✅ Successfully fetched from https://www.reddit.com/r/Futurology.rss
+✅ Found 4 posts from r/Futurology
+🔍 Fetching content from r/IndiaTech...
+✅ Successfully fetched from https://www.reddit.com/r/IndiaTech.rss
+✅ Found 5 posts from r/IndiaTech
+🔍 Fetching content from r/delhi...
+✅ Successfully fetched from https://www.reddit.com/r/delhi.rss
+✅ Found 5 posts from r/delhi
+🔍 Fetching content from r/mumbai...
+✅ Successfully fetched from https://www.reddit.com/r/mumbai.rss
+✅ Found 5 posts from r/mumbai
+🔍 Fetching content from r/bengaluru...
+✅ Successfully fetched from https://www.reddit.com/r/bengaluru.rss
+✅ Found 4 posts from r/bengaluru
+✅ Reddit RSS successful - 8 topics from 6 subreddits
+✅ Reddit RSS successful - 8 topics
+✅ Combined RSS successful - 8 topics from multiple sources
+📊 Sample topics: [
+  '‘Yellow alert’ for today amid heavy rainfall, IMD issues ‘flash flood risk’🚨 (Twitter via @livemint)',
+  'The topper (in terms of Cumulative Performance Index) at the end of the 1st year in MSc - Physics, Chemistry, Maths & Computing, and MA in Development Studies, is awarded with a cash prize of Rs 20,0 (Twitter via @iitguwahati)',
+  'Absolutely bonkers that this tiny model can follow instructions and also knows multiple languages. (Twitter via @paraschopra)'
+]
+💾 Cached 8 Twitter topics for 30 minutes
+📈 Using trending topic: Joint Subreddit Fundraiser for Ukraine with United24!
+🚀 Generating tweet...
+ POST /api/tweets 200 in 45168ms
+ GET /api/auto-scheduler 200 in 415ms
+📦 Using cached Twitter trending topics
+📈 Using trending topic: The topper (in terms of Cumulative Performance Index) at the end of the 1st year in MSc - Physics, Chemistry, Maths & Computing, and MA in Development Studies, is awarded with a cash prize of Rs 20,0
+🚀 Generating tweet...
+ POST /api/tweets 200 in 6084ms
+🔄 Cache expired or not found, fetching fresh data
+🚀 Attempting to fetch from multiple RSS sources...
+🐦 Attempting Twitter RSS feeds...
+🐦 Fetching Twitter RSS feeds via Google News...
+🎯 Priority handles included: @Inc42, @ETtech, @paraschopra, @livemint
+🐦 Selected handles for RSS fetching: @Inc42, @ETtech, @paraschopra, @livemint, @manukumarjain, @kunalb11, @YourStoryCo, @NykaaFashion
+🔍 Searching Twitter content for @Inc42...
+🔍 Special attention: @Inc42 is known to be active
+✅ Found content using URL format 1: site:x.com/Inc42+when:3d
+✅ Found 2 tweets from @Inc42
+📝 Sample topics from @Inc42: [
+  '(1/3)...',
+  '34 PM. The stock was 7.23% lower on the BSE at last check. (...'
+]
+🔍 Searching Twitter content for @ETtech...
+✅ Found content using URL format 1: site:x.com/ETtech+when:3d
+✅ Found 2 tweets from @ETtech
+📝 Sample topics from @ETtech: [
+  '⚡⚡ Industry insiders estimate that nearly 40% of Indian good...',
+  '💵🔔As the government considers banning real money gaming, g...'
+]
+🔍 Searching Twitter content for @paraschopra...
+✅ Found content using URL format 4: site:x.com/paraschopra
+✅ Found 1 tweets from @paraschopra
+📝 Sample topics from @paraschopra: [ 'Absolutely bonkers that this tiny model can follow instructi...' ]
+🔍 Searching Twitter content for @livemint...
+✅ Found content using URL format 1: site:x.com/livemint+when:3d
+✅ Found 3 tweets from @livemint
+📝 Sample topics from @livemint: [
+  '‘Yellow alert’ for today amid heavy rainfall, IMD issues ‘fl...',
+  'Rajya Sabha LIVE 🔴 Heated Opposition-Centre clash in Monsoo...'
+]
+🔍 Searching Twitter content for @manukumarjain...
+✅ Found content using URL format 4: site:x.com/manukumarjain
+✅ Found 1 tweets from @manukumarjain
+📝 Sample topics from @manukumarjain: [ 'both #Dubai and #AbuDhabi make it to the global top 10! 🚀 -...' ]
+🔍 Searching Twitter content for @kunalb11...
+✅ Found content using URL format 1: site:x.com/kunalb11+when:3d
+✅ Found 3 tweets from @kunalb11
+📝 Sample topics from @kunalb11: [
+  'Living in the future induces the need to hoard....',
+  'Poor worry lesser than middle class. Not knowing how to miti...'
+]
+🔍 Searching Twitter content for @YourStoryCo...
+✅ Found content using URL format 1: site:x.com/YourStoryCo+when:3d
+🔍 Searching Twitter content for @NykaaFashion...
+✅ Found content using URL format 4: site:x.com/NykaaFashion
+✅ Found 2 tweets from @NykaaFashion
+📝 Sample topics from @NykaaFashion: [
+  "Hey, we regret to hear this, we'd like to know what went wro...",
+  'Nykaa Fashion (@nykaafashion)...'
+]
+✅ Twitter RSS successful - 8 topics from 8 handles
+✅ Twitter RSS successful - 8 topics
+🔴 Attempting Reddit RSS feeds...
+🔴 Fetching Reddit RSS feeds...
+🔍 Fetching content from r/delhi...
+✅ Successfully fetched from https://www.reddit.com/r/delhi.rss
+✅ Found 5 posts from r/delhi
+🔍 Fetching content from r/bengaluru...
+✅ Successfully fetched from https://www.reddit.com/r/bengaluru.rss
+✅ Found 4 posts from r/bengaluru
+🔍 Fetching content from r/Futurology...
+✅ Successfully fetched from https://www.reddit.com/r/Futurology.rss
+✅ Found 4 posts from r/Futurology
+🔍 Fetching content from r/geopolitics...
+✅ Successfully fetched from https://www.reddit.com/r/geopolitics.rss
+✅ Found 4 posts from r/geopolitics
+🔍 Fetching content from r/IndiaTech...
+✅ Successfully fetched from https://www.reddit.com/r/IndiaTech.rss
+✅ Found 5 posts from r/IndiaTech
+🔍 Fetching content from r/IndianStartups...
+✅ Successfully fetched from https://www.reddit.com/r/IndianStartups.rss
+✅ Found 5 posts from r/IndianStartups
+✅ Reddit RSS successful - 8 topics from 6 subreddits
+✅ Reddit RSS successful - 8 topics
+✅ Combined RSS successful - 8 topics from multiple sources
+📊 Sample topics: [
+  '‘Yellow alert’ for today amid heavy rainfall, IMD issues ‘flash flood risk’🚨 (Twitter via @livemint)',
+  'Poor worry lesser than middle class. Not knowing how to mitigate their worries keeps someone middle class. (Twitter via @kunalb11)',
+  'Absolutely bonkers that this tiny model can follow instructions and also knows multiple languages. (Twitter via @paraschopra)'
+]
+💾 Cached 8 Twitter topics for 30 minutes
+📈 Using trending topic: Poor worry lesser than middle class. Not knowing how to mitigate their worries keeps someone middle class.
+🚀 Generating tweet...
+ POST /api/tweets 200 in 37719ms
+🔄 Cache expired or not found, fetching fresh data
+🚀 Attempting to fetch from multiple RSS sources...
+🐦 Attempting Twitter RSS feeds...
+🐦 Fetching Twitter RSS feeds via Google News...
+🎯 Priority handles included: @Inc42, @ETtech, @paraschopra, @livemint
+🐦 Selected handles for RSS fetching: @Inc42, @ETtech, @paraschopra, @livemint, @_MukeshBansal, @Google, @newslaundry, @sama
+🔍 Searching Twitter content for @Inc42...
+🔍 Special attention: @Inc42 is known to be active
+✅ Found content using URL format 1: site:x.com/Inc42+when:3d
+✅ Found 2 tweets from @Inc42
+📝 Sample topics from @Inc42: [
+  '(1/3)...',
+  '34 PM. The stock was 7.23% lower on the BSE at last check. (...'
+]
+🔍 Searching Twitter content for @ETtech...
+✅ Found content using URL format 1: site:x.com/ETtech+when:3d
+✅ Found 2 tweets from @ETtech
+📝 Sample topics from @ETtech: [
+  '⚡⚡ Industry insiders estimate that nearly 40% of Indian good...',
+  '💵🔔As the government considers banning real money gaming, g...'
+]
+🔍 Searching Twitter content for @paraschopra...
+✅ Found content using URL format 4: site:x.com/paraschopra
+✅ Found 1 tweets from @paraschopra
+📝 Sample topics from @paraschopra: [ 'Absolutely bonkers that this tiny model can follow instructi...' ]
+🔍 Searching Twitter content for @livemint...
+✅ Found content using URL format 1: site:x.com/livemint+when:3d
+✅ Found 3 tweets from @livemint
+📝 Sample topics from @livemint: [
+  '‘Yellow alert’ for today amid heavy rainfall, IMD issues ‘fl...',
+  'Rajya Sabha LIVE 🔴 Heated Opposition-Centre clash in Monsoo...'
+]
+🔍 Searching Twitter content for @_MukeshBansal...
+📭 No content found for @_MukeshBansal with any URL format
+🔍 Searching Twitter content for @Google...
+✅ Found content using URL format 1: site:x.com/Google+when:3d
+✅ Found 3 tweets from @Google
+📝 Sample topics from @Google: [
+  'Live from New York, it’s #MadeByGoogle! Tune into our livest...',
+  '//goo.gle/4oGMAIG #MadeByGoogle...'
+]
+🔍 Searching Twitter content for @newslaundry...
+✅ Found content using URL format 1: site:x.com/newslaundry+when:3d
+✅ Found 3 tweets from @newslaundry
+📝 Sample topics from @newslaundry: [
+  'INDIA’S E-WASTE UNDERWORLD. Did you know that most of your o...',
+  'https://youtu.be/1U2ATnepHsY...'
+]
+ GET /api/auto-scheduler 200 in 842ms
+🔍 Searching Twitter content for @sama...
+✅ Found content using URL format 1: site:x.com/sama+when:3d
+✅ Found 1 tweets from @sama
+📝 Sample topics from @sama: [ 'ChatGPT Go launches in India! Looking forward to making Chat...' ]
+✅ Twitter RSS successful - 8 topics from 8 handles
+✅ Twitter RSS successful - 8 topics
+🔴 Attempting Reddit RSS feeds...
+🔴 Fetching Reddit RSS feeds...
+🔍 Fetching content from r/india...
+✅ Successfully fetched from https://www.reddit.com/r/india.rss
+✅ Found 5 posts from r/india
+🔍 Fetching content from r/economics...
+✅ Successfully fetched from https://www.reddit.com/r/economics.rss
+✅ Found 5 posts from r/economics
+🔍 Fetching content from r/delhi...
+✅ Successfully fetched from https://www.reddit.com/r/delhi.rss
+✅ Found 5 posts from r/delhi
+🔍 Fetching content from r/geopolitics...
+✅ Successfully fetched from https://www.reddit.com/r/geopolitics.rss
+✅ Found 4 posts from r/geopolitics
+🔍 Fetching content from r/Futurology...
+✅ Successfully fetched from https://www.reddit.com/r/Futurology.rss
+✅ Found 4 posts from r/Futurology
+🔍 Fetching content from r/mumbai...
+✅ Successfully fetched from https://www.reddit.com/r/mumbai.rss
+✅ Found 5 posts from r/mumbai
+✅ Reddit RSS successful - 8 topics from 6 subreddits
+✅ Reddit RSS successful - 8 topics
+✅ Combined RSS successful - 8 topics from multiple sources
+📊 Sample topics: [
+  'INDIA’S E-WASTE UNDERWORLD. Did you know that most of your old phones don’t get recycled as you imagined? @shivnarayan01 found that out of 41 govt approved e-waste recycling plants in 4 states, only 2 seemed to have legitimate (Twitter via @newslaundry)',
+  '(1/3) (Twitter via @Inc42)',
+  '‘Yellow alert’ for today amid heavy rainfall, IMD issues ‘flash flood risk’🚨 (Twitter via @livemint)'
+]
+💾 Cached 8 Twitter topics for 30 minutes
+📈 Using trending topic: Chesterfield Planning Commission greenlights nuclear fusion plant - It would be the first fusion plant connected to a commercial power grid.
+🚀 Generating tweet...
+ POST /api/tweets 200 in 41317ms
+ GET /api/auto-scheduler 200 in 320ms
+ GET /api/auto-scheduler 200 in 97ms
+ GET /api/auto-scheduler 200 in 85ms
+ GET /api/auto-scheduler 200 in 136ms
+ GET /api/auto-scheduler 200 in 114ms
+ GET /api/auto-scheduler 200 in 121ms
+ GET /api/auto-scheduler 200 in 128ms
+ GET /api/auto-scheduler 200 in 80ms
+ GET / 200 in 569ms
+ GET /api/auto-scheduler 200 in 95ms
+ GET /api/tweets?page=1&limit=10 200 in 358ms
+ GET /api/auto-scheduler 200 in 325ms
+ GET /api/tweets?page=1&limit=10 200 in 337ms
+🔄 Cache expired or not found, fetching fresh data
+🚀 Attempting to fetch from multiple RSS sources...
+🐦 Attempting Twitter RSS feeds...
+🐦 Fetching Twitter RSS feeds via Google News...
+🎯 Priority handles included: @Inc42, @ETtech, @paraschopra, @livemint
+🐦 Selected handles for RSS fetching: @Inc42, @ETtech, @paraschopra, @livemint, @FreshworksInc, @FactorDaily, @NileshShah68, @moneycontrolcom
+🔍 Searching Twitter content for @Inc42...
+🔍 Special attention: @Inc42 is known to be active
+✅ Found content using URL format 1: site:x.com/Inc42+when:3d
+✅ Found 2 tweets from @Inc42
+📝 Sample topics from @Inc42: [
+  '(1/3)...',
+  '34 PM. The stock was 7.23% lower on the BSE at last check. (...'
+]
+🔍 Searching Twitter content for @ETtech...
+✅ Found content using URL format 1: site:x.com/ETtech+when:3d
+✅ Found 2 tweets from @ETtech
+📝 Sample topics from @ETtech: [
+  '⚡⚡ Industry insiders estimate that nearly 40% of Indian good...',
+  '💵🔔As the government considers banning real money gaming, g...'
+]
+🔍 Searching Twitter content for @paraschopra...
+✅ Found content using URL format 4: site:x.com/paraschopra
+✅ Found 1 tweets from @paraschopra
+📝 Sample topics from @paraschopra: [ 'Absolutely bonkers that this tiny model can follow instructi...' ]
+🔍 Searching Twitter content for @livemint...
+✅ Found content using URL format 1: site:x.com/livemint+when:3d
+✅ Found 3 tweets from @livemint
+📝 Sample topics from @livemint: [
+  '‘Yellow alert’ for today amid heavy rainfall, IMD issues ‘fl...',
+  'Rajya Sabha LIVE 🔴 Heated Opposition-Centre clash in Monsoo...'
+]
+🔍 Searching Twitter content for @FreshworksInc...
+✅ Found content using URL format 1: site:x.com/FreshworksInc+when:3d
+✅ Found 3 tweets from @FreshworksInc
+📝 Sample topics from @FreshworksInc: [
+  'Know the difference. Asset Management➡️ Tells what you have ...',
+  'Formula 1 is won in milliseconds. @McLarenF1’s championship ...'
+]
+🔍 Searching Twitter content for @FactorDaily...
+✅ Found content using URL format 4: site:x.com/FactorDaily
+✅ Found 2 tweets from @FactorDaily
+📝 Sample topics from @FactorDaily: [
+  'FactorDaily...',
+  'Hema Ravichandar talks about how #technology will impact #Hu...'
+]
+🔍 Searching Twitter content for @NileshShah68...
+✅ Found content using URL format 4: site:x.com/NileshShah68
+✅ Found 3 tweets from @NileshShah68
+📝 Sample topics from @NileshShah68: [
+  'Better Late than Never But still poor standards prevail Rupe...',
+  'China trade surplus at record high. Tariff or no Tariff, the...'
+]
+🔍 Searching Twitter content for @moneycontrolcom...
+✅ Found content using URL format 1: site:x.com/moneycontrolcom+when:3d
+✅ Found 2 tweets from @moneycontrolcom
+📝 Sample topics from @moneycontrolcom: [
+  'Maruti aims to sell 7 lakh CNG cars in India in FY26 #CNG #M...',
+  'Did Italian PM Meloni Upset Trump by Praising Musk at the Ov...'
+]
+✅ Twitter RSS successful - 8 topics from 8 handles
+✅ Twitter RSS successful - 8 topics
+🔴 Attempting Reddit RSS feeds...
+🔴 Fetching Reddit RSS feeds...
+🔍 Fetching content from r/economics...
+✅ Successfully fetched from https://www.reddit.com/r/economics.rss
+✅ Found 5 posts from r/economics
+🔍 Fetching content from r/bengaluru...
+✅ Successfully fetched from https://www.reddit.com/r/bengaluru.rss
+✅ Found 4 posts from r/bengaluru
+🔍 Fetching content from r/india...
+✅ Successfully fetched from https://www.reddit.com/r/india.rss
+✅ Found 5 posts from r/india
+🔍 Fetching content from r/IndianStartups...
+✅ Successfully fetched from https://www.reddit.com/r/IndianStartups.rss
+✅ Found 5 posts from r/IndianStartups
+🔍 Fetching content from r/delhi...
+✅ Successfully fetched from https://www.reddit.com/r/delhi.rss
+✅ Found 5 posts from r/delhi
+🔍 Fetching content from r/Futurology...
+✅ Successfully fetched from https://www.reddit.com/r/Futurology.rss
+✅ Found 4 posts from r/Futurology
+✅ Reddit RSS successful - 8 topics from 6 subreddits
+✅ Reddit RSS successful - 8 topics
+✅ Combined RSS successful - 8 topics from multiple sources
+📊 Sample topics: [
+  '⚡⚡ Industry insiders estimate that nearly 40% of Indian goods shipped to the US used the de minimis exemption to avoid import duties and taxes. (Twitter via @ETtech)',
+  'Hema Ravichandar talks about how #technology will impact #HumanResources and #workculture at the #FutureOfJobs in India Summit (Twitter via @FactorDaily)',
+  'Rajya Sabha LIVE 🔴 Heated Opposition-Centre clash in Monsoon Session over SIR row; Govt tables 3 new bills. (Twitter via @livemint)'
+]
+💾 Cached 8 Twitter topics for 30 minutes
+📈 Using trending topic: Bengaluru to get India's second largest cricket stadium in Bommasandra with 60,000 seating capacity.
+🚀 Generating tweet...
+ POST /api/tweets 200 in 44974ms
+ GET /api/tweets?page=1&limit=10 200 in 144ms
