@@ -171,7 +171,7 @@ export async function POST(request: Request) {
             source: selectedTopic.category || 'RSS Feed',
             traffic: selectedTopic.traffic,
             hashtags: includeHashtags,
-            originalHashtag: selectedTopic.hashtag
+            originalHashtags: selectedTopic.hashtags
           });
 
           const generatedTweet = await generateTweet(options, i);
