@@ -179,32 +179,6 @@
     }
   },
   {
-    "id": "memfxr82d20wqa216la",
-    "content": "Bengaluru gets a 60,000-seat stadium to watch RCB lose in high definition, while my auto-wallah still uses a 2003 Nokia to argue over a 10-rupee fare. #InfrastructureGap #StartupCity",
-    "hashtags": [
-      "#StartupCity"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T06:19:47.858Z",
-    "qualityScore": {
-      "overall": 70,
-      "metrics": {
-        "engagement": 0.75,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7999999999999999,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.5
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
     "id": "memhizaqua4gy2ujmo",
     "content": "Our nation's youth is searching for affordable glue dots while our politicians are busy creating glue traps for the entire opposition. #DemocracyOnSale #AffordableIndia",
     "hashtags": [
@@ -225,6 +199,58 @@
         "trendRelevance": 0.65
       },
       "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "memhvo11h32jbiracza",
+    "content": "Swiggy delivery man saved me from my hunger, Zomato from my bank balance, and my mother from ever learning to use either app. #GigEconomy #FoodTechIndia",
+    "hashtags": [
+      "#GigEconomy",
+      "#FoodTechIndia"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T07:14:09.637Z",
+    "qualityScore": {
+      "overall": 72,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
+  },
+  {
+    "id": "memhvxn8yqc8f4rhqud",
+    "content": "US companies are slowing down hiring, but my Zomato delivery guy still runs like he's qualifying for the Olympics. #GigEconomy #TechLayoffs",
+    "hashtags": [
+      "#GigEconomy",
+      "#TechLayoffs"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T07:14:22.100Z",
+    "qualityScore": {
+      "overall": 77,
+      "metrics": {
+        "engagement": 0.7999999999999999,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 0.9499999999999998,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
       "feedback": [
         "👍 Good quality tweet with strong engagement"
       ]

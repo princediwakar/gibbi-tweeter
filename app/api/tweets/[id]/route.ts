@@ -96,10 +96,30 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
+    console.log(`[DELETE] Attempting to delete tweet with ID: ${id}`);
+    
+    // First check if the tweet exists
+    const tweets = await getAllTweets();
+    const tweetExists = tweets.find(t => t.id === id);
+    
+    if (!tweetExists) {
+      console.log(`[DELETE] Tweet with ID ${id} not found`);
+      return NextResponse.json({ error: 'Tweet not found' }, { status: 404 });
+    }
+    
+    console.log(`[DELETE] Tweet found, proceeding with deletion...`);
     await deleteTweet(id);
+    console.log(`[DELETE] Tweet ${id} deleted successfully`);
+    
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting tweet:', error);
-    return NextResponse.json({ error: 'Failed to delete tweet' }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error('Detailed error:', { error: errorMessage, stack: error instanceof Error ? error.stack : 'No stack trace' });
+    
+    return NextResponse.json({ 
+      error: 'Failed to delete tweet',
+      details: errorMessage 
+    }, { status: 500 });
   }
 }
