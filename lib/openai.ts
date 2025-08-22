@@ -120,7 +120,7 @@ STYLE RULES:
 - Maintain the rhythm and exaggeration of Hasya-Kavi poetry, but Twitter-friendly
 - Always feel topical and alive (today's India)
 - Hinglish is welcome if it adds authentic flavor
-- ${includeHashtags ? "Include 1-2 relevant, short hashtags that are meaningful (like #StartupLife #TechHumor)." : "Do not include hashtags."}
+- ${includeHashtags ? "Include 1-2 TOPICAL, TREND-FOCUSED hashtags that relate to current events, tech trends, or specific issues mentioned in the tweet. Make them CamelCase, short (max 25 chars), and newsworthy. Examples: #AIRevolution #StartupStruggles #CryptoReality #EdTechBoom #FinTechIndia #ClimateAction #TechLayoffs #UberEats. AVOID generic family/personal hashtags like #FamilyDrama #IndianParents." : "Do not include hashtags."}
 - Maximum ${maxLength} characters
 - Only output the tweet text, nothing else
 
@@ -132,16 +132,21 @@ TONE:
 
 ${trendingContext}${previousTweetsAvoidance}
 
-GOOD EXAMPLES (TOPICAL/TIMELESS):
-- "Government speed: launches Digital India, but WiFi still on buffalo speed."
-- "Inflation ne kya jadoo kiya hai, ab middle class bhi premium lagti hai."
-- "Stock market touching the sky, but my portfolio touching my heart."
-- "Netflix asks 'Are you still watching?' and I reply 'Are you still charging?'"
+GOOD EXAMPLES WITH PROPER HASHTAGS:
+- "Government speed: launches Digital India, but WiFi still on buffalo speed. #DigitalIndia #TechInIndia"
+- "Inflation ne kya jadoo kiya hai, ab middle class bhi premium lagti hai. #InflationIndia #MiddleClass"
+- "Stock market touching the sky, but my portfolio touching my heart. #Investing #StockMarket"
+- "Netflix asks 'Are you still watching?' and I reply 'Are you still charging?' #Netflix #StreamingLife"
 
-AVOID GENERIC CONTENT LIKE:
-- Generic tech jokes that could apply anywhere
-- Made-up conversations with random people
-- Abstract scenarios not tied to real Indian experiences
+GOOD TOPICAL HASHTAG EXAMPLES:
+#AIRevolution #TechLayoffs #StartupStruggles #CryptoReality #EdTechBoom #FinTechIndia #ClimateAction #EVRevolution #5GIndia #DigitalPayments #WorkFromHome #GigEconomy #InflationIndia #PropertyMarket #StockMarket
+
+AVOID BAD HASHTAGS LIKE:
+- #GooGle4ogmaigMadeby (gibberish)
+- #FlatFlatmatesMore (repetitive)
+- #RoadPeaceRussiaUkra (truncated)
+- #MumbaiSocialClubWee (nonsensical ending)
+- Random concatenations or corrupted text
 `;
 
 try {
@@ -174,8 +179,49 @@ try {
 }
 
 function extractHashtags(text: string): string[] {
-const regex = /#[a-zA-Z0-9_]+/g;
-return text.match(regex) || [];
+  const regex = /#[a-zA-Z0-9_]+/g;
+  const rawHashtags = text.match(regex) || [];
+  
+  // Clean and validate hashtags
+  const cleanHashtags = rawHashtags
+    .map(tag => {
+      // Remove the # to work with the text
+      let cleanTag = tag.slice(1);
+      
+      // Remove any numbers that make it look corrupted (like "4ogmaig")
+      cleanTag = cleanTag.replace(/[0-9]+[a-z]+[0-9]*[a-z]*/g, '');
+      
+      // Remove common corrupted patterns
+      cleanTag = cleanTag.replace(/([a-z])([A-Z]){2,}/g, '$1'); // Remove multiple caps
+      cleanTag = cleanTag.replace(/(.)\1{2,}/g, '$1'); // Remove repeated chars
+      
+      // Truncate if too long, but preserve word boundaries
+      if (cleanTag.length > 25) {
+        // Try to find a good break point (camelCase boundary)
+        let truncated = cleanTag.slice(0, 25);
+        const lastCapIndex = truncated.lastIndexOf(truncated.match(/[A-Z]/g)?.slice(-1)[0] || '');
+        if (lastCapIndex > 5) {
+          truncated = cleanTag.slice(0, lastCapIndex);
+        }
+        cleanTag = truncated;
+      }
+      
+      // Only return if it has reasonable length and doesn't look corrupted
+      if (cleanTag.length >= 3 && cleanTag.length <= 15 && /^[A-Za-z][A-Za-z0-9]*$/.test(cleanTag)) {
+        return '#' + cleanTag;
+      }
+      
+      return null;
+    })
+    .filter(Boolean) // Remove null values
+    .slice(0, 2); // Limit to 2 hashtags
+  
+  // If we couldn't clean the hashtags properly, use fallback
+  if (cleanHashtags.length === 0) {
+    return ['#IndianLife']; // Safe fallback
+  }
+  
+  return cleanHashtags as string[];
 }
 
 export const personas = [
