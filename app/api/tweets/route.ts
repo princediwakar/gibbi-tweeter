@@ -122,30 +122,39 @@ export async function POST(request: Request) {
           
           const variation = variations[i % variations.length];
           
-          // Custom prompt variations for more diversity
-          const promptVariations = data.customPrompt ? [data.customPrompt] : [
-            undefined, // Let trending topics drive
-            "Create a witty observation about modern Indian lifestyle",
-            "Make a clever comment about technology and social media in India", 
-            "Share a humorous take on Indian politics or governance",
-            "Comment satirically on Indian business or startup culture",
-            "Create a funny observation about Indian education system",
-            "Make a witty comment about Indian social dynamics"
+          // GUARANTEED different topic categories for each tweet
+          const topicCategories = data.customPrompt ? [data.customPrompt] : [
+            "Create a witty observation about modern Indian lifestyle and daily routines",
+            "Make a clever comment about technology, AI, and social media in India", 
+            "Share a humorous take on Indian politics, governance, or bureaucracy",
+            "Comment satirically on Indian business, startup culture, or economy",
+            "Create a funny observation about Indian education system or academic life",
+            "Make a witty comment about Indian social dynamics, relationships, or culture",
+            "Generate satirical content about Indian infrastructure, transport, or urban life",
+            "Create humor about Indian food culture, regional differences, or dining experiences",
+            "Make a witty observation about Indian entertainment, Bollywood, or media",
+            "Comment humorously on Indian festivals, traditions, or family dynamics"
           ];
           
-          const selectedPrompt = promptVariations[Math.floor(Math.random() * promptVariations.length)];
+          // Force different topics by using modulo to cycle through categories
+          const selectedPrompt = topicCategories[i % topicCategories.length];
           
           const options: TweetGenerationOptions = {
             persona: data.persona,
             includeHashtags: variation.includeHashtags,
             customPrompt: selectedPrompt,
-            useTrendingTopics: variation.useTrendingTopics && !selectedPrompt, // Don't use trending if we have custom prompt
+            useTrendingTopics: false, // Always use custom prompts for guaranteed topic diversity
           };
 
-          console.log(`📝 Generating tweet ${i + 1}/${count} with variation:`, {
+          const topicName = [
+            "Lifestyle", "Technology", "Politics", "Business", "Education", 
+            "Social", "Infrastructure", "Food", "Entertainment", "Traditions"
+          ][i % topicCategories.length] || "General";
+          
+          console.log(`📝 Generating tweet ${i + 1}/${count} - TOPIC: ${topicName}:`, {
             hashtags: variation.includeHashtags,
-            trending: variation.useTrendingTopics && !selectedPrompt,
-            customPrompt: selectedPrompt ? selectedPrompt.substring(0, 30) + '...' : 'trending-driven'
+            topicCategory: topicName,
+            prompt: selectedPrompt.substring(0, 50) + '...'
           });
 
           const generatedTweet = await generateTweet(options, i);

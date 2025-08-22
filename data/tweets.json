@@ -127,5 +127,417 @@
         "✅ Decent tweet, room for improvement"
       ]
     }
+  },
+  {
+    "id": "memm9tvqa7eu86wogjr",
+    "content": "My SaaS startup is now my dad's ultimate \"beta, IAS bann ja\" backup plan. #StartupIndia #WeeklyPromotionThre",
+    "hashtags": [
+      "#StartupIndia"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:17:08.870Z",
+    "qualityScore": {
+      "overall": 77,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.9999999999999998,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.8
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "memmar6cyy6ctfx2z6",
+    "content": "FIIs keep asking \"show me the money\" and our GDP growth replies with \"dekha jayega\" in true government style. #WillFiisComeBackDes #GDPGrowth",
+    "hashtags": [
+      "#GDPGrowth"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:17:52.020Z",
+    "qualityScore": {
+      "overall": 74,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
+  },
+  {
+    "id": "memmaw9w3jyh18pmqxk",
+    "content": "Startup India: where we burn VC money to keep the AC at 16°C while the pitch deck promises to solve global warming.",
+    "hashtags": [
+      "#IndianLife"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:17:58.628Z",
+    "qualityScore": {
+      "overall": 74,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.15
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability"
+      ]
+    }
+  },
+  {
+    "id": "memmb24gcaql0tf1dwb",
+    "content": "Our startups are building the \"Metaverse for Bharat\" but can't build a website that works without 17 OTPs and a prayer to Ganesh. #StartupIndia #DigitalIndia",
+    "hashtags": [
+      "#StartupIndia",
+      "#DigitalIndia"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:18:06.208Z",
+    "qualityScore": {
+      "overall": 79,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "memmb8eppk9b9wx43yb",
+    "content": "My UPI payment failed because my phone's battery died, which is also how I'll die when my parents find out I ordered biryani at 2 AM. #DigitalPayments #GenZMoment",
+    "hashtags": [
+      "#DigitalPayments",
+      "#Genoment"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:18:14.353Z",
+    "qualityScore": {
+      "overall": 70,
+      "metrics": {
+        "engagement": 0.7,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
+  },
+  {
+    "id": "memmbf6b4a90mpyrd1u",
+    "content": "Our startup's 'burn rate' is just my Zomato bill from trying to eat the stress of explaining the burn rate to investors. #StartupIndia #VCFunding",
+    "hashtags": [
+      "#StartupIndia",
+      "#VCFunding"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:18:23.123Z",
+    "qualityScore": {
+      "overall": 80,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "memmhwq027xegolvtga",
+    "content": "My phone's battery dies faster than my motivation after seeing the Monday morning Slack notifications. #WFHLife #TechBurnout",
+    "hashtags": [
+      "#WFHLife",
+      "#TechBurnout"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:23:25.800Z",
+    "qualityScore": {
+      "overall": 74,
+      "metrics": {
+        "engagement": 0.85,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
+  },
+  {
+    "id": "memmi2mwjv5xlfq2fl",
+    "content": "My phone's AI now predicts my anxiety attacks, but my health insurance app still thinks a 20% discount on a spa is mental healthcare. #AIRevolution #FinTechIndia",
+    "hashtags": [
+      "#AIRevolution",
+      "#FinTechIndia"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:23:33.464Z",
+    "qualityScore": {
+      "overall": 75,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.8
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "memmi75rshxy9srf96o",
+    "content": "Our politicians promise the moon, but the only thing that's actually launched is my blood pressure. #ElectionPromises #GovernanceGap",
+    "hashtags": [
+      "#GovernanceGap"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:23:39.327Z",
+    "qualityScore": {
+      "overall": 80,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "memmief4uo0uoadf9cf",
+    "content": "My startup's valuation is now entirely based on how many times I can say \"synergy\" and \"disrupt\" before the investor asks about revenue. #StartupIndia #VCFunding",
+    "hashtags": [
+      "#StartupIndia",
+      "#VCFunding"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:23:48.736Z",
+    "qualityScore": {
+      "overall": 73,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.8
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
+  },
+  {
+    "id": "memmililedk2yn2ny55",
+    "content": "My college degree is now just a very expensive, laminated permission slip to join the 5 PM \"Excel course or get left behind\" webinar. #EdTechBoom #SkillsGap",
+    "hashtags": [
+      "#EdTechBoom",
+      "#SkillsGap"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:23:57.933Z",
+    "qualityScore": {
+      "overall": 72,
+      "metrics": {
+        "engagement": 0.7,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8499999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
+  },
+  {
+    "id": "memmspjkzj8bkd24yit",
+    "content": "My phone's 5G downloads a movie in seconds, but my Swiggy order still spends 20 minutes \"arriving in 2-4 minutes.\" #5GIndia #GigEconomy",
+    "hashtags": [
+      "#GigEconomy"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:31:49.712Z",
+    "qualityScore": {
+      "overall": 74,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
+  },
+  {
+    "id": "memmsub55ca9y2vhajn",
+    "content": "My phone's AI can now write poetry in 17 languages, but my mother's WhatsApp forward still needs 7 forwards to cure cancer.",
+    "hashtags": [
+      "#IndianLife"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:31:55.889Z",
+    "qualityScore": {
+      "overall": 69,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.15
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability"
+      ]
+    }
+  },
+  {
+    "id": "memmszrzeltondz9mbu",
+    "content": "Our government's new AI can predict monsoon floods, but it still can't predict which pothole will finally swallow a minister's car. #AIForGovernance #InfrastructureGap",
+    "hashtags": [
+      "#AIForGovernance"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:32:02.975Z",
+    "qualityScore": {
+      "overall": 78,
+      "metrics": {
+        "engagement": 0.9,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.9499999999999998,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "memmt6bcef5qey7ivwj",
+    "content": "Our unicorn startup's entire tech stack is just 47 APIs duct-taped together with my intern's desperation and a prayer to the cloud gods. #SaaSIndia #TechDebt",
+    "hashtags": [
+      "#Saandia",
+      "#TechDebt"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:32:11.448Z",
+    "qualityScore": {
+      "overall": 77,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "memmtde163f5pnxxgc7",
+    "content": "My entire engineering degree just prepared me to perfectly calculate the exact angle to hold my phone so the WiFi from the chai shop reaches my 3 PM online upskilling course. #EdTechBoom #SkillsGap",
+    "hashtags": [
+      "#EdTechBoom",
+      "#SkillsGap"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:32:20.617Z",
+    "qualityScore": {
+      "overall": 76,
+      "metrics": {
+        "engagement": 0.85,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.9999999999999998,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
   }
 ]
