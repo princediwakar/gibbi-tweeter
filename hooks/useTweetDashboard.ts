@@ -34,6 +34,7 @@ export function useTweetDashboard() {
   const [autoGenerating, setAutoGenerating] = useState(false);
   const [schedulerRunning, setSchedulerRunning] = useState(false);
   const [autoSchedulerRunning, setAutoSchedulerRunning] = useState(false);
+  const [autoChainRunning, setAutoChainRunning] = useState(false);
   const [autoSchedulerStats, setAutoSchedulerStats] = useState<AutoSchedulerStats | null>(null);
   const [showHistory, setShowHistory] = useState(true);
   const [generateForm, setGenerateForm] = useState<GenerateFormState>({
@@ -359,24 +360,30 @@ export function useTweetDashboard() {
     }
   }, [selectedTweets, fetchTweets]);
 
-  const toggleAutoScheduler = useCallback(async (action: 'start' | 'stop') => {
+  const toggleAutoScheduler = useCallback(async (action: 'start-chain') => {
     try {
-      const response = await fetch('/api/auto-scheduler', {
+      setAutoChainRunning(true);
+      
+      // Start the intelligent auto-chain system
+      const response = await fetch('/api/auto-chain', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action })
+        headers: { 'Content-Type': 'application/json' }
       });
       
       if (response.ok) {
-        setAutoSchedulerRunning(action === 'start');
-        toast.success(`Scheduler ${action}ed!`);
+        const result = await response.json();
+        toast.success('🚀 Smart automation started successfully!');
+        toast.info(`Generated ${result.firstExecution?.results?.generated || 0} tweets. System will run continuously with 15 daily posts at optimal times.`);
         await fetchAutoSchedulerStats();
       } else {
-        toast.error(`Failed to ${action} scheduler`);
+        const error = await response.json();
+        toast.error(`Failed to start automation: ${error.details || 'Unknown error'}`);
+        setAutoChainRunning(false);
       }
     } catch (error) {
-      console.error(`Failed to ${action} scheduler:`, error);
-      toast.error(`Failed to ${action} scheduler`);
+      console.error('Failed to start automation:', error);
+      toast.error('Failed to start automation system');
+      setAutoChainRunning(false);
     }
   }, [fetchAutoSchedulerStats]);
 
@@ -479,6 +486,7 @@ export function useTweetDashboard() {
     autoGenerating,
     schedulerRunning,
     autoSchedulerRunning,
+    autoChainRunning,
     autoSchedulerStats,
     showHistory,
     generateForm,

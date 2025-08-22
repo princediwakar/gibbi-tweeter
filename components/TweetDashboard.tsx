@@ -18,6 +18,7 @@ export default function TweetDashboard() {
     autoGenerating,
     schedulerRunning,
     autoSchedulerRunning,
+    autoChainRunning,
     autoSchedulerStats,
     showHistory,
     generateForm,
@@ -80,8 +81,8 @@ export default function TweetDashboard() {
         )}
 
         <AutoScheduler 
-          isRunning={autoSchedulerRunning}
           loading={loading}
+          autoChainRunning={autoChainRunning}
           stats={autoSchedulerStats}
           onToggle={toggleAutoScheduler}
         />

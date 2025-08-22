@@ -4,13 +4,13 @@ import { formatDateIST } from '@/lib/timezone';
 import { useClientSafe } from '@/hooks/useClientSafe';
 
 interface AutoSchedulerProps {
-  isRunning: boolean;
   loading: boolean;
+  autoChainRunning: boolean;
   stats: AutoSchedulerStats | null;
-  onToggle: (action: 'start' | 'stop') => void;
+  onToggle: (action: 'start-chain') => void;
 }
 
-export function AutoScheduler({ isRunning, loading, stats, onToggle }: AutoSchedulerProps) {
+export function AutoScheduler({ loading, autoChainRunning, stats, onToggle }: AutoSchedulerProps) {
   const isClient = useClientSafe();
   // Check if we're in production by looking at the stats note
   const isProd = isClient && stats?.note?.includes('Production');
@@ -20,38 +20,29 @@ export function AutoScheduler({ isRunning, loading, stats, onToggle }: AutoSched
       <div className="flex items-center justify-between mb-6">
         <div className="space-y-1">
           <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-            🤖 Full Automation
+            🤖 Smart Automation
           </h2>
           <p className="text-gray-400 text-sm">
-            {isProd 
-              ? "Automated via Vercel Cron Jobs (production-ready)"
-              : "Automated tweet generation and posting (development mode)"
-            }
+            Intelligent tweet generation and posting - 15 posts daily at optimal times
           </p>
         </div>
         <div className="flex gap-3">
-          {isProd ? (
-            <div className="bg-green-900 text-green-200 px-4 py-2 rounded-lg border border-green-700">
-              <div className="text-sm font-medium">🚀 Vercel Crons Active</div>
-              <div className="text-xs text-green-300">Production auto-posting enabled</div>
+          {autoChainRunning ? (
+            <div className="bg-green-900 text-green-200 px-6 py-2 rounded-lg border border-green-700 font-medium">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span>✅ Automation Active</span>
+              </div>
+              <div className="text-xs text-green-300 mt-1">System running continuously</div>
             </div>
           ) : (
-            <>
-              <Button
-                onClick={() => onToggle('start')}
-                disabled={loading || isRunning}
-                className="bg-green-600 hover:bg-green-500 disabled:bg-gray-700 disabled:text-gray-400 text-white px-4 py-2 rounded-lg transition-colors"
-              >
-                {isRunning ? '✅ Auto-On' : 'Resume Auto'}
-              </Button>
-              <Button
-                onClick={() => onToggle('stop')}
-                disabled={loading || !isRunning}
-                className="bg-red-600 hover:bg-red-500 disabled:bg-gray-700 disabled:text-gray-400 text-white px-4 py-2 rounded-lg transition-colors"
-              >
-                Stop
-              </Button>
-            </>
+            <Button
+              onClick={() => onToggle('start-chain')}
+              disabled={loading}
+              className="bg-blue-600 hover:bg-blue-500 disabled:bg-gray-700 disabled:text-gray-400 text-white px-6 py-2 rounded-lg transition-colors font-medium"
+            >
+              🚀 Start Automation
+            </Button>
           )}
         </div>
       </div>

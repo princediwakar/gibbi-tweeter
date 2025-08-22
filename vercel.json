@@ -14,10 +14,5 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "outputDirectory": ".next",
-  "crons": [
-    {
-      "path": "/api/cron/auto-tweet",
-      "schedule": "*/15 * * * 1-5"
-    }
-  ]
+  "crons": []
 }
