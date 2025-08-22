@@ -15,6 +15,9 @@ interface AutoSchedulerState {
 }
 
 class AutoScheduler {
+  // ⚠️ IMPORTANT: On Vercel serverless, this scheduler only runs while there are active requests
+  // For true background scheduling, consider using Vercel Cron Jobs or external services
+  // Browser closing doesn't stop it, but serverless functions can hibernate without traffic
   private state: AutoSchedulerState = {
     isRunning: false,
     cronJobs: [],
@@ -290,8 +293,10 @@ class AutoScheduler {
   }
 
   private updateNextRunTime(): void {
+    // Get current time in IST (UTC+5:30)
     const now = new Date();
-    const currentTime = now.getHours() * 60 + now.getMinutes();
+    const istNow = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Kolkata"}));
+    const currentTime = istNow.getHours() * 60 + istNow.getMinutes();
     
     // All posting times in minutes from midnight (weekdays only)
     const postingTimes = [
@@ -314,19 +319,19 @@ class AutoScheduler {
 
     let nextRun: Date | null = null;
 
-    // If it's a weekday, find next posting time today
-    if (now.getDay() >= 1 && now.getDay() <= 5) {
+    // If it's a weekday in IST, find next posting time today
+    if (istNow.getDay() >= 1 && istNow.getDay() <= 5) {
       const nextTimeToday = postingTimes.find(time => time > currentTime);
       
       if (nextTimeToday) {
-        nextRun = new Date(now);
+        nextRun = new Date(istNow);
         nextRun.setHours(Math.floor(nextTimeToday / 60), nextTimeToday % 60, 0, 0);
       }
     }
 
-    // If no time today or it's weekend, find next Monday 8 AM
+    // If no time today or it's weekend, find next Monday 8 AM IST
     if (!nextRun) {
-      nextRun = new Date(now);
+      nextRun = new Date(istNow);
       nextRun.setDate(nextRun.getDate() + 1);
       nextRun.setHours(8, 0, 0, 0);
       
@@ -348,6 +353,7 @@ class AutoScheduler {
       ...this.state.stats,
       isRunning: this.state.isRunning,
       schedule: '10-15 posts daily on weekdays (8am-10pm IST)',
+      note: 'Note: On Vercel, use Vercel Cron Jobs for reliable background scheduling. This in-memory scheduler may hibernate.',
     };
   }
 }

@@ -20,3 +20,75 @@
  POST /api/tweets 200 in 5213ms
  GET /api/tweets?page=1&limit=10 200 in 116ms
  GET /api/auto-scheduler 200 in 67ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1912ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.khwgqr9xn7'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.khwgqr9xn7'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.su3it02cxgb'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.su3it02cxgb'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.rt6mu55w0gm'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.rt6mu55w0gm'
+}
+ ○ Compiling / ...
+ ✓ Compiled / in 6.9s
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.sd7dcs7p93'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.sd7dcs7p93'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.prwnrqeu0xn'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.prwnrqeu0xn'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.sd7dcs7p93'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.sd7dcs7p93'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.auxaxoxu09'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.auxaxoxu09'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.0i5ttob7png7'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.0i5ttob7png7'
+}
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 537ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.3up8y5ylbpf'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.3up8y5ylbpf'
+}
