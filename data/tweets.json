@@ -1,23 +1,100 @@
 [
   {
-    "id": "melziq36h4iodzabldi",
-    "content": "In the age of MoveOS 6, my auto-wallah's GPS is still navigating by chai-stall landmarks. #DigitalIndia #MoveOS6",
+    "id": "mem8ceba3695gsv452",
+    "content": "The Nifty climbs so high, even our hopes now need a loan against their shares to reach it. #MintMarkets #AchheDin",
     "hashtags": [
-      "#DigitalIndia",
-      "#MoveOS6"
+      "#MintMarkets",
+      "#AchheDin"
     ],
     "persona": "unhinged_satirist",
     "status": "draft",
-    "createdAt": "2025-08-21T22:40:12.690Z",
+    "createdAt": "2025-08-22T02:47:14.038Z",
     "qualityScore": {
-      "overall": 74,
+      "overall": 77,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.6,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "mem8s0k1p1z4pl0y47",
+    "content": "This Bengaluru classified ad: \"Slightly used startup dreams for sale, only used for one funding winter.\" #WeeklyClassifieds",
+    "hashtags": [
+      "#WeeklyClassifieds"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T02:59:22.705Z",
+    "qualityScore": {
+      "overall": 67,
       "metrics": {
         "engagement": 0.7,
         "readability": 0.7,
         "uniqueness": 0.8,
-        "personaAlignment": 0.9499999999999998,
+        "personaAlignment": 0.6499999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
+  },
+  {
+    "id": "mem8wl0tryxh6nufew",
+    "content": "My startup sells \"Digital India\" themed NFTs, but the only thing that's truly non-fungible is the promise of my co-founder showing up on time. #WeeklyPromotionThre #StartupLife",
+    "hashtags": [
+      "#WeeklyPromotionThre",
+      "#StartupLife"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T03:02:55.853Z",
+    "qualityScore": {
+      "overall": 78,
+      "metrics": {
+        "engagement": 0.85,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
         "viralPotential": 0.5,
         "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "mem901sfk9gaip1m9i",
+    "content": "Apollo Hospitals' stocks are falling so fast, even the patients in the ICU are asking to check their portfolios. #DalalStreet #HealthWealth",
+    "hashtags": [
+      "#DalalStreet",
+      "#HealthWealth"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T03:05:37.551Z",
+    "qualityScore": {
+      "overall": 74,
+      "metrics": {
+        "engagement": 0.85,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
       },
       "grade": "C",
       "feedback": [
@@ -26,28 +103,157 @@
     }
   },
   {
-    "id": "melzkk1rt8mx77dk87k",
-    "content": "MoveOS 6 is so intelligent, it can predict the exact moment your landlord will ask for rent just by analyzing your Swiggy orders. #MoveOS6 #Adulting",
+    "id": "mem90d50unqhc7c8j5",
+    "content": "The government wants to save us from gambling, so we’re all frantically betting on which app will let us cash out first. #RealMoneyRush",
     "hashtags": [
-      "#MoveOS6",
-      "#Adulting"
+      "#RealMoneyRush"
     ],
     "persona": "unhinged_satirist",
     "status": "draft",
-    "createdAt": "2025-08-21T22:41:38.175Z",
+    "createdAt": "2025-08-22T03:05:52.260Z",
+    "qualityScore": {
+      "overall": 77,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7499999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "mem90uk72ydocm988w5",
+    "content": "My product is a GPS for your career that only has three destinations: \"IT\", \"MBA\", or \"Log kya kahenge?\" #WeeklyPromotionThre #CareerGoals",
+    "hashtags": [
+      "#WeeklyPromotionThre",
+      "#CareerGoals"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T03:06:14.839Z",
     "qualityScore": {
       "overall": 81,
       "metrics": {
         "engagement": 1,
         "readability": 0.7,
         "uniqueness": 0.8,
-        "personaAlignment": 0.9499999999999998,
+        "personaAlignment": 0.95,
         "viralPotential": 0.5,
         "trendRelevance": 0.5
       },
       "grade": "B",
       "feedback": [
         "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "mem9112a92wlv0f057",
+    "content": "When Apollo's MD sells her stake, you know it's time to pray for your portfolio's health, not your own. #SuneetaReddyManagin #DalalStreet",
+    "hashtags": [
+      "#SuneetaReddyManagin",
+      "#DalalStreet"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T03:06:23.266Z",
+    "qualityScore": {
+      "overall": 79,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "mem91mf8l9ed6k843y",
+    "content": "This AI is so multilingual, it can even understand the complex grammar of a political promise. #AbsolutelyBonkers #TechHumor",
+    "hashtags": [
+      "#AbsolutelyBonkers",
+      "#TechHumor"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T03:06:50.948Z",
+    "qualityScore": {
+      "overall": 69,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
+  },
+  {
+    "id": "mem92mqmqfmvaq9fxxp",
+    "content": "This mystery jet in Bengaluru is so exclusive, even its name is on a drip funding round. #GuessJetNameSeenBen #StartupLife",
+    "hashtags": [
+      "#GuessJetNameSeenBen",
+      "#StartupLife"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T03:07:38.014Z",
+    "qualityScore": {
+      "overall": 71,
+      "metrics": {
+        "engagement": 0.7,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8499999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
+  },
+  {
+    "id": "mem983901xdgghchjx4",
+    "content": "My startup’s new AI is so advanced, it can perfectly predict which political promise will be broken next. #TechHumor #ElectionModeOn",
+    "hashtags": [
+      "#TechHumor",
+      "#ElectionModeOn"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T03:11:52.692Z",
+    "qualityScore": {
+      "overall": 69,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
       ]
     }
   }

@@ -96,7 +96,7 @@ export function getSpacedPostingSchedule(count: number, minSpacingMinutes: numbe
       
       if (nextOptimal < minNextTime) {
         // Find the next optimal time that meets our spacing requirement
-        let spacedTime = new Date(minNextTime);
+        const spacedTime = new Date(minNextTime);
         const nextSpacedOptimal = getNextOptimalPostTime(spacedTime);
         schedule.push(nextSpacedOptimal);
         currentTime = new Date(nextSpacedOptimal.getTime() + 1000);

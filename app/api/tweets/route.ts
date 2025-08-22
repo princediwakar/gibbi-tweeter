@@ -16,7 +16,7 @@ export async function GET(request: Request) {
 
     const result = await getPaginatedTweets({ page, limit });
     return NextResponse.json(result);
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ error: 'Failed to fetch tweets' }, { status: 500 });
   }
 }
@@ -25,6 +25,10 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { action, ...data } = body;
+
+    if (!action) {
+      return NextResponse.json({ error: 'Missing action parameter' }, { status: 400 });
+    }
 
     if (action === 'generate') {
       const options: TweetGenerationOptions = {
@@ -77,7 +81,9 @@ export async function POST(request: Request) {
 
       const generatedTweet = await generateTweet(options);
       const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, data.persona || 'unhinged_satirist');
-      const scheduledFor = new Date(data.scheduledFor);
+      
+      // Default to 2 hours from now if no scheduledFor provided
+      const scheduledFor = data.scheduledFor ? new Date(data.scheduledFor) : new Date(Date.now() + 2 * 60 * 60 * 1000);
       
       const tweet = {
         id: generateTweetId(),
@@ -143,9 +149,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ tweets: scheduledTweets });
     }
 
-    return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
+    return NextResponse.json({ error: `Invalid action: ${action}` }, { status: 400 });
   } catch (error) {
     console.error('Error in tweets API:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ 
+      error: 'Internal server error',
+      details: errorMessage 
+    }, { status: 500 });
   }
 }

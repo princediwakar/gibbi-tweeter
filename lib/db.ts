@@ -6,6 +6,19 @@ export interface Tweet {
   content: string;
   hashtags: string[];
   persona: string;
+  qualityScore?: {
+    overall: number;
+    metrics: {
+      engagement: number;
+      readability: number;
+      uniqueness: number;
+      personaAlignment: number;
+      viralPotential: number;
+      trendRelevance: number;
+    };
+    grade: 'A' | 'B' | 'C' | 'D' | 'F';
+    feedback: string[];
+  };
   scheduledFor?: Date;
   postedAt?: Date;
   twitterId?: string; // Twitter/X tweet ID
@@ -35,7 +48,7 @@ const DB_PATH = join(process.cwd(), 'data', 'tweets.json');
 async function ensureDataDir() {
   try {
     await fs.mkdir(join(process.cwd(), 'data'), { recursive: true });
-  } catch (error) {
+  } catch (_error) {
     // Directory might already exist
   }
 }
@@ -51,7 +64,7 @@ export async function getAllTweets(): Promise<Tweet[]> {
       scheduledFor: tweet.scheduledFor ? new Date(tweet.scheduledFor) : undefined,
       postedAt: tweet.postedAt ? new Date(tweet.postedAt) : undefined,
     }));
-  } catch (error) {
+  } catch (_error) {
     return [];
   }
 }
@@ -90,7 +103,7 @@ export async function getPaginatedTweets(params: PaginationParams): Promise<Pagi
       hasNext: params.page < totalPages,
       hasPrev: params.page > 1,
     };
-  } catch (error) {
+  } catch (_error) {
     return {
       data: [],
       total: 0,

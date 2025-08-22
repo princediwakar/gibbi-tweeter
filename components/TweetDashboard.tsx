@@ -42,8 +42,8 @@ export default function TweetDashboard() {
     
     // Pagination actions
     goToPage,
-    nextPage,
-    prevPage,
+    // nextPage,  // Currently unused
+    // prevPage,  // Currently unused
     changePageSize,
     
     // Utilities

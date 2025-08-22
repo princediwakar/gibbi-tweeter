@@ -29,7 +29,7 @@ export function useTweetDashboard() {
   const [schedulerRunning, setSchedulerRunning] = useState(false);
   const [autoSchedulerRunning, setAutoSchedulerRunning] = useState(false);
   const [autoSchedulerStats, setAutoSchedulerStats] = useState<AutoSchedulerStats | null>(null);
-  const [showHistory, setShowHistory] = useState(false);
+  const [showHistory, setShowHistory] = useState(true);
   const [generateForm, setGenerateForm] = useState<GenerateFormState>({
     persona: 'unhinged_satirist',
     includeHashtags: true,
@@ -182,7 +182,7 @@ export function useTweetDashboard() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'generate_and_schedule',
+          action: 'generate-and-schedule',
           ...generateForm,
         })
       });
@@ -388,9 +388,16 @@ export function useTweetDashboard() {
     fetchTweets();
     fetchAutoSchedulerStats();
     
-    // Auto-generate a tweet on load to show fresh content
-    const autoGenerateOnLoad = async () => {
-      if (isMounted) {
+    // Poll auto-scheduler stats every 5 minutes
+    const interval = setInterval(fetchAutoSchedulerStats, 300000);
+    return () => clearInterval(interval);
+  }, [fetchTweets, fetchAutoSchedulerStats]);
+
+  // Separate effect for auto-generation on mount
+  useEffect(() => {
+    if (isMounted) {
+      // Auto-generate a tweet on load to show fresh content
+      const autoGenerateOnLoad = async () => {
         setAutoGenerating(true);
         try {
           const response = await fetch('/api/tweets', {
@@ -414,17 +421,13 @@ export function useTweetDashboard() {
         } finally {
           setAutoGenerating(false);
         }
-      }
-    };
+      };
 
-    // Delay auto-generation slightly to ensure component is fully mounted
-    const timer = setTimeout(autoGenerateOnLoad, 1000);
-    return () => clearTimeout(timer);
-    
-    // Poll auto-scheduler stats every 5 minutes instead of 30 seconds
-    const interval = setInterval(fetchAutoSchedulerStats, 300000);
-    return () => clearInterval(interval);
-  }, []); // Remove dependencies to prevent unnecessary re-renders
+      // Delay auto-generation slightly to ensure component is fully mounted
+      const timer = setTimeout(autoGenerateOnLoad, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isMounted, fetchTweets]);
 
   // Manual refresh function
   const refreshData = useCallback(async () => {
