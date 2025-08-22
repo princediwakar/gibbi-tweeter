@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAllTweets, getPaginatedTweets, saveTweet, generateTweetId, deleteTweets } from '@/lib/db';
+import { getAllTweets, getPaginatedTweets, saveTweet, generateTweetId, deleteTweets, Tweet } from '@/lib/db';
 import { generateTweet, TweetGenerationOptions } from '@/lib/openai';
 import { calculateQualityScore } from '@/lib/quality-scorer';
 
@@ -102,32 +102,91 @@ export async function POST(request: Request) {
 
     if (action === 'bulk_generate') {
       const count = data.count || 5;
-      const options: TweetGenerationOptions = {
-        persona: data.persona,
-        includeHashtags: data.includeHashtags,
-        customPrompt: data.customPrompt,
-        useTrendingTopics: data.useTrendingTopics,
-      };
-
-      const generatedTweets = [];
+      
+      // Enhanced bulk generation with variation techniques
+      const generatedTweets: Tweet[] = [];
+      // const usedTopics = new Set<string>(); // Track used topics to avoid repetition - removed unused variable
+      
+      console.log(`🎯 Starting bulk generation of ${count} tweets with enhanced variety...`);
+      
       for (let i = 0; i < count; i++) {
-        const generatedTweet = await generateTweet(options);
-        const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, data.persona || 'unhinged_satirist');
-        
-        const tweet = {
-          id: generateTweetId(),
-          content: generatedTweet.content,
-          hashtags: generatedTweet.hashtags,
-          persona: data.persona || 'unhinged_satirist',
-          status: 'draft' as const,
-          createdAt: new Date(),
-          qualityScore,
-        };
+        try {
+          // Add variety through different approaches for each tweet
+          const variations = [
+            { includeHashtags: true, useTrendingTopics: true },
+            { includeHashtags: false, useTrendingTopics: true },
+            { includeHashtags: true, useTrendingTopics: false },
+            { includeHashtags: Math.random() > 0.3, useTrendingTopics: true },
+            { includeHashtags: true, useTrendingTopics: Math.random() > 0.2 }
+          ];
+          
+          const variation = variations[i % variations.length];
+          
+          // Custom prompt variations for more diversity
+          const promptVariations = data.customPrompt ? [data.customPrompt] : [
+            undefined, // Let trending topics drive
+            "Create a witty observation about modern Indian lifestyle",
+            "Make a clever comment about technology and social media in India", 
+            "Share a humorous take on Indian politics or governance",
+            "Comment satirically on Indian business or startup culture",
+            "Create a funny observation about Indian education system",
+            "Make a witty comment about Indian social dynamics"
+          ];
+          
+          const selectedPrompt = promptVariations[Math.floor(Math.random() * promptVariations.length)];
+          
+          const options: TweetGenerationOptions = {
+            persona: data.persona,
+            includeHashtags: variation.includeHashtags,
+            customPrompt: selectedPrompt,
+            useTrendingTopics: variation.useTrendingTopics && !selectedPrompt, // Don't use trending if we have custom prompt
+          };
 
-        await saveTweet(tweet);
-        generatedTweets.push(tweet);
+          console.log(`📝 Generating tweet ${i + 1}/${count} with variation:`, {
+            hashtags: variation.includeHashtags,
+            trending: variation.useTrendingTopics && !selectedPrompt,
+            customPrompt: selectedPrompt ? selectedPrompt.substring(0, 30) + '...' : 'trending-driven'
+          });
+
+          const generatedTweet = await generateTweet(options, i);
+          
+          // Skip if we've seen this exact content before (rare but possible)
+          if (generatedTweets.some(t => t.content === generatedTweet.content)) {
+            console.log(`⚠️ Duplicate content detected for tweet ${i + 1}, skipping...`);
+            continue;
+          }
+          
+          const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, data.persona || 'unhinged_satirist');
+          
+          const tweet = {
+            id: generateTweetId(),
+            content: generatedTweet.content,
+            hashtags: generatedTweet.hashtags,
+            persona: data.persona || 'unhinged_satirist',
+            status: 'draft' as const,
+            createdAt: new Date(),
+            qualityScore,
+          };
+
+          await saveTweet(tweet);
+          generatedTweets.push(tweet);
+          
+          console.log(`✅ Generated tweet ${i + 1}: ${generatedTweet.content.substring(0, 50)}...`);
+          
+          // Add delay between generations to allow for more variation
+          if (i < count - 1) {
+            const delay = Math.random() * 2000 + 1000; // 1-3 second random delay
+            await new Promise(resolve => setTimeout(resolve, delay));
+          }
+          
+        } catch (error) {
+          console.error(`❌ Error generating tweet ${i + 1}:`, error);
+          // Continue with next tweet instead of failing entire batch
+          continue;
+        }
       }
 
+      console.log(`🎉 Bulk generation completed! Generated ${generatedTweets.length}/${count} unique tweets`);
       return NextResponse.json({ tweets: generatedTweets });
     }
 

@@ -24,7 +24,7 @@ length: number;
 topic: string;
 }
 
-export async function generateTweet(options: TweetGenerationOptions): Promise<TweetResponse> {
+export async function generateTweet(options: TweetGenerationOptions, bulkIndex?: number): Promise<TweetResponse> {
 const {
   persona, // Required, no default
   includeHashtags = true,
@@ -41,10 +41,20 @@ if (useTrendingTopics && !customPrompt) {
     try {
       const trendingTopics = await getTrendingTopics();
       if (trendingTopics.length > 0) {
-        const randomTopic: TrendingTopic = trendingTopics[Math.floor(Math.random() * trendingTopics.length)];
+        // For bulk generation, try to select different topics by using bulkIndex as seed
+        let randomIndex;
+        if (bulkIndex !== undefined && trendingTopics.length > 1) {
+          // Use a combination of bulkIndex and random for better distribution
+          const seed = (bulkIndex * 3 + Math.floor(Math.random() * 5)) % trendingTopics.length;
+          randomIndex = seed;
+        } else {
+          randomIndex = Math.floor(Math.random() * trendingTopics.length);
+        }
+        
+        const randomTopic: TrendingTopic = trendingTopics[randomIndex];
         trendingContext = `Trending topic: ${randomTopic.title} (${randomTopic.traffic} searches). Use ${randomTopic.hashtag} only if it helps the joke.`;
         selectedTopic = randomTopic.title;
-        console.log(`📈 Using trending topic: ${randomTopic.title}`);
+        console.log(`📈 Using trending topic (${bulkIndex !== undefined ? 'bulk #' + bulkIndex : 'single'}): ${randomTopic.title}`);
         break;
       }
     } catch (err) {
@@ -83,7 +93,15 @@ const comedyArchetypes = [
   "physical comedy concepts (Mr. Bean style) - describing visual absurdity in words",
   "improvisational wit (Whose Line style) - quick, unexpected connections and callbacks"
 ];
-const randomArchetype = comedyArchetypes[Math.floor(Math.random() * comedyArchetypes.length)];
+// Select comedy archetype with better distribution for bulk generation
+let randomArchetype;
+if (bulkIndex !== undefined) {
+  // For bulk generation, ensure different archetypes by cycling through them
+  const archetypeIndex = (bulkIndex + Math.floor(Math.random() * 3)) % comedyArchetypes.length;
+  randomArchetype = comedyArchetypes[archetypeIndex];
+} else {
+  randomArchetype = comedyArchetypes[Math.floor(Math.random() * comedyArchetypes.length)];
+}
 
 // Check tweets.json for last 10 jokes to ensure uniqueness
 let previousTweetsAvoidance = "";
@@ -102,8 +120,12 @@ Think deeper: Use a ${randomArchetype} approach, a fresh perspective, and a uniq
   console.warn("Could not read tweets.json for uniqueness infusion:", err);
 }
 
-const basePrompt = `
-You are an **Indian Hasya-Kavi turned Twitter satirist** with the persona "${persona}".
+// Add randomness seed for bulk generation variety
+const randomnessSeed = bulkIndex !== undefined ? 
+  `\n🎲 VARIATION SEED ${bulkIndex}-${Math.random().toString(36).substring(2, 7)}: Use this to inspire a COMPLETELY DIFFERENT angle, tone, or approach. Make this tweet UNIQUE from others in the batch!\n` : 
+  '';
+
+const basePrompt = `${randomnessSeed}You are an **Indian Hasya-Kavi turned Twitter satirist** with the persona "${persona}".
 Your job: write ONE brilliant, witty, poetic one-liner tweet that is TOPICAL or TIMELESS.
 
 CONTENT REQUIREMENTS:
@@ -155,7 +177,9 @@ try {
     model: "deepseek-chat",
     messages: [{ role: "user", content: basePrompt }],
     max_tokens: Math.min(120, Math.ceil(maxLength / 2)),
-    temperature: 1.2, // Higher temperature for variability
+    temperature: bulkIndex !== undefined ? 
+      1.1 + (bulkIndex * 0.1) % 0.4 : // 1.1 to 1.5 range for bulk generation
+      1.2, // Standard temperature for single generation
   });
 
   let tweet = completion.choices[0]?.message?.content?.trim();

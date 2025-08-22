@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
 
         logIST(`🎭 Generating tweet ${i + 1}/${tweetsToGenerate} with ${randomPersona} persona...`);
 
-        const generatedTweet = await generateTweet(options);
+        const generatedTweet = await generateTweet(options, i);
         const qualityScore = calculateQualityScore(
           generatedTweet.content,
           generatedTweet.hashtags,
