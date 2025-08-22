@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { AutoSchedulerStats } from '@/types/dashboard';
+import { formatDateIST } from '@/lib/timezone';
 
 interface AutoSchedulerProps {
   isRunning: boolean;
@@ -46,8 +47,8 @@ export function AutoScheduler({ isRunning, loading, stats, onToggle }: AutoSched
             
             {stats.nextRun && (
               <div className="space-y-2">
-                <div className="text-xs uppercase text-gray-400 tracking-wide">Next Run</div>
-                <div className="text-sm text-green-400">{new Date(stats.nextRun).toLocaleString()}</div>
+                <div className="text-xs uppercase text-gray-400 tracking-wide">Next Run (IST)</div>
+                <div className="text-sm text-green-400">{formatDateIST(new Date(stats.nextRun))}</div>
               </div>
             )}
             
@@ -57,7 +58,7 @@ export function AutoScheduler({ isRunning, loading, stats, onToggle }: AutoSched
                 <div className="text-blue-400">Generated: {stats.totalGenerated}</div>
                 <div className="text-purple-400">Posted: {stats.totalPosted}</div>
                 {stats.lastRun && (
-                  <div className="text-gray-400 text-xs">Last: {new Date(stats.lastRun).toLocaleString()}</div>
+                  <div className="text-gray-400 text-xs">Last: {formatDateIST(new Date(stats.lastRun))}</div>
                 )}
               </div>
             </div>

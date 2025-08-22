@@ -1,4 +1,5 @@
 // Optimal posting times for maximum engagement on X/Twitter
+import { toIST, formatDateIST, formatDateTimeLocalIST } from './timezone';
 
 export interface OptimalTime {
   hour: number;
@@ -41,8 +42,8 @@ export const WEEKDAY_MULTIPLIERS: Record<number, number> = {
 };
 
 export function getNextOptimalPostTime(fromDate: Date = new Date()): Date {
-  const now = new Date(fromDate);
-  const today = new Date(now);
+  const now = toIST(fromDate);
+  const today = toIST(new Date(now));
   
   // Find the next optimal time today
   const todaysTimes = OPTIMAL_POSTING_TIMES
@@ -68,7 +69,7 @@ export function getNextOptimalPostTime(fromDate: Date = new Date()): Date {
 
 export function getOptimalPostingSchedule(count: number, startTime?: Date): Date[] {
   const schedule: Date[] = [];
-  let currentTime = startTime || new Date();
+  let currentTime = startTime ? toIST(startTime) : toIST(new Date());
   
   for (let i = 0; i < count; i++) {
     const nextOptimal = getNextOptimalPostTime(currentTime);
@@ -84,7 +85,7 @@ export function getOptimalPostingSchedule(count: number, startTime?: Date): Date
 // Helper function to ensure minimum spacing between posts (anti-spam protection)
 export function getSpacedPostingSchedule(count: number, minSpacingMinutes: number = 45, startTime?: Date): Date[] {
   const schedule: Date[] = [];
-  let currentTime = startTime || new Date();
+  let currentTime = startTime ? toIST(startTime) : toIST(new Date());
   
   for (let i = 0; i < count; i++) {
     const nextOptimal = getNextOptimalPostTime(currentTime);
@@ -112,8 +113,9 @@ export function getSpacedPostingSchedule(count: number, minSpacingMinutes: numbe
 }
 
 export function isOptimalPostingTime(date: Date): { isOptimal: boolean; engagement: string } {
-  const hour = date.getHours();
-  const dayOfWeek = date.getDay();
+  const istDate = toIST(date);
+  const hour = istDate.getHours();
+  const dayOfWeek = istDate.getDay();
   
   const optimalHour = OPTIMAL_POSTING_TIMES.find(time => time.hour === hour);
   const dayMultiplier = WEEKDAY_MULTIPLIERS[dayOfWeek];
@@ -130,8 +132,9 @@ export function isOptimalPostingTime(date: Date): { isOptimal: boolean; engageme
 }
 
 export function getEngagementScore(date: Date): number {
-  const hour = date.getHours();
-  const dayOfWeek = date.getDay();
+  const istDate = toIST(date);
+  const hour = istDate.getHours();
+  const dayOfWeek = istDate.getDay();
   
   const optimalHour = OPTIMAL_POSTING_TIMES.find(time => time.hour === hour);
   const dayMultiplier = WEEKDAY_MULTIPLIERS[dayOfWeek];
@@ -167,27 +170,12 @@ export function formatOptimalTime(date: Date): string {
   return `${formatted} (${score * 100}% engagement${engagement.isOptimal ? ' ⭐' : ''})`;
 }
 
-// Helper function to format date for datetime-local input (assumes IST)
+// Helper function to format date for datetime-local input (IST-based)
 export function toDateTimeLocal(date: Date): string {
-  // Format date for datetime-local input
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
+  return formatDateTimeLocalIST(date);
 }
 
 // Helper function to format date in IST for display
 export function formatISTTime(date: Date): string {
-  return date.toLocaleString('en-US', {
-    timeZone: 'Asia/Kolkata',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
-  });
+  return formatDateIST(date);
 }

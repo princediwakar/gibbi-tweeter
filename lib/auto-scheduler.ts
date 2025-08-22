@@ -2,6 +2,7 @@ import * as cron from 'node-cron';
 import { generateHighQualityTweets, selectBestTweetsForPosting, saveGeneratedTweets } from './auto-generator';
 import { saveTweet, generateTweetId } from './db';
 import { postToTwitter } from './twitter';
+import { toIST, logIST } from './timezone';
 
 interface AutoSchedulerState {
   isRunning: boolean;
@@ -96,8 +97,8 @@ class AutoScheduler {
   }
 
   private async automatedTweetGeneration(timeSlot: string): Promise<void> {
-    console.log(`🌅 Starting automated tweet generation for ${timeSlot} slot...`);
-    this.state.stats.lastRun = new Date();
+    logIST(`🌅 Starting automated tweet generation for ${timeSlot} slot...`);
+    this.state.stats.lastRun = toIST(new Date());
 
     // Add randomization - sometimes skip a slot to vary posting frequency (85% chance to post)
     if (Math.random() > 0.85) {
@@ -293,9 +294,8 @@ class AutoScheduler {
   }
 
   private updateNextRunTime(): void {
-    // Get current time in IST (UTC+5:30)
-    const now = new Date();
-    const istNow = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Kolkata"}));
+    // Get current time in IST
+    const istNow = toIST(new Date());
     const currentTime = istNow.getHours() * 60 + istNow.getMinutes();
     
     // All posting times in minutes from midnight (weekdays only)
