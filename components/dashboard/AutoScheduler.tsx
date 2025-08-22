@@ -19,7 +19,7 @@ export function AutoScheduler({ isRunning, loading, stats, onToggle }: AutoSched
           <h2 className="text-lg font-semibold text-white flex items-center gap-2">
             🤖 Full Automation
           </h2>
-          <p className="text-gray-400 text-sm">Automated tweet generation and posting</p>
+          <p className="text-gray-400 text-sm">Automated tweet generation and posting (always on by default)</p>
         </div>
         <div className="flex gap-3">
           <Button
@@ -27,7 +27,7 @@ export function AutoScheduler({ isRunning, loading, stats, onToggle }: AutoSched
             disabled={loading || isRunning}
             className="bg-green-600 hover:bg-green-500 disabled:bg-gray-700 disabled:text-gray-400 text-white px-4 py-2 rounded-lg transition-colors"
           >
-            {isRunning ? 'Running...' : 'Start Auto'}
+            {isRunning ? '✅ Auto-On' : 'Resume Auto'}
           </Button>
           <Button
             onClick={() => onToggle('stop')}

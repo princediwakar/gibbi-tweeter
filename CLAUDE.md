@@ -37,7 +37,8 @@ This is an AI-powered tweet generation and scheduling bot built with Next.js 15,
 - Hashtag inclusion options
 
 ### ⚡ Automation Features
-- Auto-posting scheduler using node-cron
+- **Always-On Auto-Posting**: Scheduler starts automatically when app loads and runs continuously
+- Auto-posting scheduler using node-cron with IST timezone support
 - Batch operations for multiple tweet selection
 - Real-time dashboard tracking (drafts, scheduled, posted)
 - Tweet status management (draft/scheduled/posted/failed)

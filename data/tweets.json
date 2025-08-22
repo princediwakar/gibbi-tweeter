@@ -49,5 +49,56 @@
         "👍 Good quality tweet with strong engagement"
       ]
     }
+  },
+  {
+    "id": "memobq1fcnpq7k0c0uu",
+    "content": "A hospital bill arrives with more plot twists than a daily soap, making you wonder if the real treatment was for the trauma of reading it. #HealthcareCosts #MedicalBills",
+    "hashtags": [
+      "#HealthcareCosts",
+      "#MedicalBills"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T10:14:36.435Z",
+    "qualityScore": {
+      "overall": 78,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "memod4ged77y0dd9icl",
+    "content": "Our courts now deliver justice with the speed of a government office, but the relief they grant is as real as a politician's promise. #JudicialReforms #HappyWithDecision",
+    "hashtags": [
+      "#JudicialReforms"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T10:15:41.774Z",
+    "qualityScore": {
+      "overall": 79,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
   }
 ]

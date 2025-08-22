@@ -382,5 +382,20 @@ class AutoScheduler {
 // Singleton instance
 const autoScheduler = new AutoScheduler();
 
+// Auto-start the scheduler when module loads (unless explicitly disabled)
+// This ensures auto-posting is always on by default
+if (process.env.NODE_ENV !== 'test' && process.env.DISABLE_AUTO_START !== 'true') {
+  // Use setTimeout to avoid blocking the module loading
+  setTimeout(async () => {
+    try {
+      console.log('🚀 Auto-starting scheduler on app initialization...');
+      await autoScheduler.start();
+      console.log('✅ Auto-scheduler started automatically');
+    } catch (error) {
+      console.error('❌ Failed to auto-start scheduler:', error);
+    }
+  }, 2000); // 2 second delay to ensure app is fully loaded
+}
+
 export { autoScheduler };
 export type { AutoSchedulerState };
