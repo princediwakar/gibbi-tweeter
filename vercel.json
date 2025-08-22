@@ -16,12 +16,8 @@
   "outputDirectory": ".next",
   "crons": [
     {
-      "path": "/api/cron/daily-tweets",
-      "schedule": "30 19 * * 0-4"
-    },
-    {
-      "path": "/api/cron/post-tweet", 
-      "schedule": "*/5 * * * *"
+      "path": "/api/cron/auto-tweet",
+      "schedule": "*/15 * * * 1-5"
     }
   ]
 }

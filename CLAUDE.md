@@ -219,28 +219,31 @@ The app is configured for Vercel deployment with proper environment variable set
 
 ### **Vercel Cron Jobs (Production)**
 
-The app uses Vercel's reliable cron system for automated posting in production:
+The app uses Vercel's reliable cron system with a SINGLE comprehensive job for all automation:
 
 ```json
 {
   "crons": [
     {
-      "path": "/api/cron/daily-tweets",
-      "schedule": "30 19 * * 0-4"
-    },
-    {
-      "path": "/api/cron/post-tweet", 
-      "schedule": "*/5 * * * *"
+      "path": "/api/cron/auto-tweet",
+      "schedule": "*/15 * * * 1-5"
     }
   ]
 }
 ```
 
-**Schedule Details:**
-- **Daily Generation**: `30 19 * * 0-4` (7:30 PM UTC = 1:00 AM IST) - Generates 10-15 tweets for the day
-- **Tweet Posting**: `*/5 * * * *` (Every 5 minutes) - Posts scheduled tweets at their designated times
-- **Timezone**: All IST times properly converted to UTC for consistent deployment
+**Single Cron Job Details:**
+- **Schedule**: `*/15 * * * 1-5` (Every 15 minutes, Monday-Friday)
+- **Comprehensive Automation**: One job handles generation, scheduling, AND posting
+- **Smart Logic**: Posts ready tweets immediately, generates new ones when needed
+- **Optimal Timing**: Uses 15 IST time slots (8am-10pm) for maximum engagement
+- **Persona Variety**: Alternates between Satirist and Philosopher personas
 - **Environment**: Requires `CRON_SECRET` environment variable for security
+
+**How It Works:**
+1. **Phase 1**: Check for tweets ready to post (within 5-minute window)
+2. **Phase 2**: Generate 3-8 new tweets if pipeline has < 5 tweets OR every 6 hours
+3. **Intelligent Scheduling**: Uses optimal IST posting times with proper UTC conversion
 
 ## 🔄 Documentation Update Guidelines
 
