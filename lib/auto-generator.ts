@@ -30,7 +30,7 @@ export interface AutoGenerationOptions {
   maxAttempts?: number;
 }
 
-const PERSONAS = ['unhinged_satirist'] as const;
+const PERSONAS = ['unhinged_satirist', 'desi_philosopher'] as const;
 
 const GENERATION_VARIATIONS = [
   { includeHashtags: true, useTrendingTopics: true },

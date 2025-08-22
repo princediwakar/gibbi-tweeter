@@ -4,23 +4,23 @@ import { saveTweet, generateTweetId } from '@/lib/db';
 import { calculateQualityScore } from '@/lib/quality-scorer';
 import { logIST, toIST } from '@/lib/timezone';
 
-// Optimal posting times in IST (converted from UTC cron time)
+// Optimal posting times in IST (24-hour format)
 const OPTIMAL_POSTING_TIMES = [
   { hour: 8, minute: 0 },   // 8:00 AM IST
   { hour: 9, minute: 30 },  // 9:30 AM IST
   { hour: 10, minute: 0 },  // 10:00 AM IST
   { hour: 11, minute: 30 }, // 11:30 AM IST
   { hour: 12, minute: 0 },  // 12:00 PM IST
-  { hour: 1, minute: 30 },  // 1:30 PM IST
-  { hour: 3, minute: 0 },   // 3:00 PM IST
-  { hour: 4, minute: 30 },  // 4:30 PM IST
-  { hour: 5, minute: 0 },   // 5:00 PM IST
-  { hour: 6, minute: 30 },  // 6:30 PM IST
-  { hour: 7, minute: 0 },   // 7:00 PM IST
-  { hour: 8, minute: 30 },  // 8:30 PM IST
-  { hour: 9, minute: 0 },   // 9:00 PM IST
-  { hour: 9, minute: 30 },  // 9:30 PM IST
-  { hour: 10, minute: 0 },  // 10:00 PM IST
+  { hour: 13, minute: 30 }, // 1:30 PM IST
+  { hour: 14, minute: 0 },  // 2:00 PM IST
+  { hour: 15, minute: 0 },  // 3:00 PM IST
+  { hour: 16, minute: 30 }, // 4:30 PM IST
+  { hour: 17, minute: 0 },  // 5:00 PM IST
+  { hour: 18, minute: 30 }, // 6:30 PM IST
+  { hour: 19, minute: 0 },  // 7:00 PM IST
+  { hour: 20, minute: 30 }, // 8:30 PM IST
+  { hour: 21, minute: 0 },  // 9:00 PM IST
+  { hour: 22, minute: 0 },  // 10:00 PM IST
 ];
 
 
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
 
     logIST('🚀 Starting daily tweet generation and scheduling...');
 
-    const today = toIST(new Date());
+    // const today = toIST(new Date()); // Reserved for future use
     const tweetsToGenerate = Math.floor(Math.random() * 6) + 10; // 10-15 tweets
     const selectedTimes = OPTIMAL_POSTING_TIMES.slice(0, tweetsToGenerate);
 
@@ -45,7 +45,8 @@ export async function GET(request: NextRequest) {
     for (let i = 0; i < tweetsToGenerate; i++) {
       try {
         // Use the unhinged satirist persona
-        const randomPersona = 'unhinged_satirist' as const;
+        const personas = ['unhinged_satirist', 'desi_philosopher'] as const;
+        const randomPersona = personas[Math.floor(Math.random() * personas.length)];
         
         const options: TweetGenerationOptions = {
           persona: randomPersona,
@@ -62,15 +63,26 @@ export async function GET(request: NextRequest) {
           randomPersona
         );
 
-        // Calculate scheduled time for this tweet
+        // Calculate scheduled time for this tweet in IST
         const timeSlot = selectedTimes[i];
-        const scheduledFor = new Date(today);
-        scheduledFor.setHours(timeSlot.hour, timeSlot.minute, 0, 0);
+        
+        // Create IST time for today
+        const istToday = toIST(new Date());
+        const scheduledIST = new Date(istToday.getFullYear(), istToday.getMonth(), istToday.getDate(), 
+                                     timeSlot.hour, timeSlot.minute, 0, 0);
+        
+        // Convert IST to UTC for storage (subtract 5:30 hours)
+        const utcTime = scheduledIST.getTime() - (5.5 * 60 * 60 * 1000);
+        const scheduledFor = new Date(utcTime);
 
-        // Since this cron runs at 2:00 AM UTC (7:30 AM IST), all times today should be valid
-        // But if somehow a time has passed, schedule for tomorrow
-        if (scheduledFor <= new Date()) {
-          scheduledFor.setDate(scheduledFor.getDate() + 1);
+        // If the time has already passed today, schedule for tomorrow
+        const now = toIST(new Date());
+        const currentTimeMinutes = now.getHours() * 60 + now.getMinutes();
+        const scheduledTimeMinutes = timeSlot.hour * 60 + timeSlot.minute;
+        
+        if (scheduledTimeMinutes <= currentTimeMinutes) {
+          // Add 24 hours to schedule for tomorrow
+          scheduledFor.setTime(scheduledFor.getTime() + 24 * 60 * 60 * 1000);
         }
 
         const tweet = {

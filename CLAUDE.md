@@ -29,6 +29,12 @@ This is an AI-powered tweet generation and scheduling bot built with Next.js 15,
   - Anti-repetition protocol with freshness enforcement
   - Current Indian events and cultural references required
 
+- **Desi Philosopher** (🧘‍♂️) - Ancient wisdom meets modern chaos with philosophical insights
+  - Blends Vedantic wisdom with contemporary Indian reality
+  - References: Bhagavad Gita, Buddha, Upanishads, Sufi mysticism
+  - Modern applications: Tech addiction, career stress, relationships
+  - Tone: Wise but accessible, gentle humor with profound insights
+
 ### 🚀 Tweet Generation
 - Single tweet generation with custom prompts
 - Bulk generation (5-20 tweets at once)

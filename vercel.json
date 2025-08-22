@@ -17,10 +17,10 @@
   "crons": [
     {
       "path": "/api/cron/daily-tweets",
-      "schedule": "0 2 * * 1-5"
+      "schedule": "30 19 * * 0-4"
     },
     {
-      "path": "/api/cron/post-tweet",
+      "path": "/api/cron/post-tweet", 
       "schedule": "*/5 * * * *"
     }
   ]

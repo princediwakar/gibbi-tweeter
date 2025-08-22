@@ -10,6 +10,12 @@ const PERSONAS: Persona[] = [
     description: 'Sharp Indian satirist with cultural references, exaggeration, and absurd metaphors',
     emoji: '🃏',
   },
+  {
+    id: 'desi_philosopher',
+    name: 'Desi Philosopher',
+    description: 'Ancient wisdom meets modern chaos - philosophical insights with desi context',
+    emoji: '🧘‍♂️',
+  },
 ];
 
 const BULK_GENERATION_CONFIG = {

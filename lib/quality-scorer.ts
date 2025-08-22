@@ -159,6 +159,37 @@ function calculatePersonaAlignment(content: string, persona: string): number {
       // Reduce penalty for seriousness in poetic context
       if (!content.match(/[!?]/) && !content.match(/😂|🤣|😭/)) score -= 0.05;
       break;
+
+    case 'desi_philosopher':
+      // Philosophical and spiritual terminology
+      if (content.match(/dharma|karma|maya|samsara|moksha|meditation|zen|buddha|gita|upanishad|vedanta|sufi|atman/i)) score += 0.25;
+      
+      // Sanskrit/Hindi philosophical terms
+      if (content.match(/satsang|prasad|guru|ashram|yogi|sadhana|tapas|bhakti|jnana|seva/i)) score += 0.15;
+      
+      // Modern philosophical concepts
+      if (content.match(/mindfulness|consciousness|awareness|enlightenment|wisdom|truth|reality|illusion/i)) score += 0.2;
+      
+      // Indian philosophical references
+      if (content.match(/krishna|arjuna|vishnu|shiva|ganesh|hanuman|ram|osho|vivekananda|tagore/i)) score += 0.15;
+      
+      // Contemplative emojis and tone
+      if (content.match(/🧘|🕉️|🙏|🌸|🌊|✨|🌅|🕯️|📿/)) score += 0.1;
+      
+      // Philosophical structure - questions and reflections
+      if (content.match(/\?/)) score += 0.1; // philosophical questions
+      if (content.match(/perhaps|maybe|what if|consider|reflect|ponder/i)) score += 0.1;
+      
+      // Wisdom connecting past and present
+      if (content.match(/ancient.*modern|old.*new|tradition.*technology|past.*present|yesterday.*today/i)) score += 0.15;
+      
+      // Gentle humor rather than harsh satire
+      if (content.match(/gently|softly|whispers|smiles|chuckles/i)) score += 0.05;
+      
+      // Modern life references with philosophical spin
+      if (content.match(/notification|smartphone|instagram|linkedin|zoom|meeting|traffic|metro|uber|zomato/i)) score += 0.1;
+      
+      break;
       
     default:
       score = 0.7; // higher default for poetry
