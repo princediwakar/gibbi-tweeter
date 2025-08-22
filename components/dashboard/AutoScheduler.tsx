@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { AutoSchedulerStats } from '@/types/dashboard';
-import { formatDateIST, formatExactTimeIST, getTimeUntil } from '@/lib/timezone';
+import { formatExactTimeIST, getTimeUntil } from '@/lib/timezone';
 import { useClientSafe } from '@/hooks/useClientSafe';
 
 interface AutoSchedulerProps {
@@ -11,10 +11,8 @@ interface AutoSchedulerProps {
   onToggle: (action: 'start-chain' | 'stop-chain') => void;
 }
 
-export function AutoScheduler({ loading, autoChainRunning, stats, nextPostTime, onToggle }: AutoSchedulerProps) {
+export function AutoScheduler({ loading, autoChainRunning, nextPostTime, onToggle }: AutoSchedulerProps) {
   const isClient = useClientSafe();
-  // Check if we're in production by looking at the stats note
-  const isProd = isClient && stats?.note?.includes('Production');
   
   return (
     <section className="bg-gray-900 rounded-xl border border-gray-800 p-6">

@@ -872,7 +872,7 @@
       "#SeditionCharges"
     ],
     "persona": "unhinged_satirist",
-    "status": "draft",
+    "status": "posted",
     "createdAt": "2025-08-22T13:52:14.189Z",
     "qualityScore": {
       "overall": 81,
@@ -888,7 +888,9 @@
       "feedback": [
         "👍 Good quality tweet with strong engagement"
       ]
-    }
+    },
+    "postedAt": "2025-08-22T13:58:44.597Z",
+    "twitterId": "1958891590283375027"
   },
   {
     "id": "memw3y9p7mokpefjqtv",
@@ -898,7 +900,7 @@
       "#TaxThePoor"
     ],
     "persona": "unhinged_satirist",
-    "status": "draft",
+    "status": "posted",
     "createdAt": "2025-08-22T13:52:30.781Z",
     "qualityScore": {
       "overall": 79,
@@ -915,7 +917,9 @@
         "👍 Good quality tweet with strong engagement",
         "📈 Add relatable or emotional elements for shareability"
       ]
-    }
+    },
+    "postedAt": "2025-08-22T13:58:32.922Z",
+    "twitterId": "1958891541407097307"
   },
   {
     "id": "memw6vxo0fxij2c82sce",
@@ -924,7 +928,7 @@
       "#GamingBan"
     ],
     "persona": "unhinged_satirist",
-    "status": "draft",
+    "status": "posted",
     "createdAt": "2025-08-22T13:54:47.724Z",
     "qualityScore": {
       "overall": 72,
@@ -942,6 +946,64 @@
         "📖 Simplify language for better readability",
         "📈 Add relatable or emotional elements for shareability"
       ]
+    },
+    "postedAt": "2025-08-22T13:58:30.341Z",
+    "twitterId": "1958891530610950631"
+  },
+  {
+    "id": "memwa8oj9vu9ridjypa",
+    "content": "My UPI is so patriotic, it auto-donates 20% of every transaction to a political party as ‘voluntary taxation’ and sends a thank you note from the IT Department. #TaxTerror #DigitalIndia",
+    "hashtags": [
+      "#TaxTerror",
+      "#DigitalIndia"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T13:57:24.211Z",
+    "qualityScore": {
+      "overall": 80,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.9999999999999998,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.65
+      },
+      "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
     }
+  },
+  {
+    "id": "memwb76nhzf7t7dbj2j",
+    "content": "If we all got 30 IQ points smarter, we'd finally understand that the only gene being edited is the one that makes us believe a ₹2000 note is still legal tender. #Demonetization #InflationIndia",
+    "hashtags": [
+      "#Demonetization",
+      "#InflationIndia"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "posted",
+    "createdAt": "2025-08-22T13:58:08.927Z",
+    "qualityScore": {
+      "overall": 78,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.9999999999999998,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.35
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    },
+    "postedAt": "2025-08-22T13:58:26.268Z",
+    "twitterId": "1958891512504201481"
   }
 ]
