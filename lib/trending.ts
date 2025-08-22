@@ -43,6 +43,19 @@ interface RSSResponse {
   };
 }
 
+// Atom feed response type
+interface AtomResponse {
+  feed?: {
+    entry?: Array<{
+      title?: string | string[];
+      link?: string | string[];
+    }>;
+  };
+}
+
+// Combined response type
+type FeedResponse = RSSResponse | AtomResponse;
+
 // ─────────────────────────────────────────────
 // 🔧 Constants
 // ─────────────────────────────────────────────
@@ -139,6 +152,8 @@ function getCachedTrends(): TrendingTopic[] | null {
     console.log("📦 Using cached Twitter trending topics");
     return cached.data;
   }
+  // Force refresh for debugging
+  console.log("🔄 Cache expired or not found, fetching fresh data");
   return null;
 }
 
@@ -192,8 +207,18 @@ async function loadSources(): Promise<Sources> {
 }
 
 function getRandomTwitterHandles(handles: string[], count: number = 5): string[] {
-  const shuffled = [...handles].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
+  // Prioritize certain handles that we know are active
+  const priorityHandles = ['@Inc42', '@ETtech', '@paraschopra', '@livemint'];
+  const prioritySelected = priorityHandles.filter(handle => handles.includes(handle));
+  
+  // Get remaining handles randomly
+  const remainingHandles = handles.filter(handle => !priorityHandles.includes(handle));
+  const shuffled = [...remainingHandles].sort(() => 0.5 - Math.random());
+  const randomSelected = shuffled.slice(0, count - prioritySelected.length);
+  
+  const result = [...prioritySelected, ...randomSelected];
+  console.log(`🎯 Priority handles included: ${prioritySelected.join(', ')}`);
+  return result;
 }
 
 function getRandomSubreddits(subreddits: string[], count: number = 5): string[] {
@@ -207,6 +232,7 @@ async function fetchFromTwitterRSS(): Promise<TrendingTopic[]> {
   const userAgent = getRandomUserAgent();
   const sources = await loadSources();
   const selectedHandles = getRandomTwitterHandles(sources.twitter.handles, 8);
+  console.log(`🐦 Selected handles for RSS fetching: ${selectedHandles.join(', ')}`);
   
   const allTopics: TrendingTopic[] = [];
   
@@ -218,35 +244,130 @@ async function fetchFromTwitterRSS(): Promise<TrendingTopic[]> {
       // Clean handle (remove @ if present)
       const cleanHandle = handle.replace('@', '');
       
-      // Use exact URL format specified by user
-      const searchUrl = `https://news.google.com/rss/search?q=site:x.com/${cleanHandle}+when:1d&hl=en-IN&gl=IN&ceid=IN:en`;
+      // Try multiple URL formats for better coverage - relaxed time windows
+      const searchUrls = [
+        // Primary: Recent content (3 days) for better chances
+        `https://news.google.com/rss/search?q=site:x.com/${cleanHandle}+when:3d&hl=en-IN&gl=IN&ceid=IN:en`,
+        `https://news.google.com/rss/search?q=site:twitter.com/${cleanHandle}+when:3d&hl=en-IN&gl=IN&ceid=IN:en`,
+        `https://news.google.com/rss/search?q="${cleanHandle}"+when:3d&hl=en-IN&gl=IN&ceid=IN:en`,
+        // Fallback: No time filter for maximum coverage
+        `https://news.google.com/rss/search?q=site:x.com/${cleanHandle}&hl=en-IN&gl=IN&ceid=IN:en`,
+        `https://news.google.com/rss/search?q=site:twitter.com/${cleanHandle}&hl=en-IN&gl=IN&ceid=IN:en`,
+        `https://news.google.com/rss/search?q="${cleanHandle}"&hl=en-IN&gl=IN&ceid=IN:en`,
+        // Additional broad searches
+        `https://news.google.com/rss/search?q=${cleanHandle}+india&hl=en-IN&gl=IN&ceid=IN:en`,
+        `https://news.google.com/rss/search?q=${cleanHandle}+tech&hl=en-IN&gl=IN&ceid=IN:en`
+      ];
       
       console.log(`🔍 Searching Twitter content for ${handle}...`);
       
-      const response = await fetch(searchUrl, {
-        headers: {
-          'User-Agent': userAgent,
-          'Accept': 'application/rss+xml,application/xml,text/xml',
-          'Accept-Language': 'en-IN,en;q=0.9',
-        },
-        signal: controller.signal,
-      });
-
-      if (!response.ok) {
-        throw new Error(`RSS fetch failed: ${response.status}`);
+      // Special debugging for known active handles
+      if (cleanHandle.toLowerCase() === 'inc42') {
+        console.log(`🔍 Special attention: ${handle} is known to be active`);
       }
+      
+      let items: Array<{
+        title?: string[];
+        link?: string[];
+        "ht:approx_traffic"?: string[];
+      }> = [];
+      let success = false;
+      
+      // Try multiple URL formats
+      for (let i = 0; i < searchUrls.length; i++) {
+        const searchUrl = searchUrls[i];
+        try {
+          const response = await fetch(searchUrl, {
+            headers: {
+              'User-Agent': userAgent,
+              'Accept': 'application/rss+xml,application/xml,text/xml',
+              'Accept-Language': 'en-IN,en;q=0.9',
+            },
+            signal: controller.signal,
+          });
 
-      const xml = await response.text();
-      const parsed: RSSResponse = await parseStringPromise(xml);
-      const items = parsed?.rss?.channel?.[0]?.item ?? [];
+          if (!response.ok) {
+            if (cleanHandle.toLowerCase() === 'inc42') {
+              console.log(`⚠️ URL ${i + 1} failed for ${handle}: ${response.status} - ${searchUrl.split('?q=')[1]?.split('&')[0]}`);
+            }
+            continue; // Try next URL format
+          }
+
+          const xml = await response.text();
+          const parsed: RSSResponse = await parseStringPromise(xml);
+          const fetchedItems = parsed?.rss?.channel?.[0]?.item ?? [];
+          
+          if (Array.isArray(fetchedItems) && fetchedItems.length > 0) {
+            items = fetchedItems;
+            success = true;
+            console.log(`✅ Found content using URL format ${i + 1}: ${searchUrl.split('?q=')[1]?.split('&')[0]}`);
+            break; // Use this successful result
+          } else {
+            if (cleanHandle.toLowerCase() === 'inc42') {
+              console.log(`⚠️ URL ${i + 1} returned empty results for ${handle}: ${searchUrl.split('?q=')[1]?.split('&')[0]}`);
+            }
+          }
+        } catch (err) {
+          if (cleanHandle.toLowerCase() === 'inc42') {
+            console.log(`⚠️ URL ${i + 1} threw error for ${handle}: ${err instanceof Error ? err.message : String(err)}`);
+          }
+          // Continue to next URL format
+          continue;
+        }
+      }
+      
+      if (!success) {
+        console.log(`📭 No content found for ${handle} with any URL format`);
+        
+        // Try one more fallback: direct Twitter RSS (if available)
+        try {
+          const twitterRssUrl = `https://nitter.net/${cleanHandle}/rss`;
+          const response = await fetch(twitterRssUrl, {
+            headers: {
+              'User-Agent': userAgent,
+              'Accept': 'application/rss+xml,application/xml,text/xml',
+            },
+            signal: controller.signal,
+          });
+          
+          if (response.ok) {
+            const xml = await response.text();
+            const parsed: RSSResponse = await parseStringPromise(xml);
+            const fetchedItems = parsed?.rss?.channel?.[0]?.item ?? [];
+            
+            if (Array.isArray(fetchedItems) && fetchedItems.length > 0) {
+              items = fetchedItems;
+              success = true;
+              console.log(`✅ Found content using Nitter RSS for ${handle}`);
+            }
+          }
+        } catch (err) {
+          // Ignore this fallback error
+        }
+        
+        if (!success) {
+          continue; // Move to next handle
+        }
+      }
 
       if (Array.isArray(items) && items.length > 0) {
         const topics: TrendingTopic[] = items
           .slice(0, 3) // Take max 3 per handle
           .filter((item) => {
             const title = item.title?.[0]?.trim();
-            // Filter for substantial content
-            return title && title.length > 20 && !title.includes('...');
+            // More lenient filtering for Twitter content
+            return title && 
+                   title.length > 10 && // Further reduced minimum length
+                   title.length < 300 && // Increased maximum length
+                   !title.startsWith('http') && // Exclude URLs
+                   !title.match(/^https?:\/\//) && // Exclude URLs more thoroughly
+                   !title.includes('support.') && // Exclude support pages
+                   !title.includes('help.') && // Exclude help pages
+                   !title.includes('docs.') && // Exclude documentation
+                   !title.includes('api.') && // Exclude API pages
+                   !title.toLowerCase().includes('cookie') && // Exclude cookie notices
+                   !title.toLowerCase().includes('privacy') && // Exclude privacy notices
+                   title.split(' ').length > 1; // Just need more than 1 word
           })
           .map((item) => {
             const title = item.title?.[0]?.trim() ?? "Twitter Update";
@@ -256,21 +377,30 @@ async function fetchFromTwitterRSS(): Promise<TrendingTopic[]> {
               .replace(/\s*-\s*(Twitter|X\.com).*$/i, '') // Remove Twitter suffix
               .replace(/\s*\.\.\.$/, '') // Remove trailing ellipsis
               .replace(/^["']|["']$/g, '') // Remove quotes
+              .replace(/\s+/g, ' ') // Normalize whitespace
               .trim();
             
-            return {
-              title: cleanTitle || title,
-              hashtag: createHashtagFromTitle(cleanTitle || title),
+            // Very lenient validation for Twitter content
+            if (!cleanTitle || cleanTitle.length < 5 || cleanTitle.length > 250) {
+              return null;
+            }
+            
+            const topic: TrendingTopic = {
+              title: cleanTitle,
+              hashtag: createHashtagFromTitle(cleanTitle),
               traffic: `${randomInt(10, 100)}K`,
               category: `Twitter via ${handle}`,
               author: handle,
               tweetUrl: item.link?.[0] || `https://x.com/${cleanHandle}`,
             };
-          });
+            return topic;
+          })
+          .filter((topic): topic is TrendingTopic => topic !== null); // Remove null entries with proper typing
 
         allTopics.push(...topics);
         if (topics.length > 0) {
           console.log(`✅ Found ${topics.length} tweets from ${handle}`);
+          console.log(`📝 Sample topics from ${handle}:`, topics.slice(0, 2).map(t => t.title.substring(0, 60) + '...'));
         }
       } else {
         console.log(`📭 No recent tweets found for ${handle}`);
@@ -312,45 +442,76 @@ async function fetchFromRedditRSS(): Promise<TrendingTopic[]> {
   
   for (const subreddit of selectedSubreddits) {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    const timeoutId = setTimeout(() => controller.abort(), 20000); // Increased timeout
     
     try {
-      // Use direct Reddit RSS URL format
-      const rssUrl = `https://www.reddit.com/r/${subreddit}.rss`;
+      // Try multiple Reddit RSS formats for better reliability
+      const rssUrls = [
+        `https://www.reddit.com/r/${subreddit}.rss`,
+        `https://www.reddit.com/r/${subreddit}/hot.rss`,
+        `https://www.reddit.com/r/${subreddit}/new.rss`,
+        `https://old.reddit.com/r/${subreddit}.rss`
+      ];
       
       console.log(`🔍 Fetching content from r/${subreddit}...`);
       
-      const response = await fetch(rssUrl, {
-        headers: {
-          'User-Agent': userAgent,
-          'Accept': 'application/rss+xml,application/xml,text/xml',
-          'Accept-Language': 'en-IN,en;q=0.9',
-        },
-        signal: controller.signal,
-      });
+      let response;
+      let xml;
+      let success = false;
+      
+      // Try different Reddit RSS URLs
+      for (const rssUrl of rssUrls) {
+        try {
+          response = await fetch(rssUrl, {
+            headers: {
+              'User-Agent': userAgent,
+              'Accept': 'application/rss+xml,application/xml,text/xml',
+              'Accept-Language': 'en-IN,en;q=0.9',
+            },
+            signal: controller.signal,
+          });
 
-      if (!response.ok) {
-        throw new Error(`Reddit RSS fetch failed: ${response.status}`);
+          if (response.ok) {
+            xml = await response.text();
+            success = true;
+            console.log(`✅ Successfully fetched from ${rssUrl}`);
+            break;
+          }
+        } catch (err) {
+          console.log(`⚠️ Failed to fetch ${rssUrl}: ${err instanceof Error ? err.message : String(err)}`);
+          continue;
+        }
+      }
+      
+      if (!success || !xml) {
+        throw new Error(`All Reddit RSS URLs failed for r/${subreddit}`);
       }
 
-      const xml = await response.text();
-      const parsed: RSSResponse = await parseStringPromise(xml);
-      const items = parsed?.rss?.channel?.[0]?.item ?? [];
+      const parsed: FeedResponse = await parseStringPromise(xml);
+      // Handle both RSS and Atom feeds
+      const items = ('rss' in parsed ? parsed?.rss?.channel?.[0]?.item : (parsed as AtomResponse)?.feed?.entry) ?? [];
 
       if (Array.isArray(items) && items.length > 0) {
         const topics: TrendingTopic[] = items
-          .slice(0, 4) // Take max 4 per subreddit
+          .slice(0, 5) // Take max 5 per subreddit for better variety
           .filter((item) => {
-            const title = item.title?.[0]?.trim();
-            // Filter for substantial content and exclude deleted/removed posts
-            return title && title.length > 15 && 
+            // Handle both RSS and Atom feed formats
+            const title = Array.isArray(item.title) ? item.title[0]?.trim() : typeof item.title === 'string' ? item.title.trim() : '';
+            // More lenient filtering for Reddit content
+            return title && 
+                   title.length > 10 && // Reduced minimum length
+                   title.length < 300 && // Increased maximum length
                    !title.includes('[deleted]') && 
                    !title.includes('[removed]') &&
-                   !title.includes('...') &&
-                   !title.match(/^\[.*\]$/); // Skip posts that are just [category] tags
+                   !title.toLowerCase().includes('nsfw') &&
+                   !title.startsWith('http') && // Exclude URLs
+                   !title.match(/^https?:\/\//) && // Exclude URLs more thoroughly
+                   !title.match(/^\[.*\]$/) && // Skip posts that are just [category] tags
+                   title.split(' ').length > 2; // Must have at least 3 words
           })
           .map((item) => {
-            const title = item.title?.[0]?.trim() ?? "Reddit Post";
+            // Handle both RSS and Atom feed formats
+            const title = Array.isArray(item.title) ? item.title[0]?.trim() : typeof item.title === 'string' ? item.title.trim() : "Reddit Post";
             // Clean the title from Reddit formatting
             const cleanTitle = title
               .replace(/^submitted by .*? to .*?$/i, '') // Remove submission info
@@ -358,17 +519,25 @@ async function fetchFromRedditRSS(): Promise<TrendingTopic[]> {
               .replace(/^r\/.*?:\s*/, '') // Remove subreddit prefix
               .replace(/\s*\.\.\.$/, '') // Remove trailing ellipsis
               .replace(/^["']|["']$/g, '') // Remove quotes
+              .replace(/\s+/g, ' ') // Normalize whitespace
               .trim();
             
-            return {
-              title: cleanTitle || title,
-              hashtag: createHashtagFromTitle(cleanTitle || title),
+            // More lenient validation
+            if (!cleanTitle || cleanTitle.length < 8 || cleanTitle.length > 200) {
+              return null;
+            }
+            
+            const topic: TrendingTopic = {
+              title: cleanTitle,
+              hashtag: createHashtagFromTitle(cleanTitle),
               traffic: `${randomInt(5, 50)}K`, // Reddit traffic is generally lower
               category: `Reddit r/${subreddit}`,
               author: `r/${subreddit}`,
-              tweetUrl: item.link?.[0] || `https://www.reddit.com/r/${subreddit}`,
+              tweetUrl: (Array.isArray(item.link) ? item.link[0] : item.link) || `https://www.reddit.com/r/${subreddit}`,
             };
-          });
+            return topic;
+          })
+          .filter((topic): topic is TrendingTopic => topic !== null); // Remove null entries with proper typing
 
         allTopics.push(...topics);
         if (topics.length > 0) {
@@ -445,6 +614,7 @@ export async function getTrendingTopics(): Promise<TrendingTopic[]> {
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     console.log(`⚠️ Twitter RSS failed: ${message}`);
+    await logFailure('TwitterRSS-Main', message);
   }
 
   // Try Reddit RSS feeds
@@ -458,11 +628,13 @@ export async function getTrendingTopics(): Promise<TrendingTopic[]> {
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     console.log(`⚠️ Reddit RSS failed: ${message}`);
+    await logFailure('RedditRSS-Main', message);
   }
 
   // If we got some topics from either source, use them
   if (allTopics.length > 0) {
     console.log(`✅ Combined RSS successful - ${allTopics.length} topics from multiple sources`);
+    console.log(`📊 Sample topics:`, allTopics.slice(0, 3).map(t => `${t.title} (${t.category})`));
     setCachedTrends(allTopics);
     return allTopics;
   }
