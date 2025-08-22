@@ -330,35 +330,72 @@ class AutoScheduler {
       
       if (remainingTimes.length > 0) {
         const nextTimeToday = remainingTimes[0]; // First available time
-        nextRun = new Date(istNow);
-        nextRun.setHours(Math.floor(nextTimeToday / 60), nextTimeToday % 60, 0, 0);
-        logIST(`✅ Next run today: ${nextRun.getHours()}:${nextRun.getMinutes().toString().padStart(2, '0')}`);
+        
+        // Create the next run time properly in IST
+        const nextHour = Math.floor(nextTimeToday / 60);
+        const nextMinute = nextTimeToday % 60;
+        
+        // Create UTC time directly for IST time
+        // IST is UTC+5:30, so to get UTC time for IST hour:minute, we create UTC time directly
+        const istYear = istNow.getFullYear();
+        const istMonth = istNow.getMonth();
+        const istDate = istNow.getDate();
+        
+        // Create UTC time that corresponds to the IST time
+        // If we want 16:30 IST, we need 11:00 UTC (16:30 - 5:30 = 11:00)
+        const utcHour = nextHour - 5; // Subtract 5 hours
+        const utcMinute = nextMinute - 30; // Subtract 30 minutes
+        
+        // Handle minute underflow
+        let finalHour = utcHour;
+        let finalMinute = utcMinute;
+        let finalDate = istDate;
+        
+        if (finalMinute < 0) {
+          finalMinute += 60;
+          finalHour -= 1;
+        }
+        
+        // Handle hour underflow (previous day)
+        if (finalHour < 0) {
+          finalHour += 24;
+          finalDate -= 1;
+        }
+        
+        // Create the UTC date directly
+        nextRun = new Date(Date.UTC(istYear, istMonth, finalDate, finalHour, finalMinute, 0, 0));
+        
+        logIST(`✅ Next run today: ${nextHour}:${nextMinute.toString().padStart(2, '0')} IST`);
+        logIST(`📅 Stored as UTC: ${nextRun.toISOString()}`);
       }
     }
 
-    // If no time today or it's weekend, find next Monday 8 AM IST
+    // If no time today or it's weekend, find next weekday 8 AM IST
     if (!nextRun) {
-      nextRun = new Date(istNow);
+      const nextDate = new Date(istNow);
       
       // If it's already past all today's times or it's weekend, go to next weekday
       if (istNow.getDay() === 5) { // Friday
-        nextRun.setDate(nextRun.getDate() + 3); // Go to Monday
+        nextDate.setDate(nextDate.getDate() + 3); // Go to Monday
       } else if (istNow.getDay() === 6) { // Saturday
-        nextRun.setDate(nextRun.getDate() + 2); // Go to Monday
+        nextDate.setDate(nextDate.getDate() + 2); // Go to Monday
       } else if (istNow.getDay() === 0) { // Sunday
-        nextRun.setDate(nextRun.getDate() + 1); // Go to Monday
+        nextDate.setDate(nextDate.getDate() + 1); // Go to Monday
       } else {
-        nextRun.setDate(nextRun.getDate() + 1); // Go to next day
+        nextDate.setDate(nextDate.getDate() + 1); // Go to next day
       }
-      
-      nextRun.setHours(8, 0, 0, 0); // First slot of the day
       
       // Ensure it's a weekday
-      while (nextRun.getDay() < 1 || nextRun.getDay() > 5) {
-        nextRun.setDate(nextRun.getDate() + 1);
+      while (nextDate.getDay() < 1 || nextDate.getDay() > 5) {
+        nextDate.setDate(nextDate.getDate() + 1);
       }
       
-      logIST(`📅 Next run on next weekday: ${nextRun.getHours()}:${nextRun.getMinutes().toString().padStart(2, '0')} on day ${nextRun.getDay()}`);
+      // Create 8 AM IST as UTC time directly
+      // 8:00 IST = 2:30 UTC (8:00 - 5:30 = 2:30)
+      nextRun = new Date(Date.UTC(nextDate.getFullYear(), nextDate.getMonth(), nextDate.getDate(), 2, 30, 0, 0));
+      
+      logIST(`📅 Next run on next weekday: 8:00 IST on day ${nextDate.getDay()}`);
+      logIST(`📅 Stored as UTC: ${nextRun.toISOString()}`);
     }
 
     this.state.stats.nextRun = nextRun;
