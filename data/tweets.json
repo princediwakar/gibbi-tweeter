@@ -75,33 +75,6 @@
     }
   },
   {
-    "id": "memdbqs7e7n0qofyhr",
-    "content": "My phone's facial recognition works better with my mask on than my actual face, a true 'Made in India' feature for the post-apocalypse. #GooGle4ogmaigMadeby",
-    "hashtags": [
-      "#GooGle4ogmaigMadeby"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "posted",
-    "createdAt": "2025-08-22T05:06:41.623Z",
-    "qualityScore": {
-      "overall": 72,
-      "metrics": {
-        "engagement": 0.75,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7999999999999999,
-        "viralPotential": 0.5,
-        "trendRelevance": 0.65
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement"
-      ]
-    },
-    "postedAt": "2025-08-22T05:08:59.909Z",
-    "twitterId": "1958758276717326583"
-  },
-  {
     "id": "memdqnqynxc27ek1j4",
     "content": "The world unites to fund a war while my family's group chat is still fighting over who pays for last week's pizza. #FamilyDrama #JointSubredditFundr",
     "hashtags": [
@@ -228,6 +201,32 @@
       "feedback": [
         "✅ Decent tweet, room for improvement",
         "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "memhizaqua4gy2ujmo",
+    "content": "Our nation's youth is searching for affordable glue dots while our politicians are busy creating glue traps for the entire opposition. #DemocracyOnSale #AffordableIndia",
+    "hashtags": [
+      "#DemocracyOnSale",
+      "#AffordableIndia"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T07:04:17.714Z",
+    "qualityScore": {
+      "overall": 82,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
       ]
     }
   }
