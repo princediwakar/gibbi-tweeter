@@ -100,5 +100,31 @@
         "👍 Good quality tweet with strong engagement"
       ]
     }
+  },
+  {
+    "id": "memtiwim3kgjxqvk63b",
+    "content": "My startup's new \"AI-powered\" product is just 10 guys in a room Googling stuff for you, but the VC funding is so real I almost believe it myself. #TechBubble #StartupIndia",
+    "hashtags": [
+      "#TechBubble",
+      "#StartupIndia"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T12:40:09.503Z",
+    "qualityScore": {
+      "overall": 81,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.9499999999999998,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
   }
 ]
