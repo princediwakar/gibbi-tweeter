@@ -65,7 +65,7 @@ if (useTrendingTopics && !customPrompt) {
 - Reference specific elements from the topic title to show you're plugged into what's happening NOW
 - Use the trend's momentum to amplify your punchline
 - Make people feel like you're commenting on something they just saw in their feed
-- ${randomTopic.hashtag ? `Consider using ${randomTopic.hashtag} if it enhances the joke, but only if it's genuinely funny` : 'Create a relevant hashtag based on the trend'}`;
+- ${randomTopic.hashtag ? `Consider reusing the existing hashtag ${randomTopic.hashtag} if it fits, or create a better one` : 'Create an intelligent, witty hashtag that relates to this specific trending topic'}`;
         
         selectedTopic = randomTopic.title;
         console.log(`📈 Using RSS-sourced trending topic (${bulkIndex !== undefined ? 'bulk #' + bulkIndex : 'single'}): ${randomTopic.title}${sourceAttribution}`);

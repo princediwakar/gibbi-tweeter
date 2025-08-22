@@ -8,7 +8,7 @@ import path from "path";
 // ─────────────────────────────────────────────
 export interface TrendingTopic {
   title: string;
-  hashtag: string;
+  hashtag?: string; // Optional - AI will generate better hashtags
   traffic: string;
   category?: string;
   tweetUrl?: string;
@@ -85,63 +85,17 @@ const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout
 const randomInt = (min: number, max: number): number =>
   Math.floor(Math.random() * (max - min + 1)) + min;
 
-const createHashtagFromTitle = (title: string): string => {
-  // Common stop words to remove for more meaningful hashtags
-  const stopWords = new Set([
-    // 'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with',
-    // 'by', 'is', 'are', 'was', 'were', 'been', 'be', 'have', 'has', 'had', 'will', 'would',
-    // 'could', 'should', 'may', 'can', 'this', 'that', 'these', 'those', 'i', 'you',
-    // 'he', 'she', 'it', 'we', 'they', 'me', 'him', 'her', 'us', 'them', 'my', 'your', 'his',
-    // 'her', 'its', 'our', 'their', 'says', 'said', 'after', 'new', 'how', 'why', 'what',
-    // 'when', 'where', 'who', 
-    'might'
-  ]);
-
-  // Extract meaningful words and prioritize key terms
-  const words = title
-    .toLowerCase()
-    .replace(/[^\w\s]/g, " ")
-    .split(/\s+/)
-    .filter(word => word.length > 2 && !stopWords.has(word))
-    .map(word => word[0].toUpperCase() + word.slice(1));
-
-  if (words.length === 0) {
-    // Fallback to original method if no meaningful words found
-    const cleaned = title
-      .replace(/[^\w\s]/g, "")
-      .split(/\s+/)
-      .filter(Boolean)
-      .slice(0, 2) // Take first 2 words
-      .map((word) => word[0].toUpperCase() + word.slice(1))
-      .join("");
-    return "#" + (cleaned.length > 25 ? cleaned.slice(0, 25) : cleaned);
-  }
-
-  // Build hashtag with meaningful words, respecting 20 char limit
-  let hashtag = "";
-  const maxLength = 19; // 20 chars total including the #
-  
-  for (const word of words) {
-    if ((hashtag + word).length <= maxLength) {
-      hashtag += word;
-    } else {
-      // If the current word would exceed limit, try to fit a shortened version
-      const remainingSpace = maxLength - hashtag.length;
-      if (remainingSpace >= 3 && hashtag.length > 0) {
-        // Only add abbreviated word if we have at least 3 chars space and already have content
-        hashtag += word.slice(0, remainingSpace);
-      }
-      break;
-    }
-  }
-
-  // If hashtag is still empty or too short, take first significant word
-  if (hashtag.length < 3) {
-    const firstWord = words[0] || title.replace(/[^\w]/g, "").slice(0, 10);
-    hashtag = firstWord.slice(0, maxLength);
-  }
-
-  return "#" + hashtag;
+// Extract hashtags from content if they exist
+const extractExistingHashtags = (text: string): string[] => {
+  const hashtags = text.match(/#[a-zA-Z0-9_]+/g) || [];
+  return hashtags
+    .map(tag => tag.toLowerCase())
+    .filter(tag => 
+      tag.length >= 3 && 
+      tag.length <= 20 &&
+      !['#the', '#and', '#for', '#with'].includes(tag)
+    )
+    .slice(0, 1); // Take only the first relevant hashtag
 };
 
 // ─────────────────────────────────────────────
@@ -386,9 +340,12 @@ async function fetchFromTwitterRSS(): Promise<TrendingTopic[]> {
               return null;
             }
             
+            // Check for existing hashtags in the content
+            const existingHashtags = extractExistingHashtags(cleanTitle);
+            
             const topic: TrendingTopic = {
               title: cleanTitle,
-              hashtag: createHashtagFromTitle(cleanTitle),
+              hashtag: existingHashtags.length > 0 ? existingHashtags[0] : undefined,
               traffic: `${randomInt(10, 100)}K`,
               category: `Twitter via ${handle}`,
               author: handle,
@@ -528,9 +485,12 @@ async function fetchFromRedditRSS(): Promise<TrendingTopic[]> {
               return null;
             }
             
+            // Check for existing hashtags in the content
+            const existingHashtags = extractExistingHashtags(cleanTitle);
+            
             const topic: TrendingTopic = {
               title: cleanTitle,
-              hashtag: createHashtagFromTitle(cleanTitle),
+              hashtag: existingHashtags.length > 0 ? existingHashtags[0] : undefined,
               traffic: `${randomInt(5, 50)}K`, // Reddit traffic is generally lower
               category: `Reddit r/${subreddit}`,
               author: `r/${subreddit}`,
@@ -585,10 +545,7 @@ function getStaticFallbackTopics(): TrendingTopic[] {
     { title: "Social Media Trends", traffic: "450K", category: "Social" },
   ];
 
-  return fallbackTopics.map(topic => ({
-    ...topic,
-    hashtag: createHashtagFromTitle(topic.title),
-  }));
+  return fallbackTopics;
 }
 
 // ─────────────────────────────────────────────

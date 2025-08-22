@@ -1,258 +1,20 @@
 [
   {
-    "id": "men59d8y6npvejk453e",
-    "content": "The Rajya Sabha is basically a T20 match where the opposition keeps appealing for DRS reviews but the government owns both the stump mic and the broadcast rights. #ParliamentryCricket #NoBall",
-    "hashtags": [
-      "#NoBall"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "posted",
-    "createdAt": "2025-08-22T18:08:40.018Z",
-    "qualityScore": {
-      "overall": 68,
-      "metrics": {
-        "engagement": 0.7,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7499999999999999,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.5
-      },
-      "grade": "D",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    },
-    "postedAt": "2025-08-22T18:09:25.168Z",
-    "twitterId": "1958954679120937323"
-  },
-  {
-    "id": "men5bgs079lwn30157",
-    "content": "Our politicians are like AI models: trained on garbage data, give disastrous outputs, but somehow get a bigger budget every year. #DigitalIndia #AbsolutelyBonkers",
-    "hashtags": [
-      "#DigitalIndia"
-    ],
-    "persona": "unhinged_satirist",
-    "scheduledFor": "2025-08-22T20:10:17.904Z",
-    "status": "scheduled",
-    "createdAt": "2025-08-22T18:10:17.904Z",
-    "qualityScore": {
-      "overall": 83,
-      "metrics": {
-        "engagement": 0.9500000000000001,
-        "readability": 0.7,
-        "uniqueness": 0.9,
-        "personaAlignment": 1,
-        "viralPotential": 0.5,
-        "trendRelevance": 0.65
-      },
-      "grade": "B",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement"
-      ]
-    }
-  },
-  {
-    "id": "men5c4sppgd1qx46fom",
-    "content": "The new Google Pixel promises 7 years of updates, which is 6 years and 11 months longer than the average Indian government app remains functional.\n\n#DigitalIndia #TechUpdates",
-    "hashtags": [
-      "#DigitalIndia",
-      "#TechUpdates"
-    ],
+    "id": "men65vhmkyca8ooy4zh",
+    "content": "भारत में इथेनॉल-मुक्त पेट्रोल की मांग? ये वो लोग हैं जो पहले गाय को गाड़ी के आगे बांधकर चलाते थे, अब Supreme Court में PIL कर रहे हैं।\n\n#GobarToEthanolPipeline",
+    "hashtags": [],
     "persona": "unhinged_satirist",
     "status": "draft",
-    "createdAt": "2025-08-22T18:10:49.033Z",
-    "qualityScore": {
-      "overall": 76,
-      "metrics": {
-        "engagement": 0.75,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.9999999999999998,
-        "viralPotential": 0.5,
-        "trendRelevance": 0.65
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement"
-      ]
-    }
-  },
-  {
-    "id": "men5cb7660sg4o3rrcv",
-    "content": "Watching Rajya Sabha TV is like seeing my family fight over the last piece of chicken at dinner—everyone is screaming about who owns the farm, while the actual chicken has already been declared a national asset and sold to Adani.",
-    "hashtags": [
-      "#IndianLife"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:10:57.330Z",
+    "createdAt": "2025-08-22T18:33:56.650Z",
     "qualityScore": {
       "overall": 73,
       "metrics": {
-        "engagement": 0.85,
-        "readability": 0.49999999999999994,
-        "uniqueness": 0.9,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📖 Simplify language for better readability",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "men5chwvy1d398uirnl",
-    "content": "My AI knows 42 languages but still can't understand the Bihari accent when I ask for a refund. The future is here, and it's as confused as a Sardar at a South Indian wedding.\n\n#AIIndia #LostInTranslation",
-    "hashtags": [
-      "#AIIndia"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:11:06.031Z",
-    "qualityScore": {
-      "overall": 75,
-      "metrics": {
-        "engagement": 0.75,
+        "engagement": 0.95,
         "readability": 0.7,
         "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.8
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "men5coe3wwy6ifgf3yr",
-    "content": "China says it firmly stands with us against Trump's tariffs, which is like our local Chit Fund bhaiya offering financial advice after his own office got raided. \"Relax bhai, hum dono experts hain.\"",
-    "hashtags": [
-      "#IndianLife"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:11:14.427Z",
-    "qualityScore": {
-      "overall": 78,
-      "metrics": {
-        "engagement": 0.9500000000000001,
-        "readability": 0.7,
-        "uniqueness": 0.9,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "men5jknld618xj70h4n",
-    "content": "Watching Swiggy delivery guys navigate Delhi traffic is like watching a Michelin star chef cook in a burning kitchen - the sheer commitment to delivering your biryani while dodging political rallies & cows deserves a Padma Shri.\n\n#SwiggySevaMedal",
-    "hashtags": [
-      "#SwiggySevaMedal"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:16:36.178Z",
-    "qualityScore": {
-      "overall": 80,
-      "metrics": {
-        "engagement": 1,
-        "readability": 0.49999999999999994,
-        "uniqueness": 0.9,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.65
-      },
-      "grade": "B",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📖 Simplify language for better readability",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "men5rzmcy9k3d4p1jkk",
-    "content": "My family saw Suneeta Reddy offloading her Apollo stake and got inspired. Now my dad is trying to sell 2% of me to the neighbor aunty for a lifetime supply of unsolicited career advice.\n\n#PartialStakeInTheBeta",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:23:08.820Z",
-    "qualityScore": {
-      "overall": 76,
-      "metrics": {
-        "engagement": 0.85,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.44999999999999996
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "men5v0xnfdftu6zsl0l",
-    "content": "BREAKING: Apollo Hospitals announces new \"Pre-IPO Vaccination\" program where promoters get first dose of profit antibodies before retail investors even feel symptoms.\n\n#PreMarketInsiderTrading",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "status": "posted",
-    "createdAt": "2025-08-22T18:25:30.491Z",
-    "qualityScore": {
-      "overall": 68,
-      "metrics": {
-        "engagement": 0.7,
-        "readability": 0.5499999999999999,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.8499999999999999,
+        "personaAlignment": 0.7,
         "viralPotential": 0.5,
         "trendRelevance": 0.3
-      },
-      "grade": "D",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📖 Simplify language for better readability"
-      ]
-    },
-    "postedAt": "2025-08-22T18:26:59.687Z",
-    "twitterId": "1958959102291308932"
-  },
-  {
-    "id": "men60v5op4u55qc9rkf",
-    "content": "The new #ShortFormBigI collab is so powerful, it can finally stream the 2 crore jobs promised in 2014. They're all in HD, but still buffering.\n\n#WaitingForVikasToLoad",
-    "hashtags": [
-      "#ShortFormBigI"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:30:02.940Z",
-    "qualityScore": {
-      "overall": 73,
-      "metrics": {
-        "engagement": 0.7,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.9499999999999998,
-        "viralPotential": 0.5,
-        "trendRelevance": 0.5
       },
       "grade": "C",
       "feedback": [
@@ -261,25 +23,156 @@
     }
   },
   {
-    "id": "men61f91ldoyq4nq1ur",
-    "content": "BREAKING: Leverage at breaking point. Market analysts now sound exactly like my Punjabi aunt when she sees my life choices. \"Beta, yeh sab bubble hai, phatega toh sabse pehle tere portfolio mein!\"\n\n#AuntyMarketAdvisory",
+    "id": "men677g7xjvvhuzyzml",
+    "content": "The amount of leverage in the market is so high, I’m starting to think it’s being managed by a Punjabi wedding planner: “Just take one more loan beta, phir shaadi ke baad adjust kar lena!” #Nifty50Shadi",
+    "hashtags": [
+      "#Nifty50Shadi"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T18:34:58.807Z",
+    "qualityScore": {
+      "overall": 77,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📖 Simplify language for better readability",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "men67eka47wjdznmrth",
+    "content": "Our economy's new Dream 11 strategy: First, make the entire middle class play a fantasy game. Then, remove the prize money. Ab toh aadat si hai humein aise jeetne mein haarne ke.\n\n#FreeToPlayNation",
     "hashtags": [],
     "persona": "unhinged_satirist",
     "status": "draft",
-    "createdAt": "2025-08-22T18:30:28.981Z",
+    "createdAt": "2025-08-22T18:35:08.026Z",
+    "qualityScore": {
+      "overall": 76,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8999999999999999,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "men67lo47xzj4q1ygf4",
+    "content": "The Supreme Court is now deciding what percentage of my petrol should be pure petrol and what percentage should be subsidized farmer-gifted alcohol, making my car the most confused drunk uncle at the shaadi.\n\n#SarkaariPeg",
+    "hashtags": [
+      "#SarkaariPeg"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T18:35:17.236Z",
+    "qualityScore": {
+      "overall": 74,
+      "metrics": {
+        "engagement": 0.85,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.9999999999999998,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "men67qtg28e8p2p4djxj",
+    "content": "My ECG machine saw the family selling stake and drew a perfectly flat line. \"Finally,\" it said, \"a heartbeat I can relate to.\" #ApolloHospitals",
+    "hashtags": [
+      "#ApolloHospitals"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T18:35:23.908Z",
+    "qualityScore": {
+      "overall": 75,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "men6920n07ws7nimz8o7",
+    "content": "Dadi saw the 'Ethanol-Free Petrol' PIL and scoffed: \"Beta, first they put desi daaru in our petrol, now they want to remove it? This country can't decide if it wants to be prohibition or promotion.\"\n\n#SupremeCourtPeg",
+    "hashtags": [
+      "#SupremeCourtPeg"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T18:36:25.079Z",
     "qualityScore": {
       "overall": 81,
       "metrics": {
-        "engagement": 0.9,
+        "engagement": 1,
         "readability": 0.7,
-        "uniqueness": 0.9,
+        "uniqueness": 0.8,
         "personaAlignment": 1,
-        "viralPotential": 0.5,
-        "trendRelevance": 0.44999999999999996
+        "viralPotential": 0.4,
+        "trendRelevance": 0.65
       },
       "grade": "B",
       "feedback": [
-        "👍 Good quality tweet with strong engagement"
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "men6a5bp3elc2igi2q9",
+    "content": "My phone after the new update looks like a government office clerk on a Monday morning - unresponsive, randomly crashing, and I have to bribe it with 5 restarts just to open WhatsApp.\n\n#TechSupportBribe",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T18:37:16.021Z",
+    "qualityScore": {
+      "overall": 74,
+      "metrics": {
+        "engagement": 0.85,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.9,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability",
+        "📈 Add relatable or emotional elements for shareability"
       ]
     }
   }
