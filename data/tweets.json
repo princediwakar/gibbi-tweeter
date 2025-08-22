@@ -175,5 +175,79 @@
         "📈 Add relatable or emotional elements for shareability"
       ]
     }
+  },
+  {
+    "id": "men6kn8uute8xmi5clc",
+    "content": "The government's new ethanol policy is like an arranged marriage for street dogs: they're promising us a permanent buzz but we all know it's just recycled garbage.\n\n#SarkariDaaru",
+    "hashtags": [
+      "#SarkariDaaru"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T18:45:25.806Z",
+    "qualityScore": {
+      "overall": 81,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 0.8999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "men6ldmoy5s704ownvn",
+    "content": "Our MPs just banned online rummy while the entire stock market is a high-stakes Teen Patti game run by bulls and bears. At least the rummy apps showed you the losing cards.\n\n#SattaBazaarSeBachao",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T18:46:00.000Z",
+    "qualityScore": {
+      "overall": 74,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7999999999999999,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "men6m932cl53g6xqc3k",
+    "content": "USA's new sanctions on Iran oil vessels are like that rishta aunty who threatens to call off the wedding because the dowry car isn't a Ferrari, but will still quietly accept the Swift Desire if no one's looking.\n\n#PetrolKiKanyadaan",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T18:46:40.766Z",
+    "qualityScore": {
+      "overall": 74,
+      "metrics": {
+        "engagement": 0.85,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.9,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
   }
 ]

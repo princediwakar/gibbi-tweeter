@@ -8,7 +8,7 @@ import path from "path";
 // ─────────────────────────────────────────────
 export interface TrendingTopic {
   title: string;
-  hashtag?: string; // Optional - AI will generate better hashtags
+  hashtags: string[]; // Real hashtags from sources, empty if none found
   traffic: string;
   category?: string;
   tweetUrl?: string;
@@ -85,17 +85,17 @@ const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout
 const randomInt = (min: number, max: number): number =>
   Math.floor(Math.random() * (max - min + 1)) + min;
 
-// Extract hashtags from content if they exist
+// Extract hashtags from content if they exist - prioritize real trending hashtags
 const extractExistingHashtags = (text: string): string[] => {
   const hashtags = text.match(/#[a-zA-Z0-9_]+/g) || [];
   return hashtags
-    .map(tag => tag.toLowerCase())
     .filter(tag => 
       tag.length >= 3 && 
-      tag.length <= 20 &&
-      !['#the', '#and', '#for', '#with'].includes(tag)
+      tag.length <= 25 &&
+      // Keep original case for better visibility
+      !['#the', '#and', '#for', '#with', '#this', '#that', '#from', '#like'].includes(tag.toLowerCase())
     )
-    .slice(0, 1); // Take only the first relevant hashtag
+    .slice(0, 2); // Take up to 2 real hashtags
 };
 
 // ─────────────────────────────────────────────
@@ -340,12 +340,12 @@ async function fetchFromTwitterRSS(): Promise<TrendingTopic[]> {
               return null;
             }
             
-            // Check for existing hashtags in the content
-            const existingHashtags = extractExistingHashtags(cleanTitle);
+            // Extract real hashtags from the content
+            const realHashtags = extractExistingHashtags(cleanTitle);
             
             const topic: TrendingTopic = {
               title: cleanTitle,
-              hashtag: existingHashtags.length > 0 ? existingHashtags[0] : undefined,
+              hashtags: realHashtags,
               traffic: `${randomInt(10, 100)}K`,
               category: `Twitter via ${handle}`,
               author: handle,
@@ -485,12 +485,12 @@ async function fetchFromRedditRSS(): Promise<TrendingTopic[]> {
               return null;
             }
             
-            // Check for existing hashtags in the content
-            const existingHashtags = extractExistingHashtags(cleanTitle);
+            // Extract real hashtags from the content
+            const realHashtags = extractExistingHashtags(cleanTitle);
             
             const topic: TrendingTopic = {
               title: cleanTitle,
-              hashtag: existingHashtags.length > 0 ? existingHashtags[0] : undefined,
+              hashtags: realHashtags,
               traffic: `${randomInt(5, 50)}K`, // Reddit traffic is generally lower
               category: `Reddit r/${subreddit}`,
               author: `r/${subreddit}`,
@@ -535,14 +535,14 @@ async function fetchFromRedditRSS(): Promise<TrendingTopic[]> {
 // ─────────────────────────────────────────────
 function getStaticFallbackTopics(): TrendingTopic[] {
   const fallbackTopics = [
-    { title: "Indian Startup Ecosystem", traffic: "500K", category: "Business" },
-    { title: "Digital India Initiatives", traffic: "800K", category: "Technology" },
-    { title: "Bollywood Industry Updates", traffic: "300K", category: "Entertainment" },
-    { title: "Cricket Season Highlights", traffic: "400K", category: "Sports" },
-    { title: "Tech Innovation in India", traffic: "250K", category: "Technology" },
-    { title: "Indian Political Landscape", traffic: "600K", category: "Politics" },
-    { title: "Economic Policy Changes", traffic: "350K", category: "Economy" },
-    { title: "Social Media Trends", traffic: "450K", category: "Social" },
+    { title: "Indian Startup Ecosystem", traffic: "500K", category: "Business", hashtags: [] },
+    { title: "Digital India Initiatives", traffic: "800K", category: "Technology", hashtags: [] },
+    { title: "Bollywood Industry Updates", traffic: "300K", category: "Entertainment", hashtags: [] },
+    { title: "Cricket Season Highlights", traffic: "400K", category: "Sports", hashtags: [] },
+    { title: "Tech Innovation in India", traffic: "250K", category: "Technology", hashtags: [] },
+    { title: "Indian Political Landscape", traffic: "600K", category: "Politics", hashtags: [] },
+    { title: "Economic Policy Changes", traffic: "350K", category: "Economy", hashtags: [] },
+    { title: "Social Media Trends", traffic: "450K", category: "Social", hashtags: [] },
   ];
 
   return fallbackTopics;

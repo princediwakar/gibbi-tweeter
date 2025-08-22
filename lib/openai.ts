@@ -65,7 +65,7 @@ if (useTrendingTopics && !customPrompt) {
 - Reference specific elements from the topic title to show you're plugged into what's happening NOW
 - Use the trend's momentum to amplify your punchline
 - Make people feel like you're commenting on something they just saw in their feed
-- ${randomTopic.hashtag ? `Consider reusing the existing hashtag ${randomTopic.hashtag} if it fits, or create a better one` : 'Create an intelligent, witty hashtag that relates to this specific trending topic'}`;
+- ${randomTopic.hashtags.length > 0 ? `MUST USE these real trending hashtags: ${randomTopic.hashtags.join(' ')} - these are actual trending hashtags from the source, don't modify them` : 'Only generate a hashtag if absolutely necessary for the joke - prefer no hashtags over generic ones'}`;
         
         selectedTopic = randomTopic.title;
         console.log(`📈 Using RSS-sourced trending topic (${bulkIndex !== undefined ? 'bulk #' + bulkIndex : 'single'}): ${randomTopic.title}${sourceAttribution}`);
@@ -239,7 +239,7 @@ if (bulkIndex !== undefined) {
     - Sanskrit/Hindi terms allowed for comedic effect (with context)
     - Max length: ${maxLength} characters.
     - ${includeHashtags 
-        ? "Create 1 INTELLIGENT hashtag that captures the essence of your tweet - be creative, specific, and relevant. Avoid generic tags like #IndianLife, #India, #Life. Make it quotable and memorable." 
+        ? "If the trending topic has real hashtags, USE THEM EXACTLY. Otherwise, only create a hashtag if it genuinely adds value to the philosophical insight. Avoid generic tags like #IndianLife, #India, #Life." 
         : "No hashtags."}
     
     TONE MASTERY:
@@ -275,7 +275,7 @@ if (bulkIndex !== undefined) {
     - Hinglish ENCOURAGED if it amplifies the punchline
     - Max length: ${maxLength} characters.
     - ${includeHashtags 
-        ? "Create 1 BRILLIANT hashtag that makes the joke even funnier - be witty, specific, and memorable. Avoid generic tags like #IndianLife, #India, #Life. Make it trend-worthy and shareable." 
+        ? "If the trending topic has real hashtags, USE THEM EXACTLY - these are viral hashtags from actual sources. Otherwise, only create a hashtag if it makes the joke significantly funnier. Avoid generic tags like #IndianLife, #India, #Life." 
         : "No hashtags."}
     
     TONE MASTERY:
