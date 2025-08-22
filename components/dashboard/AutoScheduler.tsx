@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { AutoSchedulerStats } from '@/types/dashboard';
-import { formatExactTimeIST, getTimeUntil, getNextOptimalPostingTimeIST } from '@/lib/timezone';
+import { formatExactTimeIST, getTimeUntil, getNextOptimalPostingTimeIST, formatISTTimeDirect } from '@/lib/timezone';
 import { useClientSafe } from '@/hooks/useClientSafe';
 
 interface AutoSchedulerProps {
@@ -15,7 +15,11 @@ export function AutoScheduler({ loading, autoChainRunning, nextPostTime, onToggl
   const isClient = useClientSafe();
   
   // Calculate next optimal posting time if not provided
-  const displayNextPostTime = nextPostTime || (isClient ? getNextOptimalPostingTimeIST().toISOString() : null);
+  const nextOptimalTime = isClient ? getNextOptimalPostingTimeIST() : null;
+  const displayNextPostTime = nextPostTime || (nextOptimalTime ? nextOptimalTime.toISOString() : null);
+  
+  // Determine if we should use direct IST formatting (for calculated times) or UTC conversion (for stored times)
+  const useDirectIST = !nextPostTime && nextOptimalTime;
   
   return (
     <section className="bg-gray-900 rounded-xl border border-gray-800 p-6">
@@ -65,11 +69,13 @@ export function AutoScheduler({ loading, autoChainRunning, nextPostTime, onToggl
               <div className="space-y-2">
                 <div className="text-xs uppercase text-gray-400 tracking-wide">Next Optimal Post Time</div>
                 <div className="text-sm text-green-400 font-medium">
-                  {isClient ? formatExactTimeIST(new Date(displayNextPostTime)) : 'Loading...'}
+                  {isClient ? (
+                    useDirectIST ? formatISTTimeDirect(nextOptimalTime!) : formatExactTimeIST(new Date(displayNextPostTime))
+                  ) : 'Loading...'}
                 </div>
                 {isClient && (
                   <div className="text-xs text-blue-300">
-                    {getTimeUntil(new Date(displayNextPostTime))}
+                    {useDirectIST ? getTimeUntil(nextOptimalTime!) : getTimeUntil(new Date(displayNextPostTime))}
                   </div>
                 )}
               </div>

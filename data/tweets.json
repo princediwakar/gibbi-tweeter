@@ -208,5 +208,79 @@
         "📈 Add relatable or emotional elements for shareability"
       ]
     }
+  },
+  {
+    "id": "men5v0xnfdftu6zsl0l",
+    "content": "BREAKING: Apollo Hospitals announces new \"Pre-IPO Vaccination\" program where promoters get first dose of profit antibodies before retail investors even feel symptoms.\n\n#PreMarketInsiderTrading",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "status": "posted",
+    "createdAt": "2025-08-22T18:25:30.491Z",
+    "qualityScore": {
+      "overall": 68,
+      "metrics": {
+        "engagement": 0.7,
+        "readability": 0.5499999999999999,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8499999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.3
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability"
+      ]
+    },
+    "postedAt": "2025-08-22T18:26:59.687Z",
+    "twitterId": "1958959102291308932"
+  },
+  {
+    "id": "men60v5op4u55qc9rkf",
+    "content": "The new #ShortFormBigI collab is so powerful, it can finally stream the 2 crore jobs promised in 2014. They're all in HD, but still buffering.\n\n#WaitingForVikasToLoad",
+    "hashtags": [
+      "#ShortFormBigI"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T18:30:02.940Z",
+    "qualityScore": {
+      "overall": 73,
+      "metrics": {
+        "engagement": 0.7,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.9499999999999998,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
+  },
+  {
+    "id": "men61f91ldoyq4nq1ur",
+    "content": "BREAKING: Leverage at breaking point. Market analysts now sound exactly like my Punjabi aunt when she sees my life choices. \"Beta, yeh sab bubble hai, phatega toh sabse pehle tere portfolio mein!\"\n\n#AuntyMarketAdvisory",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T18:30:28.981Z",
+    "qualityScore": {
+      "overall": 81,
+      "metrics": {
+        "engagement": 0.9,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 1,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.44999999999999996
+      },
+      "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
   }
 ]

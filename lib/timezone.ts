@@ -136,7 +136,7 @@ const OPTIMAL_POSTING_TIMES = [
 ];
 
 /**
- * Get next optimal posting time in IST
+ * Get next optimal posting time in IST (returns actual IST time for display)
  */
 export function getNextOptimalPostingTimeIST(fromDate?: Date): Date {
   const now = fromDate ? toIST(fromDate) : toIST(new Date());
@@ -148,21 +148,17 @@ export function getNextOptimalPostingTimeIST(fromDate?: Date): Date {
   for (const slot of OPTIMAL_POSTING_TIMES) {
     const slotTimeInMinutes = slot.hour * 60 + slot.minute;
     if (slotTimeInMinutes > currentTimeInMinutes + 5) { // 5 minute buffer
-      // Found next slot today
-      const nextTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 
-                               slot.hour, slot.minute, 0, 0);
-      // Convert back to UTC for storage
-      return new Date(nextTime.getTime() - (5.5 * 60 * 60 * 1000));
+      // Found next slot today - return IST time directly
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 
+                     slot.hour, slot.minute, 0, 0);
     }
   }
   
   // No more slots today, use first slot tomorrow
   const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
   const firstSlot = OPTIMAL_POSTING_TIMES[0];
-  const nextTime = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(),
-                           firstSlot.hour, firstSlot.minute, 0, 0);
-  // Convert back to UTC for storage
-  return new Date(nextTime.getTime() - (5.5 * 60 * 60 * 1000));
+  return new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(),
+                 firstSlot.hour, firstSlot.minute, 0, 0);
 }
 
 /**
@@ -204,6 +200,23 @@ export function formatExactTimeIST(date: Date): string {
       hour12: true
     });
   }
+}
+
+/**
+ * Format IST time directly (for times already in IST)
+ */
+export function formatISTTimeDirect(date: Date): string {
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  
+  const dayName = days[date.getDay()];
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const displayHours = hours % 12 || 12;
+  
+  return `${dayName}, ${date.getDate()} ${months[date.getMonth()]}, ${displayHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
 }
 
 /**
