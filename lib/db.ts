@@ -48,7 +48,7 @@ const DB_PATH = join(process.cwd(), 'data', 'tweets.json');
 async function ensureDataDir() {
   try {
     await fs.mkdir(join(process.cwd(), 'data'), { recursive: true });
-  } catch (_error) {
+  } catch {
     // Directory might already exist
   }
 }
@@ -64,7 +64,7 @@ export async function getAllTweets(): Promise<Tweet[]> {
       scheduledFor: tweet.scheduledFor ? new Date(tweet.scheduledFor) : undefined,
       postedAt: tweet.postedAt ? new Date(tweet.postedAt) : undefined,
     }));
-  } catch (_error) {
+  } catch {
     return [];
   }
 }
@@ -103,7 +103,7 @@ export async function getPaginatedTweets(params: PaginationParams): Promise<Pagi
       hasNext: params.page < totalPages,
       hasPrev: params.page > 1,
     };
-  } catch (_error) {
+  } catch {
     return {
       data: [],
       total: 0,

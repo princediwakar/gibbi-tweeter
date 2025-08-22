@@ -194,7 +194,7 @@ async function loadSources(): Promise<Sources> {
     const data = await fs.readFile(sourcesPath, 'utf8');
     const sources: Sources = JSON.parse(data);
     return sources;
-  } catch (_error) {
+  } catch {
     console.warn('⚠️ Could not load sources, using defaults');
     return {
       twitter: {
@@ -342,7 +342,7 @@ async function fetchFromTwitterRSS(): Promise<TrendingTopic[]> {
               console.log(`✅ Found content using Nitter RSS for ${handle}`);
             }
           }
-        } catch (_err) {
+        } catch {
           // Ignore this fallback error
         }
         

@@ -108,7 +108,7 @@ export function getNextScheduledTimeIST(fromDate?: Date): Date {
 /**
  * Log with IST timestamp
  */
-export function logIST(message: string, ...args: any[]): void {
+export function logIST(message: string, ...args: unknown[]): void {
   const timestamp = getCurrentISTString();
   console.log(`[${timestamp} IST] ${message}`, ...args);
 }

@@ -16,7 +16,7 @@ export async function GET(request: Request) {
 
     const result = await getPaginatedTweets({ page, limit });
     return NextResponse.json(result);
-  } catch (_error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch tweets' }, { status: 500 });
   }
 }

@@ -1099,3 +1099,291 @@
 🚀 Generating tweet...
  POST /api/tweets 200 in 44974ms
  GET /api/tweets?page=1&limit=10 200 in 144ms
+ GET /api/auto-scheduler 200 in 92ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 3.2s
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.m3qw7pqy76'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.m3qw7pqy76'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.887rk3q2zq8'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.887rk3q2zq8'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.4zgznyclspe'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.4zgznyclspe'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.n60vm247zr'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.n60vm247zr'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.x9n5zms2e2r'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.x9n5zms2e2r'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.lpqoicmdr1'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.lpqoicmdr1'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.szk9sje7do8'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.szk9sje7do8'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.02cuwfj048xu'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.02cuwfj048xu'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.crcs7q7aiv'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.crcs7q7aiv'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.d65dwvh3we'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.d65dwvh3we'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.c89011ow63n'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.c89011ow63n'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.7hawezamsmi'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.7hawezamsmi'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.976wvypg9p'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.976wvypg9p'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.hwezhiaq4f9'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.hwezhiaq4f9'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.wbkbtu520m'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.wbkbtu520m'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/tweets/[id]/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/tweets/[id]/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.1q1in5m2smy'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.1q1in5m2smy'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/tweets/[id]/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/tweets/[id]/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.op8qzhi99x'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.op8qzhi99x'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.q4ms56fy4h'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.q4ms56fy4h'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.o37ebeihp7'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.o37ebeihp7'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.rxcnejzqdf'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.rxcnejzqdf'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.ygmyr3606gr'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.ygmyr3606gr'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/page/app-build-manifest.json'
+}
+ ⨯ Error: Cannot find module '../chunks/ssr/[turbopack]_runtime.js'
+Require stack:
+- /Users/prince/Developer/tweeter/.next/server/pages/_document.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/server/require.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/server/load-components.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/build/utils.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/build/swc/options.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/build/swc/index.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/server/config.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/server/next.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/server/lib/start-server.js
+    at Object.<anonymous> (.next/server/pages/_document.js:2:17) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 682ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/favicon.ico/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/favicon.ico/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ Error: Cannot find module '../chunks/ssr/[turbopack]_runtime.js'
+Require stack:
+- /Users/prince/Developer/tweeter/.next/server/pages/_document.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/server/require.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/server/load-components.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/build/utils.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/build/swc/options.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/build/swc/index.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/server/config.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/server/next.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/server/lib/start-server.js
+    at Object.<anonymous> (.next/server/pages/_document.js:2:17) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET /api/auto-scheduler 500 in 229ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/auto-scheduler/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ Error: Cannot find module '../chunks/ssr/[turbopack]_runtime.js'
+Require stack:
+- /Users/prince/Developer/tweeter/.next/server/pages/_document.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/server/require.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/server/load-components.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/build/utils.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/build/swc/options.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/build/swc/index.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/server/config.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/server/next.js
+- /Users/prince/Developer/tweeter/node_modules/next/dist/server/lib/start-server.js
+    at Object.<anonymous> (.next/server/pages/_document.js:2:17) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET /api/auto-scheduler 500 in 224ms
