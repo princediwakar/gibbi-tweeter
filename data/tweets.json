@@ -680,5 +680,83 @@
         "📈 Add relatable or emotional elements for shareability"
       ]
     }
+  },
+  {
+    "id": "memvuu6a0xnd8e1sai2n",
+    "content": "The only thing more automated than our voting machines is the Election Commission's press conference explaining why they aren't.\n\n#EVMTapes #DemocraticMiracle",
+    "hashtags": [
+      "#EVMTapes"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T13:45:25.570Z",
+    "qualityScore": {
+      "overall": 77,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7499999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "memvwe5n9imgw4i7l3q",
+    "content": "My startup’s ‘work-life balance’ is so advanced, our mental health crisis has a dedicated UPI handle for therapy payments. #GrindCulture #StartupTrauma",
+    "hashtags": [
+      "#GrindCulture",
+      "#StartupTrauma"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T13:46:38.123Z",
+    "qualityScore": {
+      "overall": 70,
+      "metrics": {
+        "engagement": 0.9,
+        "readability": 0.5499999999999999,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.6499999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability"
+      ]
+    }
+  },
+  {
+    "id": "memvxae8bpkqj6t73r",
+    "content": "Our politicians are so committed to a ‘gas-free India’ they’ve made our future so scarce we’ll all be huffing the actual thing. #InflationIndia #GasFreeIndia",
+    "hashtags": [
+      "#InflationIndia",
+      "#GasFreeIndia"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T13:47:19.904Z",
+    "qualityScore": {
+      "overall": 79,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.35
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
   }
 ]

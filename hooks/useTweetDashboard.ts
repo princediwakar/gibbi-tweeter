@@ -456,9 +456,15 @@ export function useTweetDashboard() {
   }, [fetchTweets, fetchAutoSchedulerStats]);
 
   // Computed values
+  const scheduledTweets = tweets.filter(t => t.status === 'scheduled');
+  const nextScheduledTweet = scheduledTweets
+    .filter(t => t.scheduledFor && new Date(t.scheduledFor) > new Date())
+    .sort((a, b) => new Date(a.scheduledFor!).getTime() - new Date(b.scheduledFor!).getTime())[0];
+
   const stats = {
-    scheduled: tweets.filter(t => t.status === 'scheduled').length,
+    scheduled: scheduledTweets.length,
     posted: tweets.filter(t => t.status === 'posted').length,
+    nextPostTime: nextScheduledTweet?.scheduledFor,
   };
 
   return {

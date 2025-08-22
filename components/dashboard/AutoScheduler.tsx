@@ -7,10 +7,11 @@ interface AutoSchedulerProps {
   loading: boolean;
   autoChainRunning: boolean;
   stats: AutoSchedulerStats | null;
+  nextPostTime?: string;
   onToggle: (action: 'start-chain') => void;
 }
 
-export function AutoScheduler({ loading, autoChainRunning, stats, onToggle }: AutoSchedulerProps) {
+export function AutoScheduler({ loading, autoChainRunning, stats, nextPostTime, onToggle }: AutoSchedulerProps) {
   const isClient = useClientSafe();
   // Check if we're in production by looking at the stats note
   const isProd = isClient && stats?.note?.includes('Production');
@@ -47,31 +48,30 @@ export function AutoScheduler({ loading, autoChainRunning, stats, onToggle }: Au
         </div>
       </div>
       
-      {stats && (
+      {(autoChainRunning || nextPostTime) && (
         <div className="bg-gray-950 rounded-lg p-4 border border-gray-700">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <div className="text-xs uppercase text-gray-400 tracking-wide">Schedule</div>
-              <div className="text-sm text-gray-200">{stats.schedule}</div>
-            </div>
-            
-            {stats.nextRun && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {nextPostTime && (
               <div className="space-y-2">
-                <div className="text-xs uppercase text-gray-400 tracking-wide">Next Run (IST)</div>
-                <div className="text-sm text-green-400">{isClient ? formatDateIST(new Date(stats.nextRun)) : 'Loading...'}</div>
+                <div className="text-xs uppercase text-gray-400 tracking-wide">Next Post (IST)</div>
+                <div className="text-sm text-green-400 font-medium">
+                  {isClient ? formatDateIST(new Date(nextPostTime)) : 'Loading...'}
+                </div>
               </div>
             )}
             
-            <div className="space-y-2">
-              <div className="text-xs uppercase text-gray-400 tracking-wide">Statistics</div>
-              <div className="space-y-1 text-sm">
-                <div className="text-blue-400">Generated: {stats.totalGenerated}</div>
-                <div className="text-purple-400">Posted: {stats.totalPosted}</div>
-                {stats.lastRun && (
-                  <div className="text-gray-400 text-xs">Last: {isClient ? formatDateIST(new Date(stats.lastRun)) : 'Loading...'}</div>
-                )}
+            {autoChainRunning && (
+              <div className="space-y-2">
+                <div className="text-xs uppercase text-gray-400 tracking-wide">System Status</div>
+                <div className="text-sm text-blue-400">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span>Auto-posting every 1-2 hours</span>
+                  </div>
+                  <div className="text-xs text-gray-400 mt-1">15 posts daily at optimal times</div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       )}
