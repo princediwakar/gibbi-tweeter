@@ -29,6 +29,7 @@ export interface AutoSchedulerStats {
   nextRun: Date | null;
   schedule: string;
   isRunning: boolean;
+  note: string;
 }
 
 export interface Persona {

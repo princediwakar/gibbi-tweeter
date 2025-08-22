@@ -12,6 +12,9 @@ interface AutoSchedulerProps {
 
 export function AutoScheduler({ isRunning, loading, stats, onToggle }: AutoSchedulerProps) {
   const isClient = useClientSafe();
+  // Check if we're in production by looking at the stats note
+  const isProd = isClient && stats?.note?.includes('Production');
+  
   return (
     <section className="bg-gray-900 rounded-xl border border-gray-800 p-6">
       <div className="flex items-center justify-between mb-6">
@@ -19,23 +22,37 @@ export function AutoScheduler({ isRunning, loading, stats, onToggle }: AutoSched
           <h2 className="text-lg font-semibold text-white flex items-center gap-2">
             🤖 Full Automation
           </h2>
-          <p className="text-gray-400 text-sm">Automated tweet generation and posting (always on by default)</p>
+          <p className="text-gray-400 text-sm">
+            {isProd 
+              ? "Automated via Vercel Cron Jobs (production-ready)"
+              : "Automated tweet generation and posting (development mode)"
+            }
+          </p>
         </div>
         <div className="flex gap-3">
-          <Button
-            onClick={() => onToggle('start')}
-            disabled={loading || isRunning}
-            className="bg-green-600 hover:bg-green-500 disabled:bg-gray-700 disabled:text-gray-400 text-white px-4 py-2 rounded-lg transition-colors"
-          >
-            {isRunning ? '✅ Auto-On' : 'Resume Auto'}
-          </Button>
-          <Button
-            onClick={() => onToggle('stop')}
-            disabled={loading || !isRunning}
-            className="bg-red-600 hover:bg-red-500 disabled:bg-gray-700 disabled:text-gray-400 text-white px-4 py-2 rounded-lg transition-colors"
-          >
-            Stop
-          </Button>
+          {isProd ? (
+            <div className="bg-green-900 text-green-200 px-4 py-2 rounded-lg border border-green-700">
+              <div className="text-sm font-medium">🚀 Vercel Crons Active</div>
+              <div className="text-xs text-green-300">Production auto-posting enabled</div>
+            </div>
+          ) : (
+            <>
+              <Button
+                onClick={() => onToggle('start')}
+                disabled={loading || isRunning}
+                className="bg-green-600 hover:bg-green-500 disabled:bg-gray-700 disabled:text-gray-400 text-white px-4 py-2 rounded-lg transition-colors"
+              >
+                {isRunning ? '✅ Auto-On' : 'Resume Auto'}
+              </Button>
+              <Button
+                onClick={() => onToggle('stop')}
+                disabled={loading || !isRunning}
+                className="bg-red-600 hover:bg-red-500 disabled:bg-gray-700 disabled:text-gray-400 text-white px-4 py-2 rounded-lg transition-colors"
+              >
+                Stop
+              </Button>
+            </>
+          )}
         </div>
       </div>
       

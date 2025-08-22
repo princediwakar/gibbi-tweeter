@@ -407,11 +407,17 @@ class AutoScheduler {
   }
 
   getStats() {
+    const isProd = process.env.NODE_ENV === 'production';
+    
     return {
       ...this.state.stats,
-      isRunning: this.state.isRunning,
-      schedule: '10-15 posts daily on weekdays (8am-10pm IST)',
-      note: 'Note: On Vercel, use Vercel Cron Jobs for reliable background scheduling. This in-memory scheduler may hibernate.',
+      isRunning: isProd ? true : this.state.isRunning, // Always show as running in production (Vercel crons)
+      schedule: isProd 
+        ? '10-15 posts daily on weekdays (Vercel Cron Jobs)' 
+        : '10-15 posts daily on weekdays (8am-10pm IST)',
+      note: isProd 
+        ? '✅ Production: Using reliable Vercel Cron Jobs for automatic posting'
+        : 'Development: In-memory scheduler. Use Vercel Cron Jobs for production.',
     };
   }
 }
@@ -419,19 +425,22 @@ class AutoScheduler {
 // Singleton instance
 const autoScheduler = new AutoScheduler();
 
-// Auto-start the scheduler when module loads (unless explicitly disabled)
-// This ensures auto-posting is always on by default
-if (process.env.NODE_ENV !== 'test' && process.env.DISABLE_AUTO_START !== 'true') {
+// Auto-start the scheduler ONLY in development
+// In production, we use Vercel Cron Jobs exclusively
+if (process.env.NODE_ENV === 'development' && process.env.DISABLE_AUTO_START !== 'true') {
   // Use setTimeout to avoid blocking the module loading
   setTimeout(async () => {
     try {
-      console.log('🚀 Auto-starting scheduler on app initialization...');
+      console.log('🚀 Auto-starting in-memory scheduler for development...');
       await autoScheduler.start();
-      console.log('✅ Auto-scheduler started automatically');
+      console.log('✅ Development auto-scheduler started automatically');
     } catch (error) {
-      console.error('❌ Failed to auto-start scheduler:', error);
+      console.error('❌ Failed to auto-start development scheduler:', error);
     }
   }, 2000); // 2 second delay to ensure app is fully loaded
+} else if (process.env.NODE_ENV === 'production') {
+  console.log('🚀 Production mode: Using Vercel Cron Jobs exclusively');
+  console.log('📅 Vercel Crons: daily-tweets (1:00 AM IST) + post-tweet (every 5 min)');
 }
 
 export { autoScheduler };

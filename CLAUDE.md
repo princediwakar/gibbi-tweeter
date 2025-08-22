@@ -43,8 +43,8 @@ This is an AI-powered tweet generation and scheduling bot built with Next.js 15,
 - Hashtag inclusion options
 
 ### ⚡ Automation Features
-- **Always-On Auto-Posting**: Scheduler starts automatically when app loads and runs continuously
-- Auto-posting scheduler using node-cron with IST timezone support
+- **Production**: Vercel Cron Jobs handle all automated generation and posting (reliable & scalable)
+- **Development**: In-memory scheduler using node-cron with IST timezone support
 - Batch operations for multiple tweet selection
 - Real-time dashboard tracking (drafts, scheduled, posted)
 - Tweet status management (draft/scheduled/posted/failed)
@@ -216,6 +216,31 @@ This project is configured with Playwright MCP (Model Context Protocol) for dire
 ## Deployment
 
 The app is configured for Vercel deployment with proper environment variable setup for production use.
+
+### **Vercel Cron Jobs (Production)**
+
+The app uses Vercel's reliable cron system for automated posting in production:
+
+```json
+{
+  "crons": [
+    {
+      "path": "/api/cron/daily-tweets",
+      "schedule": "30 19 * * 0-4"
+    },
+    {
+      "path": "/api/cron/post-tweet", 
+      "schedule": "*/5 * * * *"
+    }
+  ]
+}
+```
+
+**Schedule Details:**
+- **Daily Generation**: `30 19 * * 0-4` (7:30 PM UTC = 1:00 AM IST) - Generates 10-15 tweets for the day
+- **Tweet Posting**: `*/5 * * * *` (Every 5 minutes) - Posts scheduled tweets at their designated times
+- **Timezone**: All IST times properly converted to UTC for consistent deployment
+- **Environment**: Requires `CRON_SECRET` environment variable for security
 
 ## 🔄 Documentation Update Guidelines
 
