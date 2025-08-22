@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { AutoSchedulerStats } from '@/types/dashboard';
-import { formatExactTimeIST, getTimeUntil } from '@/lib/timezone';
+import { formatExactTimeIST, getTimeUntil, getNextOptimalPostingTimeIST } from '@/lib/timezone';
 import { useClientSafe } from '@/hooks/useClientSafe';
 
 interface AutoSchedulerProps {
@@ -13,6 +13,9 @@ interface AutoSchedulerProps {
 
 export function AutoScheduler({ loading, autoChainRunning, nextPostTime, onToggle }: AutoSchedulerProps) {
   const isClient = useClientSafe();
+  
+  // Calculate next optimal posting time if not provided
+  const displayNextPostTime = nextPostTime || (isClient ? getNextOptimalPostingTimeIST().toISOString() : null);
   
   return (
     <section className="bg-gray-900 rounded-xl border border-gray-800 p-6">
@@ -55,18 +58,18 @@ export function AutoScheduler({ loading, autoChainRunning, nextPostTime, onToggl
         </div>
       </div>
       
-      {(autoChainRunning || nextPostTime) && (
+      {(autoChainRunning || displayNextPostTime) && (
         <div className="bg-gray-950 rounded-lg p-4 border border-gray-700">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {nextPostTime && (
+            {displayNextPostTime && (
               <div className="space-y-2">
-                <div className="text-xs uppercase text-gray-400 tracking-wide">Next Post (IST)</div>
+                <div className="text-xs uppercase text-gray-400 tracking-wide">Next Optimal Post Time</div>
                 <div className="text-sm text-green-400 font-medium">
-                  {isClient ? formatExactTimeIST(new Date(nextPostTime)) : 'Loading...'}
+                  {isClient ? formatExactTimeIST(new Date(displayNextPostTime)) : 'Loading...'}
                 </div>
                 {isClient && (
                   <div className="text-xs text-blue-300">
-                    {getTimeUntil(new Date(nextPostTime))}
+                    {getTimeUntil(new Date(displayNextPostTime))}
                   </div>
                 )}
               </div>
@@ -78,9 +81,11 @@ export function AutoScheduler({ loading, autoChainRunning, nextPostTime, onToggl
                 <div className="text-sm text-blue-400">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <span>Auto-posting every 1-2 hours</span>
+                    <span>Auto-posting at optimal times</span>
                   </div>
-                  <div className="text-xs text-gray-400 mt-1">15 posts daily at optimal times</div>
+                  <div className="text-xs text-gray-400 mt-1">
+                    Next slots: 8AM, 9:30AM, 12PM, 5PM, 7PM, 9PM IST
+                  </div>
                 </div>
               </div>
             )}

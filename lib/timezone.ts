@@ -116,14 +116,60 @@ export function formatDateTimeLocalIST(date: Date): string {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
 
+// Optimal posting times in IST (24-hour format) - matches cron job
+const OPTIMAL_POSTING_TIMES = [
+  { hour: 8, minute: 0 },   // 8:00 AM IST
+  { hour: 9, minute: 30 },  // 9:30 AM IST
+  { hour: 10, minute: 0 },  // 10:00 AM IST
+  { hour: 11, minute: 30 }, // 11:30 AM IST
+  { hour: 12, minute: 0 },  // 12:00 PM IST
+  { hour: 13, minute: 30 }, // 1:30 PM IST
+  { hour: 14, minute: 0 },  // 2:00 PM IST
+  { hour: 15, minute: 0 },  // 3:00 PM IST
+  { hour: 16, minute: 30 }, // 4:30 PM IST
+  { hour: 17, minute: 0 },  // 5:00 PM IST
+  { hour: 18, minute: 30 }, // 6:30 PM IST
+  { hour: 19, minute: 0 },  // 7:00 PM IST
+  { hour: 20, minute: 30 }, // 8:30 PM IST
+  { hour: 21, minute: 0 },  // 9:00 PM IST
+  { hour: 22, minute: 0 },  // 10:00 PM IST
+];
+
 /**
- * Get next scheduled time in IST
+ * Get next optimal posting time in IST
+ */
+export function getNextOptimalPostingTimeIST(fromDate?: Date): Date {
+  const now = fromDate ? toIST(fromDate) : toIST(new Date());
+  const currentHour = now.getHours();
+  const currentMinute = now.getMinutes();
+  const currentTimeInMinutes = currentHour * 60 + currentMinute;
+  
+  // Find next optimal time slot today
+  for (const slot of OPTIMAL_POSTING_TIMES) {
+    const slotTimeInMinutes = slot.hour * 60 + slot.minute;
+    if (slotTimeInMinutes > currentTimeInMinutes + 5) { // 5 minute buffer
+      // Found next slot today
+      const nextTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 
+                               slot.hour, slot.minute, 0, 0);
+      // Convert back to UTC for storage
+      return new Date(nextTime.getTime() - (5.5 * 60 * 60 * 1000));
+    }
+  }
+  
+  // No more slots today, use first slot tomorrow
+  const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+  const firstSlot = OPTIMAL_POSTING_TIMES[0];
+  const nextTime = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(),
+                           firstSlot.hour, firstSlot.minute, 0, 0);
+  // Convert back to UTC for storage
+  return new Date(nextTime.getTime() - (5.5 * 60 * 60 * 1000));
+}
+
+/**
+ * Get next scheduled time in IST (legacy function for compatibility)
  */
 export function getNextScheduledTimeIST(fromDate?: Date): Date {
-  const base = fromDate ? toIST(fromDate) : toIST(new Date());
-  // Add 2 hours as default scheduling time
-  const nextTime = new Date(base.getTime() + 2 * 60 * 60 * 1000);
-  return nextTime;
+  return getNextOptimalPostingTimeIST(fromDate);
 }
 
 /**

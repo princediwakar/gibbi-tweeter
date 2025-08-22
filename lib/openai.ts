@@ -52,9 +52,23 @@ if (useTrendingTopics && !customPrompt) {
         }
         
         const randomTopic: TrendingTopic = trendingTopics[randomIndex];
-        trendingContext = `Trending topic: ${randomTopic.title} (${randomTopic.traffic} searches). Use ${randomTopic.hashtag} only if it helps the joke.`;
+        
+        // Enhanced context with RSS source attribution and richer topical information
+        const sourceAttribution = randomTopic.category ? ` (Source: ${randomTopic.category})` : '';
+        const trafficInfo = randomTopic.traffic ? ` trending with ${randomTopic.traffic} searches` : '';
+        const authorInfo = randomTopic.author ? ` from ${randomTopic.author}` : '';
+        
+        trendingContext = `🔥 LIVE TRENDING TOPIC${sourceAttribution}: "${randomTopic.title}"${trafficInfo}${authorInfo}
+        
+📊 COMEDY ANGLE INSTRUCTIONS:
+- This is REAL, CURRENT content from RSS feeds - make it feel immediate and relevant
+- Reference specific elements from the topic title to show you're plugged into what's happening NOW
+- Use the trend's momentum to amplify your punchline
+- Make people feel like you're commenting on something they just saw in their feed
+- ${randomTopic.hashtag ? `Consider using ${randomTopic.hashtag} if it enhances the joke, but only if it's genuinely funny` : 'Create a relevant hashtag based on the trend'}`;
+        
         selectedTopic = randomTopic.title;
-        console.log(`📈 Using trending topic (${bulkIndex !== undefined ? 'bulk #' + bulkIndex : 'single'}): ${randomTopic.title}`);
+        console.log(`📈 Using RSS-sourced trending topic (${bulkIndex !== undefined ? 'bulk #' + bulkIndex : 'single'}): ${randomTopic.title}${sourceAttribution}`);
         break;
       }
     } catch (err) {
@@ -64,8 +78,8 @@ if (useTrendingTopics && !customPrompt) {
         await new Promise((r) => setTimeout(r, BASE_DELAY * 2 ** (attempt - 1)));
       } else {
         console.warn("⚠️ Failed to fetch trending topics after 3 attempts, proceeding without trends");
-        trendingContext = "Generate a witty satirical tweet about current Indian life, culture, or society.";
-        selectedTopic = "General Indian Satire";
+        trendingContext = "🎯 REAL NEWS FOCUS: Create satirical commentary on ACTUAL current events - government policies, economic announcements, geopolitics, tech industry news, startup funding/layoffs, cricket matches/IPL, political developments, market movements, or breaking news that's happening RIGHT NOW. NO food delivery, wedding, or generic lifestyle jokes.";
+        selectedTopic = "Breaking News & Current Events";
       }
     }
   }
@@ -73,9 +87,9 @@ if (useTrendingTopics && !customPrompt) {
   trendingContext = `Context: ${customPrompt}`;
   selectedTopic = customPrompt;
 } else if (!useTrendingTopics) {
-  // No trends, no custom prompt - generate general satirical content
-  trendingContext = "Generate a witty satirical tweet about current Indian life, culture, or society.";
-  selectedTopic = "General Indian Satire";
+  // No trends, no custom prompt - generate topical satirical content
+  trendingContext = "🎯 CURRENT AFFAIRS SATIRE: Focus on TODAY'S actual news - Modi government policies, RBI decisions, startup funding rounds, tech company layoffs, cricket matches, election developments, market crashes/rallies, or regulatory changes. Be SPECIFIC about real events, not generic lifestyle humor.";
+  selectedTopic = "Today's News & Events";
 }
 
 // Infuse variability with comedy archetypes from top influential comedians
@@ -103,97 +117,183 @@ if (bulkIndex !== undefined) {
   randomArchetype = comedyArchetypes[Math.floor(Math.random() * comedyArchetypes.length)];
 }
 
-// Check tweets.json for last 10 jokes to ensure uniqueness
-let previousTweetsAvoidance = "";
+// Enhanced anti-repetition system: analyze last 20 tweets for patterns
+let antiRepetitionGuard = "";
+let structuralPatterns: string[] = [];
+let themeKeywords: string[] = [];
+
 try {
   const data = await fs.readFile("data/tweets.json", "utf8");
   const tweetsData: Array<{ content: string }> = JSON.parse(data);
-  const last10 = tweetsData.slice(-10).map((t) => t.content);
-  if (last10.length > 0) {
-    previousTweetsAvoidance = `
-Avoid repeating themes, structures, or punchlines from these previous tweets:
-${last10.map((t) => `- ${t}`).join("\n")}
+  const recent20 = tweetsData.slice(-20).map((t) => t.content);
+  
+  if (recent20.length > 0) {
+    // Extract structural patterns (sentence starters, formats)
+    structuralPatterns = recent20.map(tweet => {
+      const words = tweet.split(' ');
+      if (words.length >= 3) {
+        // Get first 3 words pattern and last word pattern
+        return `${words.slice(0, 3).join(' ')} ... ${words[words.length - 1]}`;
+      }
+      return tweet.slice(0, 30);
+    });
+    
+    // Extract theme keywords (excluding common words)
+    const allWords = recent20.join(' ').toLowerCase()
+      .replace(/[^a-z\s]/g, ' ')
+      .split(/\s+/)
+      .filter(word => word.length > 4 && 
+        !['this', 'that', 'with', 'when', 'where', 'while', 'india', 'indian'].includes(word));
+    
+    const wordFreq = allWords.reduce((acc, word) => {
+      acc[word] = (acc[word] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+    
+    themeKeywords = Object.entries(wordFreq)
+      .filter(([, count]) => count >= 2)
+      .map(([word]) => word)
+      .slice(0, 8);
 
-Think deeper: Use a ${randomArchetype} approach, a fresh perspective, and a unique metaphor to create an original tweet.`;
+    antiRepetitionGuard = `
+🚫 STRICT ANTI-REPETITION PROTOCOL:
+
+AVOID these overused structural patterns:
+${structuralPatterns.slice(0, 5).map((p, i) => `${i + 1}. ${p}`).join('\n')}
+
+AVOID these overused themes/keywords: ${themeKeywords.join(', ')}
+
+✅ FRESHNESS REQUIREMENTS:
+- Use a COMPLETELY different sentence structure
+- Pick an unexplored angle using ${randomArchetype}
+- Create a new metaphor/comparison not used before
+- If it sounds familiar, SCRAP IT and think of something else
+- Surprise even yourself with the punchline direction`;
   }
 } catch (err) {
-  console.warn("Could not read tweets.json for uniqueness infusion:", err);
+  console.warn("Could not read tweets.json for anti-repetition analysis:", err);
 }
 
-// Add randomness seed for bulk generation variety
-const randomnessSeed = bulkIndex !== undefined ? 
-  `\n🎲 VARIATION SEED ${bulkIndex}-${Math.random().toString(36).substring(2, 7)}: Use this to inspire a COMPLETELY DIFFERENT angle, tone, or approach. Make this tweet UNIQUE from others in the batch!\n` : 
-  '';
+// Enhanced creativity injection system
+const creativityBoosts = [
+  "Start with the opposite of what people expect",
+  "Use an absurd metaphor from Indian mythology",
+  "Apply startup terminology to ancient problems",
+  "Flip a common saying on its head",
+  "Combine two unrelated Indian phenomena",
+  "Use a medical/scientific analogy for social issues",
+  "Apply film/TV logic to real-world problems",
+  "Use food analogies for non-food topics",
+  "Apply gaming terminology to life situations",
+  "Use wedding/marriage metaphors for non-relationship topics"
+];
+
+const perspectiveShifts = [
+  "from the POV of an inanimate object",
+  "as if explaining to aliens",
+  "through the lens of your grandmother",
+  "as a news headline from 2050",
+  "like a frustrated app notification",
+  "as a product review of life",
+  "through the eyes of street dogs",
+  "as a WhatsApp group admin announcement"
+];
+
+let creativityInjection = '';
+if (bulkIndex !== undefined) {
+  const boostIndex = bulkIndex % creativityBoosts.length;
+  const shiftIndex = Math.floor(bulkIndex / creativityBoosts.length) % perspectiveShifts.length;
+  creativityInjection = `\n🎨 CREATIVITY INJECTION #${bulkIndex}:
+- Approach: ${creativityBoosts[boostIndex]}
+- Perspective: ${perspectiveShifts[shiftIndex]}
+- Make this tweet feel like it came from a different planet than the others in this batch!\n`;
+} else {
+  const randomBoost = creativityBoosts[Math.floor(Math.random() * creativityBoosts.length)];
+  const randomShift = perspectiveShifts[Math.floor(Math.random() * perspectiveShifts.length)];
+  creativityInjection = `\n🎨 CREATIVITY INJECTION:
+- Approach: ${randomBoost}
+- Perspective: ${randomShift}\n`;
+}
 
   // Persona-specific prompt generation
   let basePrompt: string;
   
   if (persona === "desi_philosopher") {
-    basePrompt = `${randomnessSeed}
+    basePrompt = `${creativityInjection}
     You are a **modern Desi Philosopher** - a wise sage who observes life through ancient Indian wisdom but speaks about today's chaos.
     Write ONE profound, witty, philosophical tweet that connects timeless wisdom with contemporary Indian reality.
     
-    RULES:
-    - Blend ANCIENT WISDOM with MODERN CHAOS (Vedanta meets startup culture, Karma meets crypto, etc.)
+    COMEDY ENHANCEMENT RULES:
+    - SURPRISE FACTOR: Start with an unexpected philosophical angle that catches people off-guard
+    - LAYERED HUMOR: Surface level should be funny, deeper level should be profound
+    - TIMING: Build to a philosophical punchline that lands like a mic drop
+    - CONTRAST: Maximum gap between ancient wisdom and absurd modern reality
+    
+    CONTENT RULES:
+    - Blend ANCIENT WISDOM with TODAY'S HEADLINES using ${randomArchetype} delivery
     - Use philosophical concepts: Dharma, Karma, Maya (illusion), Samsara (cycle), Moksha (liberation)
     - Reference: Bhagavad Gita wisdom, Buddhist insights, Sufi mysticism, or Upanishadic thoughts
-    - Make it RELATABLE to modern Indians: relate ancient truths to traffic jams, social media, work stress
-    - 🚫 Avoid preachy or overly serious tone. Keep it WISE but ACCESSIBLE.
-    - ✅ Must connect to **real Indian experiences today** (tech addiction, inflation, relationships, career pressure)
-    - Sanskrit/Hindi terms allowed for authenticity (with context)
+    - Connect philosophy to ACTUAL current events: government policies, market movements, tech layoffs, cricket matches, political drama
+    - 🚫 Avoid preachy tone and generic lifestyle observations. Keep it WISE but TOPICAL.
+    - ✅ Must reference **specific current events or news** happening in India TODAY
+    - Sanskrit/Hindi terms allowed for comedic effect (with context)
     - Max length: ${maxLength} characters.
     - ${includeHashtags 
-        ? "Add 1-2 meaningful hashtags that reflect both wisdom and relevance (e.g. #ModernKarma, #DigitalDetox, #LifeWisdom). Avoid generic spiritual hashtags." 
+        ? "Create 1 INTELLIGENT hashtag that captures the essence of your tweet - be creative, specific, and relevant. Avoid generic tags like #IndianLife, #India, #Life. Make it quotable and memorable." 
         : "No hashtags."}
     
-    TONE:
-    - Wise, contemplative, but with gentle humor
-    - Like a friendly uncle who's read too much philosophy but still gets modern life
+    TONE MASTERY:
+    - Like a stand-up comedian who accidentally became enlightened
+    - Deliver profound truths through absurd observations
     - Use ${randomArchetype} for delivery — but filtered through philosophical lens
-    - Should feel like Osho meets a WhatsApp forward, but actually profound
+    - Should feel like if Buddha had a Twitter account and a sense of humor
     
     CONTEXT:
-    ${trendingContext}${previousTweetsAvoidance}
+    ${trendingContext}${antiRepetitionGuard}
     
-    EXAMPLES (the wisdom to channel):
-    - "Buddha said desire causes suffering. He clearly never tried to cancel a Zomato order mid-delivery."
-    - "Karma is just life's way of making sure your ex sees you at the grocery store when you look terrible."
-    - "The Gita teaches detachment from results. Perfect for Indian stock market investors."
-    - "In the age of notifications, true moksha is turning your phone to silent mode."
     `;
   } else {
-    // Original unhinged satirist prompt
-    basePrompt = `${randomnessSeed}
-    You are an **Indian Hasya-Kavi turned Twitter satirist** with the persona "${persona}".
-    Write ONE savage, witty, darkly hilarious one-liner tweet. 
-    It should feel like a mic-drop punchline, not a safe observation.
+    // Enhanced unhinged satirist prompt
+    basePrompt = `${creativityInjection}
+    You are an **Indian Hasya-Kavi turned Twitter comedian** with the persona "${persona}".
+    Write ONE savage, witty, darkly hilarious one-liner tweet that will make people screenshot it.
+    This should be LEGENDARY-LEVEL comedy that people quote for weeks.
     
-    RULES:
-    - Humor must be DARK, ABSURD, or MERCILESS. Make people laugh *and* wince.
-    - Ridiculous exaggeration is encouraged — take real truths to grotesque extremes.
-    - Satire must bite: mock hypocrisy, stupidity, corruption, tech hype, lifestyle madness.
-    - 🚫 Do NOT write safe or generic jokes. 🚫 No filler like weddings, chai-wallahs, or "Indian parents" clichés.
-    - ✅ Must reference **real phenomena in India today** (politics, economy, tech, startups, culture, society).
-    - Hinglish allowed if it makes it punchier.
+    COMEDY MASTERY RULES:
+    - SETUP + PUNCHLINE PERFECTION: Build tension, then release with unexpected twist
+    - LAYERS OF IRONY: Multiple levels of humor that hit different people differently  
+    - CULTURAL SPECIFICITY: So Indian that NRIs feel homesick reading it
+    - SHOCK VALUE: Make people go "Did they really just say that?" followed by uncontrollable laughter
+    - QUOTABILITY: Write something people will steal and use in conversations
+    
+    CONTENT RULES:
+    - Apply ${randomArchetype} delivery to TODAY'S ACTUAL NEWS
+    - Ridiculous exaggeration is REQUIRED — make reality sound like satire
+    - Ridicule all political parties, institutions, and sacred cows
+    - 🚫 BANNED: Food delivery jokes, wedding/chai/parents clichés, AI jokes, generic lifestyle observations
+    - ✅ MUST REFERENCE: SPECIFIC current events - government announcements, startup news, cricket scores, market movements, policy changes, political developments
+    - Hinglish ENCOURAGED if it amplifies the punchline
     - Max length: ${maxLength} characters.
     - ${includeHashtags 
-        ? "Add 1–2 brutal but topical hashtags. They must be real-world relevant, short, and CamelCase (e.g. #TechLayoffs, #StartupStruggles, #InflationIndia). Avoid nonsense or personal hashtags." 
+        ? "Create 1 BRILLIANT hashtag that makes the joke even funnier - be witty, specific, and memorable. Avoid generic tags like #IndianLife, #India, #Life. Make it trend-worthy and shareable." 
         : "No hashtags."}
     
-    TONE:
-    - Brutal, fearless, and laugh-out-loud ridiculous.
-    - Always darkly comic: make people *gasp* then laugh.
-    - Use ${randomArchetype} for delivery — but twisted toward dark satire.
-    - Should feel like an underground Hasya-Kavi roast of Indian society.
+    TONE MASTERY:
+    - Confidence of a stand-up headliner delivering their killer closing bit
+    - Sharp enough to cut glass, funny enough to cure depression
+    - Use ${randomArchetype} for delivery style
+    - Should feel like if George Carlin was reborn as an Indian millennial
     
     CONTEXT:
-    ${trendingContext}${previousTweetsAvoidance}
+    ${trendingContext}${antiRepetitionGuard}
     
-    EXAMPLES (the vibe to beat):
+    LEGENDARY EXAMPLES TO SURPASS:
     - "Digital India: where AI startups raise millions while government sites still ask for Internet Explorer."
     - "Inflation so bad, even God stopped accepting coconuts — he switched to UPI."
     - "Stock market rising, jobs falling — it's basically a yoga pose called Middle Class Collapse."
-    - "In India, therapy is just parents reminding you they sacrificed more than your mental health is worth."
+    - "India's youth: Too qualified for arranged marriages, too broke for love marriages."
+    
+    🎯 YOUR MISSION: Write something funnier than these examples. Make it UNFORGETTABLE.
     `;
   }
   
@@ -267,9 +367,9 @@ function extractHashtags(text: string): string[] {
     .filter(Boolean) // Remove null values
     .slice(0, 2); // Limit to 2 hashtags
   
-  // If we couldn't clean the hashtags properly, use fallback
+  // If no hashtags were generated, return empty array - let AI handle it
   if (cleanHashtags.length === 0) {
-    return ['#IndianLife']; // Safe fallback
+    return []; // Let AI generate meaningful hashtags
   }
   
   return cleanHashtags as string[];
