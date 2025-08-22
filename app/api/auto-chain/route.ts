@@ -26,11 +26,19 @@ const OPTIMAL_POSTING_TIMES = [
 
 async function scheduleNextExecution(delayMinutes: number) {
   try {
+    // In production on Vercel, use the deployment URL
+    // VERCEL_URL is automatically provided by Vercel
     const baseUrl = process.env.VERCEL_URL 
       ? `https://${process.env.VERCEL_URL}` 
+      : process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
       : process.env.NEXT_PUBLIC_SITE_URL 
       ? process.env.NEXT_PUBLIC_SITE_URL
+      : process.env.PRODUCTION_URL  // Add manual fallback
+      ? process.env.PRODUCTION_URL
       : 'http://localhost:3000';
+    
+    logIST(`🔗 Using base URL for self-triggering: ${baseUrl}`);
     
     // Schedule next execution using setTimeout + fetch
     setTimeout(async () => {
@@ -274,21 +282,21 @@ export async function POST() {
   try {
     logIST('🚀 Manual start of production auto-chain system...');
     
-    // Start the first execution
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}` 
-      : process.env.NEXT_PUBLIC_SITE_URL 
-      ? process.env.NEXT_PUBLIC_SITE_URL
-      : 'http://localhost:3000';
-    
-    const response = await fetch(`${baseUrl}/api/auto-chain`, {
-      method: 'GET',
+    // Create a mock request object with proper authorization to call GET logic directly
+    const mockRequest = {
       headers: {
-        'Authorization': `Bearer ${process.env.CRON_SECRET || 'internal-trigger'}`
+        get: (name: string) => {
+          if (name === 'authorization') {
+            return `Bearer ${process.env.CRON_SECRET || 'internal-trigger'}`;
+          }
+          return null;
+        }
       }
-    });
+    } as NextRequest;
     
-    const result = await response.json();
+    // Call the GET function directly instead of making an HTTP request
+    const getResponse = await GET(mockRequest);
+    const result = await getResponse.json();
     
     return NextResponse.json({
       success: true,
@@ -298,6 +306,7 @@ export async function POST() {
     });
     
   } catch (error) {
+    logIST('❌ Failed to start auto-chain system:', error instanceof Error ? error.message : String(error));
     return NextResponse.json({
       success: false,
       error: 'Failed to start auto-chain system',
