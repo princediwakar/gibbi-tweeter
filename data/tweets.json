@@ -758,5 +758,58 @@
         "👍 Good quality tweet with strong engagement"
       ]
     }
+  },
+  {
+    "id": "memvzieyrul8gjkrj3k",
+    "content": "Finding a flatmate in Mumbai is like a Tinder date where the only dealbreaker is if you can't live with 14 other people and a landlord who treats your deposit like his personal election bond. #HousingCrisis #DepositDrama",
+    "hashtags": [
+      "#HousingCrisis",
+      "#DepositDrama"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T13:49:03.610Z",
+    "qualityScore": {
+      "overall": 79,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.9,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📖 Simplify language for better readability",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "memw0q9ss32xq43lmi",
+    "content": "My startup's mental wellness AI just recommended a company-wide layoff as the ultimate cure for burnout. #GreatResignation #TechTherapy",
+    "hashtags": [
+      "#TechTherapy"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T13:50:00.448Z",
+    "qualityScore": {
+      "overall": 71,
+      "metrics": {
+        "engagement": 0.7,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8499999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
   }
 ]

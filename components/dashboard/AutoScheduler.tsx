@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { AutoSchedulerStats } from '@/types/dashboard';
-import { formatDateIST } from '@/lib/timezone';
+import { formatDateIST, formatExactTimeIST, getTimeUntil } from '@/lib/timezone';
 import { useClientSafe } from '@/hooks/useClientSafe';
 
 interface AutoSchedulerProps {
@@ -55,8 +55,13 @@ export function AutoScheduler({ loading, autoChainRunning, stats, nextPostTime, 
               <div className="space-y-2">
                 <div className="text-xs uppercase text-gray-400 tracking-wide">Next Post (IST)</div>
                 <div className="text-sm text-green-400 font-medium">
-                  {isClient ? formatDateIST(new Date(nextPostTime)) : 'Loading...'}
+                  {isClient ? formatExactTimeIST(new Date(nextPostTime)) : 'Loading...'}
                 </div>
+                {isClient && (
+                  <div className="text-xs text-blue-300">
+                    {getTimeUntil(new Date(nextPostTime))}
+                  </div>
+                )}
               </div>
             )}
             

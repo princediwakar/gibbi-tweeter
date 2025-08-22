@@ -127,6 +127,62 @@ export function getNextScheduledTimeIST(fromDate?: Date): Date {
 }
 
 /**
+ * Format exact time for next post display (more precise)
+ */
+export function formatExactTimeIST(date: Date): string {
+  if (typeof window === 'undefined') {
+    // Server-side: Use UTC offset calculation for consistency
+    const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
+    const istTime = new Date(utcTime + (5.5 * 3600000)); // IST is UTC+5:30
+    
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    const dayName = days[istTime.getDay()];
+    const hours = istTime.getHours();
+    const minutes = istTime.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours % 12 || 12;
+    
+    return `${dayName}, ${istTime.getDate()} ${months[istTime.getMonth()]}, ${displayHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+  } else {
+    // Client-side: Use locale string with timezone
+    return date.toLocaleString('en-IN', {
+      timeZone: IST_TIMEZONE,
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+  }
+}
+
+/**
+ * Get time remaining until a future date (human readable)
+ */
+export function getTimeUntil(futureDate: Date): string {
+  const now = new Date();
+  const diffMs = futureDate.getTime() - now.getTime();
+  
+  if (diffMs <= 0) return 'Now';
+  
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+  
+  if (diffHours > 24) {
+    const days = Math.floor(diffHours / 24);
+    return `in ${days} day${days > 1 ? 's' : ''}`;
+  } else if (diffHours > 0) {
+    return `in ${diffHours}h ${diffMinutes}m`;
+  } else {
+    return `in ${diffMinutes}m`;
+  }
+}
+
+/**
  * Log with IST timestamp
  */
 export function logIST(message: string, ...args: unknown[]): void {
