@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getAllTweets, getPaginatedTweets, saveTweet, generateTweetId, deleteTweets, Tweet } from '@/lib/db';
 import { generateTweet, TweetGenerationOptions } from '@/lib/openai';
 import { calculateQualityScore } from '@/lib/quality-scorer';
+import { getTrendingTopics } from '@/lib/trending';
 
 export async function GET(request: Request) {
   try {
@@ -103,63 +104,79 @@ export async function POST(request: Request) {
     if (action === 'bulk_generate') {
       const count = data.count || 5;
       
-      // Enhanced bulk generation with variation techniques
+      console.log(`🎯 Starting real-time RSS-based bulk generation of ${count} tweets...`);
+      
+      // Step 1: Fetch fresh trending topics from RSS sources
+      let trendingTopics;
+      try {
+        console.log('📡 Fetching fresh trending topics from RSS sources...');
+        trendingTopics = await getTrendingTopics();
+        console.log(`✅ Retrieved ${trendingTopics.length} trending topics from RSS feeds`);
+      } catch (error) {
+        console.error('❌ Failed to fetch trending topics:', error);
+        return NextResponse.json({ 
+          error: 'Failed to fetch trending topics for bulk generation',
+          details: error instanceof Error ? error.message : String(error)
+        }, { status: 500 });
+      }
+
+      if (trendingTopics.length < count) {
+        console.warn(`⚠️ Only ${trendingTopics.length} trending topics available, needed ${count}`);
+      }
+
       const generatedTweets: Tweet[] = [];
-      // const usedTopics = new Set<string>(); // Track used topics to avoid repetition - removed unused variable
+      const usedTopics = new Set<string>(); // Track used topics to ensure no repetition
       
-      console.log(`🎯 Starting bulk generation of ${count} tweets with enhanced variety...`);
-      
+      // Step 2: Generate tweets using different trending topics
       for (let i = 0; i < count; i++) {
         try {
-          // Add variety through different approaches for each tweet
-          const variations = [
-            { includeHashtags: true, useTrendingTopics: true },
-            { includeHashtags: false, useTrendingTopics: true },
-            { includeHashtags: true, useTrendingTopics: false },
-            { includeHashtags: Math.random() > 0.3, useTrendingTopics: true },
-            { includeHashtags: true, useTrendingTopics: Math.random() > 0.2 }
-          ];
-          
-          const variation = variations[i % variations.length];
-          
-          // GUARANTEED different topic categories for each tweet
-          const topicCategories = data.customPrompt ? [data.customPrompt] : [
-            "Create a witty observation about modern Indian lifestyle and daily routines",
-            "Make a clever comment about technology, AI, and social media in India", 
-            "Share a humorous take on Indian politics, governance, or bureaucracy",
-            "Comment satirically on Indian business, startup culture, or economy",
-            "Create a funny observation about Indian education system or academic life",
-            "Make a witty comment about Indian social dynamics, relationships, or culture",
-            "Generate satirical content about Indian infrastructure, transport, or urban life",
-            "Create humor about Indian food culture, regional differences, or dining experiences",
-            "Make a witty observation about Indian entertainment, Bollywood, or media",
-            "Comment humorously on Indian festivals, traditions, or family dynamics"
-          ];
-          
-          // Force different topics by using modulo to cycle through categories
-          const selectedPrompt = topicCategories[i % topicCategories.length];
-          
+          // Select a different trending topic for each tweet
+          let selectedTopic = null;
+          let attempts = 0;
+          const maxAttempts = Math.min(trendingTopics.length * 2, 20);
+
+          // Find an unused topic (with fallback to allow reuse if needed)
+          while (attempts < maxAttempts && !selectedTopic) {
+            const randomIndex = Math.floor(Math.random() * trendingTopics.length);
+            const candidateTopic = trendingTopics[randomIndex];
+            
+            // If we haven't used this topic yet, select it
+            if (!usedTopics.has(candidateTopic.title) || usedTopics.size >= trendingTopics.length) {
+              selectedTopic = candidateTopic;
+              usedTopics.add(candidateTopic.title);
+              break;
+            }
+            attempts++;
+          }
+
+          // Fallback if no topic found (shouldn't happen)
+          if (!selectedTopic) {
+            selectedTopic = trendingTopics[i % trendingTopics.length];
+          }
+
+          // Create custom prompt based on the trending topic
+          const customPrompt = `Create a witty satirical tweet about: "${selectedTopic.title}". Make it relatable to Indian context and add sharp social commentary with humor.`;
+
+          // Vary hashtag inclusion for each tweet
+          const includeHashtags = i % 2 === 0; // Alternate hashtags
+
           const options: TweetGenerationOptions = {
             persona: data.persona,
-            includeHashtags: variation.includeHashtags,
-            customPrompt: selectedPrompt,
-            useTrendingTopics: false, // Always use custom prompts for guaranteed topic diversity
+            includeHashtags: includeHashtags,
+            customPrompt: customPrompt,
+            useTrendingTopics: false, // We're manually providing the trending context
           };
 
-          const topicName = [
-            "Lifestyle", "Technology", "Politics", "Business", "Education", 
-            "Social", "Infrastructure", "Food", "Entertainment", "Traditions"
-          ][i % topicCategories.length] || "General";
-          
-          console.log(`📝 Generating tweet ${i + 1}/${count} - TOPIC: ${topicName}:`, {
-            hashtags: variation.includeHashtags,
-            topicCategory: topicName,
-            prompt: selectedPrompt.substring(0, 50) + '...'
+          console.log(`📝 Tweet ${i + 1}/${count} - RSS TOPIC: "${selectedTopic.title}":`, {
+            source: selectedTopic.category || 'RSS Feed',
+            traffic: selectedTopic.traffic,
+            hashtags: includeHashtags,
+            originalHashtag: selectedTopic.hashtag
           });
 
           const generatedTweet = await generateTweet(options, i);
           
-          // Skip if we've seen this exact content before (rare but possible)
+          // Skip if we've seen this exact content before
           if (generatedTweets.some(t => t.content === generatedTweet.content)) {
             console.log(`⚠️ Duplicate content detected for tweet ${i + 1}, skipping...`);
             continue;
@@ -180,11 +197,12 @@ export async function POST(request: Request) {
           await saveTweet(tweet);
           generatedTweets.push(tweet);
           
-          console.log(`✅ Generated tweet ${i + 1}: ${generatedTweet.content.substring(0, 50)}...`);
+          console.log(`✅ Generated tweet ${i + 1}: ${generatedTweet.content.substring(0, 60)}...`);
+          console.log(`   📊 Based on RSS topic: ${selectedTopic.title} (${selectedTopic.traffic})`);
           
-          // Add delay between generations to allow for more variation
+          // Add delay between generations for API variety
           if (i < count - 1) {
-            const delay = Math.random() * 2000 + 1000; // 1-3 second random delay
+            const delay = Math.random() * 2000 + 1500; // 1.5-3.5 second random delay
             await new Promise(resolve => setTimeout(resolve, delay));
           }
           
@@ -195,8 +213,15 @@ export async function POST(request: Request) {
         }
       }
 
-      console.log(`🎉 Bulk generation completed! Generated ${generatedTweets.length}/${count} unique tweets`);
-      return NextResponse.json({ tweets: generatedTweets });
+      console.log(`🎉 RSS-based bulk generation completed! Generated ${generatedTweets.length}/${count} unique tweets from trending topics`);
+      return NextResponse.json({ 
+        tweets: generatedTweets,
+        meta: {
+          totalTrendingTopics: trendingTopics.length,
+          uniqueTopicsUsed: usedTopics.size,
+          rssSourcesUsed: [...new Set(trendingTopics.map(t => t.category))].length
+        }
+      });
     }
 
     if (action === 'schedule_selected') {

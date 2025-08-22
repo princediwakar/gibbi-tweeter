@@ -539,5 +539,163 @@
         "📈 Add relatable or emotional elements for shareability"
       ]
     }
+  },
+  {
+    "id": "memmxl980ad8ajrsjm29",
+    "content": "Apollo Hospitals' MD sells a stake, and my portfolio's health now needs an emergency consultation. #StockMarket #InvestingIndia",
+    "hashtags": [
+      "#StockMarket",
+      "#InvestingIndia"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:35:37.436Z",
+    "qualityScore": {
+      "overall": 69,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.5499999999999999,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability"
+      ]
+    }
+  },
+  {
+    "id": "memn1tafprhmqjmlxjo",
+    "content": "My phone's 5G can download a 4K movie in a minute, but my UPI payment still needs 17 retries and a prayer to the WiFi gods. #DigitalIndia #UPI",
+    "hashtags": [
+      "#DigitalIndia",
+      "#UPI"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:38:54.471Z",
+    "qualityScore": {
+      "overall": 74,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
+  },
+  {
+    "id": "memn1zb1gxf48w9zrpl",
+    "content": "Mahesh Murthy's VC fund would've invested in a time machine by now, if only to go back and uninvest in some of his own tweets.",
+    "hashtags": [
+      "#IndianLife"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:39:02.269Z",
+    "qualityScore": {
+      "overall": 64,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.15
+      },
+      "grade": "D",
+      "feedback": [
+        "⚠️ Needs work to increase impact",
+        "📖 Simplify language for better readability"
+      ]
+    }
+  },
+  {
+    "id": "memn24kz68fa4dm9oaf",
+    "content": "My entire social life is now just 47 Discord servers where I'm silently spectating 12 different conversations about the existential dread I joined to escape. #DigitalDetox #GenZReality",
+    "hashtags": [
+      "#DigitalDetox",
+      "#Geneality"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:39:09.107Z",
+    "qualityScore": {
+      "overall": 69,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.65
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "memn2b583adpgojdsd7",
+    "content": "My entire marketing career is now just explaining to clients why their \"AI-powered personalization\" is actually just 17 if-else statements I copied from Stack Overflow at 3 AM.",
+    "hashtags": [
+      "#IndianLife"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:39:17.612Z",
+    "qualityScore": {
+      "overall": 73,
+      "metrics": {
+        "engagement": 0.85,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.9999999999999998,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.15
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability"
+      ]
+    }
+  },
+  {
+    "id": "memn2hetr5ieyi0dwkc",
+    "content": "My entire product is just 17 layers of duct tape holding together a dream, a VC's ego, and a single, overworked API that cries every time a user logs in. #StartupLife #TechDebt",
+    "hashtags": [
+      "#StartupLife",
+      "#TechDebt"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T09:39:25.733Z",
+    "qualityScore": {
+      "overall": 69,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
   }
 ]
