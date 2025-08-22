@@ -2,6 +2,33 @@ import { NextResponse } from 'next/server';
 import { getAllTweets, saveTweet, deleteTweet } from '@/lib/db';
 import { postTweet } from '@/lib/twitter';
 
+export async function GET(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const tweets = await getAllTweets();
+    const tweet = tweets.find(t => t.id === id);
+
+    if (!tweet) {
+      return NextResponse.json({ error: 'Tweet not found' }, { status: 404 });
+    }
+
+    return NextResponse.json(tweet);
+  } catch (error) {
+    console.error('Error fetching tweet:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  return PUT(request, { params });
+}
+
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -57,7 +84,7 @@ export async function PUT(
 }
 
 export async function DELETE(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
