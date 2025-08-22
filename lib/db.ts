@@ -215,14 +215,39 @@ export async function deleteTweets(ids: string[]): Promise<void> {
   }
 }
 
-export async function getScheduledTweets(): Promise<Tweet[]> {
+interface ScheduledTweetsOptions {
+  status?: 'scheduled' | 'posted' | 'failed';
+  from?: Date;
+  to?: Date;
+  limit?: number;
+}
+
+export async function getScheduledTweets(options: ScheduledTweetsOptions = {}): Promise<Tweet[]> {
   const tweets = await getAllTweets();
-  const now = new Date();
-  return tweets.filter(tweet => 
-    tweet.status === 'scheduled' && 
-    tweet.scheduledFor && 
-    tweet.scheduledFor <= now
-  );
+  let filtered = tweets.filter(tweet => {
+    // Filter by status if specified
+    if (options.status && tweet.status !== options.status) {
+      return false;
+    }
+    
+    // Filter by scheduled time range if specified
+    if (options.from && tweet.scheduledFor && tweet.scheduledFor < options.from) {
+      return false;
+    }
+    
+    if (options.to && tweet.scheduledFor && tweet.scheduledFor > options.to) {
+      return false;
+    }
+    
+    return true;
+  });
+  
+  // Apply limit if specified
+  if (options.limit) {
+    filtered = filtered.slice(0, options.limit);
+  }
+  
+  return filtered;
 }
 
 export function generateTweetId(): string {

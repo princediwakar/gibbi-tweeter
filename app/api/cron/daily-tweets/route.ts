@@ -67,7 +67,8 @@ export async function GET(request: NextRequest) {
         const scheduledFor = new Date(today);
         scheduledFor.setHours(timeSlot.hour, timeSlot.minute, 0, 0);
 
-        // If the time has already passed today, schedule for tomorrow
+        // Since this cron runs at 2:00 AM UTC (7:30 AM IST), all times today should be valid
+        // But if somehow a time has passed, schedule for tomorrow
         if (scheduledFor <= new Date()) {
           scheduledFor.setDate(scheduledFor.getDate() + 1);
         }
