@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Bot, Send, Plus, Edit3 } from 'lucide-react';
 import { GenerateFormState, Persona } from '@/types/dashboard';
+import { useClientSafe } from '@/hooks/useClientSafe';
 
 interface ManualGenerationProps {
   form: GenerateFormState;
@@ -25,6 +26,7 @@ export function ManualGeneration({
   onGenerateAndSchedule,
   onBulkGenerate
 }: ManualGenerationProps) {
+  const isClient = useClientSafe();
   return (
     <section className="bg-gray-900 rounded-xl border border-gray-800 p-6">
       <div className="flex items-center justify-between mb-6">
@@ -106,7 +108,7 @@ export function ManualGeneration({
               className="w-full bg-gray-800 border border-gray-600 text-gray-200 text-sm p-3 rounded-lg focus:border-blue-500 focus:outline-none resize-none"
               rows={3}
             />
-            {form.customPrompt && (
+            {isClient && form.customPrompt && (
               <button
                 onClick={() => onFormChange({ customPrompt: '' })}
                 className="absolute top-2 right-2 text-gray-400 hover:text-gray-200 transition-colors"
@@ -117,7 +119,7 @@ export function ManualGeneration({
             )}
           </div>
           <div className="text-xs text-gray-500">
-            💡 {form.customPrompt.trim() ? 
+            💡 {isClient && form.customPrompt.trim() ? 
               `Custom topic will override RSS sources and generate personalized ${form.persona.replace('_', ' ')} content` : 
               `Leave empty to use ${form.useTrendingTopics ? 'RSS trending topics' : 'general satirical topics'}`
             }
@@ -130,7 +132,7 @@ export function ManualGeneration({
         <div className="text-sm text-gray-300 font-medium">Quick Actions</div>
         
         {/* Custom Topic Row (when custom prompt is provided) */}
-        {form.customPrompt.trim() && (
+        {isClient && form.customPrompt.trim() && (
           <div className="mb-3 p-4 bg-yellow-900/20 border border-yellow-600/30 rounded-lg">
             <div className="flex items-center justify-between">
               <div className="flex-1">
@@ -154,13 +156,13 @@ export function ManualGeneration({
           <Button
             onClick={onGenerate}
             disabled={loading}
-            className={`${form.customPrompt.trim() ? 'opacity-50' : ''} bg-gray-700 hover:bg-gray-600 text-gray-100 h-12 text-sm font-medium rounded-lg border border-gray-600 transition-all hover:border-gray-500`}
+            className={`${isClient && form.customPrompt.trim() ? 'opacity-50' : ''} bg-gray-700 hover:bg-gray-600 text-gray-100 h-12 text-sm font-medium rounded-lg border border-gray-600 transition-all hover:border-gray-500`}
           >
             <Bot className="h-5 w-5 mr-2" /> 
             <div className="flex flex-col items-start">
               <span>Generate</span>
               <span className="text-xs text-gray-400">
-                {form.customPrompt.trim() ? 'Custom topic' : form.useTrendingTopics ? 'RSS topic' : 'Random topic'}
+                {isClient && form.customPrompt.trim() ? 'Custom topic' : form.useTrendingTopics ? 'RSS topic' : 'Random topic'}
               </span>
             </div>
           </Button>
@@ -168,34 +170,34 @@ export function ManualGeneration({
           <Button
             onClick={onGenerateAndSchedule}
             disabled={loading}
-            className={`${form.customPrompt.trim() ? 'opacity-50' : ''} bg-blue-600 hover:bg-blue-500 text-white h-12 text-sm font-medium rounded-lg transition-all`}
+            className={`${isClient && form.customPrompt.trim() ? 'opacity-50' : ''} bg-blue-600 hover:bg-blue-500 text-white h-12 text-sm font-medium rounded-lg transition-all`}
           >
             <Send className="h-5 w-5 mr-2" /> 
             <div className="flex flex-col items-start">
               <span>Generate & Schedule</span>
               <span className="text-xs text-blue-200">
-                {form.customPrompt.trim() ? 'Custom + auto' : 'Auto-schedule'}
+                {isClient && form.customPrompt.trim() ? 'Custom + auto' : 'Auto-schedule'}
               </span>
             </div>
           </Button>
           
           <Button
             onClick={onBulkGenerate}
-            disabled={loading || !!form.customPrompt.trim()}
+            disabled={loading || (isClient && !!form.customPrompt.trim())}
             className="bg-green-600 hover:bg-green-500 disabled:bg-gray-600 disabled:text-gray-400 text-white h-12 text-sm font-medium rounded-lg transition-all"
-            title={form.customPrompt.trim() ? 'Clear custom prompt to use bulk generation with RSS topics' : ''}
+            title={isClient && form.customPrompt.trim() ? 'Clear custom prompt to use bulk generation with RSS topics' : ''}
           >
             <Plus className="h-5 w-5 mr-2" /> 
             <div className="flex flex-col items-start">
               <span>Bulk Generate</span>
               <span className="text-xs text-green-200">
-                {form.customPrompt.trim() ? 'Custom N/A' : `${bulkCount} RSS topics`}
+                {isClient && form.customPrompt.trim() ? 'Custom N/A' : `${bulkCount} RSS topics`}
               </span>
             </div>
           </Button>
         </div>
         
-        {form.customPrompt.trim() && (
+        {isClient && form.customPrompt.trim() && (
           <div className="text-xs text-gray-500 mt-2">
             💡 <strong>Custom Topic:</strong> Generate and Generate & Schedule will use your custom topic. 
             Clear the custom prompt above to enable bulk generation with 5 different RSS topics.

@@ -1,56 +1,5 @@
 [
   {
-    "id": "memn5yb255cxdcbjg06",
-    "content": "Our startup's AI could write poetry, but its payment gateway had the emotional range of a traffic jam. #StartupStruggles #TechInIndia",
-    "hashtags": [
-      "#TechInIndia"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T09:42:07.598Z",
-    "qualityScore": {
-      "overall": 80,
-      "metrics": {
-        "engagement": 0.9,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.5,
-        "trendRelevance": 0.65
-      },
-      "grade": "B",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement"
-      ]
-    }
-  },
-  {
-    "id": "memn6k16dbufyl5usp",
-    "content": "Our AI can now predict your future, but it still can't predict when the electricity will come back. #AIRevolution #PowerCutIndia",
-    "hashtags": [
-      "#AIRevolution",
-      "#PowerCutIndia"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T09:42:35.754Z",
-    "qualityScore": {
-      "overall": 78,
-      "metrics": {
-        "engagement": 0.9,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.8499999999999999,
-        "viralPotential": 0.5,
-        "trendRelevance": 0.8
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement"
-      ]
-    }
-  },
-  {
     "id": "memn7nsuxjbmjgabo2c",
     "content": "China's envoy says Pakistan is a victim too, a statement so divorced from reality it makes my Jio fiber's 'unlimited' data plan look honest. #DiplomaticGymnastics #GeoPolitics",
     "hashtags": [
@@ -76,29 +25,28 @@
     }
   },
   {
-    "id": "memnhvm99dujp283s3i",
-    "content": "My AI can now write a poem in the style of Mirza Ghalib, but it still can't figure out why my mother is adding \"Good Morning\" images to our family WhatsApp group. #AICreativity #WhatsAppIndia",
+    "id": "memnmptzsgma8omevfb",
+    "content": "The Rajya Sabha's new bills are like our monsoon showers: everyone fights over who gets the credit, but the leaks are what we actually experience. #MonsoonSession #GovtBills",
     "hashtags": [
-      "#AICreativity",
-      "#WhatsAppIndia"
+      "#MonsoonSession",
+      "#GovtBills"
     ],
     "persona": "unhinged_satirist",
     "status": "draft",
-    "createdAt": "2025-08-22T09:51:23.985Z",
+    "createdAt": "2025-08-22T09:55:09.767Z",
     "qualityScore": {
-      "overall": 82,
+      "overall": 80,
       "metrics": {
-        "engagement": 1,
+        "engagement": 0.9500000000000001,
         "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.8
+        "uniqueness": 0.9,
+        "personaAlignment": 0.8999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
       },
       "grade": "B",
       "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📈 Add relatable or emotional elements for shareability"
+        "👍 Good quality tweet with strong engagement"
       ]
     }
   }
