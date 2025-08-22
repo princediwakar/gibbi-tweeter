@@ -47,7 +47,7 @@ export function ManualGeneration({
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
           {/* Persona Selection */}
           <div className="space-y-2">
-            <label className="text-xs text-gray-400 uppercase tracking-wide">Persona</label>
+            <label className="text-xs text-gray-400 uppercase tracking-wide">Persona ({personas.length} available)</label>
             <select
               value={form.persona}
               onChange={(e) => onFormChange({ persona: e.target.value as 'unhinged_satirist' | 'desi_philosopher' })}
@@ -59,6 +59,12 @@ export function ManualGeneration({
                 </option>
               ))}
             </select>
+            {/* Debug info - remove after testing */}
+            {process.env.NODE_ENV === 'development' && (
+              <div className="text-xs text-gray-500">
+                Debug: {personas.map(p => p.name).join(', ')}
+              </div>
+            )}
           </div>
           
           {/* Content Options */}
