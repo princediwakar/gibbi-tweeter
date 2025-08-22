@@ -33,8 +33,8 @@ const {
   useTrendingTopics = true,
 } = options;
 
-let trendingContext = "";
 let selectedTopic: string = customPrompt || "General Satire";
+let randomTopic: TrendingTopic | null = null;
 
 if (useTrendingTopics && !customPrompt) {
   for (let attempt = 1; attempt <= 3; attempt++) {
@@ -51,24 +51,9 @@ if (useTrendingTopics && !customPrompt) {
           randomIndex = Math.floor(Math.random() * trendingTopics.length);
         }
         
-        const randomTopic: TrendingTopic = trendingTopics[randomIndex];
-        
-        // Enhanced context with RSS source attribution and richer topical information
-        const sourceAttribution = randomTopic.category ? ` (Source: ${randomTopic.category})` : '';
-        const trafficInfo = randomTopic.traffic ? ` trending with ${randomTopic.traffic} searches` : '';
-        const authorInfo = randomTopic.author ? ` from ${randomTopic.author}` : '';
-        
-        trendingContext = `🔥 LIVE TRENDING TOPIC${sourceAttribution}: "${randomTopic.title}"${trafficInfo}${authorInfo}
-        
-📊 COMEDY ANGLE INSTRUCTIONS:
-- This is REAL, CURRENT content from RSS feeds - make it feel immediate and relevant
-- Reference specific elements from the topic title to show you're plugged into what's happening NOW
-- Use the trend's momentum to amplify your punchline
-- Make people feel like you're commenting on something they just saw in their feed
-- ${randomTopic.hashtags.length > 0 ? `MUST USE these real trending hashtags: ${randomTopic.hashtags.join(' ')} - these are actual trending hashtags from the source, don't modify them` : 'Only generate a hashtag if absolutely necessary for the joke - prefer no hashtags over generic ones'}`;
-        
+        randomTopic = trendingTopics[randomIndex];
         selectedTopic = randomTopic.title;
-        console.log(`📈 Using RSS-sourced trending topic (${bulkIndex !== undefined ? 'bulk #' + bulkIndex : 'single'}): ${randomTopic.title}${sourceAttribution}`);
+        console.log(`📈 Using RSS-sourced trending topic (${bulkIndex !== undefined ? 'bulk #' + bulkIndex : 'single'}): ${randomTopic.title}`);
         break;
       }
     } catch (err) {
@@ -78,18 +63,14 @@ if (useTrendingTopics && !customPrompt) {
         await new Promise((r) => setTimeout(r, BASE_DELAY * 2 ** (attempt - 1)));
       } else {
         console.warn("⚠️ Failed to fetch trending topics after 3 attempts, proceeding without trends");
-        trendingContext = "🎯 REAL NEWS FOCUS: Create satirical commentary on ACTUAL current events - government policies, economic announcements, geopolitics, tech industry news, startup funding/layoffs, cricket matches/IPL, political developments, market movements, or breaking news that's happening RIGHT NOW. NO food delivery, wedding, or generic lifestyle jokes.";
         selectedTopic = "Breaking News & Current Events";
       }
     }
   }
 } else if (customPrompt) {
-  trendingContext = `Context: ${customPrompt}`;
   selectedTopic = customPrompt;
 } else if (!useTrendingTopics) {
-  // No trends, no custom prompt - generate topical satirical content
-  trendingContext = "🎯 CURRENT AFFAIRS SATIRE: Focus on TODAY'S actual news - Modi government policies, RBI decisions, startup funding rounds, tech company layoffs, cricket matches, election developments, market crashes/rallies, or regulatory changes. Be SPECIFIC about real events, not generic lifestyle humor.";
-  selectedTopic = "Today's News & Events";
+  selectedTopic = "Current Indian Reality";
 }
 
 // Infuse variability with comedy archetypes from top influential comedians
@@ -174,127 +155,45 @@ AVOID these overused themes/keywords: ${themeKeywords.join(', ')}
   console.warn("Could not read tweets.json for anti-repetition analysis:", err);
 }
 
-// Enhanced creativity injection system
-const creativityBoosts = [
-  "Start with the opposite of what people expect",
-  "Use an absurd metaphor from Indian mythology",
-  "Apply startup terminology to ancient problems",
-  "Flip a common saying on its head",
-  "Combine two unrelated Indian phenomena",
-  "Use a medical/scientific analogy for social issues",
-  "Apply film/TV logic to real-world problems",
-  "Use food analogies for non-food topics",
-  "Apply gaming terminology to life situations",
-  "Use wedding/marriage metaphors for non-relationship topics"
-];
-
-const perspectiveShifts = [
-  "from the POV of an inanimate object",
-  "as if explaining to aliens",
-  "through the lens of your grandmother",
-  "as a news headline from 2050",
-  "like a frustrated app notification",
-  "as a product review of life",
-  "through the eyes of street dogs",
-  "as a WhatsApp group admin announcement"
-];
-
-let creativityInjection = '';
-if (bulkIndex !== undefined) {
-  const boostIndex = bulkIndex % creativityBoosts.length;
-  const shiftIndex = Math.floor(bulkIndex / creativityBoosts.length) % perspectiveShifts.length;
-  creativityInjection = `\n🎨 CREATIVITY INJECTION #${bulkIndex}:
-- Approach: ${creativityBoosts[boostIndex]}
-- Perspective: ${perspectiveShifts[shiftIndex]}
-- Make this tweet feel like it came from a different planet than the others in this batch!\n`;
-} else {
-  const randomBoost = creativityBoosts[Math.floor(Math.random() * creativityBoosts.length)];
-  const randomShift = perspectiveShifts[Math.floor(Math.random() * perspectiveShifts.length)];
-  creativityInjection = `\n🎨 CREATIVITY INJECTION:
-- Approach: ${randomBoost}
-- Perspective: ${randomShift}\n`;
-}
+// Removed overcomplicated creativity injection - let natural humor flow
 
   // Persona-specific prompt generation
   let basePrompt: string;
   
   if (persona === "desi_philosopher") {
-    basePrompt = `${creativityInjection}
-    You are a **modern Desi Philosopher** - a wise sage who observes life through ancient Indian wisdom but speaks about today's chaos.
-    Write ONE profound, witty, philosophical tweet that connects timeless wisdom with contemporary Indian reality.
-    
-    COMEDY ENHANCEMENT RULES:
-    - SURPRISE FACTOR: Start with an unexpected philosophical angle that catches people off-guard
-    - LAYERED HUMOR: Surface level should be funny, deeper level should be profound
-    - TIMING: Build to a philosophical punchline that lands like a mic drop
-    - CONTRAST: Maximum gap between ancient wisdom and absurd modern reality
-    
-    CONTENT RULES:
-    - Blend ANCIENT WISDOM with TODAY'S HEADLINES using ${randomArchetype} delivery
-    - Use philosophical concepts: Dharma, Karma, Maya (illusion), Samsara (cycle), Moksha (liberation)
-    - Reference: Bhagavad Gita wisdom, Buddhist insights, Sufi mysticism, or Upanishadic thoughts
-    - Connect philosophy to ACTUAL current events: government policies, market movements, tech layoffs, cricket matches, political drama
-    - 🚫 Avoid preachy tone and generic lifestyle observations. Keep it WISE but TOPICAL.
-    - ✅ Must reference **specific current events or news** happening in India TODAY
-    - Sanskrit/Hindi terms allowed for comedic effect (with context)
-    - Max length: ${maxLength} characters.
-    - ${includeHashtags 
-        ? "If the trending topic has real hashtags, USE THEM EXACTLY. Otherwise, only create a hashtag if it genuinely adds value to the philosophical insight. Avoid generic tags like #IndianLife, #India, #Life." 
-        : "No hashtags."}
-    
-    TONE MASTERY:
-    - Like a stand-up comedian who accidentally became enlightened
-    - Deliver profound truths through absurd observations
-    - Use ${randomArchetype} for delivery — but filtered through philosophical lens
-    - Should feel like if Buddha had a Twitter account and a sense of humor
-    
-    CONTEXT:
-    ${trendingContext}${antiRepetitionGuard}
-    
-    `;
+    basePrompt = `You're a wise but sarcastic Indian philosopher who finds ancient wisdom in modern chaos. 
+
+Write one funny philosophical tweet about: ${selectedTopic}
+
+Use ${randomArchetype} style. Connect ancient Indian philosophy (karma, dharma, maya, moksha) to today's absurd reality. Be witty, not preachy.
+
+Examples:
+- "Karma is when your startup pitch gets rejected because Mercury is in microwave"
+- "According to Vedanta, suffering is an illusion. So is my bank balance after GST"
+- "Buddha said desire leads to suffering. Clearly he never tried canceling a Jio plan"
+
+${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
+
+${antiRepetitionGuard}
+
+Make it quotable and genuinely funny:`;
   } else {
-    // Enhanced unhinged satirist prompt
-    basePrompt = `${creativityInjection}
-    You are an **Indian Hasya-Kavi turned Twitter comedian** with the persona "${persona}".
-    Write ONE savage, witty, darkly hilarious one-liner tweet that will make people screenshot it.
-    This should be LEGENDARY-LEVEL comedy that people quote for weeks.
-    
-    COMEDY MASTERY RULES:
-    - SETUP + PUNCHLINE PERFECTION: Build tension, then release with unexpected twist
-    - LAYERS OF IRONY: Multiple levels of humor that hit different people differently  
-    - CULTURAL SPECIFICITY: So Indian that NRIs feel homesick reading it
-    - SHOCK VALUE: Make people go "Did they really just say that?" followed by uncontrollable laughter
-    - QUOTABILITY: Write something people will steal and use in conversations
-    
-    CONTENT RULES:
-    - Apply ${randomArchetype} delivery to TODAY'S ACTUAL NEWS
-    - Ridiculous exaggeration is REQUIRED — make reality sound like satire
-    - Ridicule all political parties, institutions, and sacred cows
-    - 🚫 BANNED: Food delivery jokes, wedding/chai/parents clichés, AI jokes, generic lifestyle observations
-    - ✅ MUST REFERENCE: SPECIFIC current events - government announcements, startup news, cricket scores, market movements, policy changes, political developments
-    - Hinglish ENCOURAGED if it amplifies the punchline
-    - Max length: ${maxLength} characters.
-    - ${includeHashtags 
-        ? "If the trending topic has real hashtags, USE THEM EXACTLY - these are viral hashtags from actual sources. Otherwise, only create a hashtag if it makes the joke significantly funnier. Avoid generic tags like #IndianLife, #India, #Life." 
-        : "No hashtags."}
-    
-    TONE MASTERY:
-    - Confidence of a stand-up headliner delivering their killer closing bit
-    - Sharp enough to cut glass, funny enough to cure depression
-    - Use ${randomArchetype} for delivery style
-    - Should feel like if George Carlin was reborn as an Indian millennial
-    
-    CONTEXT:
-    ${trendingContext}${antiRepetitionGuard}
-    
-    LEGENDARY EXAMPLES TO SURPASS:
-    - "Digital India: where AI startups raise millions while government sites still ask for Internet Explorer."
-    - "Inflation so bad, even God stopped accepting coconuts — he switched to UPI."
-    - "Stock market rising, jobs falling — it's basically a yoga pose called Middle Class Collapse."
-    - "India's youth: Too qualified for arranged marriages, too broke for love marriages."
-    
-    🎯 YOUR MISSION: Write something funnier than these examples. Make it UNFORGETTABLE.
-    `;
+    // Simplified unhinged satirist prompt
+    basePrompt = `You're a savage Indian comedian. Write one brutal, hilarious tweet about: ${selectedTopic}
+
+Use ${randomArchetype} style. Be ruthlessly funny about Indian reality. Roast everyone and everything.
+
+Examples of the energy:
+- "Digital India: where AI startups raise millions while government sites still ask for Internet Explorer"
+- "Inflation so bad, even God stopped accepting coconuts — he switched to UPI"  
+- "Stock market rising, jobs falling — it's basically a yoga pose called Middle Class Collapse"
+- "India's youth: Too qualified for arranged marriages, too broke for love marriages"
+
+${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
+
+${antiRepetitionGuard}
+
+Write something people will screenshot and quote. Be savage:`;
   }
   
 
@@ -305,8 +204,8 @@ try {
     messages: [{ role: "user", content: basePrompt }],
     max_tokens: Math.min(120, Math.ceil(maxLength / 2)),
     temperature: bulkIndex !== undefined ? 
-      1.1 + (bulkIndex * 0.1) % 0.4 : // 1.1 to 1.5 range for bulk generation
-      1.2, // Standard temperature for single generation
+      1.3 + (bulkIndex * 0.15) % 0.5 : // 1.3 to 1.8 range for bulk generation
+      1.4, // Higher temperature for funnier, more creative outputs
   });
 
   let tweet = completion.choices[0]?.message?.content?.trim();

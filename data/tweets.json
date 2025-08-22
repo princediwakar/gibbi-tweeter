@@ -249,5 +249,30 @@
         "📈 Add relatable or emotional elements for shareability"
       ]
     }
+  },
+  {
+    "id": "men6t61mu0lwcc736o",
+    "content": "My mutual fund portfolio is now classified as a horror genre. The only thing it's scaring away is my future.\n\n#BiWeeklyAdvice",
+    "hashtags": [
+      "#BiWeeklyAdvice"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T18:52:03.418Z",
+    "qualityScore": {
+      "overall": 75,
+      "metrics": {
+        "engagement": 0.85,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
   }
 ]
