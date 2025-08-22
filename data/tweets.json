@@ -255,5 +255,56 @@
         "👍 Good quality tweet with strong engagement"
       ]
     }
+  },
+  {
+    "id": "memi9z89hpdx9l0r4u5",
+    "content": "My phone now has 5G, my UPI has instant payment, but my society's WhatsApp group is still deciding on the Diwali party theme from 2019. #5GIndia #DigitalPayments",
+    "hashtags": [
+      "#DigitalPayments"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T07:25:17.337Z",
+    "qualityScore": {
+      "overall": 75,
+      "metrics": {
+        "engagement": 0.7,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.9499999999999998,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.8
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "memia5jkccsn4pizro",
+    "content": "The entire subreddit is giving me life advice while my own mother still thinks my LinkedIn profile is a government job application. #RedditAdvice #IndianParents",
+    "hashtags": [
+      "#RedditAdvice",
+      "#IndianParents"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T07:25:25.520Z",
+    "qualityScore": {
+      "overall": 73,
+      "metrics": {
+        "engagement": 0.7,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.35
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
   }
 ]

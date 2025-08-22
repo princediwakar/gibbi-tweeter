@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { AutoSchedulerStats } from '@/types/dashboard';
 import { formatDateIST } from '@/lib/timezone';
+import { useClientSafe } from '@/hooks/useClientSafe';
 
 interface AutoSchedulerProps {
   isRunning: boolean;
@@ -10,6 +11,7 @@ interface AutoSchedulerProps {
 }
 
 export function AutoScheduler({ isRunning, loading, stats, onToggle }: AutoSchedulerProps) {
+  const isClient = useClientSafe();
   return (
     <section className="bg-gray-900 rounded-xl border border-gray-800 p-6">
       <div className="flex items-center justify-between mb-6">
@@ -48,7 +50,7 @@ export function AutoScheduler({ isRunning, loading, stats, onToggle }: AutoSched
             {stats.nextRun && (
               <div className="space-y-2">
                 <div className="text-xs uppercase text-gray-400 tracking-wide">Next Run (IST)</div>
-                <div className="text-sm text-green-400">{formatDateIST(new Date(stats.nextRun))}</div>
+                <div className="text-sm text-green-400">{isClient ? formatDateIST(new Date(stats.nextRun)) : 'Loading...'}</div>
               </div>
             )}
             
@@ -58,7 +60,7 @@ export function AutoScheduler({ isRunning, loading, stats, onToggle }: AutoSched
                 <div className="text-blue-400">Generated: {stats.totalGenerated}</div>
                 <div className="text-purple-400">Posted: {stats.totalPosted}</div>
                 {stats.lastRun && (
-                  <div className="text-gray-400 text-xs">Last: {formatDateIST(new Date(stats.lastRun))}</div>
+                  <div className="text-gray-400 text-xs">Last: {isClient ? formatDateIST(new Date(stats.lastRun)) : 'Loading...'}</div>
                 )}
               </div>
             </div>

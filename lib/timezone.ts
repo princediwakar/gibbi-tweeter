@@ -26,10 +26,13 @@ export function getCurrentISTString(): string {
 }
 
 /**
- * Convert any date to IST for calculations
+ * Convert any date to IST for calculations (consistent between server/client)
  */
 export function toIST(date: Date): Date {
-  return new Date(date.toLocaleString("en-US", {timeZone: IST_TIMEZONE}));
+  // Use UTC offset calculation for consistency
+  const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
+  const istTime = new Date(utcTime + (5.5 * 3600000)); // IST is UTC+5:30
+  return istTime;
 }
 
 /**
@@ -67,18 +70,36 @@ export function createISTDate(year?: number, month?: number, day?: number, hours
 }
 
 /**
- * Format date for display in IST
+ * Format date for display in IST (client-safe to avoid hydration issues)
  */
 export function formatDateIST(date: Date): string {
-  return date.toLocaleString('en-IN', {
-    timeZone: IST_TIMEZONE,
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
-  });
+  // Use a consistent format that works the same on server and client
+  if (typeof window === 'undefined') {
+    // Server-side: Use UTC offset calculation for consistency
+    const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
+    const istTime = new Date(utcTime + (5.5 * 3600000)); // IST is UTC+5:30
+    
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    const hours = istTime.getHours();
+    const minutes = istTime.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours % 12 || 12;
+    
+    return `${istTime.getDate()} ${months[istTime.getMonth()]} ${istTime.getFullYear()}, ${displayHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+  } else {
+    // Client-side: Use locale string with timezone
+    return date.toLocaleString('en-IN', {
+      timeZone: IST_TIMEZONE,
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+  }
 }
 
 /**

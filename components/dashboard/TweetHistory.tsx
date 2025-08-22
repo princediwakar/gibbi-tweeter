@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Pagination } from '@/components/ui/pagination';
 import { Send, Trash2 } from 'lucide-react';
 import { Tweet } from '@/types/dashboard';
+import { useClientSafe } from '@/hooks/useClientSafe';
 
 interface TweetHistoryProps {
   tweets: Tweet[];
@@ -50,6 +51,7 @@ export function TweetHistory({
   onPageChange,
   onPageSizeChange,
 }: TweetHistoryProps) {
+  const isClient = useClientSafe();
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
       onSelectionChange(tweets.filter(t => t.status === 'draft').map(t => t.id));
@@ -161,13 +163,13 @@ export function TweetHistory({
                         className="text-xs bg-gray-800 border-gray-600 text-gray-200 rounded px-1 py-1 w-full"
                       />
                       <div className="text-xs text-gray-400 break-words">
-                        {formatOptimalTime(new Date(tweet.scheduledFor))}
+                        {isClient ? formatOptimalTime(new Date(tweet.scheduledFor)) : 'Loading...'}
                       </div>
                     </div>
                   )}
                   {tweet.status === 'posted' && tweet.postedAt && (
                     <div className="text-xs text-green-400 break-words">
-                      {formatISTTime(new Date(tweet.postedAt))}
+                      {isClient ? formatISTTime(new Date(tweet.postedAt)) : 'Loading...'}
                     </div>
                   )}
                 </TableCell>
@@ -270,7 +272,7 @@ export function TweetHistory({
                     className="bg-gray-800 border-gray-600 text-gray-200 text-sm p-2 rounded w-full"
                   />
                   <div className="text-xs text-blue-400">
-                    IST: {formatOptimalTime(new Date(tweet.scheduledFor))}
+                    IST: {isClient ? formatOptimalTime(new Date(tweet.scheduledFor)) : 'Loading...'}
                   </div>
                 </div>
               )}
@@ -278,7 +280,7 @@ export function TweetHistory({
               {tweet.status === 'posted' && tweet.postedAt && (
                 <div className="bg-gray-900 rounded p-3">
                   <div className="text-xs text-green-400">
-                    Posted: {formatISTTime(new Date(tweet.postedAt))}
+                    Posted: {isClient ? formatISTTime(new Date(tweet.postedAt)) : 'Loading...'}
                   </div>
                   {tweet.twitterUrl && (
                     <a 
