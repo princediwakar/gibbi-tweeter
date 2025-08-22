@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Bot, Send, Plus } from 'lucide-react';
+import { Bot, Send, Plus, Edit3 } from 'lucide-react';
 import { GenerateFormState, Persona } from '@/types/dashboard';
 
 interface ManualGenerationProps {
@@ -42,7 +42,7 @@ export function ManualGeneration({
       {/* Configuration Section */}
       <div className="mb-6">
         <div className="text-sm text-gray-300 mb-3 font-medium">Configuration</div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
           {/* Persona Selection */}
           <div className="space-y-2">
             <label className="text-xs text-gray-400 uppercase tracking-wide">Persona</label>
@@ -94,48 +94,113 @@ export function ManualGeneration({
             </div>
           </div>
         </div>
+
+        {/* Custom Prompt Section */}
+        <div className="space-y-2">
+          <label className="text-xs text-gray-400 uppercase tracking-wide">Custom Topic (Optional)</label>
+          <div className="relative">
+            <textarea
+              value={form.customPrompt}
+              onChange={(e) => onFormChange({ customPrompt: e.target.value })}
+              placeholder="Enter a specific topic or prompt for the AI to create a tweet about... (e.g., 'AI replacing human creativity', 'Mumbai traffic during monsoon', 'Remote work culture in India')"
+              className="w-full bg-gray-800 border border-gray-600 text-gray-200 text-sm p-3 rounded-lg focus:border-blue-500 focus:outline-none resize-none"
+              rows={3}
+            />
+            {form.customPrompt && (
+              <button
+                onClick={() => onFormChange({ customPrompt: '' })}
+                className="absolute top-2 right-2 text-gray-400 hover:text-gray-200 transition-colors"
+                title="Clear custom prompt"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+          <div className="text-xs text-gray-500">
+            💡 {form.customPrompt.trim() ? 
+              `Custom topic will override RSS sources and generate personalized ${form.persona.replace('_', ' ')} content` : 
+              `Leave empty to use ${form.useTrendingTopics ? 'RSS trending topics' : 'general satirical topics'}`
+            }
+          </div>
+        </div>
       </div>
       
       {/* Action Buttons */}
       <div className="space-y-3">
         <div className="text-sm text-gray-300 font-medium">Quick Actions</div>
+        
+        {/* Custom Topic Row (when custom prompt is provided) */}
+        {form.customPrompt.trim() && (
+          <div className="mb-3 p-4 bg-yellow-900/20 border border-yellow-600/30 rounded-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <div className="text-sm text-yellow-300 font-medium mb-1">🎯 Custom Topic Mode</div>
+                <div className="text-xs text-yellow-200/80 line-clamp-2">&quot;{form.customPrompt}&quot;</div>
+              </div>
+              <Button
+                onClick={onGenerate}
+                disabled={loading}
+                className="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 text-sm font-medium rounded-lg transition-all ml-3"
+              >
+                <Edit3 className="h-4 w-4 mr-2" /> 
+                Generate Custom
+              </Button>
+            </div>
+          </div>
+        )}
+        
+        {/* Standard Action Buttons */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <Button
             onClick={onGenerate}
             disabled={loading}
-            className="bg-gray-700 hover:bg-gray-600 text-gray-100 h-12 text-sm font-medium rounded-lg border border-gray-600 transition-all hover:border-gray-500"
+            className={`${form.customPrompt.trim() ? 'opacity-50' : ''} bg-gray-700 hover:bg-gray-600 text-gray-100 h-12 text-sm font-medium rounded-lg border border-gray-600 transition-all hover:border-gray-500`}
           >
             <Bot className="h-5 w-5 mr-2" /> 
             <div className="flex flex-col items-start">
               <span>Generate</span>
-              <span className="text-xs text-gray-400">Single tweet</span>
+              <span className="text-xs text-gray-400">
+                {form.customPrompt.trim() ? 'Custom topic' : form.useTrendingTopics ? 'RSS topic' : 'Random topic'}
+              </span>
             </div>
           </Button>
           
           <Button
             onClick={onGenerateAndSchedule}
             disabled={loading}
-            className="bg-blue-600 hover:bg-blue-500 text-white h-12 text-sm font-medium rounded-lg transition-all"
+            className={`${form.customPrompt.trim() ? 'opacity-50' : ''} bg-blue-600 hover:bg-blue-500 text-white h-12 text-sm font-medium rounded-lg transition-all`}
           >
             <Send className="h-5 w-5 mr-2" /> 
             <div className="flex flex-col items-start">
               <span>Generate & Schedule</span>
-              <span className="text-xs text-blue-200">Auto-schedule</span>
+              <span className="text-xs text-blue-200">
+                {form.customPrompt.trim() ? 'Custom + auto' : 'Auto-schedule'}
+              </span>
             </div>
           </Button>
           
           <Button
             onClick={onBulkGenerate}
-            disabled={loading}
-            className="bg-green-600 hover:bg-green-500 text-white h-12 text-sm font-medium rounded-lg transition-all"
+            disabled={loading || !!form.customPrompt.trim()}
+            className="bg-green-600 hover:bg-green-500 disabled:bg-gray-600 disabled:text-gray-400 text-white h-12 text-sm font-medium rounded-lg transition-all"
+            title={form.customPrompt.trim() ? 'Clear custom prompt to use bulk generation with RSS topics' : ''}
           >
             <Plus className="h-5 w-5 mr-2" /> 
             <div className="flex flex-col items-start">
               <span>Bulk Generate</span>
-              <span className="text-xs text-green-200">{bulkCount} tweets</span>
+              <span className="text-xs text-green-200">
+                {form.customPrompt.trim() ? 'Custom N/A' : `${bulkCount} RSS topics`}
+              </span>
             </div>
           </Button>
         </div>
+        
+        {form.customPrompt.trim() && (
+          <div className="text-xs text-gray-500 mt-2">
+            💡 <strong>Custom Topic:</strong> Generate and Generate & Schedule will use your custom topic. 
+            Clear the custom prompt above to enable bulk generation with 5 different RSS topics.
+          </div>
+        )}
       </div>
     </section>
   );

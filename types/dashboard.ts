@@ -19,6 +19,7 @@ export interface GenerateFormState {
   persona: 'unhinged_satirist';
   includeHashtags: boolean;
   useTrendingTopics: boolean;
+  customPrompt: string;
 }
 
 export interface AutoSchedulerStats {

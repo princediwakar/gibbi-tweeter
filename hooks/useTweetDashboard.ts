@@ -34,6 +34,7 @@ export function useTweetDashboard() {
     persona: 'unhinged_satirist',
     includeHashtags: true,
     useTrendingTopics: true,
+    customPrompt: '',
   });
 
   // Pagination state
