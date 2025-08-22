@@ -1005,5 +1005,85 @@
     },
     "postedAt": "2025-08-22T13:58:26.268Z",
     "twitterId": "1958891512504201481"
+  },
+  {
+    "id": "men3ld5x2uktk4squwd",
+    "content": "My Swiggy delivery man arrived faster than an ambulance, did CPR with my biryani, and then asked me to rate his life-saving service before the actual doctors could even find a parking spot. #GigEconomy #HealthcareCrisis",
+    "hashtags": [
+      "#GigEconomy"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T17:22:00.549Z",
+    "qualityScore": {
+      "overall": 69,
+      "metrics": {
+        "engagement": 0.85,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7999999999999999,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.5
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "men3mw6t7n1up6i1jag",
+    "content": "The Opposition demanded a JPC probe into the SIR scam, so the government just formed a JPC: Joint Parliamentary Cover-up. #RajyaSabha #ScamIndia",
+    "hashtags": [
+      "#RajyaSabha",
+      "#ScamIndia"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T17:23:11.861Z",
+    "qualityScore": {
+      "overall": 72,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
+  },
+  {
+    "id": "men3mxtr9r8szxwo91p",
+    "content": "Pre-ordered #CallOfDuty so I can virtually fight for a country, since my real one is busy with pre-orders for Ram Mandir, Ayodhya land, and electoral bonds. #PreOrdersLiveNowChe #GamingTheSystem",
+    "hashtags": [
+      "#CallOfDuty",
+      "#GamingTheSystem"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T17:23:13.983Z",
+    "qualityScore": {
+      "overall": 69,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.65
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
   }
 ]

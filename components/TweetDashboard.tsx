@@ -84,7 +84,7 @@ export default function TweetDashboard() {
           loading={loading}
           autoChainRunning={autoChainRunning}
           stats={autoSchedulerStats}
-          nextPostTime={stats.nextPostTime?.toISOString()}
+          nextPostTime={stats.nextPostTime ? (typeof stats.nextPostTime === 'string' ? stats.nextPostTime : stats.nextPostTime.toISOString()) : undefined}
           onToggle={toggleAutoScheduler}
         />
 
