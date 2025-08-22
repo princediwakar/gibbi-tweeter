@@ -38,28 +38,30 @@ class AutoScheduler {
 
     console.log('🚀 Starting automated tweet scheduler...');
 
-    // Multiple posting times throughout the day (10-15 posts daily)
+    // Multiple posting times throughout the day (10-15 posts daily) - all times in IST
     const schedules = [
-      { time: '0 8 * * 1-5', slot: '8am' },     // 8 AM
-      { time: '0 10 * * 1-5', slot: '10am' },   // 10 AM  
-      { time: '0 12 * * 1-5', slot: '12pm' },   // 12 PM
-      { time: '0 14 * * 1-5', slot: '2pm' },    // 2 PM
-      { time: '0 15 * * 1-5', slot: '3pm' },    // 3 PM
-      { time: '0 17 * * 1-5', slot: '5pm' },    // 5 PM
-      { time: '0 19 * * 1-5', slot: '7pm' },    // 7 PM
-      { time: '0 21 * * 1-5', slot: '9pm' },    // 9 PM
-      { time: '30 9 * * 1-5', slot: '9:30am' }, // 9:30 AM
-      { time: '30 11 * * 1-5', slot: '11:30am' }, // 11:30 AM
-      { time: '30 13 * * 1-5', slot: '1:30pm' }, // 1:30 PM
-      { time: '30 16 * * 1-5', slot: '4:30pm' }, // 4:30 PM
-      { time: '30 18 * * 1-5', slot: '6:30pm' }, // 6:30 PM
-      { time: '30 20 * * 1-5', slot: '8:30pm' }, // 8:30 PM
-      { time: '0 22 * * 1-5', slot: '10pm' },   // 10 PM
+      { time: '0 8 * * 1-5', slot: '8am' },     // 8 AM IST
+      { time: '30 9 * * 1-5', slot: '9:30am' }, // 9:30 AM IST
+      { time: '0 10 * * 1-5', slot: '10am' },   // 10 AM IST  
+      { time: '30 11 * * 1-5', slot: '11:30am' }, // 11:30 AM IST
+      { time: '0 12 * * 1-5', slot: '12pm' },   // 12 PM IST
+      { time: '30 13 * * 1-5', slot: '1:30pm' }, // 1:30 PM IST
+      { time: '0 14 * * 1-5', slot: '2pm' },    // 2 PM IST
+      { time: '0 15 * * 1-5', slot: '3pm' },    // 3 PM IST
+      { time: '30 16 * * 1-5', slot: '4:30pm' }, // 4:30 PM IST
+      { time: '0 17 * * 1-5', slot: '5pm' },    // 5 PM IST
+      { time: '30 18 * * 1-5', slot: '6:30pm' }, // 6:30 PM IST
+      { time: '0 19 * * 1-5', slot: '7pm' },    // 7 PM IST
+      { time: '30 20 * * 1-5', slot: '8:30pm' }, // 8:30 PM IST
+      { time: '0 21 * * 1-5', slot: '9pm' },    // 9 PM IST
+      { time: '0 22 * * 1-5', slot: '10pm' },   // 10 PM IST
     ];
 
     const jobs = schedules.map(({ time, slot }) => {
       const job = cron.schedule(time, async () => {
         await this.automatedTweetGeneration(slot);
+      }, {
+        timezone: 'Asia/Kolkata' // Ensure all cron jobs run in IST
       });
       
       return job;
@@ -298,50 +300,69 @@ class AutoScheduler {
     const istNow = toIST(new Date());
     const currentTime = istNow.getHours() * 60 + istNow.getMinutes();
     
-    // All posting times in minutes from midnight (weekdays only)
+    logIST(`🕒 Calculating next run time. Current IST: ${istNow.getHours()}:${istNow.getMinutes().toString().padStart(2, '0')} (${currentTime} minutes from midnight)`);
+    
+    // All posting times in minutes from midnight (weekdays only) - SORTED
     const postingTimes = [
-      8 * 60,      // 8:00 AM
-      9 * 60 + 30, // 9:30 AM
-      10 * 60,     // 10:00 AM
+      8 * 60,       // 8:00 AM
+      9 * 60 + 30,  // 9:30 AM
+      10 * 60,      // 10:00 AM
       11 * 60 + 30, // 11:30 AM
-      12 * 60,     // 12:00 PM
+      12 * 60,      // 12:00 PM
       13 * 60 + 30, // 1:30 PM
-      14 * 60,     // 2:00 PM
-      15 * 60,     // 3:00 PM
+      14 * 60,      // 2:00 PM
+      15 * 60,      // 3:00 PM
       16 * 60 + 30, // 4:30 PM
-      17 * 60,     // 5:00 PM
+      17 * 60,      // 5:00 PM
       18 * 60 + 30, // 6:30 PM
-      19 * 60,     // 7:00 PM
+      19 * 60,      // 7:00 PM
       20 * 60 + 30, // 8:30 PM
-      21 * 60,     // 9:00 PM
-      22 * 60,     // 10:00 PM
+      21 * 60,      // 9:00 PM
+      22 * 60,      // 10:00 PM
     ];
 
     let nextRun: Date | null = null;
 
     // If it's a weekday in IST, find next posting time today
     if (istNow.getDay() >= 1 && istNow.getDay() <= 5) {
-      const nextTimeToday = postingTimes.find(time => time > currentTime);
+      const remainingTimes = postingTimes.filter(time => time > currentTime);
+      logIST(`📅 Today is a weekday. Remaining times today: ${remainingTimes.map(t => Math.floor(t/60) + ':' + String(t%60).padStart(2,'0')).join(', ')}`);
       
-      if (nextTimeToday) {
+      if (remainingTimes.length > 0) {
+        const nextTimeToday = remainingTimes[0]; // First available time
         nextRun = new Date(istNow);
         nextRun.setHours(Math.floor(nextTimeToday / 60), nextTimeToday % 60, 0, 0);
+        logIST(`✅ Next run today: ${nextRun.getHours()}:${nextRun.getMinutes().toString().padStart(2, '0')}`);
       }
     }
 
     // If no time today or it's weekend, find next Monday 8 AM IST
     if (!nextRun) {
       nextRun = new Date(istNow);
-      nextRun.setDate(nextRun.getDate() + 1);
-      nextRun.setHours(8, 0, 0, 0);
       
-      // Find next Monday
-      while (nextRun.getDay() !== 1) {
+      // If it's already past all today's times or it's weekend, go to next weekday
+      if (istNow.getDay() === 5) { // Friday
+        nextRun.setDate(nextRun.getDate() + 3); // Go to Monday
+      } else if (istNow.getDay() === 6) { // Saturday
+        nextRun.setDate(nextRun.getDate() + 2); // Go to Monday
+      } else if (istNow.getDay() === 0) { // Sunday
+        nextRun.setDate(nextRun.getDate() + 1); // Go to Monday
+      } else {
+        nextRun.setDate(nextRun.getDate() + 1); // Go to next day
+      }
+      
+      nextRun.setHours(8, 0, 0, 0); // First slot of the day
+      
+      // Ensure it's a weekday
+      while (nextRun.getDay() < 1 || nextRun.getDay() > 5) {
         nextRun.setDate(nextRun.getDate() + 1);
       }
+      
+      logIST(`📅 Next run on next weekday: ${nextRun.getHours()}:${nextRun.getMinutes().toString().padStart(2, '0')} on day ${nextRun.getDay()}`);
     }
 
     this.state.stats.nextRun = nextRun;
+    logIST(`🎯 Final next run time set: ${nextRun ? nextRun.toISOString() : 'null'}`);
   }
 
   getStatus(): AutoSchedulerState {
