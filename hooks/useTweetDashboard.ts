@@ -263,7 +263,9 @@ export function useTweetDashboard() {
         toast.success('Tweet deleted!');
         await fetchTweets();
       } else {
-        toast.error('Failed to delete tweet');
+        const errorData = await response.json();
+        console.error('Delete error:', errorData);
+        toast.error(errorData.error || 'Failed to delete tweet');
       }
     } catch (error) {
       console.error('Failed to delete tweet:', error);
@@ -320,14 +322,35 @@ export function useTweetDashboard() {
 
   const deleteSelectedTweets = useCallback(async () => {
     try {
-      await Promise.all(selectedTweets.map(id => deleteTweet(id)));
-      setSelectedTweets([]);
-      toast.success(`Deleted ${selectedTweets.length} tweets!`);
+      if (selectedTweets.length === 0) {
+        toast.error('No tweets selected for deletion');
+        return;
+      }
+
+      // Use bulk deletion API for better performance
+      const response = await fetch('/api/tweets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'bulk_delete',
+          tweetIds: selectedTweets
+        })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setSelectedTweets([]);
+        toast.success(`Deleted ${result.deletedCount} tweets!`);
+        await fetchTweets(); // Refresh the list
+      } else {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to delete tweets');
+      }
     } catch (error) {
       console.error('Failed to delete tweets:', error);
       toast.error('Failed to delete tweets');
     }
-  }, [selectedTweets, deleteTweet]);
+  }, [selectedTweets, fetchTweets]);
 
   const toggleAutoScheduler = useCallback(async (action: 'start' | 'stop') => {
     try {

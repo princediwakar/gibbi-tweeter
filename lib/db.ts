@@ -136,6 +136,12 @@ export async function deleteTweet(id: string): Promise<void> {
   await fs.writeFile(DB_PATH, JSON.stringify(filteredTweets, null, 2));
 }
 
+export async function deleteTweets(ids: string[]): Promise<void> {
+  const tweets = await getAllTweets();
+  const filteredTweets = tweets.filter(t => !ids.includes(t.id));
+  await fs.writeFile(DB_PATH, JSON.stringify(filteredTweets, null, 2));
+}
+
 export async function getScheduledTweets(): Promise<Tweet[]> {
   const tweets = await getAllTweets();
   const now = new Date();

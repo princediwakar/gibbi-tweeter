@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAllTweets, getPaginatedTweets, saveTweet, generateTweetId } from '@/lib/db';
+import { getAllTweets, getPaginatedTweets, saveTweet, generateTweetId, deleteTweets } from '@/lib/db';
 import { generateTweet, TweetGenerationOptions } from '@/lib/openai';
 import { calculateQualityScore } from '@/lib/quality-scorer';
 
@@ -147,6 +147,21 @@ export async function POST(request: Request) {
       }
 
       return NextResponse.json({ tweets: scheduledTweets });
+    }
+
+    if (action === 'bulk_delete') {
+      const { tweetIds } = data;
+      
+      if (!tweetIds || !Array.isArray(tweetIds) || tweetIds.length === 0) {
+        return NextResponse.json({ error: 'No tweet IDs provided for deletion' }, { status: 400 });
+      }
+
+      await deleteTweets(tweetIds);
+      return NextResponse.json({ 
+        success: true, 
+        deletedCount: tweetIds.length,
+        deletedIds: tweetIds 
+      });
     }
 
     return NextResponse.json({ error: `Invalid action: ${action}` }, { status: 400 });

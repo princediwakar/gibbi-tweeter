@@ -92,3 +92,33 @@
   syscall: 'open',
   path: '/Users/prince/Developer/tweeter/.next/static/development/_buildManifest.js.tmp.3up8y5ylbpf'
 }
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/tweets/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/tweets/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/pages/_app/build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/app/api/tweets/[__metadata_id__]/route/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/app/api/tweets/[__metadata_id__]/route/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/pages/_app/build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/prince/Developer/tweeter/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/prince/Developer/tweeter/.next/server/pages/_app/build-manifest.json'
+}
