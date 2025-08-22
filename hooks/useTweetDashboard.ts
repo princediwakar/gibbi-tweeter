@@ -131,25 +131,10 @@ export function useTweetDashboard() {
     await fetchTweets(1, newLimit); // Reset to first page when changing page size
   }, [fetchTweets]);
 
+  // Auto-scheduler stats are no longer needed since we use the self-triggering chain system
   const fetchAutoSchedulerStats = useCallback(async () => {
-    try {
-      const response = await fetch('/api/auto-scheduler');
-      if (response.ok) {
-        const data = await response.json();
-        // Only update state if component is still mounted
-        if (isMounted) {
-          setAutoSchedulerStats(data);
-          setAutoSchedulerRunning(data?.isRunning || false);
-        }
-      } else {
-        // Only log error, don't show toast for polling failures
-        console.warn('Failed to fetch auto-scheduler stats:', response.status);
-      }
-    } catch (error) {
-      // Only log error, don't show toast for polling failures
-      console.warn('Failed to fetch auto-scheduler stats:', error);
-    }
-  }, [isMounted]);
+    // No-op: Auto-chain system doesn't need polling stats
+  }, []);
 
   const generateTweet = useCallback(async () => {
     if (loading) return;
@@ -374,7 +359,6 @@ export function useTweetDashboard() {
         const result = await response.json();
         toast.success('🚀 Smart automation started successfully!');
         toast.info(`Generated ${result.firstExecution?.results?.generated || 0} tweets. System will run continuously with 15 daily posts at optimal times.`);
-        await fetchAutoSchedulerStats();
       } else {
         const error = await response.json();
         toast.error(`Failed to start automation: ${error.details || 'Unknown error'}`);

@@ -549,5 +549,84 @@
         "✅ Decent tweet, room for improvement"
       ]
     }
+  },
+  {
+    "id": "memv03lo79i8sp7cj08",
+    "content": "Our politicians are so good at 'nation building' they've turned the entire country into a VIP lane while the rest of us are stuck in a Bengaluru traffic jam that predates the Chalukyas. #InfrastructureGap #NationBuilding",
+    "hashtags": [
+      "#NationBuilding"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T13:21:31.452Z",
+    "qualityScore": {
+      "overall": 77,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📖 Simplify language for better readability",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "memv0fyldogtz09dqj",
+    "content": "Bengaluru's new 60,000-seat stadium is the perfect monument for a city that's already a full-time spectator to its own collapse. #InfrastructureIrony #EliteSports",
+    "hashtags": [
+      "#EliteSports"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T13:21:47.469Z",
+    "qualityScore": {
+      "overall": 69,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.5499999999999999,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7999999999999999,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability"
+      ]
+    }
+  },
+  {
+    "id": "memv0n2kbftwqjzakfl",
+    "content": "The only thing spreading faster than #Nipah in Kerala is WhatsApp forwards about the cure being cow urine and a BJP membership.\n\n#Since2001WhenIndia #HealthHysteria",
+    "hashtags": [
+      "#Nipah",
+      "#HealthHysteria"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-22T13:21:56.684Z",
+    "qualityScore": {
+      "overall": 78,
+      "metrics": {
+        "engagement": 0.85,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
   }
 ]
