@@ -34,14 +34,8 @@ export function useTweetDashboard() {
   const [autoGenerating, setAutoGenerating] = useState(false);
   const [schedulerRunning, setSchedulerRunning] = useState(false);
   const [autoSchedulerRunning, setAutoSchedulerRunning] = useState(false);
-  const [autoChainRunning, setAutoChainRunning] = useState(() => {
-    // Check localStorage for persisted state (client-side only)
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('autoChainRunning');
-      return saved === 'true';
-    }
-    return false;
-  });
+  const [autoChainRunning, setAutoChainRunning] = useState(false);
+  const [hasHydrated, setHasHydrated] = useState(false);
   const [autoSchedulerStats, setAutoSchedulerStats] = useState<AutoSchedulerStats | null>(null);
   const [showHistory, setShowHistory] = useState(true);
   const [generateForm, setGenerateForm] = useState<GenerateFormState>({
@@ -431,6 +425,14 @@ export function useTweetDashboard() {
   // Effects
   useEffect(() => {
     setIsMounted(true);
+    // Handle hydration for localStorage state
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('autoChainRunning');
+      if (saved === 'true') {
+        setAutoChainRunning(true);
+      }
+      setHasHydrated(true);
+    }
     return () => setIsMounted(false);
   }, []);
 
@@ -512,6 +514,7 @@ export function useTweetDashboard() {
     generateForm,
     pagination,
     stats,
+    hasHydrated,
     
     // Actions
     setSelectedTweets,

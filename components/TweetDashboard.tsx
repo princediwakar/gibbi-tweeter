@@ -24,6 +24,7 @@ export default function TweetDashboard() {
     generateForm,
     pagination,
     stats,
+    hasHydrated,
     
     // Actions
     setSelectedTweets,
@@ -82,7 +83,7 @@ export default function TweetDashboard() {
 
         <AutoScheduler 
           loading={loading}
-          autoChainRunning={autoChainRunning}
+          autoChainRunning={hasHydrated ? autoChainRunning : false}
           stats={autoSchedulerStats}
           nextPostTime={stats.nextPostTime ? (typeof stats.nextPostTime === 'string' ? stats.nextPostTime : stats.nextPostTime.toISOString()) : undefined}
           onToggle={toggleAutoScheduler}
