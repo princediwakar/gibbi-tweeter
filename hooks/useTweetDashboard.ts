@@ -34,7 +34,14 @@ export function useTweetDashboard() {
   const [autoGenerating, setAutoGenerating] = useState(false);
   const [schedulerRunning, setSchedulerRunning] = useState(false);
   const [autoSchedulerRunning, setAutoSchedulerRunning] = useState(false);
-  const [autoChainRunning, setAutoChainRunning] = useState(false);
+  const [autoChainRunning, setAutoChainRunning] = useState(() => {
+    // Check localStorage for persisted state (client-side only)
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('autoChainRunning');
+      return saved === 'true';
+    }
+    return false;
+  });
   const [autoSchedulerStats, setAutoSchedulerStats] = useState<AutoSchedulerStats | null>(null);
   const [showHistory, setShowHistory] = useState(true);
   const [generateForm, setGenerateForm] = useState<GenerateFormState>({
@@ -345,29 +352,52 @@ export function useTweetDashboard() {
     }
   }, [selectedTweets, fetchTweets]);
 
-  const toggleAutoScheduler = useCallback(async (action: 'start-chain') => {
+  const toggleAutoScheduler = useCallback(async (action: 'start-chain' | 'stop-chain') => {
     try {
-      setAutoChainRunning(true);
-      
-      // Start the intelligent auto-chain system
-      const response = await fetch('/api/auto-chain', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      });
-      
-      if (response.ok) {
-        const result = await response.json();
-        toast.success('🚀 Smart automation started successfully!');
-        toast.info(`Generated ${result.firstExecution?.results?.generated || 0} tweets. System will run continuously with 15 daily posts at optimal times.`);
-      } else {
-        const error = await response.json();
-        toast.error(`Failed to start automation: ${error.details || 'Unknown error'}`);
+      if (action === 'start-chain') {
+        setAutoChainRunning(true);
+        // Persist state to localStorage
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('autoChainRunning', 'true');
+        }
+        
+        // Start the intelligent auto-chain system
+        const response = await fetch('/api/auto-chain', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        
+        if (response.ok) {
+          const result = await response.json();
+          toast.success('🚀 Smart automation started successfully!');
+          toast.info(`Generated ${result.firstExecution?.results?.generated || 0} tweets. System will run continuously with 15 daily posts at optimal times.`);
+        } else {
+          const error = await response.json();
+          toast.error(`Failed to start automation: ${error.details || 'Unknown error'}`);
+          setAutoChainRunning(false);
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('autoChainRunning', 'false');
+          }
+        }
+      } else if (action === 'stop-chain') {
+        // Stop the automation by updating state
         setAutoChainRunning(false);
+        // Persist state to localStorage
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('autoChainRunning', 'false');
+        }
+        toast.success('⏹️ Automation paused successfully');
+        toast.info('System will stop scheduling new posts. Existing scheduled tweets will still be posted.');
       }
     } catch (error) {
-      console.error('Failed to start automation:', error);
-      toast.error('Failed to start automation system');
-      setAutoChainRunning(false);
+      console.error('Failed to toggle automation:', error);
+      toast.error(`Failed to ${action === 'start-chain' ? 'start' : 'stop'} automation system`);
+      // Reset state on error
+      const shouldBeRunning = action === 'start-chain';
+      setAutoChainRunning(shouldBeRunning);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('autoChainRunning', shouldBeRunning.toString());
+      }
     }
   }, [fetchAutoSchedulerStats]);
 

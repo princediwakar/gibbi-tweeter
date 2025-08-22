@@ -8,7 +8,7 @@ interface AutoSchedulerProps {
   autoChainRunning: boolean;
   stats: AutoSchedulerStats | null;
   nextPostTime?: string;
-  onToggle: (action: 'start-chain') => void;
+  onToggle: (action: 'start-chain' | 'stop-chain') => void;
 }
 
 export function AutoScheduler({ loading, autoChainRunning, stats, nextPostTime, onToggle }: AutoSchedulerProps) {
@@ -29,12 +29,21 @@ export function AutoScheduler({ loading, autoChainRunning, stats, nextPostTime, 
         </div>
         <div className="flex gap-3">
           {autoChainRunning ? (
-            <div className="bg-green-900 text-green-200 px-6 py-2 rounded-lg border border-green-700 font-medium">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span>✅ Automation Active</span>
+            <div className="flex items-center gap-3">
+              <div className="bg-green-900 text-green-200 px-6 py-2 rounded-lg border border-green-700 font-medium">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span>✅ Automation Active</span>
+                </div>
+                <div className="text-xs text-green-300 mt-1">System running continuously</div>
               </div>
-              <div className="text-xs text-green-300 mt-1">System running continuously</div>
+              <Button
+                onClick={() => onToggle('stop-chain')}
+                disabled={loading}
+                className="bg-red-600 hover:bg-red-500 disabled:bg-gray-700 disabled:text-gray-400 text-white px-4 py-2 rounded-lg transition-colors font-medium"
+              >
+                ⏹️ Pause
+              </Button>
             </div>
           ) : (
             <Button

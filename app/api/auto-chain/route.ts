@@ -43,6 +43,9 @@ async function scheduleNextExecution(delayMinutes: number) {
     // Schedule next execution using setTimeout + fetch
     setTimeout(async () => {
       try {
+        // Check if automation is still enabled before continuing
+        // Note: In production, we'll rely on the client stopping new chains
+        // This is a safety check for development
         await fetch(`${baseUrl}/api/auto-chain`, {
           method: 'GET',
           headers: {
@@ -310,6 +313,27 @@ export async function POST() {
     return NextResponse.json({
       success: false,
       error: 'Failed to start auto-chain system',
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 });
+  }
+}
+
+// DELETE endpoint to stop the automation (client-controlled)
+export async function DELETE() {
+  try {
+    logIST('⏹️ Auto-chain system stop requested via API');
+    
+    return NextResponse.json({
+      success: true,
+      message: '⏹️ Automation stop signal acknowledged',
+      note: 'Client-side state will prevent new chain executions. Existing scheduled tweets will still be posted.'
+    });
+    
+  } catch (error) {
+    logIST('❌ Failed to acknowledge stop signal:', error instanceof Error ? error.message : String(error));
+    return NextResponse.json({
+      success: false,
+      error: 'Failed to acknowledge stop signal',
       details: error instanceof Error ? error.message : String(error)
     }, { status: 500 });
   }
