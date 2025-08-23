@@ -81,8 +81,8 @@ export async function GET(request: NextRequest) {
         logIST(`📅 Using next slot today: ${timeSlot.hour}:${timeSlot.minute.toString().padStart(2, '0')}`);
         
         // Create IST time and convert to UTC for database storage
-        const istSlotTime = new Date(istTime.getFullYear(), istTime.getMonth(), istTime.getDate(), 
-                               timeSlot.hour, timeSlot.minute, 0, 0);
+        const istDateStr = `${istTime.getFullYear()}-${(istTime.getMonth()+1).toString().padStart(2,'0')}-${istTime.getDate().toString().padStart(2,'0')} ${timeSlot.hour.toString().padStart(2,'0')}:${timeSlot.minute.toString().padStart(2,'0')}:00`;
+        const istSlotTime = new Date(istDateStr);
         scheduledFor = new Date(istSlotTime.getTime() - (5.5 * 60 * 60 * 1000)); // IST to UTC
         
         logIST(`   IST time: ${istSlotTime.toLocaleString('en-IN')}`);
@@ -96,9 +96,9 @@ export async function GET(request: NextRequest) {
         logIST(`   Tomorrow date: ${tomorrow.getFullYear()}-${(tomorrow.getMonth()+1).toString().padStart(2,'0')}-${tomorrow.getDate().toString().padStart(2,'0')}`);
         logIST(`   Using slot: ${firstSlot.hour}:${firstSlot.minute.toString().padStart(2,'0')}`);
         
-        // Create tomorrow 8:00 AM IST time
-        const tomorrowIstTime = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(),
-                               firstSlot.hour, firstSlot.minute, 0, 0);
+        // Create tomorrow 8:00 AM IST time using proper date string
+        const tomorrowIstStr = `${tomorrow.getFullYear()}-${(tomorrow.getMonth()+1).toString().padStart(2,'0')}-${tomorrow.getDate().toString().padStart(2,'0')} ${firstSlot.hour.toString().padStart(2,'0')}:${firstSlot.minute.toString().padStart(2,'0')}:00`;
+        const tomorrowIstTime = new Date(tomorrowIstStr);
         scheduledFor = new Date(tomorrowIstTime.getTime() - (5.5 * 60 * 60 * 1000)); // IST to UTC
         
         logIST(`   Tomorrow IST: ${tomorrowIstTime.getFullYear()}-${(tomorrowIstTime.getMonth()+1).toString().padStart(2,'0')}-${tomorrowIstTime.getDate().toString().padStart(2,'0')} ${tomorrowIstTime.getHours()}:${tomorrowIstTime.getMinutes().toString().padStart(2,'0')}`);
