@@ -1,5 +1,7 @@
 // Utility functions for consistent IST (Indian Standard Time) handling across the app
 
+import { OPTIMAL_POSTING_TIMES } from './timing';
+
 export const IST_TIMEZONE = 'Asia/Kolkata';
 
 /**
@@ -115,25 +117,6 @@ export function formatDateTimeLocalIST(date: Date): string {
   
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
-
-// Optimal posting times in IST (24-hour format) - matches cron job
-const OPTIMAL_POSTING_TIMES = [
-  { hour: 8, minute: 0 },   // 8:00 AM IST
-  { hour: 9, minute: 30 },  // 9:30 AM IST
-  { hour: 10, minute: 0 },  // 10:00 AM IST
-  { hour: 11, minute: 30 }, // 11:30 AM IST
-  { hour: 12, minute: 0 },  // 12:00 PM IST
-  { hour: 13, minute: 30 }, // 1:30 PM IST
-  { hour: 14, minute: 0 },  // 2:00 PM IST
-  { hour: 15, minute: 0 },  // 3:00 PM IST
-  { hour: 16, minute: 30 }, // 4:30 PM IST
-  { hour: 17, minute: 0 },  // 5:00 PM IST
-  { hour: 18, minute: 30 }, // 6:30 PM IST
-  { hour: 19, minute: 0 },  // 7:00 PM IST
-  { hour: 20, minute: 30 }, // 8:30 PM IST
-  { hour: 21, minute: 0 },  // 9:00 PM IST
-  { hour: 22, minute: 0 },  // 10:00 PM IST
-];
 
 /**
  * Get next optimal posting time in IST (returns actual IST time for display)

@@ -178,23 +178,24 @@ ${antiRepetitionGuard}
 
 Make it something fellow developers will relate to and share:`;
   } else if (persona === "product_sage") {
-    basePrompt = `You're a seasoned Indian product leader with 9 years of experience building beloved products. Share insights about product decisions and origins.
+    basePrompt = `You're a hilariously witty Indian product leader with 9 years of building beloved (and sometimes cursed) products. Share brutally funny insights about product decisions.
 
-Write one insightful, engaging tweet about: ${selectedTopic}
+Write one outrageously funny yet insightful tweet about: ${selectedTopic}
 
-Use ${randomArchetype} style. Reveal the "why" behind product decisions we see every day. Mix product wisdom with Indian market context.
+Use ${randomArchetype} style. Roast product decisions while revealing genius "why" behind them. Mix product wisdom with savage Indian humor.
 
-Examples of the insights:
-- "WhatsApp's 'blue tick' wasn't about ego - it solved the biggest problem in Indian families: 'Maine message bheja tha, dekha ki nahi?'"
-- "Zomato's red color wasn't random. Red triggers hunger psychology + stands out in Indian traffic. Pure behavioral science."
-- "Instagram Stories copied Snapchat, but the real genius was letting you save them. Indians never throw anything away - digital hoarding is cultural."
-- "UPI's success isn't tech - it's trust. They made digital payments feel as safe as handing cash to your neighborhood kirana uncle."
+Examples of the hilarious energy:
+- "WhatsApp's 'blue tick' wasn't about ego - it solved India's biggest family crisis: 'Beta ne message dekha ya nahi, pata nahi chal raha!' Classic Indian anxiety, productized."
+- "Netflix's 'Are you still watching?' is passive-aggressive parenting for millennials. It's basically saying 'Beta, zindagi mein aur kya karna hai?'"
+- "Zomato's red color triggers hunger + stands out in traffic + hides the bloodstains when aunties fight over delivery charges. Triple win!"
+- "Instagram Reels copying TikTok then banning TikTok is the digital equivalent of stealing someone's homework then getting them suspended. Peak corporate villain behavior."
+- "UPI succeeded because it made digital payments feel safer than trusting your brother with 500 rupees. That's some serious trust engineering!"
 
 ${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
 
 ${antiRepetitionGuard}
 
-Make it an insight that product managers and entrepreneurs will bookmark:`;
+Make it so funny that product managers will screenshot it while crying from laughter:`;
   } else {
     // Simplified unhinged satirist prompt
     basePrompt = `You're a savage Indian comedian. Write one brutal, hilarious tweet about: ${selectedTopic}
