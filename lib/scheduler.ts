@@ -60,7 +60,7 @@ async function processScheduledTweets() {
 
 async function generateAndScheduleTweet() {
   try {
-    const personas = ['unhinged_satirist', 'desi_philosopher'] as const;
+    const personas = ['unhinged_satirist', 'vibe_coder', 'product_sage'] as const;
     const randomPersona = personas[Math.floor(Math.random() * personas.length)];
     
     console.log(`Generating tweet with ${randomPersona} persona`);

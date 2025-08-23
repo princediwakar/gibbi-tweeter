@@ -42,8 +42,8 @@ export async function GET(request: NextRequest) {
 
     for (let i = 0; i < tweetsToGenerate; i++) {
       try {
-        // Alternate between personas for variety
-        const personas = ['unhinged_satirist', 'desi_philosopher'] as const;
+        // Rotate through all personas for variety
+        const personas = ['unhinged_satirist', 'vibe_coder', 'product_sage'] as const;
         const persona = personas[i % personas.length];
         
         const options: TweetGenerationOptions = {
@@ -103,7 +103,8 @@ export async function GET(request: NextRequest) {
       totalScheduled: scheduledTweets.length + generatedTweets.length,
       personas: {
         satirist: generatedTweets.filter(t => t.persona === 'unhinged_satirist').length,
-        philosopher: generatedTweets.filter(t => t.persona === 'desi_philosopher').length
+        coder: generatedTweets.filter(t => t.persona === 'vibe_coder').length,
+        product: generatedTweets.filter(t => t.persona === 'product_sage').length
       },
       nextPostingTimes: OPTIMAL_POSTING_TIMES.map(t => `${t.hour}:${t.minute.toString().padStart(2, '0')}`),
       message: `✅ FREE PLAN: Generated ${generatedTweets.length} tweets for tomorrow. Use dashboard to post manually at optimal times.`,

@@ -154,8 +154,8 @@ export async function GET(request: NextRequest) {
 
         for (let i = 0; i < tweetsToGenerate; i++) {
           try {
-            // Alternate between personas for variety
-            const personas = ['unhinged_satirist', 'desi_philosopher'] as const;
+            // Rotate through all personas for variety
+            const personas = ['unhinged_satirist', 'vibe_coder', 'product_sage'] as const;
             const randomPersona = personas[i % personas.length];
             
             const options: TweetGenerationOptions = {
