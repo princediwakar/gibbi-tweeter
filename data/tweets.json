@@ -274,5 +274,32 @@
         "👍 Good quality tweet with strong engagement"
       ]
     }
+  },
+  {
+    "id": "menqbbm1us5wajvcpgh",
+    "content": "Indian parents will spend 25 lakhs on an engineering degree so their kid can spend 2 hours every day explaining to them that the \"forwarded as received\" video is not real.\n\n#BetaBeepCart",
+    "hashtags": [
+      "#BetaBeepCart"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T03:58:03.145Z",
+    "qualityScore": {
+      "overall": 77,
+      "metrics": {
+        "engagement": 0.85,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    },
+    "scheduledFor": "2025-08-23T04:05:00.000Z"
   }
 ]
