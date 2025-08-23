@@ -59,7 +59,6 @@ type FeedResponse = RSSResponse | AtomResponse;
 // ─────────────────────────────────────────────
 // 🔧 Constants
 // ─────────────────────────────────────────────
-const CACHE_KEY = "twitter_trends";
 const CACHE_TTL_MS = 30 * 60 * 1000; // 30 mins
 const MAX_TOPICS = 8;
 
@@ -101,24 +100,26 @@ const extractExistingHashtags = (text: string): string[] => {
 // ─────────────────────────────────────────────
 // 📦 Cache Logic
 // ─────────────────────────────────────────────
-function getCachedTrends(): TrendingTopic[] | null {
-  const cached = trendsCache.get(CACHE_KEY);
+function getCachedTrends(persona?: string): TrendingTopic[] | null {
+  const cacheKey = persona ? `trends_${persona}` : "twitter_trends";
+  const cached = trendsCache.get(cacheKey);
   if (cached && Date.now() < cached.timestamp + cached.ttl) {
-    console.log("📦 Using cached Twitter trending topics");
+    console.log(`📦 Using cached trending topics for ${persona || 'general'}`);
     return cached.data;
   }
   // Force refresh for debugging
-  console.log("🔄 Cache expired or not found, fetching fresh data");
+  console.log(`🔄 Cache expired or not found for ${persona || 'general'}, fetching fresh data`);
   return null;
 }
 
-function setCachedTrends(data: TrendingTopic[]): void {
-  trendsCache.set(CACHE_KEY, {
+function setCachedTrends(data: TrendingTopic[], persona?: string): void {
+  const cacheKey = persona ? `trends_${persona}` : "twitter_trends";
+  trendsCache.set(cacheKey, {
     data,
     timestamp: Date.now(),
     ttl: CACHE_TTL_MS,
   });
-  console.log(`💾 Cached ${data.length} Twitter topics for ${CACHE_TTL_MS / 60000} minutes`);
+  console.log(`💾 Cached ${data.length} trending topics for ${persona || 'general'} for ${CACHE_TTL_MS / 60000} minutes`);
 }
 
 // ─────────────────────────────────────────────
@@ -142,14 +143,39 @@ async function logFailure(method: string, error: string): Promise<void> {
 // ─────────────────────────────────────────────
 // 🐦 Twitter RSS Feed System
 // ─────────────────────────────────────────────
-async function loadSources(): Promise<Sources> {
+async function loadSources(persona?: string): Promise<Sources> {
+  // Map persona to source file
+  const sourceFileMap: Record<string, string> = {
+    'unhinged_satirist': 'sources-satirist.json',
+    'vibe_coder': 'sources-coder.json', 
+    'product_sage': 'sources-product.json'
+  };
+  
+  const sourceFile = persona && sourceFileMap[persona] ? sourceFileMap[persona] : 'sources.json';
+  
   try {
-    const sourcesPath = path.join(process.cwd(), 'lib', 'sources.json');
+    const sourcesPath = path.join(process.cwd(), 'lib', sourceFile);
     const data = await fs.readFile(sourcesPath, 'utf8');
     const sources: Sources = JSON.parse(data);
+    console.log(`📁 Loaded sources from ${sourceFile} for ${persona || 'general'}`);
     return sources;
-  } catch {
-    console.warn('⚠️ Could not load sources, using defaults');
+  } catch (error) {
+    console.warn(`⚠️ Could not load ${sourceFile}, trying fallback sources.json`);
+    
+    // Fallback to general sources.json
+    if (sourceFile !== 'sources.json') {
+      try {
+        const fallbackPath = path.join(process.cwd(), 'lib', 'sources.json');
+        const fallbackData = await fs.readFile(fallbackPath, 'utf8');
+        const fallbackSources: Sources = JSON.parse(fallbackData);
+        console.log(`📁 Using fallback sources.json for ${persona || 'general'}`);
+        return fallbackSources;
+      } catch (fallbackError) {
+        console.warn('⚠️ Could not load fallback sources.json either, using defaults');
+      }
+    }
+    
+    // Final fallback to hardcoded defaults
     return {
       twitter: {
         handles: ['@Inc42', '@livemint', '@EconomicTimes', '@anandmahindra', '@udaykotak']
@@ -181,11 +207,11 @@ function getRandomSubreddits(subreddits: string[], count: number = 5): string[] 
   return shuffled.slice(0, count);
 }
 
-async function fetchFromTwitterRSS(): Promise<TrendingTopic[]> {
-  console.log('🐦 Fetching Twitter RSS feeds via Google News...');
+async function fetchFromTwitterRSS(persona?: string): Promise<TrendingTopic[]> {
+  console.log(`🐦 Fetching Twitter RSS feeds via Google News for ${persona || 'general'}...`);
   
   const userAgent = getRandomUserAgent();
-  const sources = await loadSources();
+  const sources = await loadSources(persona);
   const selectedHandles = getRandomTwitterHandles(sources.twitter.handles, 8);
   console.log(`🐦 Selected handles for RSS fetching: ${selectedHandles.join(', ')}`);
   
@@ -389,11 +415,11 @@ async function fetchFromTwitterRSS(): Promise<TrendingTopic[]> {
 // ─────────────────────────────────────────────
 // 🔴 Reddit RSS Feed System
 // ─────────────────────────────────────────────
-async function fetchFromRedditRSS(): Promise<TrendingTopic[]> {
-  console.log('🔴 Fetching Reddit RSS feeds...');
+async function fetchFromRedditRSS(persona?: string): Promise<TrendingTopic[]> {
+  console.log(`🔴 Fetching Reddit RSS feeds for ${persona || 'general'}...`);
   
   const userAgent = getRandomUserAgent();
-  const sources = await loadSources();
+  const sources = await loadSources(persona);
   const selectedSubreddits = getRandomSubreddits(sources.reddit.subreddits, 6);
   
   const allTopics: TrendingTopic[] = [];
@@ -551,8 +577,8 @@ function getStaticFallbackTopics(): TrendingTopic[] {
 // ─────────────────────────────────────────────
 // 🎯 Main API
 // ─────────────────────────────────────────────
-export async function getTrendingTopics(): Promise<TrendingTopic[]> {
-  const cached = getCachedTrends();
+export async function getTrendingTopics(persona?: string): Promise<TrendingTopic[]> {
+  const cached = getCachedTrends(persona);
   if (cached) {
     return cached;
   }
@@ -563,8 +589,8 @@ export async function getTrendingTopics(): Promise<TrendingTopic[]> {
 
   // Try Twitter RSS feeds first
   try {
-    console.log("🐦 Attempting Twitter RSS feeds...");
-    const twitterTopics = await fetchFromTwitterRSS();
+    console.log(`🐦 Attempting Twitter RSS feeds for ${persona || 'general'}...`);
+    const twitterTopics = await fetchFromTwitterRSS(persona);
     if (twitterTopics.length > 0) {
       console.log(`✅ Twitter RSS successful - ${twitterTopics.length} topics`);
       allTopics.push(...twitterTopics.slice(0, Math.floor(MAX_TOPICS / 2))); // Take half from Twitter
@@ -572,13 +598,13 @@ export async function getTrendingTopics(): Promise<TrendingTopic[]> {
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     console.log(`⚠️ Twitter RSS failed: ${message}`);
-    await logFailure('TwitterRSS-Main', message);
+    await logFailure(`TwitterRSS-Main-${persona || 'general'}`, message);
   }
 
   // Try Reddit RSS feeds
   try {
-    console.log("🔴 Attempting Reddit RSS feeds...");
-    const redditTopics = await fetchFromRedditRSS();
+    console.log(`🔴 Attempting Reddit RSS feeds for ${persona || 'general'}...`);
+    const redditTopics = await fetchFromRedditRSS(persona);
     if (redditTopics.length > 0) {
       console.log(`✅ Reddit RSS successful - ${redditTopics.length} topics`);
       allTopics.push(...redditTopics.slice(0, MAX_TOPICS - allTopics.length)); // Fill remaining slots
@@ -586,20 +612,20 @@ export async function getTrendingTopics(): Promise<TrendingTopic[]> {
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     console.log(`⚠️ Reddit RSS failed: ${message}`);
-    await logFailure('RedditRSS-Main', message);
+    await logFailure(`RedditRSS-Main-${persona || 'general'}`, message);
   }
 
   // If we got some topics from either source, use them
   if (allTopics.length > 0) {
-    console.log(`✅ Combined RSS successful - ${allTopics.length} topics from multiple sources`);
+    console.log(`✅ Combined RSS successful - ${allTopics.length} topics from multiple sources for ${persona || 'general'}`);
     console.log(`📊 Sample topics:`, allTopics.slice(0, 3).map(t => `${t.title} (${t.category})`));
-    setCachedTrends(allTopics);
+    setCachedTrends(allTopics, persona);
     return allTopics;
   }
 
   // Final fallback: Static topics
-  console.log("📋 All RSS sources failed, using static fallback topics");
+  console.log(`📋 All RSS sources failed for ${persona || 'general'}, using static fallback topics`);
   const staticTopics = getStaticFallbackTopics();
-  setCachedTrends(staticTopics);
+  setCachedTrends(staticTopics, persona);
   return staticTopics;
 }

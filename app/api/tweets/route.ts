@@ -118,9 +118,9 @@ export async function POST(request: Request) {
       // Step 1: Fetch fresh trending topics from RSS sources
       let trendingTopics;
       try {
-        console.log('📡 Fetching fresh trending topics from RSS sources...');
-        trendingTopics = await getTrendingTopics();
-        console.log(`✅ Retrieved ${trendingTopics.length} trending topics from RSS feeds`);
+        console.log(`📡 Fetching fresh trending topics from RSS sources for ${data.persona}...`);
+        trendingTopics = await getTrendingTopics(data.persona);
+        console.log(`✅ Retrieved ${trendingTopics.length} trending topics from RSS feeds for ${data.persona}`);
       } catch (error) {
         console.error('❌ Failed to fetch trending topics:', error);
         return NextResponse.json({ 

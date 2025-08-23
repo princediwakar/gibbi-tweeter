@@ -38,7 +38,7 @@ let randomTopic: TrendingTopic | null = null;
 if (useTrendingTopics && !customPrompt) {
   for (let attempt = 1; attempt <= 3; attempt++) {
     try {
-      const trendingTopics = await getTrendingTopics();
+      const trendingTopics = await getTrendingTopics(persona);
       if (trendingTopics.length > 0) {
         // For bulk generation, try to select different topics by using bulkIndex as seed
         let randomIndex;
