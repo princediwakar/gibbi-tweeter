@@ -22,8 +22,8 @@ export async function GET(request: NextRequest) {
     
     logIST(`📊 Current pipeline: ${pendingTweets.length} pending tweets`);
 
-    // Only generate if pipeline is low (less than 5 tweets)
-    if (pendingTweets.length >= 5) {
+    // Only generate if pipeline is low (less than 4 tweets for 30s cron)
+    if (pendingTweets.length >= 4) {
       return NextResponse.json({
         success: true,
         message: `✅ Pipeline is healthy with ${pendingTweets.length} tweets. No generation needed.`,
@@ -33,8 +33,8 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Generate 3-5 tweets to refill pipeline
-    const tweetsToGenerate = Math.min(5, 8 - pendingTweets.length);
+    // Generate 2-3 tweets to refill pipeline (reduced for 30s cron limit)
+    const tweetsToGenerate = Math.min(3, 6 - pendingTweets.length);
     logIST(`🤖 Generating ${tweetsToGenerate} tweets to refill pipeline...`);
 
     const generatedTweets = [];
@@ -54,7 +54,11 @@ export async function GET(request: NextRequest) {
 
         logIST(`📝 Generating tweet ${i + 1}/${tweetsToGenerate} with ${persona}...`);
 
-        const generatedTweet = await generateTweet(options, i);
+        // Add timeout for 30s cron limit (10s per generation)
+        const generatedTweet = await Promise.race([
+          generateTweet(options, i),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Generation timeout (30s cron limit)')), 10000))
+        ]) as Awaited<ReturnType<typeof generateTweet>>;
         const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, persona);
 
         // Find next available optimal time slot
