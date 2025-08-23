@@ -143,7 +143,8 @@ export async function GET(request: NextRequest) {
       
       // Calculate available optimal slots to ensure we don't exceed timing capacity
       const maxOptimalSlots = OPTIMAL_POSTING_TIMES.length; // 15 slots per day
-      const tweetsToGenerate = Math.min(5, maxOptimalSlots - pendingTweets.length, 15 - pendingTweets.length);
+      // Reduce to 2 tweets max per run to avoid timeout (60s limit on Vercel)
+      const tweetsToGenerate = Math.min(2, maxOptimalSlots - pendingTweets.length, 15 - pendingTweets.length);
       
       for (let i = 0; i < tweetsToGenerate; i++) {
         try {
@@ -157,7 +158,11 @@ export async function GET(request: NextRequest) {
             useTrendingTopics: Math.random() > 0.4,
           };
 
-          const generatedTweet = await generateTweet(options, i);
+          // Add timeout to prevent hanging (20s max per generation)
+          const generatedTweet = await Promise.race([
+            generateTweet(options, i),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Generation timeout')), 20000))
+          ]) as Awaited<ReturnType<typeof generateTweet>>;
           const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, persona);
 
           // Find next available optimal time slot
