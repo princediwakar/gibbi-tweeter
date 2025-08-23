@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAllTweets, saveTweet, deleteTweet } from '@/lib/db';
+import { getAllTweets, saveTweet, deleteTweet } from '@/lib/neon-db';
 import { postTweet } from '@/lib/twitter';
 
 export async function GET(

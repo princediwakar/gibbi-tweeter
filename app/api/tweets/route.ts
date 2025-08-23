@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAllTweets, getPaginatedTweets, saveTweet, generateTweetId, deleteTweets, Tweet } from '@/lib/db';
+import { getAllTweets, getPaginatedTweets, saveTweet, generateTweetId, deleteTweets, Tweet } from '@/lib/neon-db';
 import { generateTweet, TweetGenerationOptions } from '@/lib/openai';
 import { calculateQualityScore } from '@/lib/quality-scorer';
 import { getTrendingTopics } from '@/lib/trending';

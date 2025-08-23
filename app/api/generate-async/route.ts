@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateTweet, TweetGenerationOptions } from '@/lib/openai';
-import { getAllTweets, saveTweet, generateTweetId } from '@/lib/supabase';
+import { getAllTweets, saveTweet, generateTweetId } from '@/lib/neon-db';
 import { calculateQualityScore } from '@/lib/quality-scorer';
 import { logIST, toIST } from '@/lib/timezone';
 import { OPTIMAL_POSTING_TIMES } from '@/lib/timing';

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllTweets, saveTweet } from '@/lib/supabase';
+import { getAllTweets, saveTweet } from '@/lib/neon-db';
 import { postToTwitter } from '@/lib/twitter';
 import { logIST, toIST } from '@/lib/timezone';
 
