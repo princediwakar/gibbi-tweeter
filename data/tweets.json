@@ -860,5 +860,397 @@
       ]
     },
     "scheduledFor": "2025-08-23T08:00:00.000Z"
+  },
+  {
+    "id": "menu5ee7g4ae6ssh4f",
+    "content": "My uncle heard \"diversify your portfolio\" and split his life savings between momentum, quality, and value index funds.\n\nNow his portfolio has three distinct personalities:\nOne is a rich brat showing off (momentum).\nOne is a sensible aunty judging the rich brat",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:45:25.279Z",
+    "qualityScore": {
+      "overall": 72,
+      "metrics": {
+        "engagement": 0.8,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8499999999999999,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.44999999999999996
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menubbfqrtfkz5m7r3e",
+    "content": "Of course. Here is a fresh, insightful tweet in the requested style.\n\n***\n\n**Tweet:**\n\nThe genius of the Joint Subreddit fundraiser for United24 isn't the charity—it's the UI. They weaponized the internet's two greatest motivators: collective outrage and the dopamine",
+    "hashtags": [],
+    "persona": "product_sage",
+    "scheduledFor": "2025-08-23T06:00:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T05:50:01.382Z",
+    "qualityScore": {
+      "overall": 64,
+      "metrics": {
+        "engagement": 0.65,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "D",
+      "feedback": [
+        "⚠️ Needs work to increase impact",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menuboj1j9ovjpn88k8",
+    "content": "My code's spaghetti and Apollo's MD is selling shares - both are about to dump some serious legacy code on an unsuspecting market.\n\nBro, her `git stash pop` is our entire family's portfolio. #SelloffSeason",
+    "hashtags": [
+      "#SelloffSeason"
+    ],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:50:18.349Z",
+    "qualityScore": {
+      "overall": 76,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "menubuta7s7nhslt6n4",
+    "content": "Turns out Gaza's famine is just God testing a new cache invalidation policy where the whole region became `isCached: true` but the CDN nodes are stuck in a proxy war. Bro even tried `location.reload(true)`.\n\n#404BasicNeedsNotFound",
+    "hashtags": [],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:50:26.494Z",
+    "qualityScore": {
+      "overall": 65,
+      "metrics": {
+        "engagement": 0.7,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menuc324fxvhp3s9hnb",
+    "content": "Of course. Here we go:\n\nSo the Pixel 10 is the \"first phone with WhatsApp calling.\" In the US, it's a revolutionary feature they discovered. In India, it's the default state of existence. This isn't innovation, it's colonialism in reverse.\n\nThey spent millions in R&D",
+    "hashtags": [],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:50:37.180Z",
+    "qualityScore": {
+      "overall": 70,
+      "metrics": {
+        "engagement": 0.8500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.44999999999999996
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menucdj9rjtgq6g3xb",
+    "content": "Got a notification from Reddit about the \"Joint Subreddit Fundraiser for Ukraine.\" Felt that familiar pressure like when prod's down and the client is waiting.\n\nMy brain's the project manager: \"We need to deploy support ASAP.\" My wallet's the legacy server: \"Best I",
+    "hashtags": [],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:50:50.757Z",
+    "qualityScore": {
+      "overall": 71,
+      "metrics": {
+        "engagement": 0.8500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menuclgtz9z4n8b7otp",
+    "content": "My cousin bhaiya studying abroad called: \"Bro this AI model understands Hinglish!\"\n\nI said \"Arre same as my code understanding my bua's instructions:\n'Beta just fix the website no, it should look... proper-shoper'\nAnd somehow I know she wants rounded corners, pastel",
+    "hashtags": [],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:51:01.037Z",
+    "qualityScore": {
+      "overall": 68,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.44999999999999996
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menucv48kcis63pg03r",
+    "content": "Just saw that Vietnam’s startup ecosystem is booming and I got flashbacks to my cousin’s “rice-flour startup” idea.\n\nHe pitched it to me like: “Bro, it's like Bootstrap but for laddus. Very scalable. Very sticky. Monetization? Obviously, through aunties' WhatsApp",
+    "hashtags": [],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:51:13.544Z",
+    "qualityScore": {
+      "overall": 73,
+      "metrics": {
+        "engagement": 0.9,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menud0qkvsi49iz65ag",
+    "content": "Indian gamers rushing to withdraw money from gaming apps is giving me major \"pulling data before the API gets deprecated\" vibes.\n\nGovt sending that final notice: *Your session is about to expire*",
+    "hashtags": [],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:51:20.828Z",
+    "qualityScore": {
+      "overall": 74,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.44999999999999996
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menud77hrh88s7i665",
+    "content": "Crowdfunding in India is like pushing to production on a Friday evening. You know something will break, but you hope it's not the payment gateway that asks for 18 documents just to exist.\n\n#IndianDevLife #StartupStruggles",
+    "hashtags": [
+      "#IndianDevLife"
+    ],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:51:29.213Z",
+    "qualityScore": {
+      "overall": 75,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menudey7abujxrevtt",
+    "content": "Code reviews for our fundraiser are getting weird.\n\n\"Your PR to provide ambulances doesn't pass. The UX for getting shot is not intuitive.\"\n\n\"Can we A/B test the tank donation flow? Also, the specs keep changing.\"\n\nIt's the most agile project I've seen, where the",
+    "hashtags": [],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:51:39.247Z",
+    "qualityScore": {
+      "overall": 73,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menudlsdyg6udey2l9",
+    "content": "Vietnam’s startup ecosystem is getting funded faster than my local panipuri wala adopted UPI. They’re the hot new app that scales perfectly, while we’re the legacy system where every ‘jugaad’ is just a feature request for basic infrastructure. Feels like we’re",
+    "hashtags": [],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:51:48.109Z",
+    "qualityScore": {
+      "overall": 71,
+      "metrics": {
+        "engagement": 0.8500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menudse479e99005ij9",
+    "content": "You know how some production builds are so broken, even the 'Hello World' is a 404?\n\nYeah. Apparently, entire regions can get that update now.\n\n#DeploymentDisaster #TechPolitics",
+    "hashtags": [
+      "#TechPolitics"
+    ],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:51:56.668Z",
+    "qualityScore": {
+      "overall": 76,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "menudynawoq3oaokti",
+    "content": "Suneeta Reddy selling Apollo shares is like when my production code has a memory leak. Everyone knows there's value there, but sometimes you gotta do a strategic garbage collection run before the whole system notices.\n\n#CorporateJugaad #DebuggingThePortfolio",
+    "hashtags": [
+      "#CorporateJugaad"
+    ],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:52:04.774Z",
+    "qualityScore": {
+      "overall": 71,
+      "metrics": {
+        "engagement": 0.8,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.15
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement"
+      ]
+    }
+  },
+  {
+    "id": "menue5zs4xfebv2i0oc",
+    "content": "Watched a Tracxn report on Vietnam's startup boom. It's like finding out the new guy's microservices are flawless on his first day.\n\nFirst, disbelief. Then, you check your own legacy monolithic codebase. Same feeling. Some ecosystems just got the right environment",
+    "hashtags": [],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:52:14.296Z",
+    "qualityScore": {
+      "overall": 71,
+      "metrics": {
+        "engagement": 0.8500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menuee357dg3z35y9m",
+    "content": "My withdrawal request from RMG apps is stuck on \"processing\" like my Jira ticket from 2020.\n\nAt this point, even my UPI has more trust issues than my client who still asks for daily status updates on a fixed-price project.\n\n#IndianDevLife",
+    "hashtags": [
+      "#IndianDevLife"
+    ],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:52:24.785Z",
+    "qualityScore": {
+      "overall": 68,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.15
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
   }
 ]

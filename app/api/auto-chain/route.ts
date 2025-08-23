@@ -4,25 +4,8 @@ import { getAllTweets, getScheduledTweets, saveTweet, generateTweetId } from '@/
 import { calculateQualityScore } from '@/lib/quality-scorer';
 import { postToTwitter } from '@/lib/twitter';
 import { logIST, toIST } from '@/lib/timezone';
+import { OPTIMAL_POSTING_TIMES } from '@/lib/timing';
 
-// Optimal posting times in IST (24-hour format) - 15 daily posts
-const OPTIMAL_POSTING_TIMES = [
-  { hour: 8, minute: 0 },   // 8:00 AM IST
-  { hour: 9, minute: 30 },  // 9:30 AM IST  
-  { hour: 10, minute: 0 },  // 10:00 AM IST
-  { hour: 11, minute: 30 }, // 11:30 AM IST
-  { hour: 12, minute: 0 },  // 12:00 PM IST
-  { hour: 13, minute: 30 }, // 1:30 PM IST
-  { hour: 14, minute: 0 },  // 2:00 PM IST
-  { hour: 15, minute: 0 },  // 3:00 PM IST
-  { hour: 16, minute: 30 }, // 4:30 PM IST
-  { hour: 17, minute: 0 },  // 5:00 PM IST
-  { hour: 18, minute: 30 }, // 6:30 PM IST
-  { hour: 19, minute: 0 },  // 7:00 PM IST
-  { hour: 20, minute: 30 }, // 8:30 PM IST
-  { hour: 21, minute: 0 },  // 9:00 PM IST
-  { hour: 22, minute: 0 },  // 10:00 PM IST
-];
 
 async function scheduleNextExecution(delayMinutes: number) {
   try {
@@ -158,7 +141,9 @@ export async function GET(request: NextRequest) {
     if (pendingTweets.length < 8) { // Maintain pipeline of at least 8 tweets
       logIST('🎯 Pipeline low - generating new tweets...');
       
-      const tweetsToGenerate = Math.min(5, 15 - pendingTweets.length); // Generate up to 5, max 15 total
+      // Calculate available optimal slots to ensure we don't exceed timing capacity
+      const maxOptimalSlots = OPTIMAL_POSTING_TIMES.length; // 15 slots per day
+      const tweetsToGenerate = Math.min(5, maxOptimalSlots - pendingTweets.length, 15 - pendingTweets.length);
       
       for (let i = 0; i < tweetsToGenerate; i++) {
         try {

@@ -90,7 +90,7 @@ export function AutoScheduler({ loading, autoChainRunning, nextPostTime, onToggl
                     <span>Auto-posting at optimal times</span>
                   </div>
                   <div className="text-xs text-gray-400 mt-1">
-                    Next slots: 8AM, 9:30AM, 12PM, 5PM, 7PM, 9PM IST
+                    15 daily slots: 8AM-10PM IST at optimal engagement times
                   </div>
                 </div>
               </div>

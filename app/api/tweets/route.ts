@@ -103,7 +103,15 @@ export async function POST(request: Request) {
     }
 
     if (action === 'bulk_generate') {
-      const count = data.count || 5;
+      // Import timing to check optimal slot limits
+      const { OPTIMAL_POSTING_TIMES } = await import('@/lib/timing');
+      const maxOptimalSlots = OPTIMAL_POSTING_TIMES.length; // 15 slots per day
+      const requestedCount = data.count || 5;
+      const count = Math.min(requestedCount, maxOptimalSlots);
+      
+      if (count < requestedCount) {
+        console.log(`⚠️ Requested ${requestedCount} tweets, limited to ${count} (max optimal slots: ${maxOptimalSlots})`);
+      }
       
       console.log(`🎯 Starting real-time RSS-based bulk generation of ${count} tweets...`);
       
