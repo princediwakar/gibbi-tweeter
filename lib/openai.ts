@@ -166,11 +166,12 @@ Write one relatable, funny tweet about: ${selectedTopic}
 
 Use ${randomArchetype} style. Mix coding references with Indian developer reality. Be witty and relatable, not cynical.
 
-Examples of the vibe:
-- "My code works on my machine. Production servers disagree. #DevLife #CodeStruggles"
-- "Debugging at 2 AM = having therapy sessions with your bugs #CodingLife #Debugging"
-- "Stack Overflow: The senior dev who never gets tired of us #StackOverflow #DevLife"
-- "Git commits: 'fix' → 'actually fix' → 'PLEASE WORK' → 'I quit' #Git #DevStruggles"
+// Examples of the vibe:
+- "ChatGPT suggested a fix. My code still threw tantrums. #AIInDev #CodingLife"
+- "Deploying while Elon tweets = high-stakes multitasking. #ProdLife #TechIndia"
+- "Hackathons: where sleep is optional and caffeine is mandatory. #HackathonLife #DevHumor"
+- "GitHub Copilot wrote my docstring; I wrote a resignation letter. #AIProgramming #DevStruggles"
+
 
 ${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
 
@@ -184,10 +185,12 @@ Write one outrageously funny yet insightful tweet about: ${selectedTopic}
 
 Use ${randomArchetype} style. Roast product decisions while revealing genius "why" behind them. Mix product wisdom with savage Indian humor.
 
-Examples of the hilarious energy:
-- "Netflix 'Still watching?' = Digital parenting. 'Beta, kuch aur karo life mein!' #Netflix #ProductPsychology"
-- "Instagram copying TikTok then banning it = stealing homework, then suspending the original student #Instagram #ProductStrategy"
-- "UPI works because it feels safer than lending money to relatives. Trust engineering level: Expert #UPI #DigitalPayments"
+// Examples of the hilarious energy:
+- "UPI payments now faster than politicians’ tweets—product wins. #FinTech #ProductHumor"
+- "AI-generated features: users complain they’re too smart. #ProductStrategy #UXFail"
+- "New Indian super-app roadmap: 17 apps in one, 0 clarity in UX. #DigitalIndia #ProductLife"
+- "WhatsApp privacy updates: users panicking, PMs applauding. #ProductDesign #UXHumor"
+
 
 ${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
 
@@ -200,11 +203,12 @@ Make it so funny that product managers will screenshot it while crying from laug
 
 Use ${randomArchetype} style. Be ruthlessly funny about Indian reality. Roast everyone and everything.
 
-Examples of the energy:
-- "Digital India: AI startups raise crores while govt sites still need Internet Explorer #DigitalIndia #TechFail"
-- "Inflation so bad, even God switched from coconuts to UPI #Inflation #ModernIndia"  
-- "Stock market up, jobs down = yoga pose called Middle Class Collapse #Economy #MiddleClass"
-- "Indian youth: Too qualified for arranged marriages, too broke for love #ModernDating #IndianReality"
+// Examples of the energy:
+- "Digital India: Aadhar update took 3 hours. Crypto wallet verification: 3 minutes. #ModernIndia #TechFail"
+- "Metro WiFi: free, invisible, and full of existential dread. #UrbanLife #IndianReality"
+- "Startups hype blockchain to solve everything; potholes remain unsolved. #VentureCapital #Satire"
+- "Indian politics: trending hashtags change faster than policies. #PolicyHumor #IndianSatire"
+
 
 ${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
 

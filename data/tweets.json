@@ -1278,5 +1278,83 @@
         "📈 Add relatable or emotional elements for shareability"
       ]
     }
+  },
+  {
+    "id": "meo2h7rirrdxmdgb27",
+    "content": "Latha Venkatesh has decoded more monetary policies than the average Indian has decoded their own family’s financial lies. #RBI #IndianEconomy",
+    "hashtags": [
+      "#RBI",
+      "#IndianEconomy"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-23T09:38:33.486Z",
+    "qualityScore": {
+      "overall": 75,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.35
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "meo2imlikl7jv4r0u2",
+    "content": "Just saw AI mapping DNA knots in seconds. Finally, a tech that can untangle my legacy code's dependency hell without a single `git blame` or a frustrated sigh. #GenomeDevOps",
+    "hashtags": [
+      "#GenomeDevOps"
+    ],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T09:39:39.366Z",
+    "qualityScore": {
+      "overall": 75,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "meo2l3awms6lrz783i",
+    "content": "Launching a monetization tool and asking for feedback is like a roadside chaiwala conducting a blind taste test: \"Bhaiyya, is it too sweet? Too milky? Or just the right amount of highway dust?\"\n\n#SaaSBaba #Pricing",
+    "hashtags": [
+      "#Saba",
+      "#Pricing"
+    ],
+    "persona": "product_sage",
+    "status": "draft",
+    "createdAt": "2025-08-23T09:41:34.328Z",
+    "qualityScore": {
+      "overall": 76,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
   }
 ]
