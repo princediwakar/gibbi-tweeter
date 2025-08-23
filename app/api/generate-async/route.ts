@@ -15,8 +15,13 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const now = toIST(new Date());
+    // Use proper IST calculation
+    const serverUTC = new Date();
+    const istTime = new Date(serverUTC.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    
     logIST(`🎯 Async generation check...`);
+    logIST(`🕐 Server UTC: ${serverUTC.toISOString()}`);
+    logIST(`🕐 IST Time: ${istTime.toLocaleString('en-IN')} (${istTime.getHours()}:${istTime.getMinutes()})`);
 
     // Get current tweet pipeline
     const allTweets = await getAllTweets();
@@ -31,7 +36,7 @@ export async function GET(request: NextRequest) {
         message: `✅ Pipeline is healthy with ${pendingTweets.length} tweets. No generation needed.`,
         currentPipeline: pendingTweets.length,
         generated: 0,
-        timestamp: now.toISOString()
+        timestamp: serverUTC.toISOString()
       });
     }
 
@@ -59,8 +64,8 @@ export async function GET(request: NextRequest) {
       const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, persona);
 
       // Schedule for next optimal IST time - proper timezone handling
-      const currentTime = now.getHours() * 60 + now.getMinutes();
-      logIST(`⏰ Current IST time: ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')} (${currentTime} minutes)`);
+      const currentTime = istTime.getHours() * 60 + istTime.getMinutes();
+      logIST(`⏰ Current IST time: ${istTime.getHours()}:${istTime.getMinutes().toString().padStart(2, '0')} (${currentTime} minutes)`);
       
       const nextSlots = OPTIMAL_POSTING_TIMES.filter(slot => {
         const slotTime = slot.hour * 60 + slot.minute;
@@ -75,24 +80,24 @@ export async function GET(request: NextRequest) {
         logIST(`📅 Using next slot today: ${timeSlot.hour}:${timeSlot.minute.toString().padStart(2, '0')}`);
         
         // Create IST time and convert to UTC for database storage
-        const istTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 
+        const istSlotTime = new Date(istTime.getFullYear(), istTime.getMonth(), istTime.getDate(), 
                                timeSlot.hour, timeSlot.minute, 0, 0);
-        scheduledFor = new Date(istTime.getTime() - (5.5 * 60 * 60 * 1000)); // IST to UTC
+        scheduledFor = new Date(istSlotTime.getTime() - (5.5 * 60 * 60 * 1000)); // IST to UTC
         
-        logIST(`   IST time: ${istTime.toLocaleString('en-IN')}`);
+        logIST(`   IST time: ${istSlotTime.toLocaleString('en-IN')}`);
         logIST(`   UTC time: ${scheduledFor.toISOString()}`);
       } else {
         // Schedule for tomorrow morning
         logIST(`📅 No slots left today, using tomorrow morning`);
-        const tomorrow = new Date(now);
+        const tomorrow = new Date(istTime);
         tomorrow.setDate(tomorrow.getDate() + 1);
         const firstSlot = OPTIMAL_POSTING_TIMES[0];
         
-        const istTime = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(),
+        const tomorrowIstTime = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(),
                                firstSlot.hour, firstSlot.minute, 0, 0);
-        scheduledFor = new Date(istTime.getTime() - (5.5 * 60 * 60 * 1000)); // IST to UTC
+        scheduledFor = new Date(tomorrowIstTime.getTime() - (5.5 * 60 * 60 * 1000)); // IST to UTC
         
-        logIST(`   Tomorrow IST: ${istTime.toLocaleString('en-IN')}`);
+        logIST(`   Tomorrow IST: ${tomorrowIstTime.toLocaleString('en-IN')}`);
         logIST(`   Tomorrow UTC: ${scheduledFor.toISOString()}`);
       }
 
@@ -119,7 +124,7 @@ export async function GET(request: NextRequest) {
         currentPipeline: pendingTweets.length + 1,
         scheduledFor: scheduledForIST.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
         persona,
-        timestamp: now.toISOString()
+        timestamp: serverUTC.toISOString()
       });
 
     } catch (error) {
@@ -131,7 +136,7 @@ export async function GET(request: NextRequest) {
         error: 'Tweet generation failed',
         details: errorMsg,
         currentPipeline: pendingTweets.length,
-        timestamp: now.toISOString()
+        timestamp: serverUTC.toISOString()
       });
     }
 
