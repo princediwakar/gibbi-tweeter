@@ -1252,5 +1252,31 @@
         "📈 Add relatable or emotional elements for shareability"
       ]
     }
+  },
+  {
+    "id": "meo1yhylh5i6mgz8oio",
+    "content": "Gadkari ji's expressway is so world-class, my Ola driver started charging 'experience fees'. By the time we reached Thane, the surge pricing included a guided tour of my own childhood trauma. #MumbaiTraffic",
+    "hashtags": [
+      "#MumbaiTraffic"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-23T09:24:00.237Z",
+    "qualityScore": {
+      "overall": 81,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.65
+      },
+      "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
   }
 ]

@@ -167,10 +167,10 @@ Write one relatable, funny tweet about: ${selectedTopic}
 Use ${randomArchetype} style. Mix coding references with Indian developer reality. Be witty and relatable, not cynical.
 
 Examples of the vibe:
-- "My code works on my machine the way my mom's food works in our kitchen - perfect conditions, magical results"
-- "Debugging at 2 AM hits different. It's like having deep conversations with your bugs about life choices"
-- "Stack Overflow is basically our senior developer who never gets tired of explaining the same thing 1000 times"
-- "Git commit messages reflect my emotional journey: 'initial commit' → 'fix bug' → 'PLEASE WORK' → 'I give up'"
+- "My code works on my machine. Production servers disagree. #DevLife #CodeStruggles"
+- "Debugging at 2 AM = having therapy sessions with your bugs #CodingLife #Debugging"
+- "Stack Overflow: The senior dev who never gets tired of us #StackOverflow #DevLife"
+- "Git commits: 'fix' → 'actually fix' → 'PLEASE WORK' → 'I quit' #Git #DevStruggles"
 
 ${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
 
@@ -185,11 +185,9 @@ Write one outrageously funny yet insightful tweet about: ${selectedTopic}
 Use ${randomArchetype} style. Roast product decisions while revealing genius "why" behind them. Mix product wisdom with savage Indian humor.
 
 Examples of the hilarious energy:
-- "WhatsApp's 'blue tick' wasn't about ego - it solved India's biggest family crisis: 'Beta ne message dekha ya nahi, pata nahi chal raha!' Classic Indian anxiety, productized."
-- "Netflix's 'Are you still watching?' is passive-aggressive parenting for millennials. It's basically saying 'Beta, zindagi mein aur kya karna hai?'"
-- "Zomato's red color triggers hunger + stands out in traffic + hides the bloodstains when aunties fight over delivery charges. Triple win!"
-- "Instagram Reels copying TikTok then banning TikTok is the digital equivalent of stealing someone's homework then getting them suspended. Peak corporate villain behavior."
-- "UPI succeeded because it made digital payments feel safer than trusting your brother with 500 rupees. That's some serious trust engineering!"
+- "Netflix 'Still watching?' = Digital parenting. 'Beta, kuch aur karo life mein!' #Netflix #ProductPsychology"
+- "Instagram copying TikTok then banning it = stealing homework, then suspending the original student #Instagram #ProductStrategy"
+- "UPI works because it feels safer than lending money to relatives. Trust engineering level: Expert #UPI #DigitalPayments"
 
 ${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
 
@@ -203,10 +201,10 @@ Make it so funny that product managers will screenshot it while crying from laug
 Use ${randomArchetype} style. Be ruthlessly funny about Indian reality. Roast everyone and everything.
 
 Examples of the energy:
-- "Digital India: where AI startups raise millions while government sites still ask for Internet Explorer"
-- "Inflation so bad, even God stopped accepting coconuts — he switched to UPI"  
-- "Stock market rising, jobs falling — it's basically a yoga pose called Middle Class Collapse"
-- "India's youth: Too qualified for arranged marriages, too broke for love marriages"
+- "Digital India: AI startups raise crores while govt sites still need Internet Explorer #DigitalIndia #TechFail"
+- "Inflation so bad, even God switched from coconuts to UPI #Inflation #ModernIndia"  
+- "Stock market up, jobs down = yoga pose called Middle Class Collapse #Economy #MiddleClass"
+- "Indian youth: Too qualified for arranged marriages, too broke for love #ModernDating #IndianReality"
 
 ${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
 

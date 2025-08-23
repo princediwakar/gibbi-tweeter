@@ -50,7 +50,7 @@ export function ManualGeneration({
             <label className="text-xs text-gray-400 uppercase tracking-wide">Persona ({personas.length} available)</label>
             <select
               value={form.persona}
-              onChange={(e) => onFormChange({ persona: e.target.value as 'unhinged_satirist' | 'desi_philosopher' })}
+              onChange={(e) => onFormChange({ persona: e.target.value as 'unhinged_satirist' | 'vibe_coder' | 'product_sage' })}
               className="w-full bg-gray-800 border border-gray-600 text-gray-200 text-sm p-3 rounded-lg focus:border-blue-500 focus:outline-none"
             >
               {personas.map(persona => (
