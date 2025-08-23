@@ -117,16 +117,16 @@ export async function GET(request: NextRequest) {
       };
 
       await saveTweet(tweet);
-      const scheduledForIST = new Date(scheduledFor.getTime() + (5.5 * 60 * 60 * 1000));
+      const scheduledForIST = scheduledFor.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
       
-      logIST(`✅ Generated tweet - ${tweet.content.substring(0, 50)}... (scheduled for ${scheduledForIST.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })})`);
+      logIST(`✅ Generated tweet - ${tweet.content.substring(0, 50)}... (scheduled for ${scheduledForIST})`);
 
       return NextResponse.json({
         success: true,
         message: `✅ Generated 1 tweet successfully`,
         generated: 1,
         currentPipeline: pendingTweets.length + 1,
-        scheduledFor: scheduledForIST.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+        scheduledFor: scheduledForIST,
         persona,
         timestamp: serverUTC.toISOString()
       });
