@@ -42,8 +42,16 @@ export async function getAllTweets(): Promise<Tweet[]> {
   }
 }
 
+// Helper function to get property value with fallback for camelCase/snake_case
+function getProperty(obj: Record<string, unknown>, snakeCase: string, camelCase: string): string | null {
+  const value = obj[snakeCase] ?? obj[camelCase];
+  return typeof value === 'string' ? value : null;
+}
+
 export async function saveTweet(tweet: Omit<Tweet, 'created_at'> & { createdAt?: string }): Promise<void> {
   try {
+    const tweetObj = tweet as Record<string, unknown>;
+    
     await sql`
       INSERT INTO tweets (
         id, content, hashtags, persona, scheduled_for, posted_at, 
@@ -53,14 +61,14 @@ export async function saveTweet(tweet: Omit<Tweet, 'created_at'> & { createdAt?:
         ${tweet.content},
         ${JSON.stringify(tweet.hashtags)},
         ${tweet.persona},
-        ${tweet.scheduled_for || null},
-        ${tweet.posted_at || null},
-        ${tweet.twitter_id || null},
-        ${tweet.twitter_url || null},
-        ${tweet.error_message || null},
+        ${getProperty(tweetObj, 'scheduled_for', 'scheduledFor')},
+        ${getProperty(tweetObj, 'posted_at', 'postedAt')},
+        ${getProperty(tweetObj, 'twitter_id', 'twitterId')},
+        ${getProperty(tweetObj, 'twitter_url', 'twitterUrl')},
+        ${getProperty(tweetObj, 'error_message', 'errorMessage')},
         ${tweet.status},
-        ${tweet.createdAt || new Date().toISOString()},
-        ${tweet.quality_score ? JSON.stringify(tweet.quality_score) : null}
+        ${tweet.createdAt || getProperty(tweetObj, 'created_at', 'createdAt') || new Date().toISOString()},
+        ${tweetObj.quality_score ? JSON.stringify(tweetObj.quality_score) : (tweetObj.qualityScore ? JSON.stringify(tweetObj.qualityScore) : null)}
       )
       ON CONFLICT (id) 
       DO UPDATE SET

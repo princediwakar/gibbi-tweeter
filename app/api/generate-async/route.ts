@@ -142,10 +142,10 @@ export async function GET(request: NextRequest) {
         content: generatedTweet.content,
         hashtags: generatedTweet.hashtags,
         persona,
-        scheduledFor: scheduledFor.toISOString(),
+        scheduled_for: scheduledFor.toISOString(),
         status: 'scheduled' as const,
-        createdAt: new Date().toISOString(),
-        qualityScore,
+        created_at: new Date().toISOString(),
+        quality_score: qualityScore,
       };
 
       await saveTweet(tweet);
