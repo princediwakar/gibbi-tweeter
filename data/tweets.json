@@ -683,5 +683,105 @@
         "⚠️ Needs work to increase impact"
       ]
     }
+  },
+  {
+    "id": "mentjlvugn5z383btts",
+    "content": "Swiggy’s ‘Live Order Tracking’ isn’t for your patience—it’s to stop you from calling the delivery partner 6 times. It’s a masterclass in preemptive anxiety relief, the Indian version of “Are we there yet?” solved by a moving dot.\n\n#ProductDesign #JugaadTech",
+    "hashtags": [
+      "#ProductDesign",
+      "#JugaadTech"
+    ],
+    "persona": "product_sage",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:28:28.554Z",
+    "qualityScore": {
+      "overall": 75,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.65
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "mentl84838bfzql1xpl",
+    "content": "Our MPs are having a \"heated clash\" over SIR like aunties fighting over the last piece of chicken at a wedding buffet. Meanwhile, the govt's dropping 3 new bills like a rich uncle showing up with 3 new cars...we don't know what they do, we can't afford them, but we're",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:29:44.025Z",
+    "qualityScore": {
+      "overall": 81,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.44999999999999996
+      },
+      "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "mentlh04avaxysx9ro",
+    "content": "Between Juhu & Malad for 'authentic coastal food' is like asking for spiritual enlightenment between two political rallies.\n\nYou're not finding the sea on a plate, you're finding a contractor's dream: original shoreline evicted, replaced by concrete digestive",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:29:55.540Z",
+    "qualityScore": {
+      "overall": 76,
+      "metrics": {
+        "engagement": 0.9,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.9,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📖 Simplify language for better readability",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "mentlos8q34k7yl39fb",
+    "content": "\"We spent MONTHS to launch OATX, a meal in a box. Because what India *really* needed was another way for the rich to chew their privilege while kids sniff toxic air for breakfast.\n\nBon appétit, you climate-contributing, virtue-signaling",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:30:05.624Z",
+    "qualityScore": {
+      "overall": 80,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.44999999999999996
+      },
+      "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
   }
 ]

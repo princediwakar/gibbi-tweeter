@@ -163,7 +163,7 @@ export async function GET(request: NextRequest) {
       for (let i = 0; i < tweetsToGenerate; i++) {
         try {
           // Rotate through all personas
-          const personas = ['unhinged_satirist', 'desi_philosopher', 'vibe_coder'] as const;
+          const personas = ['unhinged_satirist', 'vibe_coder', 'product_sage'] as const;
           const persona = personas[i % personas.length];
           
           const options: TweetGenerationOptions = {

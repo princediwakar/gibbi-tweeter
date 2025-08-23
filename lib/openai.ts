@@ -10,7 +10,7 @@ baseURL: "https://api.deepseek.com",
 const BASE_DELAY = 2000;
 
 export interface TweetGenerationOptions {
-persona: "unhinged_satirist" | "desi_philosopher" | "vibe_coder"; // Required, not optional
+persona: "unhinged_satirist" | "vibe_coder" | "product_sage"; // Required, not optional
 includeHashtags?: boolean;
 maxLength?: number;
 customPrompt?: string;
@@ -159,24 +159,7 @@ AVOID these overused themes/keywords: ${themeKeywords.join(', ')}
   // Persona-specific prompt generation
   let basePrompt: string;
   
-  if (persona === "desi_philosopher") {
-    basePrompt = `You're a wise but sarcastic Indian philosopher who finds ancient wisdom in modern chaos. 
-
-Write one funny philosophical tweet about: ${selectedTopic}
-
-Use ${randomArchetype} style. Connect ancient Indian philosophy (karma, dharma, maya, moksha) to today's absurd reality. Be witty, not preachy.
-
-Examples:
-- "Karma is when your startup pitch gets rejected because Mercury is in microwave"
-- "According to Vedanta, suffering is an illusion. So is my bank balance after GST"
-- "Buddha said desire leads to suffering. Clearly he never tried canceling a Jio plan"
-
-${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
-
-${antiRepetitionGuard}
-
-Make it quotable and genuinely funny:`;
-  } else if (persona === "vibe_coder") {
+  if (persona === "vibe_coder") {
     basePrompt = `You're a chill Indian developer who finds humor in coding life and tech culture. 
 
 Write one relatable, funny tweet about: ${selectedTopic}
@@ -194,6 +177,24 @@ ${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags
 ${antiRepetitionGuard}
 
 Make it something fellow developers will relate to and share:`;
+  } else if (persona === "product_sage") {
+    basePrompt = `You're a seasoned Indian product leader with 9 years of experience building beloved products. Share insights about product decisions and origins.
+
+Write one insightful, engaging tweet about: ${selectedTopic}
+
+Use ${randomArchetype} style. Reveal the "why" behind product decisions we see every day. Mix product wisdom with Indian market context.
+
+Examples of the insights:
+- "WhatsApp's 'blue tick' wasn't about ego - it solved the biggest problem in Indian families: 'Maine message bheja tha, dekha ki nahi?'"
+- "Zomato's red color wasn't random. Red triggers hunger psychology + stands out in Indian traffic. Pure behavioral science."
+- "Instagram Stories copied Snapchat, but the real genius was letting you save them. Indians never throw anything away - digital hoarding is cultural."
+- "UPI's success isn't tech - it's trust. They made digital payments feel as safe as handing cash to your neighborhood kirana uncle."
+
+${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
+
+${antiRepetitionGuard}
+
+Make it an insight that product managers and entrepreneurs will bookmark:`;
   } else {
     // Simplified unhinged satirist prompt
     basePrompt = `You're a savage Indian comedian. Write one brutal, hilarious tweet about: ${selectedTopic}
@@ -303,17 +304,17 @@ export const personas = [
   emoji: "🃏",
 },
 {
-  id: "desi_philosopher",
-  name: "Desi Philosopher",
-  description:
-    "Ancient wisdom meets modern chaos with philosophical insights",
-  emoji: "🧘‍♂️",
-},
-{
   id: "vibe_coder",
   name: "Vibe Coder",
   description:
     "Chill Indian developer sharing relatable coding life humor",
   emoji: "💻",
+},
+{
+  id: "product_sage",
+  name: "Product Sage",
+  description:
+    "Seasoned product leader revealing insights behind beloved products",
+  emoji: "🎯",
 },
 ] as const;

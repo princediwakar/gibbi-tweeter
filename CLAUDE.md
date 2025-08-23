@@ -29,17 +29,18 @@ This is an AI-powered tweet generation and scheduling bot built with Next.js 15,
   - Anti-repetition protocol with freshness enforcement
   - Current Indian events and cultural references required
 
-- **Desi Philosopher** (🧘‍♂️) - Ancient wisdom meets modern chaos with philosophical insights
-  - Blends Vedantic wisdom with contemporary Indian reality
-  - References: Bhagavad Gita, Buddha, Upanishads, Sufi mysticism
-  - Modern applications: Tech addiction, career stress, relationships
-  - Tone: Wise but accessible, gentle humor with profound insights
-
 - **Vibe Coder** (💻) - Chill Indian developer sharing relatable coding life humor
   - Relatable tech culture references and developer experiences  
   - Mix of coding terminology with Indian cultural context
   - Focus on debugging, Stack Overflow, coding at odd hours
   - Tone: Relatable and witty, not cynical or bitter
+
+- **Product Sage** (🎯) - Seasoned product leader with 9 years of experience revealing insights
+  - Deep expertise in consumer internet and hardware product decisions
+  - Reveals the "why" behind product features we use daily
+  - Mix of product wisdom with Indian market context and user behavior
+  - Focus on design psychology, user experience, and business strategy
+  - Tone: Insightful and engaging, sharing knowledge that entrepreneurs bookmark
 
 ### 🚀 Tweet Generation
 - Single tweet generation with custom prompts
@@ -249,7 +250,7 @@ Since Vercel's free tier allows only 1 cron job and setTimeout doesn't persist i
 - **Daily Posts**: 15 posts at optimal IST times (8AM-10PM)
 - **Smart Logic**: Posts ready tweets immediately, generates new ones when needed
 - **Optimal Timing**: Uses 15 IST time slots for maximum engagement
-- **Persona Variety**: Rotates through 3 personas - Satirist, Philosopher, and Vibe Coder
+- **Persona Variety**: Rotates through 3 personas - Satirist, Vibe Coder, and Product Sage
 - **Self-Triggering**: Works in development, requires external trigger in production
 
 #### **How It Works:**
