@@ -31,9 +31,8 @@ export function getCurrentISTString(): string {
  * Convert any date to IST for calculations (consistent between server/client)
  */
 export function toIST(date: Date): Date {
-  // Use UTC offset calculation for consistency
-  const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
-  const istTime = new Date(utcTime + (5.5 * 3600000)); // IST is UTC+5:30
+  // More reliable IST conversion - direct UTC + 5.5 hours
+  const istTime = new Date(date.getTime() + (5.5 * 60 * 60 * 1000));
   return istTime;
 }
 
