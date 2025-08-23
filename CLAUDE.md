@@ -45,7 +45,8 @@ This is an AI-powered tweet generation and scheduling bot built with Next.js 15,
 ### 🚀 Tweet Generation
 - Single tweet generation with custom prompts
 - Bulk generation (5-20 tweets at once)
-- Smart scheduling at 1-24 hour intervals
+- **Unified Optimal Timing**: Both manual and auto-scheduling use identical IST optimal times
+- Smart scheduling with 45-minute minimum spacing for bulk operations
 - Full content preview before posting
 - Hashtag inclusion options
 
@@ -61,6 +62,8 @@ This is an AI-powered tweet generation and scheduling bot built with Next.js 15,
 - **Smart Prompt Handling** - Custom prompts override topic only, preserving persona voice/style
 - **Optimal Posting Times** - Intelligent scheduling at maximum engagement times (9am, 12pm, 5pm, 7pm, 9pm)
 - **Smart Scheduling Logic** - Replaces simple intervals with research-based optimal times
+- **Unified Timing System** - Both auto-chain and manual scheduling use identical optimal IST times (8AM-10PM)
+- **Intelligent Spacing** - 45-minute minimum intervals prevent spam and maximize engagement
 
 ## Project Structure
 

@@ -3,6 +3,7 @@ import { getAllTweets, getPaginatedTweets, saveTweet, generateTweetId, deleteTwe
 import { generateTweet, TweetGenerationOptions } from '@/lib/openai';
 import { calculateQualityScore } from '@/lib/quality-scorer';
 import { getTrendingTopics } from '@/lib/trending';
+import { getNextOptimalPostTime, getSpacedPostingSchedule } from '@/lib/timing';
 
 export async function GET(request: Request) {
   try {
@@ -83,8 +84,8 @@ export async function POST(request: Request) {
       const generatedTweet = await generateTweet(options);
       const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, data.persona || 'unhinged_satirist');
       
-      // Default to 2 hours from now if no scheduledFor provided
-      const scheduledFor = data.scheduledFor ? new Date(data.scheduledFor) : new Date(Date.now() + 2 * 60 * 60 * 1000);
+      // Use optimal posting time if no scheduledFor provided
+      const scheduledFor = data.scheduledFor ? new Date(data.scheduledFor) : getNextOptimalPostTime();
       
       const tweet = {
         id: generateTweetId(),
@@ -229,13 +230,18 @@ export async function POST(request: Request) {
       const tweets = await getAllTweets();
       const scheduledTweets = [];
 
+      // Get optimal spaced posting schedule for all selected tweets
+      const optimalTimes = getSpacedPostingSchedule(tweetIds.length, 45); // 45-minute minimum spacing
+
+      let timeIndex = 0;
       for (const tweetId of tweetIds) {
         const tweet = tweets.find(t => t.id === tweetId);
         if (tweet && tweet.status === 'draft') {
           tweet.status = 'scheduled';
-          tweet.scheduledFor = new Date(Date.now() + 2 * 60 * 60 * 1000); // Schedule for 2 hours from now
+          tweet.scheduledFor = optimalTimes[timeIndex] || getNextOptimalPostTime();
           await saveTweet(tweet);
           scheduledTweets.push(tweet);
+          timeIndex++;
         }
       }
 

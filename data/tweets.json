@@ -783,5 +783,82 @@
         "📈 Add relatable or emotional elements for shareability"
       ]
     }
+  },
+  {
+    "id": "mentxnsvhf01ubzbyw8",
+    "content": "Launch timing is the ultimate Indian wedding buffet strategy.\n\nToo early, and you're the paneer nobody touches. Too late, and you're arriving after the jalebi is finished.\n\nThe sweet spot? Right when the first round of guests is satisfied but still has appetite for",
+    "hashtags": [],
+    "persona": "product_sage",
+    "scheduledFor": "2025-08-23T06:00:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T05:39:24.223Z",
+    "qualityScore": {
+      "overall": 74,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.44999999999999996
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "mentz0cyoqsps51n3ks",
+    "content": "Noopur's laptop has more tabs open than a chaiwala's Sunday stall. One for code, seven for \"research,\" and three permanently loading government portals that require a captcha drawn by a divine hand.\n\nIt's not a browser, it's a hope management system.\n\n#IndianDevLife",
+    "hashtags": [
+      "#IndianDevLife"
+    ],
+    "persona": "vibe_coder",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T05:40:27.154Z",
+    "qualityScore": {
+      "overall": 63,
+      "metrics": {
+        "engagement": 0.65,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.15
+      },
+      "grade": "D",
+      "feedback": [
+        "⚠️ Needs work to increase impact",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    },
+    "scheduledFor": "2025-08-23T06:00:00.000Z"
+  },
+  {
+    "id": "mentz6y91inthav52vzi",
+    "content": "Putin demanding veto power over Ukraine's security is like my client asking for admin rights to our production server after one \"basic HTML change\" tutorial on YouTube.\n\nBro, you just learned to center a div. You don't get to `sudo rm -rf /*` an entire nation's",
+    "hashtags": [],
+    "persona": "vibe_coder",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T05:40:35.697Z",
+    "qualityScore": {
+      "overall": 74,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    },
+    "scheduledFor": "2025-08-23T08:00:00.000Z"
   }
 ]
