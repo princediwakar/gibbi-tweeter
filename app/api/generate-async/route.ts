@@ -64,45 +64,77 @@ export async function GET(request: NextRequest) {
       
       const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, persona);
 
-      // Schedule for next optimal IST time - proper timezone handling
+      // Find next available slot that's not already taken
       const currentTime = istTime.getHours() * 60 + istTime.getMinutes();
       logIST(`⏰ Current IST time: ${istTime.getHours()}:${istTime.getMinutes().toString().padStart(2, '0')} (${currentTime} minutes)`);
       
-      const nextSlots = OPTIMAL_POSTING_TIMES.filter(slot => {
+      // Get all existing scheduled times to avoid conflicts
+      const existingSchedules = allTweets
+        .filter(t => t.status === 'scheduled' && t.scheduledFor)
+        .map(t => {
+          const utcDate = new Date(t.scheduledFor);
+          const istDate = new Date(utcDate.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+          return istDate.getHours() * 60 + istDate.getMinutes();
+        });
+      
+      logIST(`📋 Existing scheduled slots (IST minutes): ${existingSchedules.join(', ')}`);
+      
+      // Filter available slots (future slots not already taken)
+      const availableSlots = OPTIMAL_POSTING_TIMES.filter(slot => {
         const slotTime = slot.hour * 60 + slot.minute;
-        const isAfter = slotTime > currentTime;
-        logIST(`   Slot ${slot.hour}:${slot.minute.toString().padStart(2, '0')} (${slotTime}min) > current? ${isAfter}`);
-        return isAfter;
+        const isAfterNow = slotTime > currentTime;
+        const isNotTaken = !existingSchedules.includes(slotTime);
+        logIST(`   Slot ${slot.hour}:${slot.minute.toString().padStart(2, '0')} (${slotTime}min) - future: ${isAfterNow}, available: ${isNotTaken}`);
+        return isAfterNow && isNotTaken;
       });
 
       let scheduledFor: Date;
-      if (nextSlots.length > 0) {
-        const timeSlot = nextSlots[0];
-        logIST(`📅 Using next slot today: ${timeSlot.hour}:${timeSlot.minute.toString().padStart(2, '0')}`);
+      if (availableSlots.length > 0) {
+        const timeSlot = availableSlots[0];
+        logIST(`📅 Using next available slot today: ${timeSlot.hour}:${timeSlot.minute.toString().padStart(2, '0')}`);
         
-        // Create IST time and convert to UTC for database storage
-        const istDateStr = `${istTime.getFullYear()}-${(istTime.getMonth()+1).toString().padStart(2,'0')}-${istTime.getDate().toString().padStart(2,'0')} ${timeSlot.hour.toString().padStart(2,'0')}:${timeSlot.minute.toString().padStart(2,'0')}:00`;
-        const istSlotTime = new Date(istDateStr);
-        scheduledFor = new Date(istSlotTime.getTime() - (5.5 * 60 * 60 * 1000)); // IST to UTC
+        // Create proper UTC time from IST slot
+        const istDateStr = `${istTime.getFullYear()}-${String(istTime.getMonth() + 1).padStart(2, '0')}-${String(istTime.getDate()).padStart(2, '0')}T${String(timeSlot.hour).padStart(2, '0')}:${String(timeSlot.minute).padStart(2, '0')}:00.000+05:30`;
+        scheduledFor = new Date(istDateStr);
         
-        logIST(`   IST time: ${istSlotTime.toLocaleString('en-IN')}`);
-        logIST(`   UTC time: ${scheduledFor.toISOString()}`);
+        logIST(`   IST slot: ${timeSlot.hour}:${timeSlot.minute.toString().padStart(2, '0')}`);
+        logIST(`   UTC stored: ${scheduledFor.toISOString()}`);
       } else {
-        // Schedule for tomorrow morning - always use first slot (8:00 AM)
-        logIST(`📅 No slots left today, using tomorrow 8:00 AM`);
-        const tomorrow = new Date(istTime.getTime() + (24 * 60 * 60 * 1000)); // Add 24 hours
-        const firstSlot = OPTIMAL_POSTING_TIMES[0]; // Always 8:00 AM
+        // Find first available slot tomorrow
+        logIST(`📅 No slots left today, checking tomorrow...`);
         
-        logIST(`   Tomorrow date: ${tomorrow.getFullYear()}-${(tomorrow.getMonth()+1).toString().padStart(2,'0')}-${tomorrow.getDate().toString().padStart(2,'0')}`);
-        logIST(`   Using slot: ${firstSlot.hour}:${firstSlot.minute.toString().padStart(2,'0')}`);
+        const tomorrowStart = new Date(istTime);
+        tomorrowStart.setDate(tomorrowStart.getDate() + 1);
+        tomorrowStart.setHours(0, 0, 0, 0);
         
-        // Create tomorrow 8:00 AM IST time using proper date string
-        const tomorrowIstStr = `${tomorrow.getFullYear()}-${(tomorrow.getMonth()+1).toString().padStart(2,'0')}-${tomorrow.getDate().toString().padStart(2,'0')} ${firstSlot.hour.toString().padStart(2,'0')}:${firstSlot.minute.toString().padStart(2,'0')}:00`;
-        const tomorrowIstTime = new Date(tomorrowIstStr);
-        scheduledFor = new Date(tomorrowIstTime.getTime() - (5.5 * 60 * 60 * 1000)); // IST to UTC
+        // Check tomorrow's slots against existing schedules
+        const tomorrowExistingSchedules = allTweets
+          .filter(t => t.status === 'scheduled' && t.scheduledFor)
+          .map(t => {
+            const utcDate = new Date(t.scheduledFor);
+            const istDate = new Date(utcDate.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+            // Check if it's tomorrow
+            if (istDate.getDate() === tomorrowStart.getDate() && istDate.getMonth() === tomorrowStart.getMonth()) {
+              return istDate.getHours() * 60 + istDate.getMinutes();
+            }
+            return null;
+          })
+          .filter(time => time !== null);
         
-        logIST(`   Tomorrow IST: ${tomorrowIstTime.getFullYear()}-${(tomorrowIstTime.getMonth()+1).toString().padStart(2,'0')}-${tomorrowIstTime.getDate().toString().padStart(2,'0')} ${tomorrowIstTime.getHours()}:${tomorrowIstTime.getMinutes().toString().padStart(2,'0')}`);
-        logIST(`   Tomorrow UTC: ${scheduledFor.toISOString()}`);
+        const availableTomorrowSlots = OPTIMAL_POSTING_TIMES.filter(slot => {
+          const slotTime = slot.hour * 60 + slot.minute;
+          return !tomorrowExistingSchedules.includes(slotTime);
+        });
+        
+        const timeSlot = availableTomorrowSlots[0] || OPTIMAL_POSTING_TIMES[0];
+        logIST(`📅 Using tomorrow slot: ${timeSlot.hour}:${timeSlot.minute.toString().padStart(2, '0')}`);
+        
+        // Create proper UTC time for tomorrow IST slot
+        const tomorrowIstStr = `${tomorrowStart.getFullYear()}-${String(tomorrowStart.getMonth() + 1).padStart(2, '0')}-${String(tomorrowStart.getDate()).padStart(2, '0')}T${String(timeSlot.hour).padStart(2, '0')}:${String(timeSlot.minute).padStart(2, '0')}:00.000+05:30`;
+        scheduledFor = new Date(tomorrowIstStr);
+        
+        logIST(`   Tomorrow IST: ${timeSlot.hour}:${timeSlot.minute.toString().padStart(2, '0')}`);
+        logIST(`   UTC stored: ${scheduledFor.toISOString()}`);
       }
 
       const tweet = {
@@ -117,16 +149,24 @@ export async function GET(request: NextRequest) {
       };
 
       await saveTweet(tweet);
-      const scheduledForIST = scheduledFor.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+      const scheduledForIST = new Date(scheduledFor.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+      const istDisplay = scheduledForIST.toLocaleDateString('en-US', { 
+        month: 'numeric', 
+        day: 'numeric', 
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
       
-      logIST(`✅ Generated tweet - ${tweet.content.substring(0, 50)}... (scheduled for ${scheduledForIST})`);
+      logIST(`✅ Generated tweet - ${tweet.content.substring(0, 50)}... (scheduled for ${istDisplay})`);
 
       return NextResponse.json({
         success: true,
         message: `✅ Generated 1 tweet successfully`,
         generated: 1,
         currentPipeline: pendingTweets.length + 1,
-        scheduledFor: scheduledForIST,
+        scheduledFor: scheduledFor.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }),
         persona,
         timestamp: serverUTC.toISOString()
       });
