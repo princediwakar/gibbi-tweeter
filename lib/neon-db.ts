@@ -12,7 +12,7 @@ export interface Tweet {
   error_message?: string;
   status: 'draft' | 'scheduled' | 'posted' | 'failed';
   created_at: string;
-  quality_score?: any;
+  quality_score?: unknown;
 }
 
 export async function getAllTweets(): Promise<Tweet[]> {
@@ -53,14 +53,14 @@ export async function saveTweet(tweet: Omit<Tweet, 'created_at'> & { createdAt?:
         ${tweet.content},
         ${JSON.stringify(tweet.hashtags)},
         ${tweet.persona},
-        ${tweet.scheduledFor || null},
-        ${tweet.postedAt || null},
-        ${tweet.twitterId || null},
-        ${tweet.twitterUrl || null},
-        ${tweet.errorMessage || null},
+        ${tweet.scheduled_for || null},
+        ${tweet.posted_at || null},
+        ${tweet.twitter_id || null},
+        ${tweet.twitter_url || null},
+        ${tweet.error_message || null},
         ${tweet.status},
         ${tweet.createdAt || new Date().toISOString()},
-        ${tweet.qualityScore ? JSON.stringify(tweet.qualityScore) : null}
+        ${tweet.quality_score ? JSON.stringify(tweet.quality_score) : null}
       )
       ON CONFLICT (id) 
       DO UPDATE SET
@@ -91,7 +91,7 @@ export async function getScheduledTweets(options: {
 } = {}): Promise<Tweet[]> {
   try {
     let query = 'SELECT * FROM tweets WHERE 1=1';
-    const params: any[] = [];
+    const params: unknown[] = [];
     let paramIndex = 1;
     
     if (options.status) {

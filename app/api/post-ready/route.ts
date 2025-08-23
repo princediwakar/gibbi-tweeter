@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllTweets, saveTweet } from '@/lib/neon-db';
 import { postToTwitter } from '@/lib/twitter';
-import { logIST, toIST } from '@/lib/timezone';
+import { logIST } from '@/lib/timezone';
 
 export async function GET(request: NextRequest) {
   try {

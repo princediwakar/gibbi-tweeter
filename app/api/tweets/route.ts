@@ -49,8 +49,8 @@ export async function POST(request: Request) {
         hashtags: generatedTweet.hashtags,
         persona: data.persona || 'unhinged_satirist',
         status: 'draft' as const,
-        createdAt: new Date(),
-        qualityScore,
+        created_at: new Date().toISOString(),
+        quality_score: qualityScore,
       };
 
       await saveTweet(tweet);
@@ -64,9 +64,9 @@ export async function POST(request: Request) {
         content: data.content,
         hashtags: data.hashtags || [],
         persona: data.persona || 'unhinged_satirist',
-        scheduledFor,
+        scheduled_for: scheduledFor.toISOString(),
         status: 'scheduled' as const,
-        createdAt: new Date(),
+        created_at: new Date().toISOString(),
       };
 
       await saveTweet(tweet);
@@ -92,10 +92,10 @@ export async function POST(request: Request) {
         content: generatedTweet.content,
         hashtags: generatedTweet.hashtags,
         persona: data.persona || 'unhinged_satirist',
-        scheduledFor,
+        scheduled_for: scheduledFor.toISOString(),
         status: 'scheduled' as const,
-        createdAt: new Date(),
-        qualityScore,
+        created_at: new Date().toISOString(),
+        quality_score: qualityScore,
       };
 
       await saveTweet(tweet);
@@ -199,8 +199,8 @@ export async function POST(request: Request) {
             hashtags: generatedTweet.hashtags,
             persona: data.persona || 'unhinged_satirist',
             status: 'draft' as const,
-            createdAt: new Date(),
-            qualityScore,
+            created_at: new Date().toISOString(),
+            quality_score: qualityScore,
           };
 
           await saveTweet(tweet);
@@ -246,7 +246,7 @@ export async function POST(request: Request) {
         const tweet = tweets.find(t => t.id === tweetId);
         if (tweet && tweet.status === 'draft') {
           tweet.status = 'scheduled';
-          tweet.scheduledFor = optimalTimes[timeIndex] || getNextOptimalPostTime();
+          tweet.scheduled_for = (optimalTimes[timeIndex] || getNextOptimalPostTime()).toISOString();
           await saveTweet(tweet);
           scheduledTweets.push(tweet);
           timeIndex++;

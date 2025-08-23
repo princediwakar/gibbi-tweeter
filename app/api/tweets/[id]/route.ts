@@ -55,8 +55,8 @@ export async function PUT(
       try {
         const result = await postTweet(tweet.content);
         tweet.status = 'posted';
-        tweet.postedAt = new Date();
-        tweet.twitterId = result.data.id; // Store the Twitter tweet ID
+        tweet.posted_at = new Date().toISOString();
+        tweet.twitter_id = result.data.id; // Store the Twitter tweet ID
         await saveTweet(tweet);
         return NextResponse.json({ 
           ...tweet, 
@@ -65,7 +65,7 @@ export async function PUT(
       } catch (error) {
         tweet.status = 'failed';
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        tweet.errorMessage = errorMessage;
+        tweet.error_message = errorMessage;
         await saveTweet(tweet);
         
         // Return detailed error for better user experience
