@@ -137,8 +137,8 @@ export function TweetHistory({
                       </Badge>
                     ))}
                   </div>
-                  <div className={`text-xs mt-1 ${tweet.content.length > 280 ? 'text-red-400' : 'text-gray-400'}`}>
-                    {tweet.content.length}/280
+                  <div className={`text-xs mt-1 ${tweet.content.length > 270 ? 'text-red-400' : 'text-gray-400'}`}>
+                    {tweet.content.length}/270
                   </div>
                 </TableCell>
                 <TableCell>
@@ -257,8 +257,8 @@ export function TweetHistory({
                 </div>
               )}
 
-              <div className={`text-xs ${tweet.content.length > 280 ? 'text-red-400' : 'text-gray-400'}`}>
-                {tweet.content.length}/280 characters
+              <div className={`text-xs ${tweet.content.length > 270 ? 'text-red-400' : 'text-gray-400'}`}>
+                {tweet.content.length}/270 characters
               </div>
 
               {/* Mobile Card Timing */}

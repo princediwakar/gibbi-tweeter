@@ -27,8 +27,7 @@ topic: string;
 export async function generateTweet(options: TweetGenerationOptions, bulkIndex?: number): Promise<TweetResponse> {
 const {
   persona, // Required, no default
-  includeHashtags = true,
-  maxLength = 280,
+  maxLength = 270,
   customPrompt,
   useTrendingTopics = true,
 } = options;
@@ -212,7 +211,10 @@ try {
   if (!tweet) throw new Error("Empty response from model");
 
   if (tweet.length > maxLength) {
-    tweet = tweet.slice(0, maxLength - 1) + "…";
+    // Find last complete word before maxLength to avoid awkward truncation
+    const truncated = tweet.slice(0, maxLength - 1);
+    const lastSpaceIndex = truncated.lastIndexOf(' ');
+    tweet = lastSpaceIndex > maxLength * 0.7 ? truncated.slice(0, lastSpaceIndex) : truncated;
   }
 
   return {

@@ -282,7 +282,7 @@
       "#BetaBeepCart"
     ],
     "persona": "unhinged_satirist",
-    "status": "scheduled",
+    "status": "posted",
     "createdAt": "2025-08-23T03:58:03.145Z",
     "qualityScore": {
       "overall": 77,
@@ -300,6 +300,267 @@
         "📈 Add relatable or emotional elements for shareability"
       ]
     },
-    "scheduledFor": "2025-08-23T04:05:00.000Z"
+    "scheduledFor": "2025-08-23T04:05:00.000Z",
+    "postedAt": "2025-08-23T04:07:51.253Z",
+    "twitterId": "1959105277460148461",
+    "twitterUrl": "https://x.com/user/status/1959105277460148461"
+  },
+  {
+    "id": "menqs29vhm4dyh1qvvm",
+    "content": "20-year Japanese bond yields rising after 25 years? That's not inflation, that's just karma for my chacha who took a \"long-term view\" on his LIC policy in 1999 and still can't find the receipt.\n\nThe yield is his maya. The policy is his maya. His promise to buy me a bicycle is de…",
+    "hashtags": [],
+    "persona": "desi_philosopher",
+    "status": "failed",
+    "createdAt": "2025-08-23T04:11:04.195Z",
+    "qualityScore": {
+      "overall": 75,
+      "metrics": {
+        "engagement": 0.85,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    },
+    "scheduledFor": "2025-08-23T04:16:00.000Z",
+    "errorMessage": "🚫 FORBIDDEN: You are not permitted to perform this action."
+  },
+  {
+    "id": "menqsq1tbxxx386zh2k",
+    "content": "Our education system: Parents spend 20 lakhs on an engineering degree so their kid can spend 2 hours a day begging an AI chatbot not to call him \"sir\" anymore.\n\n#SkillingIndia",
+    "hashtags": [
+      "#SkillingIndia"
+    ],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-23T04:11:35.009Z",
+    "qualityScore": {
+      "overall": 82,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.65
+      },
+      "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "menr8vq6govjz99ur4t",
+    "content": "They say procrastination is maya, an illusion of choice. So tomorrow I shall attain moksha from this Excel sheet. Until then, my dharma is to rewatch that 7-hour video on \"How to be productive.\" The wheel of samsara is just a buffering symbol.",
+    "hashtags": [],
+    "persona": "desi_philosopher",
+    "status": "posted",
+    "createdAt": "2025-08-23T04:24:08.862Z",
+    "qualityScore": {
+      "overall": 72,
+      "metrics": {
+        "engagement": 0.7,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    },
+    "postedAt": "2025-08-23T04:24:14.940Z",
+    "twitterId": "1959109403426398507"
+  },
+  {
+    "id": "menrbigy0v1jevkozbd",
+    "content": "India's software engineers have coded a new dependency: their coffee must be sourced from beans blessed by a unicorn startup & brewed with water from a tanker that only arrives twice a week.\n\nIt's not an addiction, it's a locally-sourced,",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "status": "posted",
+    "createdAt": "2025-08-23T04:26:11.650Z",
+    "qualityScore": {
+      "overall": 67,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7999999999999999,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.44999999999999996
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    },
+    "scheduledFor": "2025-08-23T09:58:40.000Z",
+    "postedAt": "2025-08-23T04:26:59.339Z",
+    "twitterId": "1959110092693152079"
+  },
+  {
+    "id": "menrdr2jgb718dchjmw",
+    "content": "Putin demanding veto over Ukraine's security is like our neighborhood aunty demanding veto over our family WhatsApp group. \"Beta, first send me the grocery list for approval.\"\n\nIn the grand play of Maya, all empires are merely guest",
+    "hashtags": [],
+    "persona": "desi_philosopher",
+    "status": "posted",
+    "createdAt": "2025-08-23T04:27:56.107Z",
+    "qualityScore": {
+      "overall": 80,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 0.95,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    },
+    "scheduledFor": "2025-08-23T09:59:31.000Z",
+    "postedAt": "2025-08-23T04:30:06.920Z",
+    "twitterId": "1959110879536193706"
+  },
+  {
+    "id": "menrdyfagw9tzkuw0zj",
+    "content": "We've achieved a new level of cosmic irony: donating crypto to Ukraine while our own villages fight for 4G. This is modern *maya* – the illusion that global virtue is more real than local duty. True *moksha* is when your UPI donation goes",
+    "hashtags": [],
+    "persona": "desi_philosopher",
+    "status": "draft",
+    "createdAt": "2025-08-23T04:28:05.638Z",
+    "qualityScore": {
+      "overall": 78,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menre4z7jm58axe01x",
+    "content": "The ancient rishis sought moksha from the cycle of rebirth. We just seek an option for one tank of petrol that isn't partly made from last year's sugarcane harvest. The liberation is different. The illusion is the same.\n\n#SamsaraAtThePump",
+    "hashtags": [],
+    "persona": "desi_philosopher",
+    "status": "draft",
+    "createdAt": "2025-08-23T04:28:14.131Z",
+    "qualityScore": {
+      "overall": 78,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menrpy3ep2rij6nwd3",
+    "content": "Rajnath Singh ji at the ET Forum is like my uncle explaining Tinder at a family wedding: \"Beta, our defence exports are up 5x! Swipe right on Indian missiles!\" Sir, the only thing getting exported is my IT friend's job to",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-23T04:37:25.082Z",
+    "qualityScore": {
+      "overall": 82,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.44999999999999996
+      },
+      "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "mens3m9p4ey1h8159ks",
+    "content": "My automation script ran 1,000 tests flawlessly, then tried to order 1,000 samosas on Swiggy. This is the Maya of QA. You think you've achieved digital Moksha, but the universe just laughs & sends you a bill for 500 plates of chole bhature. #SamsaraOfSelenium",
+    "hashtags": [],
+    "persona": "desi_philosopher",
+    "scheduledFor": "2025-08-23T10:19:48.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T04:48:02.941Z",
+    "qualityScore": {
+      "overall": 74,
+      "metrics": {
+        "engagement": 0.8500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.95,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "mens5u0pm9wz5eotqdq",
+    "content": "Trying to deploy code across Indian, US, and UK servers. My posture is now permanently hunched over like an uncle searching for a network bar at a sangeet, one eye on IST, one on PST, frantically refreshing like I’m trying to book a Tatkal ticket for my failed build.",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "scheduledFor": "2025-08-23T04:51:31.000Z",
+    "status": "posted",
+    "createdAt": "2025-08-23T04:49:46.297Z",
+    "qualityScore": {
+      "overall": 73,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.9,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.6
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    },
+    "postedAt": "2025-08-23T04:51:42.241Z",
+    "twitterId": "1959116311956791644",
+    "twitterUrl": "https://x.com/user/status/1959116311956791644"
   }
 ]
