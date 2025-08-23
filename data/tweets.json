@@ -1,706 +1,52 @@
 [
   {
-    "id": "men65vhmkyca8ooy4zh",
-    "content": "भारत में इथेनॉल-मुक्त पेट्रोल की मांग? ये वो लोग हैं जो पहले गाय को गाड़ी के आगे बांधकर चलाते थे, अब Supreme Court में PIL कर रहे हैं।\n\n#GobarToEthanolPipeline",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:33:56.650Z",
-    "qualityScore": {
-      "overall": 73,
-      "metrics": {
-        "engagement": 0.95,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.5,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement"
-      ]
-    }
-  },
-  {
-    "id": "men677g7xjvvhuzyzml",
-    "content": "The amount of leverage in the market is so high, I’m starting to think it’s being managed by a Punjabi wedding planner: “Just take one more loan beta, phir shaadi ke baad adjust kar lena!” #Nifty50Shadi",
+    "id": "meo6b3twghqww89jbdu",
+    "content": "Debugging code during a power cut while your mom asks if you've fixed the \"computer problem\" yet.\nLife in India: where the only thing more unpredictable than production environments is the electricity grid. #DevLife #IndianReality\n\n@narendramodi sir, can we get a",
     "hashtags": [
-      "#Nifty50Shadi"
+      "#DevLife",
+      "#IndianReality"
     ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:34:58.807Z",
+    "persona": "vibe_coder",
+    "scheduledFor": "2025-08-23T13:00:00.000Z",
+    "status": "posted",
+    "createdAt": "2025-08-23T11:25:46.916Z",
     "qualityScore": {
       "overall": 77,
       "metrics": {
-        "engagement": 1,
-        "readability": 0.49999999999999994,
-        "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.5
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📖 Simplify language for better readability",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "men67eka47wjdznmrth",
-    "content": "Our economy's new Dream 11 strategy: First, make the entire middle class play a fantasy game. Then, remove the prize money. Ab toh aadat si hai humein aise jeetne mein haarne ke.\n\n#FreeToPlayNation",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:35:08.026Z",
-    "qualityScore": {
-      "overall": 76,
-      "metrics": {
         "engagement": 0.9500000000000001,
         "readability": 0.7,
         "uniqueness": 0.8,
-        "personaAlignment": 0.8999999999999999,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "men67lo47xzj4q1ygf4",
-    "content": "The Supreme Court is now deciding what percentage of my petrol should be pure petrol and what percentage should be subsidized farmer-gifted alcohol, making my car the most confused drunk uncle at the shaadi.\n\n#SarkaariPeg",
-    "hashtags": [
-      "#SarkaariPeg"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:35:17.236Z",
-    "qualityScore": {
-      "overall": 74,
-      "metrics": {
-        "engagement": 0.85,
-        "readability": 0.49999999999999994,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.9999999999999998,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.65
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📖 Simplify language for better readability",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "men67qtg28e8p2p4djxj",
-    "content": "My ECG machine saw the family selling stake and drew a perfectly flat line. \"Finally,\" it said, \"a heartbeat I can relate to.\" #ApolloHospitals",
-    "hashtags": [
-      "#ApolloHospitals"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:35:23.908Z",
-    "qualityScore": {
-      "overall": 75,
-      "metrics": {
-        "engagement": 0.75,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.5,
-        "trendRelevance": 0.5
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement"
-      ]
-    }
-  },
-  {
-    "id": "men6920n07ws7nimz8o7",
-    "content": "Dadi saw the 'Ethanol-Free Petrol' PIL and scoffed: \"Beta, first they put desi daaru in our petrol, now they want to remove it? This country can't decide if it wants to be prohibition or promotion.\"\n\n#SupremeCourtPeg",
-    "hashtags": [
-      "#SupremeCourtPeg"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:36:25.079Z",
-    "qualityScore": {
-      "overall": 81,
-      "metrics": {
-        "engagement": 1,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.65
-      },
-      "grade": "B",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "men6a5bp3elc2igi2q9",
-    "content": "My phone after the new update looks like a government office clerk on a Monday morning - unresponsive, randomly crashing, and I have to bribe it with 5 restarts just to open WhatsApp.\n\n#TechSupportBribe",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:37:16.021Z",
-    "qualityScore": {
-      "overall": 74,
-      "metrics": {
-        "engagement": 0.85,
-        "readability": 0.49999999999999994,
-        "uniqueness": 0.9,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📖 Simplify language for better readability",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "men6kn8uute8xmi5clc",
-    "content": "The government's new ethanol policy is like an arranged marriage for street dogs: they're promising us a permanent buzz but we all know it's just recycled garbage.\n\n#SarkariDaaru",
-    "hashtags": [
-      "#SarkariDaaru"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:45:25.806Z",
-    "qualityScore": {
-      "overall": 81,
-      "metrics": {
-        "engagement": 0.9500000000000001,
-        "readability": 0.7,
-        "uniqueness": 0.9,
-        "personaAlignment": 0.8999999999999999,
-        "viralPotential": 0.5,
-        "trendRelevance": 0.65
-      },
-      "grade": "B",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement"
-      ]
-    }
-  },
-  {
-    "id": "men6ldmoy5s704ownvn",
-    "content": "Our MPs just banned online rummy while the entire stock market is a high-stakes Teen Patti game run by bulls and bears. At least the rummy apps showed you the losing cards.\n\n#SattaBazaarSeBachao",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:46:00.000Z",
-    "qualityScore": {
-      "overall": 74,
-      "metrics": {
-        "engagement": 0.9500000000000001,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7999999999999999,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "men6m932cl53g6xqc3k",
-    "content": "USA's new sanctions on Iran oil vessels are like that rishta aunty who threatens to call off the wedding because the dowry car isn't a Ferrari, but will still quietly accept the Swift Desire if no one's looking.\n\n#PetrolKiKanyadaan",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:46:40.766Z",
-    "qualityScore": {
-      "overall": 74,
-      "metrics": {
-        "engagement": 0.85,
-        "readability": 0.49999999999999994,
-        "uniqueness": 0.9,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📖 Simplify language for better readability",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "men6t61mu0lwcc736o",
-    "content": "My mutual fund portfolio is now classified as a horror genre. The only thing it's scaring away is my future.\n\n#BiWeeklyAdvice",
-    "hashtags": [
-      "#BiWeeklyAdvice"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-22T18:52:03.418Z",
-    "qualityScore": {
-      "overall": 75,
-      "metrics": {
-        "engagement": 0.85,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7999999999999999,
-        "viralPotential": 0.5,
-        "trendRelevance": 0.65
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement"
-      ]
-    }
-  },
-  {
-    "id": "menqbbm1us5wajvcpgh",
-    "content": "Indian parents will spend 25 lakhs on an engineering degree so their kid can spend 2 hours every day explaining to them that the \"forwarded as received\" video is not real.\n\n#BetaBeepCart",
-    "hashtags": [
-      "#BetaBeepCart"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "posted",
-    "createdAt": "2025-08-23T03:58:03.145Z",
-    "qualityScore": {
-      "overall": 77,
-      "metrics": {
-        "engagement": 0.85,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.65
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    },
-    "scheduledFor": "2025-08-23T04:05:00.000Z",
-    "postedAt": "2025-08-23T04:07:51.253Z",
-    "twitterId": "1959105277460148461",
-    "twitterUrl": "https://x.com/user/status/1959105277460148461"
-  },
-  {
-    "id": "menqs29vhm4dyh1qvvm",
-    "content": "20-year Japanese bond yields rising after 25 years? That's not inflation, that's just karma for my chacha who took a \"long-term view\" on his LIC policy in 1999 and still can't find the receipt.\n\nThe yield is his maya. The policy is his maya. His promise to buy me a bicycle is de…",
-    "hashtags": [],
-    "persona": "desi_philosopher",
-    "status": "failed",
-    "createdAt": "2025-08-23T04:11:04.195Z",
-    "qualityScore": {
-      "overall": 75,
-      "metrics": {
-        "engagement": 0.85,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    },
-    "scheduledFor": "2025-08-23T04:16:00.000Z",
-    "errorMessage": "🚫 FORBIDDEN: You are not permitted to perform this action."
-  },
-  {
-    "id": "menqsq1tbxxx386zh2k",
-    "content": "Our education system: Parents spend 20 lakhs on an engineering degree so their kid can spend 2 hours a day begging an AI chatbot not to call him \"sir\" anymore.\n\n#SkillingIndia",
-    "hashtags": [
-      "#SkillingIndia"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-23T04:11:35.009Z",
-    "qualityScore": {
-      "overall": 82,
-      "metrics": {
-        "engagement": 1,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.5,
-        "trendRelevance": 0.65
-      },
-      "grade": "B",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement"
-      ]
-    }
-  },
-  {
-    "id": "menr8vq6govjz99ur4t",
-    "content": "They say procrastination is maya, an illusion of choice. So tomorrow I shall attain moksha from this Excel sheet. Until then, my dharma is to rewatch that 7-hour video on \"How to be productive.\" The wheel of samsara is just a buffering symbol.",
-    "hashtags": [],
-    "persona": "desi_philosopher",
-    "status": "posted",
-    "createdAt": "2025-08-23T04:24:08.862Z",
-    "qualityScore": {
-      "overall": 72,
-      "metrics": {
-        "engagement": 0.7,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    },
-    "postedAt": "2025-08-23T04:24:14.940Z",
-    "twitterId": "1959109403426398507"
-  },
-  {
-    "id": "menrbigy0v1jevkozbd",
-    "content": "India's software engineers have coded a new dependency: their coffee must be sourced from beans blessed by a unicorn startup & brewed with water from a tanker that only arrives twice a week.\n\nIt's not an addiction, it's a locally-sourced,",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "status": "posted",
-    "createdAt": "2025-08-23T04:26:11.650Z",
-    "qualityScore": {
-      "overall": 67,
-      "metrics": {
-        "engagement": 0.75,
-        "readability": 0.49999999999999994,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7999999999999999,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.44999999999999996
-      },
-      "grade": "D",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📖 Simplify language for better readability",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    },
-    "scheduledFor": "2025-08-23T09:58:40.000Z",
-    "postedAt": "2025-08-23T04:26:59.339Z",
-    "twitterId": "1959110092693152079"
-  },
-  {
-    "id": "menrdr2jgb718dchjmw",
-    "content": "Putin demanding veto over Ukraine's security is like our neighborhood aunty demanding veto over our family WhatsApp group. \"Beta, first send me the grocery list for approval.\"\n\nIn the grand play of Maya, all empires are merely guest",
-    "hashtags": [],
-    "persona": "desi_philosopher",
-    "status": "posted",
-    "createdAt": "2025-08-23T04:27:56.107Z",
-    "qualityScore": {
-      "overall": 80,
-      "metrics": {
-        "engagement": 1,
-        "readability": 0.7,
-        "uniqueness": 0.9,
         "personaAlignment": 0.95,
         "viralPotential": 0.4,
-        "trendRelevance": 0.3
+        "trendRelevance": 0.35
       },
-      "grade": "B",
+      "grade": "C",
       "feedback": [
         "👍 Good quality tweet with strong engagement",
         "📈 Add relatable or emotional elements for shareability"
       ]
     },
-    "scheduledFor": "2025-08-23T09:59:31.000Z",
-    "postedAt": "2025-08-23T04:30:06.920Z",
-    "twitterId": "1959110879536193706"
+    "postedAt": "2025-08-23T13:14:51.541Z",
+    "twitterId": "1959242934609670589",
+    "twitterUrl": "https://x.com/user/status/1959242934609670589"
   },
   {
-    "id": "menrdyfagw9tzkuw0zj",
-    "content": "We've achieved a new level of cosmic irony: donating crypto to Ukraine while our own villages fight for 4G. This is modern *maya* – the illusion that global virtue is more real than local duty. True *moksha* is when your UPI donation goes",
-    "hashtags": [],
-    "persona": "desi_philosopher",
-    "status": "draft",
-    "createdAt": "2025-08-23T04:28:05.638Z",
-    "qualityScore": {
-      "overall": 78,
-      "metrics": {
-        "engagement": 0.9500000000000001,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menre4z7jm58axe01x",
-    "content": "The ancient rishis sought moksha from the cycle of rebirth. We just seek an option for one tank of petrol that isn't partly made from last year's sugarcane harvest. The liberation is different. The illusion is the same.\n\n#SamsaraAtThePump",
-    "hashtags": [],
-    "persona": "desi_philosopher",
-    "status": "draft",
-    "createdAt": "2025-08-23T04:28:14.131Z",
-    "qualityScore": {
-      "overall": 78,
-      "metrics": {
-        "engagement": 0.9500000000000001,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menrpy3ep2rij6nwd3",
-    "content": "Rajnath Singh ji at the ET Forum is like my uncle explaining Tinder at a family wedding: \"Beta, our defence exports are up 5x! Swipe right on Indian missiles!\" Sir, the only thing getting exported is my IT friend's job to",
-    "hashtags": [],
+    "id": "meoa7l87a0skrz9qhg",
+    "content": "*Ugh.* We Indians are the world's biggest jugaadus. We built a rocket to Mars for less than the budget of a Hollywood movie, but my food delivery app's GPS thinks my house is in the middle of the river Ganga. #TechInnovation\n\nWe'll get @narendramodi to launch a",
+    "hashtags": [
+      "#TechInnovation"
+    ],
     "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-23T04:37:25.082Z",
-    "qualityScore": {
-      "overall": 82,
-      "metrics": {
-        "engagement": 1,
-        "readability": 0.7,
-        "uniqueness": 0.9,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.44999999999999996
-      },
-      "grade": "B",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "mens3m9p4ey1h8159ks",
-    "content": "My automation script ran 1,000 tests flawlessly, then tried to order 1,000 samosas on Swiggy. This is the Maya of QA. You think you've achieved digital Moksha, but the universe just laughs & sends you a bill for 500 plates of chole bhature. #SamsaraOfSelenium",
-    "hashtags": [],
-    "persona": "desi_philosopher",
-    "scheduledFor": "2025-08-23T10:19:48.000Z",
+    "scheduledFor": "2025-08-23T08:00:00.000Z",
     "status": "scheduled",
-    "createdAt": "2025-08-23T04:48:02.941Z",
+    "createdAt": "2025-08-23T13:15:01.303Z",
     "qualityScore": {
-      "overall": 74,
+      "overall": 77,
       "metrics": {
         "engagement": 0.8500000000000001,
         "readability": 0.7,
         "uniqueness": 0.8,
-        "personaAlignment": 0.95,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "mens5u0pm9wz5eotqdq",
-    "content": "Trying to deploy code across Indian, US, and UK servers. My posture is now permanently hunched over like an uncle searching for a network bar at a sangeet, one eye on IST, one on PST, frantically refreshing like I’m trying to book a Tatkal ticket for my failed build.",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "scheduledFor": "2025-08-23T04:51:31.000Z",
-    "status": "posted",
-    "createdAt": "2025-08-23T04:49:46.297Z",
-    "qualityScore": {
-      "overall": 73,
-      "metrics": {
-        "engagement": 0.75,
-        "readability": 0.49999999999999994,
-        "uniqueness": 0.9,
         "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.6
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📖 Simplify language for better readability",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    },
-    "postedAt": "2025-08-23T04:51:42.241Z",
-    "twitterId": "1959116311956791644",
-    "twitterUrl": "https://x.com/user/status/1959116311956791644"
-  },
-  {
-    "id": "mensc1z9z0nt9j63jlp",
-    "content": "My nani's prasad distribution plan after GST on temples: \"Beta, take one laddoo. For two, pay 28% and sign an affidavit that you won't enjoy it too much.\"\n\nDream11 meanwhile seeing the new gaming bill: \"Aree, we were just playing fantasy, not actually trying to become",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-23T04:54:36.549Z",
-    "qualityScore": {
-      "overall": 78,
-      "metrics": {
-        "engagement": 0.9500000000000001,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "mensqxgn0wfly24rv19",
-    "content": "Debugging at 3 AM and my logic is as flawed as my sleep schedule.\n\nMy brain is now throwing exceptions that even Stack Overflow can't handle. I've become the *chutki* uncle who thinks \"refresh the page\" is the solution to everything.",
-    "hashtags": [],
-    "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:06:10.535Z",
-    "qualityScore": {
-      "overall": 70,
-      "metrics": {
-        "engagement": 0.85,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.44999999999999996
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menss2xy0wncvw4p0t3",
-    "content": "So the government is banning real money gaming, and now everyone’s doing the fastest digital transaction in Indian history—not to buy something, but to *escape* something.\n\nIt’s like that one friend who suddenly pays you back the 500 rupees he owed from 2017 because",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:07:04.294Z",
-    "qualityScore": {
-      "overall": 78,
-      "metrics": {
-        "engagement": 0.9500000000000001,
-        "readability": 0.49999999999999994,
-        "uniqueness": 0.9,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.6
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📖 Simplify language for better readability",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menss9vaagd6lvp1zv8",
-    "content": "AliExpress loading is the only thing in India that gets more stuck than a government job candidate whose father didn’t pay the “processing fee.”\n\nWe refresh the page like it’s our family’s legacy and the only thing that arrives is another year of disappointment.",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:07:13.270Z",
-    "qualityScore": {
-      "overall": 78,
-      "metrics": {
-        "engagement": 0.9500000000000001,
-        "readability": 0.49999999999999994,
-        "uniqueness": 0.9,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.44999999999999996
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📖 Simplify language for better readability",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menssglly0q60ycsm4j",
-    "content": "Of course. Here is a brutal, hilarious tweet in the requested style:\n\nHarvard says the alien spy object might be a nuclear ship. Explains a lot. Probably came to study how a billion people can be governed by a website that crashes on voter registration day.\n\nLeft",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:07:21.993Z",
-    "qualityScore": {
-      "overall": 64,
-      "metrics": {
-        "engagement": 0.6,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.6499999999999999,
-        "viralPotential": 0.55,
-        "trendRelevance": 0.3
-      },
-      "grade": "D",
-      "feedback": [
-        "⚠️ Needs work to increase impact"
-      ]
-    }
-  },
-  {
-    "id": "mentjlvugn5z383btts",
-    "content": "Swiggy’s ‘Live Order Tracking’ isn’t for your patience—it’s to stop you from calling the delivery partner 6 times. It’s a masterclass in preemptive anxiety relief, the Indian version of “Are we there yet?” solved by a moving dot.\n\n#ProductDesign #JugaadTech",
-    "hashtags": [
-      "#ProductDesign",
-      "#JugaadTech"
-    ],
-    "persona": "product_sage",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:28:28.554Z",
-    "qualityScore": {
-      "overall": 75,
-      "metrics": {
-        "engagement": 1,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7,
         "viralPotential": 0.4,
         "trendRelevance": 0.65
       },
@@ -712,21 +58,24 @@
     }
   },
   {
-    "id": "mentl84838bfzql1xpl",
-    "content": "Our MPs are having a \"heated clash\" over SIR like aunties fighting over the last piece of chicken at a wedding buffet. Meanwhile, the govt's dropping 3 new bills like a rich uncle showing up with 3 new cars...we don't know what they do, we can't afford them, but we're",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:29:44.025Z",
+    "id": "meoa7pu4uvsa4hb55rg",
+    "content": "My code's dependency tree now has more Aadhaar-linked validations than a government subsidy scheme. @UIDAI, can you verify why my `npm install` needs biometric authentication? #JaiScript #DigitalIndiaStruggles",
+    "hashtags": [
+      "#JaiScript"
+    ],
+    "persona": "vibe_coder",
+    "scheduledFor": "2025-08-23T09:30:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T13:15:07.276Z",
     "qualityScore": {
       "overall": 81,
       "metrics": {
-        "engagement": 0.9500000000000001,
+        "engagement": 1,
         "readability": 0.7,
-        "uniqueness": 0.9,
-        "personaAlignment": 1,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.95,
         "viralPotential": 0.4,
-        "trendRelevance": 0.44999999999999996
+        "trendRelevance": 0.8
       },
       "grade": "B",
       "feedback": [
@@ -736,563 +85,48 @@
     }
   },
   {
-    "id": "mentlh04avaxysx9ro",
-    "content": "Between Juhu & Malad for 'authentic coastal food' is like asking for spiritual enlightenment between two political rallies.\n\nYou're not finding the sea on a plate, you're finding a contractor's dream: original shoreline evicted, replaced by concrete digestive",
-    "hashtags": [],
+    "id": "meoackvivxrqgjm39d",
+    "content": "Digital India: Where your UPI payment fails because the \"network is down,\" but your uncle's forwarded conspiracy theory about @RahulGandhi meeting aliens loads instantly on 2G.\n\n#DigitalIndia #Irony",
+    "hashtags": [
+      "#DigitalIndia",
+      "#Irony"
+    ],
     "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:29:55.540Z",
+    "scheduledFor": "2025-08-23T08:00:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T13:18:54.126Z",
     "qualityScore": {
-      "overall": 76,
+      "overall": 75,
       "metrics": {
         "engagement": 0.9,
-        "readability": 0.49999999999999994,
-        "uniqueness": 0.9,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📖 Simplify language for better readability",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "mentlos8q34k7yl39fb",
-    "content": "\"We spent MONTHS to launch OATX, a meal in a box. Because what India *really* needed was another way for the rich to chew their privilege while kids sniff toxic air for breakfast.\n\nBon appétit, you climate-contributing, virtue-signaling",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:30:05.624Z",
-    "qualityScore": {
-      "overall": 80,
-      "metrics": {
-        "engagement": 1,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.44999999999999996
-      },
-      "grade": "B",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "mentxnsvhf01ubzbyw8",
-    "content": "Launch timing is the ultimate Indian wedding buffet strategy.\n\nToo early, and you're the paneer nobody touches. Too late, and you're arriving after the jalebi is finished.\n\nThe sweet spot? Right when the first round of guests is satisfied but still has appetite for",
-    "hashtags": [],
-    "persona": "product_sage",
-    "scheduledFor": "2025-08-23T06:00:00.000Z",
-    "status": "scheduled",
-    "createdAt": "2025-08-23T05:39:24.223Z",
-    "qualityScore": {
-      "overall": 74,
-      "metrics": {
-        "engagement": 1,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.44999999999999996
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "mentz0cyoqsps51n3ks",
-    "content": "Noopur's laptop has more tabs open than a chaiwala's Sunday stall. One for code, seven for \"research,\" and three permanently loading government portals that require a captcha drawn by a divine hand.\n\nIt's not a browser, it's a hope management system.\n\n#IndianDevLife",
-    "hashtags": [
-      "#IndianDevLife"
-    ],
-    "persona": "vibe_coder",
-    "status": "scheduled",
-    "createdAt": "2025-08-23T05:40:27.154Z",
-    "qualityScore": {
-      "overall": 63,
-      "metrics": {
-        "engagement": 0.65,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.15
-      },
-      "grade": "D",
-      "feedback": [
-        "⚠️ Needs work to increase impact",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    },
-    "scheduledFor": "2025-08-23T06:00:00.000Z"
-  },
-  {
-    "id": "mentz6y91inthav52vzi",
-    "content": "Putin demanding veto power over Ukraine's security is like my client asking for admin rights to our production server after one \"basic HTML change\" tutorial on YouTube.\n\nBro, you just learned to center a div. You don't get to `sudo rm -rf /*` an entire nation's",
-    "hashtags": [],
-    "persona": "vibe_coder",
-    "status": "scheduled",
-    "createdAt": "2025-08-23T05:40:35.697Z",
-    "qualityScore": {
-      "overall": 74,
-      "metrics": {
-        "engagement": 0.9500000000000001,
-        "readability": 0.7,
-        "uniqueness": 0.9,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    },
-    "scheduledFor": "2025-08-23T08:00:00.000Z"
-  },
-  {
-    "id": "menu5ee7g4ae6ssh4f",
-    "content": "My uncle heard \"diversify your portfolio\" and split his life savings between momentum, quality, and value index funds.\n\nNow his portfolio has three distinct personalities:\nOne is a rich brat showing off (momentum).\nOne is a sensible aunty judging the rich brat",
-    "hashtags": [],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:45:25.279Z",
-    "qualityScore": {
-      "overall": 72,
-      "metrics": {
-        "engagement": 0.8,
         "readability": 0.7,
         "uniqueness": 0.8,
         "personaAlignment": 0.8499999999999999,
         "viralPotential": 0.4,
-        "trendRelevance": 0.44999999999999996
+        "trendRelevance": 0.65
       },
       "grade": "C",
       "feedback": [
-        "✅ Decent tweet, room for improvement",
+        "👍 Good quality tweet with strong engagement",
         "📈 Add relatable or emotional elements for shareability"
       ]
     }
   },
   {
-    "id": "menubbfqrtfkz5m7r3e",
-    "content": "Of course. Here is a fresh, insightful tweet in the requested style.\n\n***\n\n**Tweet:**\n\nThe genius of the Joint Subreddit fundraiser for United24 isn't the charity—it's the UI. They weaponized the internet's two greatest motivators: collective outrage and the dopamine",
-    "hashtags": [],
-    "persona": "product_sage",
-    "scheduledFor": "2025-08-23T06:00:00.000Z",
-    "status": "scheduled",
-    "createdAt": "2025-08-23T05:50:01.382Z",
-    "qualityScore": {
-      "overall": 64,
-      "metrics": {
-        "engagement": 0.65,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "D",
-      "feedback": [
-        "⚠️ Needs work to increase impact",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menuboj1j9ovjpn88k8",
-    "content": "My code's spaghetti and Apollo's MD is selling shares - both are about to dump some serious legacy code on an unsuspecting market.\n\nBro, her `git stash pop` is our entire family's portfolio. #SelloffSeason",
+    "id": "meoacor8iulr97q5v1",
+    "content": "My code is more organized than my life. At least it has a `README`. #DevLife #IndianReality #RussellPetersVibes",
     "hashtags": [
-      "#SelloffSeason"
+      "#DevLife",
+      "#IndianReality"
     ],
     "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:50:18.349Z",
+    "scheduledFor": "2025-08-23T09:30:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T13:18:59.156Z",
     "qualityScore": {
-      "overall": 76,
-      "metrics": {
-        "engagement": 1,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.5,
-        "trendRelevance": 0.5
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement"
-      ]
-    }
-  },
-  {
-    "id": "menubuta7s7nhslt6n4",
-    "content": "Turns out Gaza's famine is just God testing a new cache invalidation policy where the whole region became `isCached: true` but the CDN nodes are stuck in a proxy war. Bro even tried `location.reload(true)`.\n\n#404BasicNeedsNotFound",
-    "hashtags": [],
-    "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:50:26.494Z",
-    "qualityScore": {
-      "overall": 65,
+      "overall": 73,
       "metrics": {
         "engagement": 0.7,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "D",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menuc324fxvhp3s9hnb",
-    "content": "Of course. Here we go:\n\nSo the Pixel 10 is the \"first phone with WhatsApp calling.\" In the US, it's a revolutionary feature they discovered. In India, it's the default state of existence. This isn't innovation, it's colonialism in reverse.\n\nThey spent millions in R&D",
-    "hashtags": [],
-    "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:50:37.180Z",
-    "qualityScore": {
-      "overall": 70,
-      "metrics": {
-        "engagement": 0.8500000000000001,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.44999999999999996
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menucdj9rjtgq6g3xb",
-    "content": "Got a notification from Reddit about the \"Joint Subreddit Fundraiser for Ukraine.\" Felt that familiar pressure like when prod's down and the client is waiting.\n\nMy brain's the project manager: \"We need to deploy support ASAP.\" My wallet's the legacy server: \"Best I",
-    "hashtags": [],
-    "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:50:50.757Z",
-    "qualityScore": {
-      "overall": 71,
-      "metrics": {
-        "engagement": 0.8500000000000001,
-        "readability": 0.7,
-        "uniqueness": 0.9,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menuclgtz9z4n8b7otp",
-    "content": "My cousin bhaiya studying abroad called: \"Bro this AI model understands Hinglish!\"\n\nI said \"Arre same as my code understanding my bua's instructions:\n'Beta just fix the website no, it should look... proper-shoper'\nAnd somehow I know she wants rounded corners, pastel",
-    "hashtags": [],
-    "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:51:01.037Z",
-    "qualityScore": {
-      "overall": 68,
-      "metrics": {
-        "engagement": 0.75,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.44999999999999996
-      },
-      "grade": "D",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menucv48kcis63pg03r",
-    "content": "Just saw that Vietnam’s startup ecosystem is booming and I got flashbacks to my cousin’s “rice-flour startup” idea.\n\nHe pitched it to me like: “Bro, it's like Bootstrap but for laddus. Very scalable. Very sticky. Monetization? Obviously, through aunties' WhatsApp",
-    "hashtags": [],
-    "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:51:13.544Z",
-    "qualityScore": {
-      "overall": 73,
-      "metrics": {
-        "engagement": 0.9,
-        "readability": 0.7,
-        "uniqueness": 0.9,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menud0qkvsi49iz65ag",
-    "content": "Indian gamers rushing to withdraw money from gaming apps is giving me major \"pulling data before the API gets deprecated\" vibes.\n\nGovt sending that final notice: *Your session is about to expire*",
-    "hashtags": [],
-    "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:51:20.828Z",
-    "qualityScore": {
-      "overall": 74,
-      "metrics": {
-        "engagement": 1,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.44999999999999996
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menud77hrh88s7i665",
-    "content": "Crowdfunding in India is like pushing to production on a Friday evening. You know something will break, but you hope it's not the payment gateway that asks for 18 documents just to exist.\n\n#IndianDevLife #StartupStruggles",
-    "hashtags": [
-      "#IndianDevLife"
-    ],
-    "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:51:29.213Z",
-    "qualityScore": {
-      "overall": 75,
-      "metrics": {
-        "engagement": 1,
-        "readability": 0.7,
-        "uniqueness": 0.9,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menudey7abujxrevtt",
-    "content": "Code reviews for our fundraiser are getting weird.\n\n\"Your PR to provide ambulances doesn't pass. The UX for getting shot is not intuitive.\"\n\n\"Can we A/B test the tank donation flow? Also, the specs keep changing.\"\n\nIt's the most agile project I've seen, where the",
-    "hashtags": [],
-    "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:51:39.247Z",
-    "qualityScore": {
-      "overall": 73,
-      "metrics": {
-        "engagement": 1,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menudlsdyg6udey2l9",
-    "content": "Vietnam’s startup ecosystem is getting funded faster than my local panipuri wala adopted UPI. They’re the hot new app that scales perfectly, while we’re the legacy system where every ‘jugaad’ is just a feature request for basic infrastructure. Feels like we’re",
-    "hashtags": [],
-    "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:51:48.109Z",
-    "qualityScore": {
-      "overall": 71,
-      "metrics": {
-        "engagement": 0.8500000000000001,
-        "readability": 0.7,
-        "uniqueness": 0.9,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menudse479e99005ij9",
-    "content": "You know how some production builds are so broken, even the 'Hello World' is a 404?\n\nYeah. Apparently, entire regions can get that update now.\n\n#DeploymentDisaster #TechPolitics",
-    "hashtags": [
-      "#TechPolitics"
-    ],
-    "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:51:56.668Z",
-    "qualityScore": {
-      "overall": 76,
-      "metrics": {
-        "engagement": 1,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.5,
-        "trendRelevance": 0.65
-      },
-      "grade": "C",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement"
-      ]
-    }
-  },
-  {
-    "id": "menudynawoq3oaokti",
-    "content": "Suneeta Reddy selling Apollo shares is like when my production code has a memory leak. Everyone knows there's value there, but sometimes you gotta do a strategic garbage collection run before the whole system notices.\n\n#CorporateJugaad #DebuggingThePortfolio",
-    "hashtags": [
-      "#CorporateJugaad"
-    ],
-    "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:52:04.774Z",
-    "qualityScore": {
-      "overall": 71,
-      "metrics": {
-        "engagement": 0.8,
-        "readability": 0.7,
-        "uniqueness": 0.9,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.5,
-        "trendRelevance": 0.15
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement"
-      ]
-    }
-  },
-  {
-    "id": "menue5zs4xfebv2i0oc",
-    "content": "Watched a Tracxn report on Vietnam's startup boom. It's like finding out the new guy's microservices are flawless on his first day.\n\nFirst, disbelief. Then, you check your own legacy monolithic codebase. Same feeling. Some ecosystems just got the right environment",
-    "hashtags": [],
-    "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:52:14.296Z",
-    "qualityScore": {
-      "overall": 71,
-      "metrics": {
-        "engagement": 0.8500000000000001,
-        "readability": 0.7,
-        "uniqueness": 0.9,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.3
-      },
-      "grade": "C",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "menuee357dg3z35y9m",
-    "content": "My withdrawal request from RMG apps is stuck on \"processing\" like my Jira ticket from 2020.\n\nAt this point, even my UPI has more trust issues than my client who still asks for daily status updates on a fixed-price project.\n\n#IndianDevLife",
-    "hashtags": [
-      "#IndianDevLife"
-    ],
-    "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T05:52:24.785Z",
-    "qualityScore": {
-      "overall": 68,
-      "metrics": {
-        "engagement": 0.75,
-        "readability": 0.7,
-        "uniqueness": 0.9,
-        "personaAlignment": 0.7,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.15
-      },
-      "grade": "D",
-      "feedback": [
-        "✅ Decent tweet, room for improvement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "meo1yhylh5i6mgz8oio",
-    "content": "Gadkari ji's expressway is so world-class, my Ola driver started charging 'experience fees'. By the time we reached Thane, the surge pricing included a guided tour of my own childhood trauma. #MumbaiTraffic",
-    "hashtags": [
-      "#MumbaiTraffic"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-23T09:24:00.237Z",
-    "qualityScore": {
-      "overall": 81,
-      "metrics": {
-        "engagement": 1,
-        "readability": 0.7,
-        "uniqueness": 0.8,
-        "personaAlignment": 1,
-        "viralPotential": 0.4,
-        "trendRelevance": 0.65
-      },
-      "grade": "B",
-      "feedback": [
-        "👍 Good quality tweet with strong engagement",
-        "📈 Add relatable or emotional elements for shareability"
-      ]
-    }
-  },
-  {
-    "id": "meo2h7rirrdxmdgb27",
-    "content": "Latha Venkatesh has decoded more monetary policies than the average Indian has decoded their own family’s financial lies. #RBI #IndianEconomy",
-    "hashtags": [
-      "#RBI",
-      "#IndianEconomy"
-    ],
-    "persona": "unhinged_satirist",
-    "status": "draft",
-    "createdAt": "2025-08-23T09:38:33.486Z",
-    "qualityScore": {
-      "overall": 75,
-      "metrics": {
-        "engagement": 0.75,
         "readability": 0.7,
         "uniqueness": 0.8,
         "personaAlignment": 1,
@@ -1301,52 +135,289 @@
       },
       "grade": "C",
       "feedback": [
-        "👍 Good quality tweet with strong engagement"
+        "✅ Decent tweet, room for improvement"
       ]
     }
   },
   {
-    "id": "meo2imlikl7jv4r0u2",
-    "content": "Just saw AI mapping DNA knots in seconds. Finally, a tech that can untangle my legacy code's dependency hell without a single `git blame` or a frustrated sigh. #GenomeDevOps",
+    "id": "meoacu2vt2gcd97pq2",
+    "content": "After the 5th remake of the same script this year, the @TSeriesApp team confirmed their A/B testing simply involves showing the poster to your grandmother. If she guesses the entire plot, it’s greenlit.",
+    "hashtags": [],
+    "persona": "product_sage",
+    "scheduledFor": "2025-08-23T10:00:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T13:19:06.055Z",
+    "qualityScore": {
+      "overall": 71,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.75,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "meoacyuzphltng3x44g",
+    "content": "We have flying cars in Bangalore now. Time to work? 30% battery dies. Time to file complaint? App crashes *while* taking picture of crashed flying car. @PMOIndia @rajeev_goi #InnovationHell",
     "hashtags": [
-      "#GenomeDevOps"
+      "#InnovationHell"
+    ],
+    "persona": "unhinged_satirist",
+    "scheduledFor": "2025-08-23T11:00:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T13:19:12.251Z",
+    "qualityScore": {
+      "overall": 79,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "meoad3lnuk32fp2jd1",
+    "content": "Trying to understand a new coalition's policy framework feels like inheriting a legacy codebase with no documentation and `@RahulGandhi` & `@AmitShah` as the lead devs who keep force-pushing conflicting commits. #MergeHell",
+    "hashtags": [
+      "#MergeHell"
     ],
     "persona": "vibe_coder",
-    "status": "draft",
-    "createdAt": "2025-08-23T09:39:39.366Z",
+    "scheduledFor": "2025-08-24T01:00:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T13:19:18.395Z",
+    "qualityScore": {
+      "overall": 73,
+      "metrics": {
+        "engagement": 0.85,
+        "readability": 0.35,
+        "uniqueness": 0.9,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.5
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "meoadd4vqr45uhka37n",
+    "content": "In India, we don't have traffic jams. We have open-air prisons where you’re sentenced to 8 hours for a crime you didn't commit, with @PMOIndia's \"Digital India\" playing on a billboard you can't escape. #Infrastructure",
+    "hashtags": [
+      "#Infrastructure"
+    ],
+    "persona": "unhinged_satirist",
+    "scheduledFor": "2025-08-23T08:00:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T13:19:30.751Z",
     "qualityScore": {
       "overall": 75,
       "metrics": {
-        "engagement": 0.75,
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8999999999999999,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.15
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "meoadhz9chbxo2ew4gq",
+    "content": "Economic policy changes are like refactoring legacy code: someone promises it'll fix everything but breaks all your existing dependencies. And I'm just here trying to figure out my monthly budget on a dev salary.\n\n#CodingEconomics #InflationLoop",
+    "hashtags": [
+      "#CodingEconomics",
+      "#InflationLoop"
+    ],
+    "persona": "vibe_coder",
+    "scheduledFor": "2025-08-23T09:30:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T13:19:37.029Z",
+    "qualityScore": {
+      "overall": 80,
+      "metrics": {
+        "engagement": 1,
+        "readability": 0.7,
+        "uniqueness": 0.9,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0
+      },
+      "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "meoadloxuqdrin2q0ed",
+    "content": "My product team now measures success in \"collective minutes lost to pointless scrolling\". We're projecting a 300% increase this quarter. @jack would be proud. #ProductGrowthHack",
+    "hashtags": [],
+    "persona": "product_sage",
+    "scheduledFor": "2025-08-23T10:00:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T13:19:41.841Z",
+    "qualityScore": {
+      "overall": 81,
+      "metrics": {
+        "engagement": 1,
         "readability": 0.7,
         "uniqueness": 0.8,
         "personaAlignment": 1,
         "viralPotential": 0.5,
-        "trendRelevance": 0.5
+        "trendRelevance": 0.44999999999999996
       },
-      "grade": "C",
+      "grade": "B",
       "feedback": [
         "👍 Good quality tweet with strong engagement"
       ]
     }
   },
   {
-    "id": "meo2l3awms6lrz783i",
-    "content": "Launching a monetization tool and asking for feedback is like a roadside chaiwala conducting a blind taste test: \"Bhaiyya, is it too sweet? Too milky? Or just the right amount of highway dust?\"\n\n#SaaSBaba #Pricing",
-    "hashtags": [
-      "#Saba",
-      "#Pricing"
-    ],
-    "persona": "product_sage",
-    "status": "draft",
-    "createdAt": "2025-08-23T09:41:34.328Z",
+    "id": "meoadr79e77uzxbmepk",
+    "content": "*[@Paytm](https://twitter.com/Paytm)'s new 'UPI on the Moon' feature finally lets me pay the chaiwala @Mars. Only 17% transaction fails, which is better than my local Kirana store. @ISRO's lander just sent a ‘Please try again later’ notification from the lunar south",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "scheduledFor": "2025-08-23T11:00:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T13:19:48.981Z",
     "qualityScore": {
-      "overall": 76,
+      "overall": 69,
+      "metrics": {
+        "engagement": 0.65,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.8999999999999999,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.4
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "meoadwdoqkyb1nu014",
+    "content": "Just refactored a legacy system. Now my PM wants to revert the commit cuz one user complained.\n\nMe explaining it's for the best in the long run:\n\nMy PM: \"Beta, log kya kahenge?\"\n\nThis isn't version control, it's Indian politics. Everyone's a stakeholder, nobody's",
+    "hashtags": [],
+    "persona": "vibe_coder",
+    "scheduledFor": "2025-08-24T01:00:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T13:19:55.692Z",
+    "qualityScore": {
+      "overall": 77,
+      "metrics": {
+        "engagement": 0.9,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.95,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.6
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "meoaehfdvisyep95b3",
+    "content": "Why is every Indian wedding a hostage situation where the ransom is a plate of dry biryani and a 3-hour speech by an uncle who just discovered @SriSri? #BigFatIndianWedding",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "scheduledFor": "2025-08-23T08:00:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T13:20:22.969Z",
+    "qualityScore": {
+      "overall": 81,
       "metrics": {
         "engagement": 1,
         "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.5,
+        "trendRelevance": 0.44999999999999996
+      },
+      "grade": "B",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement"
+      ]
+    }
+  },
+  {
+    "id": "meoaemmf6g7plunrprf",
+    "content": "Merging my code's `feature/chaos` branch feels smoother than getting 20 regional parties to agree on a commit message before a deployment deadline. #CoalitionCoding\n\n@yadavakhilesh @mkstalin @ArvindKejriwal, y'all need a better version control system.",
+    "hashtags": [
+      "#CoalitionCoding"
+    ],
+    "persona": "vibe_coder",
+    "scheduledFor": "2025-08-23T09:30:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T13:20:29.703Z",
+    "qualityScore": {
+      "overall": 68,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0
+      },
+      "grade": "D",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📖 Simplify language for better readability",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "meoaer7m3dwr04qu0nu",
+    "content": "The government's new e-signature feature requires 17 biometric verifications and a notarized PDF just to approve a birthday card.\n\nMakes every decision feel like passing a constitutional amendment. #ProductHumor",
+    "hashtags": [
+      "#ProductHumor"
+    ],
+    "persona": "product_sage",
+    "scheduledFor": "2025-08-23T10:00:00.000Z",
+    "status": "scheduled",
+    "createdAt": "2025-08-23T13:20:35.650Z",
+    "qualityScore": {
+      "overall": 76,
+      "metrics": {
+        "engagement": 0.75,
+        "readability": 0.7,
         "uniqueness": 0.9,
-        "personaAlignment": 0.7,
+        "personaAlignment": 1,
         "viralPotential": 0.4,
         "trendRelevance": 0.5
       },

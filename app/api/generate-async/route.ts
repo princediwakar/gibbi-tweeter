@@ -25,8 +25,8 @@ export async function GET(request: NextRequest) {
     
     logIST(`📊 Current pipeline: ${pendingTweets.length} pending tweets`);
 
-    // Only generate if pipeline is low
-    if (pendingTweets.length >= 4) {
+    // Only generate if pipeline is low (production-ready threshold)
+    if (pendingTweets.length >= 15) {
       return NextResponse.json({
         success: true,
         message: `✅ Pipeline is healthy with ${pendingTweets.length} tweets. No generation needed.`,
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
 
     // Create job ID
     const jobId = `gen_${Date.now()}`;
-    const tweetsToGenerate = Math.min(3, 6 - pendingTweets.length);
+    const tweetsToGenerate = Math.min(5, 20 - pendingTweets.length); // Generate 5 at a time for production
     
     // Start job tracking
     activeJobs.set(jobId, { status: 'running', generated: 0, total: tweetsToGenerate, errors: [] });
@@ -113,27 +113,24 @@ async function backgroundGeneration(jobId: string, tweetsToGenerate: number, now
       });
 
       if (nextSlots.length > i) {
-        // Use slot today
+        // Use slot today - create IST time then convert to UTC for storage
         const timeSlot = nextSlots[i];
-        // Create IST time properly using timezone utilities
-        const scheduledIST = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 
-                                     timeSlot.hour, timeSlot.minute, 0, 0);
-        // Convert IST to UTC using proper timezone conversion
-        const utcOffset = scheduledIST.getTimezoneOffset() * 60000; // Get local timezone offset
-        const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
-        scheduledFor = new Date(scheduledIST.getTime() - utcOffset - istOffset);
+        scheduledFor = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 
+                               timeSlot.hour, timeSlot.minute, 0, 0);
+        // Convert IST to UTC for consistent storage: subtract 5.5 hours
+        scheduledFor = new Date(scheduledFor.getTime() - (5.5 * 60 * 60 * 1000));
       } else {
-        // Schedule for tomorrow
-        const tomorrow = new Date(now);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const timeSlot = OPTIMAL_POSTING_TIMES[i % OPTIMAL_POSTING_TIMES.length];
-        // Create IST time for tomorrow properly using timezone utilities
-        const scheduledIST = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(),
-                                     timeSlot.hour, timeSlot.minute, 0, 0);
-        // Convert IST to UTC using proper timezone conversion
-        const utcOffset = scheduledIST.getTimezoneOffset() * 60000; // Get local timezone offset
-        const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
-        scheduledFor = new Date(scheduledIST.getTime() - utcOffset - istOffset);
+        // Schedule for tomorrow - distribute across multiple days if needed
+        const daysAhead = Math.floor(i / OPTIMAL_POSTING_TIMES.length);
+        const slotIndex = i % OPTIMAL_POSTING_TIMES.length;
+        const targetDate = new Date(now);
+        targetDate.setDate(targetDate.getDate() + daysAhead + 1);
+        const timeSlot = OPTIMAL_POSTING_TIMES[slotIndex];
+        
+        scheduledFor = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate(),
+                               timeSlot.hour, timeSlot.minute, 0, 0);
+        // Convert IST to UTC for consistent storage: subtract 5.5 hours
+        scheduledFor = new Date(scheduledFor.getTime() - (5.5 * 60 * 60 * 1000));
       }
 
       const tweet = {
@@ -150,7 +147,9 @@ async function backgroundGeneration(jobId: string, tweetsToGenerate: number, now
       await saveTweet(tweet);
       job.generated++;
 
-      logIST(`✅ Job ${jobId}: Generated tweet ${i + 1} - ${tweet.content.substring(0, 50)}... (scheduled for ${scheduledFor.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })})`);
+      // Convert back to IST for display
+      const scheduledForIST = new Date(scheduledFor.getTime() + (5.5 * 60 * 60 * 1000));
+      logIST(`✅ Job ${jobId}: Generated tweet ${i + 1} - ${tweet.content.substring(0, 50)}... (scheduled for ${scheduledForIST.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })})`);
       
       // Small delay to avoid rate limits
       await new Promise(resolve => setTimeout(resolve, 1000));

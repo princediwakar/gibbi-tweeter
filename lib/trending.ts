@@ -583,48 +583,9 @@ export async function getTrendingTopics(persona?: string): Promise<TrendingTopic
     return cached;
   }
 
-  console.log("🚀 Attempting to fetch from multiple RSS sources...");
+  console.log(`🎯 Using static trending topics for ${persona || 'general'} (RSS feeds disabled for reliability)`);
   
-  const allTopics: TrendingTopic[] = [];
-
-  // Try Twitter RSS feeds first
-  try {
-    console.log(`🐦 Attempting Twitter RSS feeds for ${persona || 'general'}...`);
-    const twitterTopics = await fetchFromTwitterRSS(persona);
-    if (twitterTopics.length > 0) {
-      console.log(`✅ Twitter RSS successful - ${twitterTopics.length} topics`);
-      allTopics.push(...twitterTopics.slice(0, Math.floor(MAX_TOPICS / 2))); // Take half from Twitter
-    }
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.log(`⚠️ Twitter RSS failed: ${message}`);
-    await logFailure(`TwitterRSS-Main-${persona || 'general'}`, message);
-  }
-
-  // Try Reddit RSS feeds
-  try {
-    console.log(`🔴 Attempting Reddit RSS feeds for ${persona || 'general'}...`);
-    const redditTopics = await fetchFromRedditRSS(persona);
-    if (redditTopics.length > 0) {
-      console.log(`✅ Reddit RSS successful - ${redditTopics.length} topics`);
-      allTopics.push(...redditTopics.slice(0, MAX_TOPICS - allTopics.length)); // Fill remaining slots
-    }
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.log(`⚠️ Reddit RSS failed: ${message}`);
-    await logFailure(`RedditRSS-Main-${persona || 'general'}`, message);
-  }
-
-  // If we got some topics from either source, use them
-  if (allTopics.length > 0) {
-    console.log(`✅ Combined RSS successful - ${allTopics.length} topics from multiple sources for ${persona || 'general'}`);
-    console.log(`📊 Sample topics:`, allTopics.slice(0, 3).map(t => `${t.title} (${t.category})`));
-    setCachedTrends(allTopics, persona);
-    return allTopics;
-  }
-
-  // Final fallback: Static topics
-  console.log(`📋 All RSS sources failed for ${persona || 'general'}, using static fallback topics`);
+  // Use static topics directly for maximum reliability
   const staticTopics = getStaticFallbackTopics();
   setCachedTrends(staticTopics, persona);
   return staticTopics;
