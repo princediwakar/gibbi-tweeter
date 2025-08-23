@@ -11,7 +11,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const now = toIST(new Date());
+    const serverUTC = new Date();
+    const now = new Date(serverUTC.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
     const currentTime = now.getHours() * 60 + now.getMinutes();
     
     logIST(`🔍 Checking for tweets ready to post at ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')} IST`);
@@ -23,7 +24,8 @@ export async function GET(request: NextRequest) {
     const readyTweets = allTweets.filter(tweet => {
       if (tweet.status !== 'scheduled' || !tweet.scheduledFor) return false;
       
-      const scheduledTime = toIST(new Date(tweet.scheduledFor));
+      const scheduledUTC = new Date(tweet.scheduledFor);
+      const scheduledTime = new Date(scheduledUTC.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
       const scheduledMinutes = scheduledTime.getHours() * 60 + scheduledTime.getMinutes();
       
       // Check if tweet is scheduled for within ±7 minutes of current time
@@ -69,7 +71,7 @@ export async function GET(request: NextRequest) {
 
     const response = {
       success: true,
-      timestamp: now.toISOString(),
+      timestamp: serverUTC.toISOString(),
       currentTime: `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')} IST`,
       found: readyTweets.length,
       posted: postedCount,
