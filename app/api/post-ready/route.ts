@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllTweets, saveTweet } from '@/lib/db';
+import { getAllTweets, saveTweet } from '@/lib/supabase';
 import { postToTwitter } from '@/lib/twitter';
 import { logIST, toIST } from '@/lib/timezone';
 
@@ -22,9 +22,9 @@ export async function GET(request: NextRequest) {
     
     // Find tweets ready to post (scheduled within 15-minute window)
     const readyTweets = allTweets.filter(tweet => {
-      if (tweet.status !== 'scheduled' || !tweet.scheduledFor) return false;
+      if (tweet.status !== 'scheduled' || !tweet.scheduled_for) return false;
       
-      const scheduledUTC = new Date(tweet.scheduledFor);
+      const scheduledUTC = new Date(tweet.scheduled_for);
       const scheduledTime = new Date(scheduledUTC.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
       const scheduledMinutes = scheduledTime.getHours() * 60 + scheduledTime.getMinutes();
       
@@ -46,12 +46,15 @@ export async function GET(request: NextRequest) {
         const result = await postToTwitter(tweet.content, tweet.hashtags);
         
         // Update tweet status
-        tweet.status = 'posted';
-        tweet.postedAt = new Date();
-        tweet.twitterId = result.data.id;
-        tweet.twitterUrl = `https://x.com/user/status/${result.data.id}`;
+        const updatedTweet = {
+          ...tweet,
+          status: 'posted' as const,
+          postedAt: new Date().toISOString(),
+          twitterId: result.data.id,
+          twitterUrl: `https://x.com/user/status/${result.data.id}`
+        };
         
-        await saveTweet(tweet);
+        await saveTweet(updatedTweet);
         postedCount++;
         
         logIST(`✅ Successfully posted tweet ${tweet.id} - Twitter ID: ${result.data.id}`);
@@ -61,9 +64,12 @@ export async function GET(request: NextRequest) {
         logIST(`❌ Failed to post tweet ${tweet.id}: ${errorMsg}`);
         
         // Mark tweet as failed
-        tweet.status = 'failed';
-        tweet.errorMessage = errorMsg;
-        await saveTweet(tweet);
+        const failedTweet = {
+          ...tweet,
+          status: 'failed' as const,
+          errorMessage: errorMsg
+        };
+        await saveTweet(failedTweet);
         
         errors.push(`Tweet ${tweet.id}: ${errorMsg}`);
       }

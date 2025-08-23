@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateTweet, TweetGenerationOptions } from '@/lib/openai';
-import { getAllTweets, saveTweet, generateTweetId } from '@/lib/db';
+import { getAllTweets, saveTweet, generateTweetId } from '@/lib/supabase';
 import { calculateQualityScore } from '@/lib/quality-scorer';
 import { logIST, toIST } from '@/lib/timezone';
 import { OPTIMAL_POSTING_TIMES } from '@/lib/timing';
@@ -70,9 +70,9 @@ export async function GET(request: NextRequest) {
       
       // Get all existing scheduled times to avoid conflicts
       const existingSchedules = allTweets
-        .filter(t => t.status === 'scheduled' && t.scheduledFor)
+        .filter(t => t.status === 'scheduled' && t.scheduled_for)
         .map(t => {
-          const utcDate = new Date(t.scheduledFor);
+          const utcDate = new Date(t.scheduled_for);
           const istDate = new Date(utcDate.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
           return istDate.getHours() * 60 + istDate.getMinutes();
         });
@@ -109,9 +109,9 @@ export async function GET(request: NextRequest) {
         
         // Check tomorrow's slots against existing schedules
         const tomorrowExistingSchedules = allTweets
-          .filter(t => t.status === 'scheduled' && t.scheduledFor)
+          .filter(t => t.status === 'scheduled' && t.scheduled_for)
           .map(t => {
-            const utcDate = new Date(t.scheduledFor);
+            const utcDate = new Date(t.scheduled_for);
             const istDate = new Date(utcDate.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
             // Check if it's tomorrow
             if (istDate.getDate() === tomorrowStart.getDate() && istDate.getMonth() === tomorrowStart.getMonth()) {
@@ -142,9 +142,9 @@ export async function GET(request: NextRequest) {
         content: generatedTweet.content,
         hashtags: generatedTweet.hashtags,
         persona,
-        scheduledFor,
+        scheduledFor: scheduledFor.toISOString(),
         status: 'scheduled' as const,
-        createdAt: new Date(),
+        createdAt: new Date().toISOString(),
         qualityScore,
       };
 

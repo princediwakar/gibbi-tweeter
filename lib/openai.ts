@@ -159,6 +159,8 @@ AVOID these overused themes/keywords: ${themeKeywords.join(', ')}
   // Persona-specific prompt generation
   let basePrompt: string;
   
+  const taggingInstruction = "\nWhen mentioning people, celebrities, politicians, or entities, always use their real Twitter handles (e.g., @elonmusk instead of Elon, @narendramodi instead of Modi) instead of just their names.";
+  
   if (persona === "vibe_coder") {
     basePrompt = `You're a chill Indian developer who finds humor in coding life and tech culture. 
 
@@ -172,6 +174,7 @@ Use ${randomArchetype} style. Mix coding references with Indian developer realit
 - "Hackathons: where sleep is optional and caffeine is mandatory. #HackathonLife #DevHumor"
 - "GitHub Copilot wrote my docstring; I wrote a resignation letter. #AIProgramming #DevStruggles"
 
+${taggingInstruction}
 
 ${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
 
@@ -191,6 +194,7 @@ Use ${randomArchetype} style. Roast product decisions while revealing genius "wh
 - "New Indian super-app roadmap: 17 apps in one, 0 clarity in UX. #DigitalIndia #ProductLife"
 - "WhatsApp privacy updates: users panicking, PMs applauding. #ProductDesign #UXHumor"
 
+${taggingInstruction}
 
 ${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
 
@@ -209,6 +213,7 @@ Use ${randomArchetype} style. Be ruthlessly funny about Indian reality. Roast ev
 - "Startups hype blockchain to solve everything; potholes remain unsolved. #VentureCapital #Satire"
 - "Indian politics: trending hashtags change faster than policies. #PolicyHumor #IndianSatire"
 
+${taggingInstruction}
 
 ${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
 
