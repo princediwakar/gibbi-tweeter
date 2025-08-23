@@ -15,13 +15,13 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Use proper IST calculation
+    // Use reliable IST calculation
     const serverUTC = new Date();
-    const istTime = new Date(serverUTC.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const istTime = new Date(serverUTC.getTime() + (5.5 * 60 * 60 * 1000));
     
     logIST(`🎯 Async generation check...`);
     logIST(`🕐 Server UTC: ${serverUTC.toISOString()}`);
-    logIST(`🕐 IST Time: ${istTime.toLocaleString('en-IN')} (${istTime.getHours()}:${istTime.getMinutes()})`);
+    logIST(`🕐 IST Time: ${istTime.getFullYear()}-${(istTime.getMonth()+1).toString().padStart(2,'0')}-${istTime.getDate().toString().padStart(2,'0')} ${istTime.getHours()}:${istTime.getMinutes().toString().padStart(2,'0')}`);
 
     // Get current tweet pipeline
     const allTweets = await getAllTweets();
@@ -87,17 +87,20 @@ export async function GET(request: NextRequest) {
         logIST(`   IST time: ${istSlotTime.toLocaleString('en-IN')}`);
         logIST(`   UTC time: ${scheduledFor.toISOString()}`);
       } else {
-        // Schedule for tomorrow morning
-        logIST(`📅 No slots left today, using tomorrow morning`);
-        const tomorrow = new Date(istTime);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const firstSlot = OPTIMAL_POSTING_TIMES[0];
+        // Schedule for tomorrow morning - always use first slot (8:00 AM)
+        logIST(`📅 No slots left today, using tomorrow 8:00 AM`);
+        const tomorrow = new Date(istTime.getTime() + (24 * 60 * 60 * 1000)); // Add 24 hours
+        const firstSlot = OPTIMAL_POSTING_TIMES[0]; // Always 8:00 AM
         
+        logIST(`   Tomorrow date: ${tomorrow.getFullYear()}-${(tomorrow.getMonth()+1).toString().padStart(2,'0')}-${tomorrow.getDate().toString().padStart(2,'0')}`);
+        logIST(`   Using slot: ${firstSlot.hour}:${firstSlot.minute.toString().padStart(2,'0')}`);
+        
+        // Create tomorrow 8:00 AM IST time
         const tomorrowIstTime = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(),
                                firstSlot.hour, firstSlot.minute, 0, 0);
         scheduledFor = new Date(tomorrowIstTime.getTime() - (5.5 * 60 * 60 * 1000)); // IST to UTC
         
-        logIST(`   Tomorrow IST: ${tomorrowIstTime.toLocaleString('en-IN')}`);
+        logIST(`   Tomorrow IST: ${tomorrowIstTime.getFullYear()}-${(tomorrowIstTime.getMonth()+1).toString().padStart(2,'0')}-${tomorrowIstTime.getDate().toString().padStart(2,'0')} ${tomorrowIstTime.getHours()}:${tomorrowIstTime.getMinutes().toString().padStart(2,'0')}`);
         logIST(`   Tomorrow UTC: ${scheduledFor.toISOString()}`);
       }
 
