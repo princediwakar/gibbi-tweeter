@@ -115,19 +115,25 @@ async function backgroundGeneration(jobId: string, tweetsToGenerate: number, now
       if (nextSlots.length > i) {
         // Use slot today
         const timeSlot = nextSlots[i];
+        // Create IST time properly using timezone utilities
         const scheduledIST = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 
                                      timeSlot.hour, timeSlot.minute, 0, 0);
-        const utcTime = scheduledIST.getTime() - (5.5 * 60 * 60 * 1000);
-        scheduledFor = new Date(utcTime);
+        // Convert IST to UTC using proper timezone conversion
+        const utcOffset = scheduledIST.getTimezoneOffset() * 60000; // Get local timezone offset
+        const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
+        scheduledFor = new Date(scheduledIST.getTime() - utcOffset - istOffset);
       } else {
         // Schedule for tomorrow
         const tomorrow = new Date(now);
         tomorrow.setDate(tomorrow.getDate() + 1);
         const timeSlot = OPTIMAL_POSTING_TIMES[i % OPTIMAL_POSTING_TIMES.length];
+        // Create IST time for tomorrow properly using timezone utilities
         const scheduledIST = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(),
                                      timeSlot.hour, timeSlot.minute, 0, 0);
-        const utcTime = scheduledIST.getTime() - (5.5 * 60 * 60 * 1000);
-        scheduledFor = new Date(utcTime);
+        // Convert IST to UTC using proper timezone conversion
+        const utcOffset = scheduledIST.getTimezoneOffset() * 60000; // Get local timezone offset
+        const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
+        scheduledFor = new Date(scheduledIST.getTime() - utcOffset - istOffset);
       }
 
       const tweet = {
