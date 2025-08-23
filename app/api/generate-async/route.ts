@@ -15,9 +15,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Use reliable IST calculation
+    // Use built-in timezone conversion for IST
     const serverUTC = new Date();
-    const istTime = new Date(serverUTC.getTime() + (5.5 * 60 * 60 * 1000));
+    const istTimeStr = serverUTC.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+    const istTime = new Date(istTimeStr);
     
     logIST(`🎯 Async generation check...`);
     logIST(`🕐 Server UTC: ${serverUTC.toISOString()}`);
