@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
 
     // Create job ID
     const jobId = `gen_${Date.now()}`;
-    const tweetsToGenerate = Math.min(5, 20 - pendingTweets.length); // Generate 5 at a time for production
+    const tweetsToGenerate = Math.min(3, 20 - pendingTweets.length); // Generate 3 at a time to avoid timeouts
     
     // Start job tracking
     activeJobs.set(jobId, { status: 'running', generated: 0, total: tweetsToGenerate, errors: [] });
@@ -100,7 +100,11 @@ async function backgroundGeneration(jobId: string, tweetsToGenerate: number, now
 
       logIST(`📝 Job ${jobId}: Generating tweet ${i + 1}/${tweetsToGenerate} with ${persona}...`);
 
-      const generatedTweet = await generateTweet(options, i);
+      // Add timeout to prevent hanging (10s max per generation for Vercel)
+      const generatedTweet = await Promise.race([
+        generateTweet(options, i),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Generation timeout after 10s')), 10000))
+      ]) as Awaited<ReturnType<typeof generateTweet>>;
       const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, persona);
 
       // Find next available optimal time slot
@@ -151,8 +155,8 @@ async function backgroundGeneration(jobId: string, tweetsToGenerate: number, now
       const scheduledForIST = new Date(scheduledFor.getTime() + (5.5 * 60 * 60 * 1000));
       logIST(`✅ Job ${jobId}: Generated tweet ${i + 1} - ${tweet.content.substring(0, 50)}... (scheduled for ${scheduledForIST.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })})`);
       
-      // Small delay to avoid rate limits
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Small delay to avoid rate limits (reduced for faster completion)
+      await new Promise(resolve => setTimeout(resolve, 500));
       
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : String(error);
