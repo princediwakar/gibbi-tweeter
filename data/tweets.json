@@ -562,5 +562,126 @@
     "postedAt": "2025-08-23T04:51:42.241Z",
     "twitterId": "1959116311956791644",
     "twitterUrl": "https://x.com/user/status/1959116311956791644"
+  },
+  {
+    "id": "mensc1z9z0nt9j63jlp",
+    "content": "My nani's prasad distribution plan after GST on temples: \"Beta, take one laddoo. For two, pay 28% and sign an affidavit that you won't enjoy it too much.\"\n\nDream11 meanwhile seeing the new gaming bill: \"Aree, we were just playing fantasy, not actually trying to become",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-23T04:54:36.549Z",
+    "qualityScore": {
+      "overall": 78,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.3
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "mensqxgn0wfly24rv19",
+    "content": "Debugging at 3 AM and my logic is as flawed as my sleep schedule.\n\nMy brain is now throwing exceptions that even Stack Overflow can't handle. I've become the *chutki* uncle who thinks \"refresh the page\" is the solution to everything.",
+    "hashtags": [],
+    "persona": "vibe_coder",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:06:10.535Z",
+    "qualityScore": {
+      "overall": 70,
+      "metrics": {
+        "engagement": 0.85,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.7,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.44999999999999996
+      },
+      "grade": "C",
+      "feedback": [
+        "✅ Decent tweet, room for improvement",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menss2xy0wncvw4p0t3",
+    "content": "So the government is banning real money gaming, and now everyone’s doing the fastest digital transaction in Indian history—not to buy something, but to *escape* something.\n\nIt’s like that one friend who suddenly pays you back the 500 rupees he owed from 2017 because",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:07:04.294Z",
+    "qualityScore": {
+      "overall": 78,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.9,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.6
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📖 Simplify language for better readability",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menss9vaagd6lvp1zv8",
+    "content": "AliExpress loading is the only thing in India that gets more stuck than a government job candidate whose father didn’t pay the “processing fee.”\n\nWe refresh the page like it’s our family’s legacy and the only thing that arrives is another year of disappointment.",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:07:13.270Z",
+    "qualityScore": {
+      "overall": 78,
+      "metrics": {
+        "engagement": 0.9500000000000001,
+        "readability": 0.49999999999999994,
+        "uniqueness": 0.9,
+        "personaAlignment": 1,
+        "viralPotential": 0.4,
+        "trendRelevance": 0.44999999999999996
+      },
+      "grade": "C",
+      "feedback": [
+        "👍 Good quality tweet with strong engagement",
+        "📖 Simplify language for better readability",
+        "📈 Add relatable or emotional elements for shareability"
+      ]
+    }
+  },
+  {
+    "id": "menssglly0q60ycsm4j",
+    "content": "Of course. Here is a brutal, hilarious tweet in the requested style:\n\nHarvard says the alien spy object might be a nuclear ship. Explains a lot. Probably came to study how a billion people can be governed by a website that crashes on voter registration day.\n\nLeft",
+    "hashtags": [],
+    "persona": "unhinged_satirist",
+    "status": "draft",
+    "createdAt": "2025-08-23T05:07:21.993Z",
+    "qualityScore": {
+      "overall": 64,
+      "metrics": {
+        "engagement": 0.6,
+        "readability": 0.7,
+        "uniqueness": 0.8,
+        "personaAlignment": 0.6499999999999999,
+        "viralPotential": 0.55,
+        "trendRelevance": 0.3
+      },
+      "grade": "D",
+      "feedback": [
+        "⚠️ Needs work to increase impact"
+      ]
+    }
   }
 ]

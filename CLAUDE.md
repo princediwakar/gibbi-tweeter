@@ -35,6 +35,12 @@ This is an AI-powered tweet generation and scheduling bot built with Next.js 15,
   - Modern applications: Tech addiction, career stress, relationships
   - Tone: Wise but accessible, gentle humor with profound insights
 
+- **Vibe Coder** (💻) - Chill Indian developer sharing relatable coding life humor
+  - Relatable tech culture references and developer experiences  
+  - Mix of coding terminology with Indian cultural context
+  - Focus on debugging, Stack Overflow, coding at odd hours
+  - Tone: Relatable and witty, not cynical or bitter
+
 ### 🚀 Tweet Generation
 - Single tweet generation with custom prompts
 - Bulk generation (5-20 tweets at once)
@@ -243,7 +249,7 @@ Since Vercel's free tier allows only 1 cron job and setTimeout doesn't persist i
 - **Daily Posts**: 15 posts at optimal IST times (8AM-10PM)
 - **Smart Logic**: Posts ready tweets immediately, generates new ones when needed
 - **Optimal Timing**: Uses 15 IST time slots for maximum engagement
-- **Persona Variety**: Alternates between Satirist and Philosopher personas
+- **Persona Variety**: Rotates through 3 personas - Satirist, Philosopher, and Vibe Coder
 - **Self-Triggering**: Works in development, requires external trigger in production
 
 #### **How It Works:**
@@ -296,7 +302,7 @@ This file is designed to work with Claude Code and can be automatically updated 
 - **Twitter API Integration**: ✅ Working (confirmed with live posts)
 - **AI Tweet Generation**: ✅ Working (OpenAI integration)  
 - **Scheduling System**: ✅ Working (optimal timing implemented)
-- **Multi-Persona Support**: ✅ Working (4 personas available)
+- **Multi-Persona Support**: ✅ Working (3 personas available)
 - **Error Handling**: ✅ Robust (user-friendly guidance)
 - **Production Deployment**: ✅ Ready (Vercel configured)
 - **API Diagnostics**: ✅ Working (comprehensive testing endpoints)

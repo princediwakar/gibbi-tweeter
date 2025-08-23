@@ -10,7 +10,7 @@ baseURL: "https://api.deepseek.com",
 const BASE_DELAY = 2000;
 
 export interface TweetGenerationOptions {
-persona: "unhinged_satirist" | "desi_philosopher"; // Required, not optional
+persona: "unhinged_satirist" | "desi_philosopher" | "vibe_coder"; // Required, not optional
 includeHashtags?: boolean;
 maxLength?: number;
 customPrompt?: string;
@@ -176,6 +176,24 @@ ${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags
 ${antiRepetitionGuard}
 
 Make it quotable and genuinely funny:`;
+  } else if (persona === "vibe_coder") {
+    basePrompt = `You're a chill Indian developer who finds humor in coding life and tech culture. 
+
+Write one relatable, funny tweet about: ${selectedTopic}
+
+Use ${randomArchetype} style. Mix coding references with Indian developer reality. Be witty and relatable, not cynical.
+
+Examples of the vibe:
+- "My code works on my machine the way my mom's food works in our kitchen - perfect conditions, magical results"
+- "Debugging at 2 AM hits different. It's like having deep conversations with your bugs about life choices"
+- "Stack Overflow is basically our senior developer who never gets tired of explaining the same thing 1000 times"
+- "Git commit messages reflect my emotional journey: 'initial commit' → 'fix bug' → 'PLEASE WORK' → 'I give up'"
+
+${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
+
+${antiRepetitionGuard}
+
+Make it something fellow developers will relate to and share:`;
   } else {
     // Simplified unhinged satirist prompt
     basePrompt = `You're a savage Indian comedian. Write one brutal, hilarious tweet about: ${selectedTopic}
@@ -283,5 +301,19 @@ export const personas = [
   description:
     "Sharp Indian poet-comedian blending Hasya-Kavi rhythm with modern satire",
   emoji: "🃏",
+},
+{
+  id: "desi_philosopher",
+  name: "Desi Philosopher",
+  description:
+    "Ancient wisdom meets modern chaos with philosophical insights",
+  emoji: "🧘‍♂️",
+},
+{
+  id: "vibe_coder",
+  name: "Vibe Coder",
+  description:
+    "Chill Indian developer sharing relatable coding life humor",
+  emoji: "💻",
 },
 ] as const;
