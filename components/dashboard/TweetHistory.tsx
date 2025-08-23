@@ -158,12 +158,12 @@ export function TweetHistory({
                     <div className="space-y-1">
                       <input
                         type="datetime-local"
-                        value={toDateTimeLocal(new Date(tweet.scheduledFor))}
+                        value={toDateTimeLocal(tweet.scheduledFor)}
                         onChange={(e) => handleScheduleUpdate(tweet.id, e.target.value)}
                         className="text-xs bg-gray-800 border-gray-600 text-gray-200 rounded px-1 py-1 w-full"
                       />
                       <div className="text-xs text-gray-400 break-words">
-                        {isClient ? formatOptimalTime(new Date(tweet.scheduledFor)) : 'Loading...'}
+                        {isClient ? formatOptimalTime(tweet.scheduledFor) : 'Loading...'}
                       </div>
                     </div>
                   )}
@@ -267,12 +267,12 @@ export function TweetHistory({
                   <div className="text-xs text-gray-400">Scheduled for:</div>
                   <input
                     type="datetime-local"
-                    value={toDateTimeLocal(new Date(tweet.scheduledFor))}
+                    value={toDateTimeLocal(tweet.scheduledFor)}
                     onChange={(e) => handleScheduleUpdate(tweet.id, e.target.value)}
                     className="bg-gray-800 border-gray-600 text-gray-200 text-sm p-2 rounded w-full"
                   />
                   <div className="text-xs text-blue-400">
-                    IST: {isClient ? formatOptimalTime(new Date(tweet.scheduledFor)) : 'Loading...'}
+                    IST: {isClient ? formatOptimalTime(tweet.scheduledFor) : 'Loading...'}
                   </div>
                 </div>
               )}

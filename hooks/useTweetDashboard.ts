@@ -31,6 +31,16 @@ const BULK_GENERATION_CONFIG = {
   useTrendingTopics: true,
 };
 
+// Helper function to parse dates from API response
+function parseTweetDates(tweets: any[]): Tweet[] {
+  return tweets.map(tweet => ({
+    ...tweet,
+    scheduledFor: tweet.scheduledFor ? new Date(tweet.scheduledFor) : undefined,
+    postedAt: tweet.postedAt ? new Date(tweet.postedAt) : undefined,
+    createdAt: new Date(tweet.createdAt),
+  }));
+}
+
 export function useTweetDashboard() {
   // State
   const [tweets, setTweets] = useState<Tweet[]>([]);
@@ -73,7 +83,7 @@ export function useTweetDashboard() {
         
         // Only update state if component is still mounted
         if (isMounted) {
-          setTweets(data.data || []);
+          setTweets(parseTweetDates(data.data || []));
           setPagination({
             page: data.page || 1,
             limit: data.limit || 10,
@@ -159,7 +169,7 @@ export function useTweetDashboard() {
       
       if (response.ok) {
         const data = await response.json();
-        setLatestTweet(data.tweet);
+        setLatestTweet(parseTweetDates([data.tweet])[0]);
         toast.success('Tweet generated!');
         await fetchTweets();
       } else {
@@ -189,7 +199,7 @@ export function useTweetDashboard() {
       
       if (response.ok) {
         const data = await response.json();
-        setLatestTweet(data.tweet);
+        setLatestTweet(parseTweetDates([data.tweet])[0]);
         toast.success('Tweet generated and scheduled!');
         await fetchTweets();
       } else {
@@ -472,7 +482,7 @@ export function useTweetDashboard() {
           
           if (response.ok) {
             const data = await response.json();
-            setLatestTweet(data.tweet);
+            setLatestTweet(parseTweetDates([data.tweet])[0]);
             await fetchTweets();
           }
         } catch (error) {
