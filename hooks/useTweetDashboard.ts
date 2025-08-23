@@ -462,41 +462,41 @@ export function useTweetDashboard() {
     return () => clearInterval(interval);
   }, [fetchTweets, fetchAutoSchedulerStats]);
 
-  // Separate effect for auto-generation on mount
-  useEffect(() => {
-    if (isMounted) {
-      // Auto-generate a tweet on load to show fresh content
-      const autoGenerateOnLoad = async () => {
-        setAutoGenerating(true);
-        try {
-          const response = await fetch('/api/tweets', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              action: 'generate',
-              persona: 'unhinged_satirist',
-              includeHashtags: true,
-              useTrendingTopics: true,
-            })
-          });
-          
-          if (response.ok) {
-            const data = await response.json();
-            setLatestTweet(parseTweetDates([data.tweet])[0]);
-            await fetchTweets();
-          }
-        } catch (error) {
-          console.warn('Failed to auto-generate tweet on load:', error);
-        } finally {
-          setAutoGenerating(false);
-        }
-      };
+  // Auto-generation on mount is paused
+  // useEffect(() => {
+  //   if (isMounted) {
+  //     // Auto-generate a tweet on load to show fresh content
+  //     const autoGenerateOnLoad = async () => {
+  //       setAutoGenerating(true);
+  //       try {
+  //         const response = await fetch('/api/tweets', {
+  //           method: 'POST',
+  //           headers: { 'Content-Type': 'application/json' },
+  //           body: JSON.stringify({
+  //             action: 'generate',
+  //             persona: 'unhinged_satirist',
+  //             includeHashtags: true,
+  //             useTrendingTopics: true,
+  //           })
+  //         });
+  //         
+  //         if (response.ok) {
+  //           const data = await response.json();
+  //           setLatestTweet(parseTweetDates([data.tweet])[0]);
+  //           await fetchTweets();
+  //         }
+  //       } catch (error) {
+  //         console.warn('Failed to auto-generate tweet on load:', error);
+  //       } finally {
+  //         setAutoGenerating(false);
+  //       }
+  //     };
 
-      // Delay auto-generation slightly to ensure component is fully mounted
-      const timer = setTimeout(autoGenerateOnLoad, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [isMounted, fetchTweets]);
+  //     // Delay auto-generation slightly to ensure component is fully mounted
+  //     const timer = setTimeout(autoGenerateOnLoad, 1000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [isMounted, fetchTweets]);
 
   // Manual refresh function
   const refreshData = useCallback(async () => {

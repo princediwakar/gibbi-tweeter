@@ -107,14 +107,26 @@ export function formatDateIST(date: Date): string {
  * Format date for datetime-local input in IST
  */
 export function formatDateTimeLocalIST(date: Date): string {
-  const istDate = toIST(date);
-  const year = istDate.getFullYear();
-  const month = String(istDate.getMonth() + 1).padStart(2, '0');
-  const day = String(istDate.getDate()).padStart(2, '0');
-  const hours = String(istDate.getHours()).padStart(2, '0');
-  const minutes = String(istDate.getMinutes()).padStart(2, '0');
+  // Use the browser's built-in timezone conversion to IST
+  // This properly handles UTC dates that need to be displayed in IST
+  const formatter = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Kolkata',
+    year: 'numeric',
+    month: '2-digit', 
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  });
   
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
+  const parts = formatter.formatToParts(date);
+  const year = parts.find(part => part.type === 'year')?.value;
+  const month = parts.find(part => part.type === 'month')?.value;
+  const day = parts.find(part => part.type === 'day')?.value;
+  const hour = parts.find(part => part.type === 'hour')?.value;
+  const minute = parts.find(part => part.type === 'minute')?.value;
+  
+  return `${year}-${month}-${day}T${hour}:${minute}`;
 }
 
 /**
