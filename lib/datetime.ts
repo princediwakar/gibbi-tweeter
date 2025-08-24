@@ -10,29 +10,30 @@ import { fromZonedTime, toZonedTime, format as formatTz } from 'date-fns-tz';
 // Constants
 export const US_EASTERN_TZ = 'America/New_York';
 export const OPTIMAL_POSTING_TIMES_ET = [
-  { hour: 7, minute: 0, description: 'Early morning study prep', engagement: 'medium' },
-  { hour: 8, minute: 30, description: 'Before school/work', engagement: 'high' },
-  { hour: 10, minute: 0, description: 'Mid-morning break', engagement: 'medium' },
-  { hour: 11, minute: 30, description: 'Pre-lunch study break', engagement: 'medium' },
-  { hour: 12, minute: 30, description: 'Lunch break scrolling', engagement: 'high' },
-  { hour: 14, minute: 0, description: 'Early afternoon break', engagement: 'medium' },
-  { hour: 15, minute: 30, description: 'After school hours', engagement: 'high' },
-  { hour: 16, minute: 45, description: 'Late afternoon study time', engagement: 'medium' },
-  { hour: 18, minute: 0, description: 'Dinner time check', engagement: 'medium' },
-  { hour: 19, minute: 30, description: 'Evening study session', engagement: 'high' },
-  { hour: 20, minute: 45, description: 'Prime study time', engagement: 'high' },
-  { hour: 21, minute: 30, description: 'Night study prep', engagement: 'high' },
-  { hour: 22, minute: 15, description: 'Late night review', engagement: 'medium' },
+  { hour: 7, minute: 30, description: 'Morning challenge - before school rush', engagement: 'high' },
+  { hour: 8, minute: 45, description: 'Commute scrolling - peak viral time', engagement: 'high' },
+  { hour: 10, minute: 15, description: 'Mid-morning brain break challenge', engagement: 'medium' },
+  { hour: 11, minute: 45, description: 'Pre-lunch competitive content', engagement: 'high' },
+  { hour: 12, minute: 15, description: 'Lunch break viral content - prime sharing', engagement: 'high' },
+  { hour: 1, minute: 30, description: 'Post-lunch engagement boost', engagement: 'medium' },
+  { hour: 3, minute: 0, description: 'After-school viral peak - students online', engagement: 'high' },
+  { hour: 4, minute: 15, description: 'Peak student activity - homework procrastination', engagement: 'high' },
+  { hour: 5, minute: 45, description: 'Dinner prep downtime - quick challenges', engagement: 'medium' },
+  { hour: 7, minute: 15, description: 'Prime study break - high engagement', engagement: 'high' },
+  { hour: 8, minute: 30, description: 'Evening social media peak - maximum viral potential', engagement: 'high' },
+  { hour: 9, minute: 45, description: 'Night study session - concentration challenges', engagement: 'high' },
+  { hour: 10, minute: 30, description: 'Late night grind - dedicated students online', engagement: 'medium' },
+  { hour: 11, minute: 15, description: 'Night owl study time - final challenge of day', engagement: 'medium' },
 ] as const;
 
 export const US_STUDENT_WEEKDAY_MULTIPLIERS = {
-  0: 1.1, // Sunday - high study activity, prep for week
-  1: 1.0, // Monday - back to school/work routine
-  2: 1.1, // Tuesday - peak study engagement
-  3: 1.2, // Wednesday - mid-week motivation boost needed
-  4: 1.1, // Thursday - preparing for weekend
-  5: 0.8, // Friday - lower engagement, social plans
-  6: 0.9  // Saturday - moderate study activity
+  0: 1.3, // Sunday - peak anxiety about upcoming week, high viral sharing
+  1: 1.1, // Monday - motivation Monday, fresh start energy
+  2: 1.2, // Tuesday - peak competitive engagement, students most active
+  3: 1.4, // Wednesday - mid-week stress peak, need for distractions/challenges
+  4: 1.3, // Thursday - pre-weekend push, high engagement before Friday
+  5: 0.9, // Friday - still decent engagement, but social plans compete
+  6: 1.0  // Saturday - steady engagement, weekend study sessions
 } as const;
 
 // =============================================================================

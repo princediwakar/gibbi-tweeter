@@ -33,8 +33,8 @@ export function getOptimalPostingSchedule(count: number, startTime?: Date): Date
   return schedule;
 }
 
-// Helper function to ensure minimum spacing between posts (anti-spam protection)
-export function getSpacedPostingSchedule(count: number, minSpacingMinutes: number = 45, startTime?: Date): Date[] {
+// VIRAL CONTENT: Reduce spacing for maximum engagement waves
+export function getSpacedPostingSchedule(count: number, minSpacingMinutes: number = 25, startTime?: Date): Date[] {
   const schedule: Date[] = [];
   let currentTime = startTime || new Date();
   
@@ -98,4 +98,73 @@ export function toDateTimeLocal(date: Date): string {
 // Helper function to format date for display in user's local timezone  
 export function formatETTime(date: Date): string {
   return formatForUserDisplay(date);
+}
+
+// VIRAL CONTENT: Optimized scheduling for maximum viral engagement
+export function getViralPostingSchedule(count: number, startTime?: Date): Date[] {
+  const schedule: Date[] = [];
+  let currentTime = startTime || new Date();
+  
+  // Target only HIGH engagement slots for viral content
+  const viralSlots = [
+    { hour: 7, minute: 30 },   // Morning commute
+    { hour: 8, minute: 45 },   // Peak viral time  
+    { hour: 11, minute: 45 },  // Pre-lunch competitive
+    { hour: 12, minute: 15 },  // Lunch sharing peak
+    { hour: 15, minute: 0 },   // After-school viral peak
+    { hour: 16, minute: 15 },  // Procrastination time
+    { hour: 19, minute: 15 },  // Study break
+    { hour: 20, minute: 30 },  // Social media peak
+    { hour: 21, minute: 45 }   // Night study sessions
+  ];
+  
+  let slotIndex = 0;
+  for (let i = 0; i < count; i++) {
+    const slot = viralSlots[slotIndex % viralSlots.length];
+    
+    // Create next posting time
+    const nextPost = new Date(currentTime);
+    nextPost.setHours(slot.hour, slot.minute, 0, 0);
+    
+    // If this slot has passed today, move to tomorrow
+    if (nextPost <= currentTime) {
+      nextPost.setDate(nextPost.getDate() + 1);
+    }
+    
+    schedule.push(nextPost);
+    
+    // Move to next viral slot (20-30 minute gaps for engagement waves)
+    slotIndex++;
+    currentTime = new Date(nextPost.getTime() + (20 * 60 * 1000)); // 20 min minimum gap
+  }
+  
+  return schedule;
+}
+
+// Get the best time for specific viral content types
+export function getBestTimeForViralContent(contentType: 'challenge' | 'trap' | 'question' | 'tip'): Date {
+  const now = new Date();
+  
+  const bestTimes = {
+    challenge: [8, 15, 20], // High energy times
+    trap: [11, 16, 21],     // When students are most focused
+    question: [7, 12, 19],  // Regular engagement periods  
+    tip: [9, 13, 22]        // When people want quick wins
+  };
+  
+  const targetHours = bestTimes[contentType];
+  const currentHour = now.getHours();
+  
+  // Find next best hour
+  const nextBestHour = targetHours.find(hour => hour > currentHour) || targetHours[0];
+  
+  const nextPost = new Date(now);
+  nextPost.setHours(nextBestHour, Math.floor(Math.random() * 60), 0, 0);
+  
+  // If time has passed today, move to tomorrow
+  if (nextPost <= now) {
+    nextPost.setDate(nextPost.getDate() + 1);
+  }
+  
+  return nextPost;
 }
