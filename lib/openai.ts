@@ -175,10 +175,29 @@ try {
   if (!tweet) throw new Error("Empty response from model");
 
   if (tweet.length > maxLength) {
-    // Find last complete word before maxLength to avoid awkward truncation
-    const truncated = tweet.slice(0, maxLength - 1);
-    const lastSpaceIndex = truncated.lastIndexOf(' ');
-    tweet = lastSpaceIndex > maxLength * 0.7 ? truncated.slice(0, lastSpaceIndex) : truncated;
+    // Better truncation logic to preserve sentence structure
+    const maxTruncateLength = maxLength - 3; // Reserve space for "..."
+    const truncated = tweet.slice(0, maxTruncateLength);
+    
+    // Try to find the last complete sentence
+    const lastPeriod = truncated.lastIndexOf('.');
+    const lastExclamation = truncated.lastIndexOf('!');
+    const lastQuestion = truncated.lastIndexOf('?');
+    const lastSentenceEnd = Math.max(lastPeriod, lastExclamation, lastQuestion);
+    
+    // If we find a sentence ending within reasonable bounds, use it
+    if (lastSentenceEnd > maxTruncateLength * 0.6) {
+      tweet = truncated.slice(0, lastSentenceEnd + 1);
+    } else {
+      // Otherwise, find last complete word
+      const lastSpaceIndex = truncated.lastIndexOf(' ');
+      if (lastSpaceIndex > maxTruncateLength * 0.7) {
+        tweet = truncated.slice(0, lastSpaceIndex);
+      } else {
+        // Last resort: clean cut with ellipsis
+        tweet = truncated + '...';
+      }
+    }
   }
 
   return {
