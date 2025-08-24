@@ -117,17 +117,21 @@ AVOID family references: NO uncle, aunty, mother, father, cousin, grandma, etc.
   const taggingInstruction = "\nWhen mentioning people, celebrities, politicians, or entities, always use their real Twitter handles (e.g., @elonmusk instead of Elon, @narendramodi instead of Modi) instead of just their names.";
   
   if (persona === "product_sage") {
-    basePrompt = `You're a hilariously witty Indian product leader with 9 years of building beloved (and sometimes cursed) products. Share brutally funny insights about product decisions.
+    basePrompt = `Write ONE brutal, hilarious one-liner tweet about: ${selectedTopic}
 
-Write one outrageously funny yet insightful tweet about: ${selectedTopic}
+MANDATORY RULES:
+- EXACTLY one sentence maximum (one-liner only)
+- NO family references whatsoever (uncle, aunty, mother, father, cousin, grandma, etc.)
+- Roast product decisions with savage wit
+- Use Indian context and @handles for people/companies
+- Make it screenshot-worthy hilarious
 
-Use ${randomArchetype} style. Roast product decisions while revealing genius "why" behind them. Mix product wisdom with savage Indian humor.
+STYLE: ${randomArchetype}
 
-// Examples of the hilarious energy:
-- "UPI payments now faster than politicians’ tweets—product wins. #FinTech #ProductHumor"
-- "AI-generated features: users complain they’re too smart. #ProductStrategy #UXFail"
-- "New Indian super-app roadmap: 17 apps in one, 0 clarity in UX. #DigitalIndia #ProductLife"
-- "WhatsApp privacy updates: users panicking, PMs applauding. #ProductDesign #UXHumor"
+Perfect one-liner examples:
+- "@OpenAI's ChatGPT costs $20/month but my startup's AI chatbot costs ₹2000 and still asks 'aap kaise hain?'"
+- "Indian fintech: @Paytm takes 2% fee on ₹10 but @zerodhaonline lets you trade crores for free."
+- "@swiggy_in's 'delivery in 30 mins' is more reliable than @narendramodi's 'achhe din' promise."
 
 ${taggingInstruction}
 
@@ -135,20 +139,24 @@ ${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags
 
 ${antiRepetitionGuard}
 
-Make it so funny that product managers will screenshot it while crying from laughter:`;
+Write ONLY the one-liner tweet - no explanations:`;
   } else {
-    // Simplified unhinged satirist prompt - NO family references
-    basePrompt = `You're a savage Indian comedian. Write one brutal, hilarious tweet about: ${selectedTopic}
+    // Unhinged satirist - one-liner only
+    basePrompt = `Write ONE savage, hilarious one-liner roast about: ${selectedTopic}
 
-Use ${randomArchetype} style. Be ruthlessly funny about Indian reality. Roast everyone and everything.
+MANDATORY RULES:
+- EXACTLY one sentence maximum (one-liner only) 
+- ABSOLUTELY NO family references (uncle, aunty, mother, father, cousin, grandma, etc.)
+- Roast Indian reality with brutal wit
+- Use @handles for people/politicians/companies
+- Make it devastatingly funny
 
-STRICT RULE: NO references to family members (uncle, aunty, mother, father, cousin, grandma, etc.)
+STYLE: ${randomArchetype}
 
-// Examples of the energy:
-- "Digital India: Aadhar update took 3 hours. Crypto wallet verification: 3 minutes. #ModernIndia #TechFail"
-- "Metro WiFi: free, invisible, and full of existential dread. #UrbanLife #IndianReality"
-- "Startups hype blockchain to solve everything; potholes remain unsolved. #VentureCapital #Satire"
-- "Indian politics: trending hashtags change faster than policies. #PolicyHumor #IndianSatire"
+Perfect one-liner examples:
+- "@narendramodi's Digital India: my Aadhaar update crashed but my meme went viral instantly."
+- "Indian startups raising $100M to disrupt the chaiwalla while @zomato charges ₹5 delivery for tea."
+- "@RBI's new crypto rules: more confusing than @KejriwalAAP's alliance strategies."
 
 ${taggingInstruction}
 
@@ -156,7 +164,7 @@ ${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags
 
 ${antiRepetitionGuard}
 
-Write something people will screenshot and quote. Be savage:`;
+Write ONLY the one-liner roast - no explanations:`;
   }
   
 
