@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateTweet, TweetGenerationOptions } from '@/lib/openai';
-import { getAllTweets, saveTweet, generateTweetId } from '@/lib/db';
+import { getAllTweets, saveTweet, generateTweetId } from '@/lib/neon-db';
 import { calculateQualityScore } from '@/lib/quality-scorer';
 import { logIST, toIST } from '@/lib/timezone';
 import { OPTIMAL_POSTING_TIMES } from '@/lib/timing';
@@ -101,10 +101,10 @@ export async function GET(request: NextRequest) {
           content: generatedTweet.content,
           hashtags: generatedTweet.hashtags,
           persona,
-          scheduledFor,
+          scheduled_for: scheduledFor.toISOString(),
           status: 'scheduled' as const,
-          createdAt: new Date(),
-          qualityScore,
+          created_at: new Date().toISOString(),
+          quality_score: qualityScore,
         };
 
         await saveTweet(tweet);
@@ -135,7 +135,7 @@ export async function GET(request: NextRequest) {
         id: t.id,
         persona: t.persona,
         preview: t.content.substring(0, 80) + '...',
-        scheduledFor: t.scheduledFor
+        scheduledFor: t.scheduled_for
       })),
       message: `🚀 Generated ${generatedTweets.length} tweets. Pipeline: ${pendingTweets.length} → ${pendingTweets.length + generatedTweets.length}`,
     };

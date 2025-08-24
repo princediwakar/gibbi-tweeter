@@ -1,5 +1,5 @@
 import cron from 'node-cron';
-import { getScheduledTweets, saveTweet } from './db';
+import { getScheduledTweets, saveTweet } from './neon-db';
 import { postTweet } from './twitter';
 import { generateTweet } from './openai';
 
@@ -43,7 +43,7 @@ async function processScheduledTweets() {
         await postTweet(tweet.content);
         
         tweet.status = 'posted';
-        tweet.postedAt = new Date();
+        tweet.posted_at = new Date().toISOString();
         await saveTweet(tweet);
         
         console.log(`Successfully posted tweet ${tweet.id}`);
@@ -83,9 +83,9 @@ async function generateAndScheduleTweet() {
       content: generatedTweet.content,
       hashtags: generatedTweet.hashtags,
       persona: randomPersona.id,
-      scheduledFor,
+      scheduled_for: scheduledFor.toISOString(),
       status: 'scheduled' as const,
-      createdAt: new Date(),
+      created_at: new Date().toISOString(),
     };
 
     await saveTweet(tweet);

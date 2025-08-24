@@ -76,8 +76,6 @@ tweeter/
 ├── components/
 │   ├── ui/                        # shadcn/ui components
 │   └── TweetDashboard.tsx         # Main dashboard component
-├── data/
-│   └── tweets.json                # Tweet data storage
 └── .env.local                     # Environment variables
 ```
 

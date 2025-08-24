@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { startScheduler, stopScheduler, generateAndScheduleTweet } from '@/lib/scheduler';
-import { getScheduledTweets, saveTweet } from '@/lib/db';
+import { getScheduledTweets, saveTweet } from '@/lib/neon-db';
 import { postTweet } from '@/lib/twitter';
 
 export async function POST(request: Request) {
@@ -31,8 +31,8 @@ export async function POST(request: Request) {
             const result = await postTweet(tweet.content);
             
             tweet.status = 'posted';
-            tweet.postedAt = new Date();
-            tweet.twitterId = result.data.id;
+            tweet.posted_at = new Date().toISOString();
+            tweet.twitter_id = result.data.id;
             await saveTweet(tweet);
             
             results.push({ id: tweet.id, status: 'posted', twitterId: result.data.id });
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
             console.error(`Failed to post tweet ${tweet.id}:`, error);
             tweet.status = 'failed';
             const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-            tweet.errorMessage = errorMessage;
+            tweet.error_message = errorMessage;
             await saveTweet(tweet);
             results.push({ id: tweet.id, status: 'failed', error: errorMessage });
           }
