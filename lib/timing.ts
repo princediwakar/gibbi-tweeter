@@ -39,25 +39,32 @@ export function getSpacedPostingSchedule(count: number, minSpacingMinutes: numbe
   let currentTime = startTime || new Date();
   
   for (let i = 0; i < count; i++) {
-    const nextOptimal = getNextOptimalPostingTimeET(currentTime);
+    let nextOptimal = getNextOptimalPostingTimeET(currentTime);
     
     // Ensure minimum spacing if we have previous posts
     if (schedule.length > 0) {
       const lastPostTime = schedule[schedule.length - 1];
       const minNextTime = new Date(lastPostTime.getTime() + minSpacingMinutes * 60 * 1000);
       
-      if (nextOptimal < minNextTime) {
-        // Find the next optimal time that meets our spacing requirement
-        const spacedTime = new Date(minNextTime);
-        const nextSpacedOptimal = getNextOptimalPostingTimeET(spacedTime);
-        schedule.push(nextSpacedOptimal);
-        currentTime = new Date(nextSpacedOptimal.getTime() + 1000);
-        continue;
+      // If the next optimal time conflicts with minimum spacing, enforce spacing
+      if (nextOptimal <= minNextTime) {
+        // Use the minimum spaced time and find the next optimal slot after that
+        nextOptimal = getNextOptimalPostingTimeET(minNextTime);
+        
+        // If that still results in the same time as the last scheduled post, 
+        // add additional buffer to ensure uniqueness
+        if (nextOptimal.getTime() === lastPostTime.getTime()) {
+          const bufferedTime = new Date(minNextTime.getTime() + 60000); // Add 1 minute
+          nextOptimal = getNextOptimalPostingTimeET(bufferedTime);
+        }
       }
     }
     
     schedule.push(nextOptimal);
-    currentTime = new Date(nextOptimal.getTime() + 1000);
+    
+    // For next iteration, ensure we start from after this scheduled time
+    // Add minimum spacing plus small buffer to avoid same-time collisions
+    currentTime = new Date(nextOptimal.getTime() + (minSpacingMinutes * 60 * 1000) + 60000);
   }
   
   return schedule;

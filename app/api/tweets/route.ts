@@ -10,7 +10,6 @@ const PERSONAS = [
   { id: "sat_coach", name: "SAT Coach" },
   { id: "gre_master", name: "GRE Master" },
   { id: "gmat_pro", name: "GMAT Pro" },
-  { id: "test_prep_guru", name: "Test Prep Guru" },
 ];
 
 // Helper function to get default persona

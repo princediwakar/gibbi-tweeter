@@ -46,7 +46,6 @@ export async function GET(request: NextRequest) {
         { id: "sat_coach", name: "SAT Coach" },
         { id: "gre_master", name: "GRE Master" },
         { id: "gmat_pro", name: "GMAT Pro" },
-        { id: "test_prep_guru", name: "Test Prep Guru" },
       ];
       
       // Generate single tweet with timeout

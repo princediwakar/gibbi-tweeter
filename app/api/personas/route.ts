@@ -21,8 +21,6 @@ function getPersonaDescription(id: string): string {
       return 'Graduate school preparation expert for GRE success and academic advancement';
     case 'gmat_pro':
       return 'MBA preparation specialist for GMAT and business school applications';
-    case 'test_prep_guru':
-      return 'General study strategies and motivation expert for all standardized tests';
     default:
       return 'Educational content specialist';
   }

@@ -97,7 +97,6 @@ async function loadSources(persona?: string): Promise<Sources> {
       'sat_coach': 'sources-sat.json',
       'gre_master': 'sources-gre.json',
       'gmat_pro': 'sources-gmat.json',
-      'test_prep_guru': 'sources-testprep.json'
     };
     
     sourceFile = personaToFile[persona] || 'sources.json';

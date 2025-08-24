@@ -191,7 +191,7 @@ interface Tweet {
   id: string;
   content: string;
   hashtags: string[];
-  persona: string; // sat_coach, gre_master, gmat_pro, test_prep_guru
+  persona: string; // sat_coach, gre_master, gmat_pro
   scheduledFor?: Date;
   postedAt?: Date;
   twitterId?: string; // Twitter/X tweet ID

@@ -2,13 +2,22 @@
   "twitter": {
     "handles": [
       "@GMATofficial",
-      "@ManhattanGMAT",
-      "@KaplanGMAT",
+      "@GMATClub",
+      "@e_GMAT",
+      "@ManhattanPrep",
       "@VeritasPrep",
-      "@eGMAT",
       "@TargetTestPrep",
       "@Magoosh",
+      "@KaplanGMAT",
       "@PrincetonReview",
+      "@GMATNinja",
+      "@GMATPrepNow",
+      "@PowerScore",
+      "@BeatTheGMAT",
+      "@VinceKotcha",
+      "@GMATWhiz",
+      "@GMATInsight",
+      "@StacyBlackman",
       "@Wharton",
       "@Harvard_HBS",
       "@StanfordGSB",
@@ -46,7 +55,7 @@
       "ApplyingToMBA",
       "consulting",
       "investmentbanking",
-      "FinancialCareers", 
+      "FinancialCareers",
       "business",
       "entrepreneur",
       "startups",
@@ -55,7 +64,9 @@
       "marketing",
       "finance",
       "TestPrep",
-      "gradschool"
+      "gradschool",
+      "studytips",
+      "GetStudying"
     ]
   }
 }

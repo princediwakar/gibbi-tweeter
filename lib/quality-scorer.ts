@@ -153,13 +153,7 @@ function calculatePersonaAlignment(content: string, persona: string): number {
       if (content.match(/data sufficiency|executive|leadership|strategy/i)) score += 0.15;
       if (content.match(/💼|📊|🎯|📈/)) score += 0.05;
       break;
-    case 'test_prep_guru':
-      // General test prep content
-      if (content.match(/study|test|prep|strategy|time management/i)) score += 0.2;
-      if (content.match(/motivation|confidence|success|goal|progress/i)) score += 0.15;
-      if (content.match(/🧠|⚡|💪|🎯|📚/)) score += 0.05;
-      if (content.match(/whatsapp|instagram|facebook|social media|memes/i)) score += 0.1; // modern references
-      
+    
       // Birbal-style wisdom
       if (content.match(/like|as if|imagine|picture this/i)) score += 0.1; // metaphorical language
       if (content.match(/paradox|irony|while|yet|but|though/i)) score += 0.1; // complexity
