@@ -11,7 +11,7 @@
 1. **Create free account** at https://cron-job.org
 2. **Add new cron job** with these settings:
    - **Title:** `Gibbi Tweeter Auto-Chain`
-   - **URL:** `https://gibbi-tweeter.vercel.app/api/auto-chain`
+   - **URL:** `https://gibbi-tweeter.vercel.app/api/post-ready`
    - **Schedule:** `*/15 * * * *` (Every 15 minutes, 24/7)
    - **Method:** GET
    - **Request Headers:** 
@@ -28,7 +28,7 @@ curl -X POST https://gibbi-tweeter.vercel.app/api/tweets \
   -d '{"action": "generate", "persona": "sat_coach", "includeHashtags": true}'
 
 # Test auto-chain system (requires CRON_SECRET)
-curl -X GET https://gibbi-tweeter.vercel.app/api/auto-chain \
+curl -X GET https://gibbi-tweeter.vercel.app/api/generate-async \
   -H "Authorization: Bearer YOUR_CRON_SECRET"
 ```
 
@@ -80,13 +80,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          curl -X GET https://gibbi-tweeter.vercel.app/api/auto-chain \
+          curl -X GET https://gibbi-tweeter.vercel.app/api/post-ready \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
 ```
 
 **UptimeRobot (Free):**
 - Create HTTP monitor
-- URL: `https://gibbi-tweeter.vercel.app/api/auto-chain`
+- URL: `https://gibbi-tweeter.vercel.app/api/generate-async`
 - Interval: 5 minutes
 - Add custom header: `Authorization: Bearer YOUR_CRON_SECRET`
 

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllTweets, saveTweet } from '@/lib/neon-db';
 import { postToTwitter } from '@/lib/twitter';
-import { logWithTimezone, getCurrentTimeInET, isWithinPostingWindowET } from '@/lib/datetime';
+import { logET } from '@/lib/timezone';
 
 export async function GET(request: NextRequest) {
   try {
@@ -11,20 +11,29 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const nowET = getCurrentTimeInET();
+    const serverUTC = new Date();
+    const now = new Date(serverUTC.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const currentTime = now.getHours() * 60 + now.getMinutes();
     
-    logWithTimezone(`🔍 Checking for tweets ready to post`);
+    logET(`🔍 Checking for tweets ready to post at ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')} IST`);
 
     // Get all tweets
     const allTweets = await getAllTweets();
     
-    // Find tweets ready to post using clean ET-based logic
+    // Find tweets ready to post (scheduled within 15-minute window)
     const readyTweets = allTweets.filter(tweet => {
       if (tweet.status !== 'scheduled' || !tweet.scheduled_for) return false;
-      return isWithinPostingWindowET(new Date(tweet.scheduled_for));
+      
+      const scheduledUTC = new Date(tweet.scheduled_for);
+      const scheduledTime = new Date(scheduledUTC.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+      const scheduledMinutes = scheduledTime.getHours() * 60 + scheduledTime.getMinutes();
+      
+      // Check if tweet is scheduled for within ±7 minutes of current time
+      const timeDiff = Math.abs(currentTime - scheduledMinutes);
+      return timeDiff <= 7; // 15-minute window (±7 minutes)
     });
 
-    logWithTimezone(`📝 Found ${readyTweets.length} tweets ready to post`);
+    logET(`📝 Found ${readyTweets.length} tweets ready to post`);
 
     let postedCount = 0;
     const errors: string[] = [];
@@ -32,7 +41,7 @@ export async function GET(request: NextRequest) {
     // Post each ready tweet
     for (const tweet of readyTweets) {
       try {
-        logWithTimezone(`📤 Posting tweet: ${tweet.content.substring(0, 50)}...`);
+        logET(`📤 Posting tweet: ${tweet.content.substring(0, 50)}...`);
         
         const result = await postToTwitter(tweet.content, tweet.hashtags);
         
@@ -48,11 +57,11 @@ export async function GET(request: NextRequest) {
         await saveTweet(updatedTweet);
         postedCount++;
         
-        logWithTimezone(`✅ Successfully posted tweet ${tweet.id} - Twitter ID: ${result.data.id}`);
+        logET(`✅ Successfully posted tweet ${tweet.id} - Twitter ID: ${result.data.id}`);
         
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : String(error);
-        logWithTimezone(`❌ Failed to post tweet ${tweet.id}: ${errorMsg}`);
+        logET(`❌ Failed to post tweet ${tweet.id}: ${errorMsg}`);
         
         // Mark tweet as failed
         const failedTweet = {
@@ -68,8 +77,8 @@ export async function GET(request: NextRequest) {
 
     const response = {
       success: true,
-      timestamp: new Date().toISOString(),
-      currentTime: `${nowET.getHours()}:${nowET.getMinutes().toString().padStart(2, '0')} ET`,
+      timestamp: serverUTC.toISOString(),
+      currentTime: `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')} IST`,
       found: readyTweets.length,
       posted: postedCount,
       errors: errors.length,
@@ -79,12 +88,12 @@ export async function GET(request: NextRequest) {
         : '⏳ No tweets ready to post at this time',
     };
 
-    logWithTimezone(`📊 Posting summary: ${postedCount}/${readyTweets.length} posted, ${errors.length} errors`);
+    logET(`📊 Posting summary: ${postedCount}/${readyTweets.length} posted, ${errors.length} errors`);
     
     return NextResponse.json(response);
 
   } catch (error) {
-    logWithTimezone('❌ Post-ready check failed:', error instanceof Error ? error.message : String(error));
+    logET('❌ Post-ready check failed:', error instanceof Error ? error.message : String(error));
     
     return NextResponse.json({
       success: false,

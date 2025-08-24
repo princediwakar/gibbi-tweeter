@@ -15,15 +15,12 @@ export default function TweetDashboard() {
     latestTweet,
     selectedTweets,
     loading,
-    schedulerRunning,
-    autoSchedulerRunning,
-    autoChainRunning,
-    autoSchedulerStats,
+    // Removed scheduler state - assuming always running
     showHistory,
     generateForm,
     pagination,
     stats,
-    hasHydrated,
+    // hasHydrated, // Removed - not needed anymore
     
     // Actions
     setSelectedTweets,
@@ -37,7 +34,7 @@ export default function TweetDashboard() {
     updateTweetSchedule,
     scheduleSelectedTweets,
     deleteSelectedTweets,
-    toggleAutoScheduler,
+    // Removed toggleAutoScheduler
     shareOnX,
     refreshData,
     
@@ -52,7 +49,7 @@ export default function TweetDashboard() {
     getQualityGradeColor,
     toDateTimeLocal,
     formatOptimalTime,
-    formatISTTime,
+    formatForUserDisplay,
     getNextOptimalPostTime,
     
     // Constants
@@ -64,8 +61,6 @@ export default function TweetDashboard() {
     <div className="min-h-screen bg-gray-950 text-gray-100 p-6 flex flex-col items-center">
       <div className="w-full max-w-4xl space-y-8">
         <DashboardHeader 
-          autoSchedulerRunning={autoSchedulerRunning}
-          schedulerRunning={schedulerRunning}
           stats={stats}
           onRefresh={refreshData}
           refreshing={loading}
@@ -81,11 +76,7 @@ export default function TweetDashboard() {
         )}
 
         <AutoScheduler 
-          loading={loading}
-          autoChainRunning={hasHydrated ? autoChainRunning : false}
-          stats={autoSchedulerStats}
           nextPostTime={stats.nextPostTime ? (typeof stats.nextPostTime === 'string' ? stats.nextPostTime : stats.nextPostTime.toISOString()) : undefined}
-          onToggle={toggleAutoScheduler}
         />
 
         <ManualGeneration 
@@ -119,7 +110,7 @@ export default function TweetDashboard() {
             getQualityGradeColor={getQualityGradeColor}
             toDateTimeLocal={toDateTimeLocal}
             formatOptimalTime={formatOptimalTime}
-            formatISTTime={formatISTTime}
+            formatForUserDisplay={formatForUserDisplay}
             pagination={pagination}
             onPageChange={goToPage}
             onPageSizeChange={changePageSize}

@@ -127,8 +127,8 @@ export async function POST(request: Request) {
       const persona = data.persona || defaultPersona;
       
       // Import timing to check optimal slot limits
-      const { OPTIMAL_POSTING_TIMES } = await import('@/lib/timing');
-      const maxOptimalSlots = OPTIMAL_POSTING_TIMES.length; // 15 slots per day
+      const { OPTIMAL_POSTING_TIMES_ET } = await import('@/lib/datetime');
+      const maxOptimalSlots = OPTIMAL_POSTING_TIMES_ET.length; // 15 slots per day
       const requestedCount = data.count || 5;
       const count = Math.min(requestedCount, maxOptimalSlots);
       

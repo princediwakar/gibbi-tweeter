@@ -1,20 +1,34 @@
 import { NextResponse } from 'next/server';
+import { getPersonas } from '@/lib/openai';
 import { Persona } from '@/types/dashboard';
 
-const PERSONAS: Persona[] = [
-  {
-    id: 'unhinged_satirist',
-    name: 'Unhinged Satirist',
-    description: 'Sharp Indian satirist with cultural references, exaggeration, and absurd metaphors',
-    emoji: '🃏',
-  },
-  {
-    id: 'product_sage',
-    name: 'Product Sage',
-    description: 'Hilariously witty product leader revealing genius behind beloved product decisions',
-    emoji: '🎯',
-  },
-];
+// Convert personas from openai.ts to dashboard format
+function convertToPersonaFormat() {
+  const openaiPersonas = getPersonas();
+  return openaiPersonas.map(p => ({
+    id: p.id,
+    name: p.name,
+    description: getPersonaDescription(p.id),
+    emoji: p.emoji,
+  }));
+}
+
+function getPersonaDescription(id: string): string {
+  switch (id) {
+    case 'sat_coach':
+      return 'High school test preparation specialist focusing on SAT success strategies';
+    case 'gre_master':
+      return 'Graduate school preparation expert for GRE success and academic advancement';
+    case 'gmat_pro':
+      return 'MBA preparation specialist for GMAT and business school applications';
+    case 'test_prep_guru':
+      return 'General study strategies and motivation expert for all standardized tests';
+    default:
+      return 'Educational content specialist';
+  }
+}
+
+const PERSONAS: Persona[] = convertToPersonaFormat();
 
 export async function GET() {
   return NextResponse.json({

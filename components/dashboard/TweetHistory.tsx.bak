@@ -19,7 +19,7 @@ interface TweetHistoryProps {
   getQualityGradeColor: (grade: string) => string;
   toDateTimeLocal: (date: Date) => string;
   formatOptimalTime: (date: Date) => string;
-  formatForUserDisplay: (date: Date | string) => string;
+  formatETTime: (date: Date) => string;
   // Pagination props
   pagination?: {
     page: number;
@@ -46,7 +46,7 @@ export function TweetHistory({
   getQualityGradeColor,
   toDateTimeLocal,
   formatOptimalTime,
-  formatForUserDisplay,
+  formatETTime,
   pagination,
   onPageChange,
   onPageSizeChange,
@@ -169,7 +169,7 @@ export function TweetHistory({
                   )}
                   {tweet.status === 'posted' && tweet.postedAt && (
                     <div className="text-xs text-green-400 break-words">
-                      {isClient ? formatForUserDisplay(new Date(tweet.postedAt)) : 'Loading...'}
+                      {isClient ? formatETTime(new Date(tweet.postedAt)) : 'Loading...'}
                     </div>
                   )}
                 </TableCell>
@@ -280,7 +280,7 @@ export function TweetHistory({
               {tweet.status === 'posted' && tweet.postedAt && (
                 <div className="bg-gray-900 rounded p-3">
                   <div className="text-xs text-green-400">
-                    Posted: {isClient ? formatForUserDisplay(new Date(tweet.postedAt)) : 'Loading...'}
+                    Posted: {isClient ? formatETTime(new Date(tweet.postedAt)) : 'Loading...'}
                   </div>
                   {tweet.twitterUrl && (
                     <a 

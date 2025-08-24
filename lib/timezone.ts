@@ -1,22 +1,24 @@
-// Utility functions for consistent IST (Indian Standard Time) handling across the app
+// Utility functions for consistent US Eastern Time handling across the app
+// Focused on US student engagement times for test prep content
 
-import { OPTIMAL_POSTING_TIMES } from './timing';
+import { OPTIMAL_POSTING_TIMES_ET } from './datetime';
 
-export const IST_TIMEZONE = 'Asia/Kolkata';
+export const US_TIMEZONE = 'America/New_York'; // Eastern Time (covers EDT/EST automatically)
+export const US_TIMEZONE_PST = 'America/Los_Angeles'; // Pacific Time for West Coast
 
 /**
- * Get current date and time in IST
+ * Get current date and time in US Eastern Time
  */
-export function getCurrentIST(): Date {
+export function getCurrentET(): Date {
   return new Date();
 }
 
 /**
- * Get current date and time formatted for IST display
+ * Get current date and time formatted for US Eastern Time display
  */
-export function getCurrentISTString(): string {
-  return new Date().toLocaleString('en-IN', {
-    timeZone: IST_TIMEZONE,
+export function getCurrentETString(): string {
+  return new Date().toLocaleString('en-US', {
+    timeZone: US_TIMEZONE,
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -28,89 +30,79 @@ export function getCurrentISTString(): string {
 }
 
 /**
- * Convert any date to IST for calculations (consistent between server/client)
+ * Convert any date to US Eastern Time for calculations (consistent between server/client)
  */
-export function toIST(date: Date): Date {
-  // More reliable IST conversion - direct UTC + 5.5 hours
-  const istTime = new Date(date.getTime() + (5.5 * 60 * 60 * 1000));
-  return istTime;
+export function toET(date: Date): Date {
+  // Return the date as-is since we'll use proper timezone handling with Intl
+  // This maintains compatibility while we use proper timezone conversion elsewhere
+  return new Date(date);
 }
 
 /**
- * Get hours and minutes in IST from a date
+ * Get hours and minutes in US Eastern Time from a date
  */
-export function getISTHoursMinutes(date: Date): { hours: number; minutes: number } {
-  const istDate = toIST(date);
+export function getETHoursMinutes(date: Date): { hours: number; minutes: number } {
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: US_TIMEZONE,
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false
+  });
+  const parts = formatter.formatToParts(date);
   return {
-    hours: istDate.getHours(),
-    minutes: istDate.getMinutes()
+    hours: parseInt(parts.find(part => part.type === 'hour')?.value || '0'),
+    minutes: parseInt(parts.find(part => part.type === 'minute')?.value || '0')
   };
 }
 
 /**
- * Get day of week in IST (0 = Sunday, 1 = Monday, etc.)
+ * Get day of week in US Eastern Time (0 = Sunday, 1 = Monday, etc.)
  */
-export function getISTDayOfWeek(date: Date): number {
-  const istDate = toIST(date);
-  return istDate.getDay();
+export function getETDayOfWeek(date: Date): number {
+  const etDate = new Date(date.toLocaleString('en-US', { timeZone: US_TIMEZONE }));
+  return etDate.getDay();
 }
 
 /**
- * Create a new Date object with IST time components
+ * Create a new Date object with US Eastern Time components
  */
-export function createISTDate(year?: number, month?: number, day?: number, hours?: number, minutes?: number, seconds?: number): Date {
-  const now = toIST(new Date());
+export function createETDate(year?: number, month?: number, day?: number, hours?: number, minutes?: number, seconds?: number): Date {
+  const now = new Date();
+  const etNow = new Date(now.toLocaleString('en-US', { timeZone: US_TIMEZONE }));
   return new Date(
-    year ?? now.getFullYear(),
-    month ?? now.getMonth(),
-    day ?? now.getDate(),
-    hours ?? now.getHours(),
-    minutes ?? now.getMinutes(),
-    seconds ?? now.getSeconds()
+    year ?? etNow.getFullYear(),
+    month ?? etNow.getMonth(),
+    day ?? etNow.getDate(),
+    hours ?? etNow.getHours(),
+    minutes ?? etNow.getMinutes(),
+    seconds ?? etNow.getSeconds()
   );
 }
 
 /**
- * Format date for display in IST (client-safe to avoid hydration issues)
+ * Format date for display in US Eastern Time (client-safe to avoid hydration issues)
  */
-export function formatDateIST(date: Date): string {
-  // Use a consistent format that works the same on server and client
-  if (typeof window === 'undefined') {
-    // Server-side: Use UTC offset calculation for consistency
-    const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
-    const istTime = new Date(utcTime + (5.5 * 3600000)); // IST is UTC+5:30
-    
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    
-    const hours = istTime.getHours();
-    const minutes = istTime.getMinutes();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    const displayHours = hours % 12 || 12;
-    
-    return `${istTime.getDate()} ${months[istTime.getMonth()]} ${istTime.getFullYear()}, ${displayHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
-  } else {
-    // Client-side: Use locale string with timezone
-    return date.toLocaleString('en-IN', {
-      timeZone: IST_TIMEZONE,
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
-    });
-  }
+export function formatDateET(date: Date): string {
+  // Use consistent timezone formatting for both server and client
+  return date.toLocaleString('en-US', {
+    timeZone: US_TIMEZONE,
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
 }
 
 /**
- * Format date for datetime-local input in IST
+ * Format date for datetime-local input in US Eastern Time
  */
-export function formatDateTimeLocalIST(date: Date): string {
-  // Use the browser's built-in timezone conversion to IST
-  // This properly handles UTC dates that need to be displayed in IST
+export function formatDateTimeLocalET(date: Date): string {
+  // Use the browser's built-in timezone conversion to Eastern Time
+  // This properly handles UTC dates that need to be displayed in ET
   const formatter = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Kolkata',
+    timeZone: US_TIMEZONE,
     year: 'numeric',
     month: '2-digit', 
     day: '2-digit',
@@ -130,76 +122,60 @@ export function formatDateTimeLocalIST(date: Date): string {
 }
 
 /**
- * Get next optimal posting time in IST (returns actual IST time for display)
+ * Get next optimal posting time in US Eastern Time (returns actual ET time for display)
  */
-export function getNextOptimalPostingTimeIST(fromDate?: Date): Date {
-  const now = fromDate ? toIST(fromDate) : toIST(new Date());
-  const currentHour = now.getHours();
-  const currentMinute = now.getMinutes();
-  const currentTimeInMinutes = currentHour * 60 + currentMinute;
+export function getNextOptimalPostingTimeET(fromDate?: Date): Date {
+  const now = fromDate || new Date();
+  const etHoursMinutes = getETHoursMinutes(now);
+  const currentTimeInMinutes = etHoursMinutes.hours * 60 + etHoursMinutes.minutes;
+  
+  // Create a date in ET timezone for today
+  const etToday = new Date(now.toLocaleString('en-US', { timeZone: US_TIMEZONE }));
   
   // Find next optimal time slot today
-  for (const slot of OPTIMAL_POSTING_TIMES) {
+  for (const slot of OPTIMAL_POSTING_TIMES_ET) {
     const slotTimeInMinutes = slot.hour * 60 + slot.minute;
     if (slotTimeInMinutes > currentTimeInMinutes + 5) { // 5 minute buffer
-      // Found next slot today - return IST time directly
-      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 
-                     slot.hour, slot.minute, 0, 0);
+      // Found next slot today - create ET time
+      const nextSlot = new Date(etToday.getFullYear(), etToday.getMonth(), etToday.getDate(), 
+                               slot.hour, slot.minute, 0, 0);
+      return nextSlot;
     }
   }
   
   // No more slots today, use first slot tomorrow
-  const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-  const firstSlot = OPTIMAL_POSTING_TIMES[0];
-  return new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(),
+  const etTomorrow = new Date(etToday.getTime() + 24 * 60 * 60 * 1000);
+  const firstSlot = OPTIMAL_POSTING_TIMES_ET[0];
+  return new Date(etTomorrow.getFullYear(), etTomorrow.getMonth(), etTomorrow.getDate(),
                  firstSlot.hour, firstSlot.minute, 0, 0);
 }
 
 /**
- * Get next scheduled time in IST (legacy function for compatibility)
+ * Get next scheduled time in US Eastern Time (legacy function for compatibility)
  */
-export function getNextScheduledTimeIST(fromDate?: Date): Date {
-  return getNextOptimalPostingTimeIST(fromDate);
+export function getNextScheduledTimeET(fromDate?: Date): Date {
+  return getNextOptimalPostingTimeET(fromDate);
 }
 
 /**
- * Format exact time for next post display (more precise)
+ * Format exact time for next post display (more precise) in US Eastern Time
  */
-export function formatExactTimeIST(date: Date): string {
-  if (typeof window === 'undefined') {
-    // Server-side: Use UTC offset calculation for consistency
-    const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
-    const istTime = new Date(utcTime + (5.5 * 3600000)); // IST is UTC+5:30
-    
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    
-    const dayName = days[istTime.getDay()];
-    const hours = istTime.getHours();
-    const minutes = istTime.getMinutes();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    const displayHours = hours % 12 || 12;
-    
-    return `${dayName}, ${istTime.getDate()} ${months[istTime.getMonth()]}, ${displayHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
-  } else {
-    // Client-side: Use locale string with timezone
-    return date.toLocaleString('en-IN', {
-      timeZone: IST_TIMEZONE,
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
-    });
-  }
+export function formatExactTimeET(date: Date): string {
+  return date.toLocaleString('en-US', {
+    timeZone: US_TIMEZONE,
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  }) + ' ET';
 }
 
 /**
- * Format IST time directly (for times already in IST)
+ * Format US Eastern Time directly (for times already in ET)
  */
-export function formatISTTimeDirect(date: Date): string {
+export function formatETTimeDirect(date: Date): string {
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -210,7 +186,7 @@ export function formatISTTimeDirect(date: Date): string {
   const ampm = hours >= 12 ? 'PM' : 'AM';
   const displayHours = hours % 12 || 12;
   
-  return `${dayName}, ${date.getDate()} ${months[date.getMonth()]}, ${displayHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+  return `${dayName}, ${date.getDate()} ${months[date.getMonth()]}, ${displayHours}:${minutes.toString().padStart(2, '0')} ${ampm} ET`;
 }
 
 /**
@@ -236,9 +212,9 @@ export function getTimeUntil(futureDate: Date): string {
 }
 
 /**
- * Log with IST timestamp
+ * Log with US Eastern Time timestamp
  */
-export function logIST(message: string, ...args: unknown[]): void {
-  const timestamp = getCurrentISTString();
-  console.log(`[${timestamp} IST] ${message}`, ...args);
+export function logET(message: string, ...args: unknown[]): void {
+  const timestamp = getCurrentETString();
+  console.log(`[${timestamp} ET] ${message}`, ...args);
 }

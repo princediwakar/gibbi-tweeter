@@ -132,21 +132,32 @@ function calculateUniquenessScore(content: string): number {
 }
 
 function calculatePersonaAlignment(content: string, persona: string): number {
-  let score = 0.7; // higher baseline for poetic satirist
+  let score = 0.7; // baseline for educational content
   
   switch (persona) {
-    case 'unhinged_satirist':
-      // Hinglish and Indian cultural elements
-      if (content.match(/yaar|bhai|beta|ji|arrey|kya|hai|na|bilkul|ekdum|tension|jugaad|shaadi|ghar|mummy|papa/i)) score += 0.2; // transliterated Hindi
-      if (content.match(/india|indian|desi|bollywood|mumbai|delhi|bangalore/i)) score += 0.1;
-      if (content.match(/😂|🤣|💀|🔥|⚡/)) score += 0.05; // appropriate emojis (reduced weight)
-      
-      // Poetic devices bonus
-      if (content.match(/\b\w+ing\b.*\b\w+ing\b/)) score += 0.1; // rhyme
-      if (content.match(/\b(\w)\w*\s+\1\w*/i)) score += 0.05; // alliteration
-      
-      // Generational bridges
-      if (content.match(/dadi|nani|generation|millennial|gen z|boomer|parents/i)) score += 0.15; // generational content
+    case 'sat_coach':
+      // SAT-specific content
+      if (content.match(/sat|college|high school|admissions|scholarship/i)) score += 0.2;
+      if (content.match(/math|reading|writing|essay|score|practice/i)) score += 0.15;
+      if (content.match(/🎓|📚|✏️|📝|💯/)) score += 0.05;
+      break;
+    case 'gre_master':
+      // GRE-specific content
+      if (content.match(/gre|graduate|vocab|quant|analytical|verbal/i)) score += 0.2;
+      if (content.match(/grad school|university|masters|phd/i)) score += 0.15;
+      if (content.match(/📖|🧮|🎓|📊/)) score += 0.05;
+      break;
+    case 'gmat_pro':
+      // GMAT-specific content
+      if (content.match(/gmat|mba|business school|critical reasoning/i)) score += 0.2;
+      if (content.match(/data sufficiency|executive|leadership|strategy/i)) score += 0.15;
+      if (content.match(/💼|📊|🎯|📈/)) score += 0.05;
+      break;
+    case 'test_prep_guru':
+      // General test prep content
+      if (content.match(/study|test|prep|strategy|time management/i)) score += 0.2;
+      if (content.match(/motivation|confidence|success|goal|progress/i)) score += 0.15;
+      if (content.match(/🧠|⚡|💪|🎯|📚/)) score += 0.05;
       if (content.match(/whatsapp|instagram|facebook|social media|memes/i)) score += 0.1; // modern references
       
       // Birbal-style wisdom
@@ -187,35 +198,10 @@ function calculatePersonaAlignment(content: string, persona: string): number {
       
       break;
       
-    case 'product_sage':
-      // Product management terminology
-      if (content.match(/product|feature|user|customer|ux|ui|design|roadmap|metrics|analytics/i)) score += 0.25;
-      
-      // Business and strategy terms
-      if (content.match(/revenue|conversion|retention|engagement|growth|market|competition|strategy/i)) score += 0.15;
-      
-      // Tech products and companies
-      if (content.match(/google|facebook|meta|apple|amazon|microsoft|netflix|uber|zomato|swiggy|flipkart/i)) score += 0.2;
-      
-      // Product wisdom indicators
-      if (content.match(/psychology|behavioral|decision|trust|friction|adoption|onboarding/i)) score += 0.15;
-      
-      // Insightful emojis
-      if (content.match(/🎯|💡|🧠|📊|📈|💰|⚡|🔥|🎨|🔍/)) score += 0.1;
-      
-      // Product insights structure
-      if (content.match(/why|because|reason|insight|genius|brilliant|smart|clever/i)) score += 0.1;
-      
-      // Indian market context
-      if (content.match(/indian?|india|desi|bharat?/i)) score += 0.1;
-      
-      // Humorous wisdom tone
-      if (content.match(/actually|basically|obviously|clearly|simply|pure|classic/i)) score += 0.05;
-      
-      break;
-      
     default:
-      score = 0.7; // higher default for poetry
+      // Educational content alignment
+      if (content.match(/learn|education|knowledge|skill|improve|practice/i)) score += 0.15;
+      score = 0.7; // baseline for educational content
   }
   
   return Math.min(1, Math.max(0, score));

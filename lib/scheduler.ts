@@ -60,10 +60,12 @@ async function processScheduledTweets() {
 
 async function generateAndScheduleTweet() {
   try {
-    // Use personas directly instead of API calls
+    // Use test prep personas from openai.ts
     const personas = [
-      { id: "unhinged_satirist", name: "Unhinged Satirist" },
-      { id: "product_sage", name: "Product Sage" },
+      { id: "sat_coach", name: "SAT Coach" },
+      { id: "gre_master", name: "GRE Master" },
+      { id: "gmat_pro", name: "GMAT Pro" },
+      { id: "test_prep_guru", name: "Test Prep Guru" },
     ];
     
     const randomPersona = personas[Math.floor(Math.random() * personas.length)];

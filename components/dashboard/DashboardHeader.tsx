@@ -3,16 +3,12 @@ import { DashboardStats } from '@/types/dashboard';
 import { Button } from '@/components/ui/button';
 
 interface DashboardHeaderProps {
-  autoSchedulerRunning: boolean;
-  schedulerRunning: boolean;
   stats: DashboardStats;
   onRefresh?: () => void;
   refreshing?: boolean;
 }
 
 export function DashboardHeader({ 
-  autoSchedulerRunning, 
-  schedulerRunning, 
   stats, 
   onRefresh,
   refreshing = false 
@@ -33,11 +29,9 @@ export function DashboardHeader({
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-6 text-sm">
             <div className="flex items-center gap-2">
-              <div className={`w-3 h-3 rounded-full ${autoSchedulerRunning ? 'bg-green-500 animate-pulse' : 'bg-gray-600'}`}></div>
+              <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
               <span className="text-gray-300">Auto Scheduler</span>
-              <span className={`font-medium ${autoSchedulerRunning ? 'text-green-400' : 'text-gray-500'}`}>
-                {autoSchedulerRunning ? 'ACTIVE' : 'INACTIVE'}
-              </span>
+              <span className="font-medium text-green-400">ACTIVE</span>
             </div>
             {onRefresh && (
               <Button
@@ -54,7 +48,7 @@ export function DashboardHeader({
           </div>
           <div className="flex items-center gap-6 text-sm">
             <div className="flex items-center gap-2">
-              <div className={`w-3 h-3 rounded-full ${schedulerRunning ? 'bg-blue-500' : 'bg-gray-600'}`}></div>
+              <div className="w-3 h-3 rounded-full bg-blue-500"></div>
               <span className="text-gray-300">Scheduled Posts</span>
               <span className="font-medium text-blue-400">{stats.scheduled}</span>
             </div>

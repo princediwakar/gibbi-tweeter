@@ -167,7 +167,7 @@ vercel --prod
 ### Production Auto-Posting Setup
 1. Create account at [cron-job.org](https://cron-job.org)
 2. Configure cron job:
-   - **URL**: `https://gibbi-tweeter.vercel.app/api/auto-chain`
+   - **URL**: `https://gibbi-tweeter.vercel.app/api/post-ready`
    - **Schedule**: `*/15 * * * *` (Every 15 minutes)
    - **Headers**: `Authorization: Bearer ${CRON_SECRET}`
 

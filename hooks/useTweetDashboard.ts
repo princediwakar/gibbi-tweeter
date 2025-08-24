@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
-import { getNextOptimalPostTime, formatOptimalTime, toDateTimeLocal, formatISTTime } from '@/lib/timing';
-import { Tweet, GenerateFormState, AutoSchedulerStats, Persona } from '@/types/dashboard';
+import { getNextOptimalPostTime, formatOptimalTime, toDateTimeLocal } from '@/lib/timing';
+import { formatForUserDisplay } from '@/lib/datetime';
+import { Tweet, GenerateFormState, Persona } from '@/types/dashboard';
 
 // Personas will be fetched from API
 
@@ -12,7 +13,7 @@ const BULK_GENERATION_CONFIG = {
 };
 
 // Helper function to parse dates from API response
-function parseTweetDates(tweets: any[]): Tweet[] {
+function parseTweetDates(tweets: Tweet[]): Tweet[] {
   return tweets.map(tweet => ({
     ...tweet,
     scheduledFor: tweet.scheduledFor ? new Date(tweet.scheduledFor) : undefined,
@@ -27,11 +28,8 @@ export function useTweetDashboard() {
   const [latestTweet, setLatestTweet] = useState<Tweet | null>(null);
   const [selectedTweets, setSelectedTweets] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [schedulerRunning, setSchedulerRunning] = useState(false);
-  const [autoSchedulerRunning, setAutoSchedulerRunning] = useState(false);
-  const [autoChainRunning, setAutoChainRunning] = useState(false);
+  // Removed scheduler state - assuming always running
   const [hasHydrated, setHasHydrated] = useState(false);
-  const [autoSchedulerStats, setAutoSchedulerStats] = useState<AutoSchedulerStats | null>(null);
   const [showHistory, setShowHistory] = useState(true);
   const [personas, setPersonas] = useState<Persona[]>([]);
   const [generateForm, setGenerateForm] = useState<GenerateFormState>({
@@ -91,19 +89,7 @@ export function useTweetDashboard() {
     }
   }, [isMounted]);
 
-  const fetchAllTweets = useCallback(async () => {
-    try {
-      const response = await fetch('/api/tweets?limit=1000'); // Get all tweets for operations that need them
-      if (response.ok) {
-        const data = await response.json();
-        return data.data || [];
-      }
-      return [];
-    } catch (error) {
-      console.warn('Failed to fetch all tweets:', error);
-      return [];
-    }
-  }, []);
+  // Removed fetchAllTweets - not being used
 
   const fetchPersonas = useCallback(async () => {
     try {
@@ -149,10 +135,7 @@ export function useTweetDashboard() {
     await fetchTweets(1, newLimit); // Reset to first page when changing page size
   }, [fetchTweets]);
 
-  // Auto-scheduler stats are no longer needed since we use the self-triggering chain system
-  const fetchAutoSchedulerStats = useCallback(async () => {
-    // No-op: Auto-chain system doesn't need polling stats
-  }, []);
+  // Removed auto-scheduler stats functionality
 
   const generateTweet = useCallback(async () => {
     if (loading) return;
@@ -363,54 +346,7 @@ export function useTweetDashboard() {
     }
   }, [selectedTweets, fetchTweets]);
 
-  const toggleAutoScheduler = useCallback(async (action: 'start-chain' | 'stop-chain') => {
-    try {
-      if (action === 'start-chain') {
-        setAutoChainRunning(true);
-        // Persist state to localStorage
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('autoChainRunning', 'true');
-        }
-        
-        // Start the intelligent auto-chain system
-        const response = await fetch('/api/auto-chain', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
-        });
-        
-        if (response.ok) {
-          const result = await response.json();
-          toast.success('🚀 Smart automation started successfully!');
-          toast.info(`Generated ${result.firstExecution?.results?.generated || 0} tweets. System will run continuously with 15 daily posts at optimal times.`);
-        } else {
-          const error = await response.json();
-          toast.error(`Failed to start automation: ${error.details || 'Unknown error'}`);
-          setAutoChainRunning(false);
-          if (typeof window !== 'undefined') {
-            localStorage.setItem('autoChainRunning', 'false');
-          }
-        }
-      } else if (action === 'stop-chain') {
-        // Stop the automation by updating state
-        setAutoChainRunning(false);
-        // Persist state to localStorage
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('autoChainRunning', 'false');
-        }
-        toast.success('⏹️ Automation paused successfully');
-        toast.info('System will stop scheduling new posts. Existing scheduled tweets will still be posted.');
-      }
-    } catch (error) {
-      console.error('Failed to toggle automation:', error);
-      toast.error(`Failed to ${action === 'start-chain' ? 'start' : 'stop'} automation system`);
-      // Reset state on error
-      const shouldBeRunning = action === 'start-chain';
-      setAutoChainRunning(shouldBeRunning);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('autoChainRunning', shouldBeRunning.toString());
-      }
-    }
-  }, [fetchAutoSchedulerStats]);
+  // Removed toggleAutoScheduler - assuming always running
 
   const shareOnX = useCallback((tweet: Tweet) => {
     const tweetText = `${tweet.content}${tweet.hashtags.length > 0 ? ' ' + tweet.hashtags.join(' ') : ''}`;
@@ -442,33 +378,21 @@ export function useTweetDashboard() {
   // Effects
   useEffect(() => {
     setIsMounted(true);
-    // Handle hydration for localStorage state
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('autoChainRunning');
-      if (saved === 'true') {
-        setAutoChainRunning(true);
-      }
-      setHasHydrated(true);
-    }
+    setHasHydrated(true);
     return () => setIsMounted(false);
   }, []);
 
   useEffect(() => {
     // Initial data fetch
     fetchTweets();
-    fetchAutoSchedulerStats();
     fetchPersonas();
-    
-    // Poll auto-scheduler stats every 5 minutes
-    const interval = setInterval(fetchAutoSchedulerStats, 300000);
-    return () => clearInterval(interval);
-  }, [fetchTweets, fetchAutoSchedulerStats, fetchPersonas]);
+  }, [fetchTweets, fetchPersonas]);
 
 
   // Manual refresh function
   const refreshData = useCallback(async () => {
-    await Promise.all([fetchTweets(), fetchAutoSchedulerStats()]);
-  }, [fetchTweets, fetchAutoSchedulerStats]);
+    await fetchTweets();
+  }, [fetchTweets]);
 
   // Computed values
   const scheduledTweets = tweets.filter(t => t.status === 'scheduled');
@@ -488,10 +412,6 @@ export function useTweetDashboard() {
     latestTweet,
     selectedTweets,
     loading,
-    schedulerRunning,
-    autoSchedulerRunning,
-    autoChainRunning,
-    autoSchedulerStats,
     showHistory,
     generateForm,
     pagination,
@@ -510,7 +430,6 @@ export function useTweetDashboard() {
     updateTweetSchedule,
     scheduleSelectedTweets,
     deleteSelectedTweets,
-    toggleAutoScheduler,
     shareOnX,
     refreshData,
     
@@ -525,7 +444,7 @@ export function useTweetDashboard() {
     getQualityGradeColor,
     toDateTimeLocal,
     formatOptimalTime,
-    formatISTTime,
+    formatForUserDisplay,
     getNextOptimalPostTime,
     
     // Constants
