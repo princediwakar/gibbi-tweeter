@@ -18,22 +18,17 @@ This is an AI-powered tweet generation and scheduling bot built with Next.js 15,
 - **AI**: OpenAI API (configurable to use DeepSeek)
 - **Social Media**: Twitter API v2 with OAuth 1.0a
 - **Scheduling**: Node-cron for automated posting
-- **Data Storage**: JSON file-based storage (`data/tweets.json`)
+- **Data Storage**: Neon PostgreSQL database
 
 ## Key Features
 
-### 🎭 Multi-Persona AI System
+### 🎭 Dual-Persona AI System
 - **Unhinged Satirist** (🃏) - Sharp Indian satirist with sophisticated uniqueness framework
   - 4 satirical devices: Exaggeration, Irony, Parody, Absurd Metaphors
   - 3 style variations: Dark Humor, Playful Meme, Absurd Exaggeration  
   - Anti-repetition protocol with freshness enforcement
   - Current Indian events and cultural references required
-
-- **Vibe Coder** (💻) - Chill Indian developer sharing relatable coding life humor
-  - Relatable tech culture references and developer experiences  
-  - Mix of coding terminology with Indian cultural context
-  - Focus on debugging, Stack Overflow, coding at odd hours
-  - Tone: Relatable and witty, not cynical or bitter
+  - NO family references allowed (uncle, aunty, mother, father, etc.)
 
 - **Product Sage** (🎯) - Seasoned product leader with 9 years of experience revealing insights
   - Deep expertise in consumer internet and hardware product decisions
@@ -150,6 +145,17 @@ npm run start      # Start production server
 npm run lint       # Run ESLint
 ```
 
+### **⚠️ IMPORTANT: Pre-Commit Requirements**
+**ALWAYS run the build before committing and pushing:**
+```bash
+npm run build      # Must pass before committing
+npm run lint       # Must pass before committing
+git add .
+git commit -m "Your commit message"
+git push
+```
+This ensures no TypeScript errors or build issues are introduced to the main branch.
+
 > **💡 Documentation Tip**: When adding new npm scripts, update this section and consider if the new commands affect testing or deployment procedures described below.
 
 ## Key Components
@@ -253,7 +259,7 @@ Since Vercel's free tier allows only 1 cron job and setTimeout doesn't persist i
 - **Daily Posts**: 15 posts at optimal IST times (8AM-10PM)
 - **Smart Logic**: Posts ready tweets immediately, generates new ones when needed
 - **Optimal Timing**: Uses 15 IST time slots for maximum engagement
-- **Persona Variety**: Rotates through 3 personas - Satirist, Vibe Coder, and Product Sage
+- **Persona Variety**: Rotates through 2 personas - Satirist and Product Sage
 - **Self-Triggering**: Works in development, requires external trigger in production
 
 #### **How It Works:**

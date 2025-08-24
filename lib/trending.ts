@@ -8,11 +8,15 @@ import path from "path";
 // ─────────────────────────────────────────────
 export interface TrendingTopic {
   title: string;
-  hashtags: string[]; // Real hashtags from sources, empty if none found
   traffic: string;
   category?: string;
-  tweetUrl?: string;
-  author?: string;
+  hashtags: string[];
+}
+
+interface CacheEntry {
+  data: TrendingTopic[];
+  timestamp: number;
+  ttl: number;
 }
 
 interface Sources {
@@ -24,45 +28,27 @@ interface Sources {
   };
 }
 
-interface CacheEntry {
-  data: TrendingTopic[];
-  timestamp: number;
-  ttl: number;
+interface RSSItem {
+  title?: string[];
+  link?: string[];
+  pubDate?: string[];
+  "ht:approx_traffic"?: string[];
 }
 
-// RSS response type for xml2js
 interface RSSResponse {
   rss?: {
     channel?: Array<{
-      item?: Array<{
-        title?: string[];
-        link?: string[];
-        "ht:approx_traffic"?: string[];
-      }>;
+      item?: RSSItem[];
     }>;
   };
 }
-
-// Atom feed response type
-interface AtomResponse {
-  feed?: {
-    entry?: Array<{
-      title?: string | string[];
-      link?: string | string[];
-    }>;
-  };
-}
-
-// Combined response type
-type FeedResponse = RSSResponse | AtomResponse;
 
 // ─────────────────────────────────────────────
 // 🔧 Constants
 // ─────────────────────────────────────────────
 const CACHE_TTL_MS = 30 * 60 * 1000; // 30 mins
-const MAX_TOPICS = 8;
+const trendsCache: Map<string, CacheEntry> = new Map();
 
-// User agents for better disguise
 const USER_AGENTS = [
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
@@ -74,29 +60,6 @@ function getRandomUserAgent(): string {
   return USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)];
 }
 
-const trendsCache: Map<string, CacheEntry> = new Map();
-
-// ─────────────────────────────────────────────
-// 🧰 Utility Helpers
-// ─────────────────────────────────────────────
-const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
-
-const randomInt = (min: number, max: number): number =>
-  Math.floor(Math.random() * (max - min + 1)) + min;
-
-// Extract hashtags from content if they exist - prioritize real trending hashtags
-const extractExistingHashtags = (text: string): string[] => {
-  const hashtags = text.match(/#[a-zA-Z0-9_]+/g) || [];
-  return hashtags
-    .filter(tag => 
-      tag.length >= 3 && 
-      tag.length <= 25 &&
-      // Keep original case for better visibility
-      !['#the', '#and', '#for', '#with', '#this', '#that', '#from', '#like'].includes(tag.toLowerCase())
-    )
-    .slice(0, 2); // Take up to 2 real hashtags
-};
-
 // ─────────────────────────────────────────────
 // 📦 Cache Logic
 // ─────────────────────────────────────────────
@@ -107,60 +70,44 @@ function getCachedTrends(persona?: string): TrendingTopic[] | null {
     console.log(`📦 Using cached trending topics for ${persona || 'general'}`);
     return cached.data;
   }
-  // Force refresh for debugging
-  console.log(`🔄 Cache expired or not found for ${persona || 'general'}, fetching fresh data`);
   return null;
 }
 
-function setCachedTrends(data: TrendingTopic[], persona?: string): void {
+function setCachedTrends(topics: TrendingTopic[], persona?: string): void {
   const cacheKey = persona ? `trends_${persona}` : "twitter_trends";
   trendsCache.set(cacheKey, {
-    data,
+    data: topics,
     timestamp: Date.now(),
     ttl: CACHE_TTL_MS,
   });
-  console.log(`💾 Cached ${data.length} trending topics for ${persona || 'general'} for ${CACHE_TTL_MS / 60000} minutes`);
+  console.log(`💾 Cached ${topics.length} trending topics for ${persona || 'general'}`);
 }
 
 // ─────────────────────────────────────────────
-// 🚨 Failure Logging
-// ─────────────────────────────────────────────
-async function logFailure(method: string, error: string): Promise<void> {
-  const logEntry = {
-    timestamp: new Date().toISOString(),
-    method,
-    error,
-  };
-  try {
-    const fs = await import("fs/promises");
-    await fs.appendFile("failures.log", JSON.stringify(logEntry) + "\n");
-    console.warn(`📉 Logged failure for ${method}: ${error}`);
-  } catch (e) {
-    console.error("❌ Failed to log error to file:", e);
-  }
-}
-
-// ─────────────────────────────────────────────
-// 🐦 Twitter RSS Feed System
+// 📁 Source Loading
 // ─────────────────────────────────────────────
 async function loadSources(persona?: string): Promise<Sources> {
-  // Map persona to source file
-  const sourceFileMap: Record<string, string> = {
-    'unhinged_satirist': 'sources-satirist.json',
-    'vibe_coder': 'sources-coder.json', 
-    'product_sage': 'sources-product.json'
-  };
+  let sourceFile = 'sources.json';
   
-  const sourceFile = persona && sourceFileMap[persona] ? sourceFileMap[persona] : 'sources.json';
+  if (persona) {
+    // Map persona names to source file names
+    const personaToFile: Record<string, string> = {
+      'unhinged_satirist': 'sources-satirist.json',
+      'product_sage': 'sources-product.json',
+      'vibe_coder': 'sources-coder.json'
+    };
+    
+    sourceFile = personaToFile[persona] || 'sources.json';
+  }
   
   try {
-    const sourcesPath = path.join(process.cwd(), 'lib', sourceFile);
-    const data = await fs.readFile(sourcesPath, 'utf8');
+    const sourcePath = path.join(process.cwd(), 'lib', sourceFile);
+    const data = await fs.readFile(sourcePath, 'utf8');
     const sources: Sources = JSON.parse(data);
     console.log(`📁 Loaded sources from ${sourceFile} for ${persona || 'general'}`);
     return sources;
-  } catch (error) {
-    console.warn(`⚠️ Could not load ${sourceFile}, trying fallback sources.json`);
+  } catch {
+    console.warn(`⚠️ Could not load ${sourceFile}, using fallback sources.json`);
     
     // Fallback to general sources.json
     if (sourceFile !== 'sources.json') {
@@ -170,7 +117,7 @@ async function loadSources(persona?: string): Promise<Sources> {
         const fallbackSources: Sources = JSON.parse(fallbackData);
         console.log(`📁 Using fallback sources.json for ${persona || 'general'}`);
         return fallbackSources;
-      } catch (fallbackError) {
+      } catch {
         console.warn('⚠️ Could not load fallback sources.json either, using defaults');
       }
     }
@@ -178,85 +125,39 @@ async function loadSources(persona?: string): Promise<Sources> {
     // Final fallback to hardcoded defaults
     return {
       twitter: {
-        handles: ['@Inc42', '@livemint', '@EconomicTimes', '@anandmahindra', '@udaykotak']
+        handles: ["@livemint", "@EconomicTimes", "@TechCrunch", "@Inc42"]
       },
       reddit: {
-        subreddits: ['delhi', 'bengaluru', 'IndiaTech']
+        subreddits: ["india", "technology", "startups", "business"]
       }
     };
   }
 }
 
-function getRandomTwitterHandles(handles: string[], count: number = 5): string[] {
-  // Prioritize certain handles that we know are active
-  const priorityHandles = ['@Inc42', '@ETtech', '@paraschopra', '@livemint'];
-  const prioritySelected = priorityHandles.filter(handle => handles.includes(handle));
-  
-  // Get remaining handles randomly
-  const remainingHandles = handles.filter(handle => !priorityHandles.includes(handle));
-  const shuffled = [...remainingHandles].sort(() => 0.5 - Math.random());
-  const randomSelected = shuffled.slice(0, count - prioritySelected.length);
-  
-  const result = [...prioritySelected, ...randomSelected];
-  console.log(`🎯 Priority handles included: ${prioritySelected.join(', ')}`);
-  return result;
-}
-
-function getRandomSubreddits(subreddits: string[], count: number = 5): string[] {
-  const shuffled = [...subreddits].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
-}
-
-async function fetchFromTwitterRSS(persona?: string): Promise<TrendingTopic[]> {
-  console.log(`🐦 Fetching Twitter RSS feeds via Google News for ${persona || 'general'}...`);
+// ─────────────────────────────────────────────
+// 🐦 Google News RSS Fetching
+// ─────────────────────────────────────────────
+async function fetchFromGoogleNews(persona?: string): Promise<TrendingTopic[]> {
+  console.log(`📡 Fetching Google News RSS feeds for ${persona || 'general'}...`);
   
   const userAgent = getRandomUserAgent();
   const sources = await loadSources(persona);
-  const selectedHandles = getRandomTwitterHandles(sources.twitter.handles, 8);
-  console.log(`🐦 Selected handles for RSS fetching: ${selectedHandles.join(', ')}`);
+  const selectedHandles = getRandomTwitterHandles(sources.twitter.handles, 6);
   
   const allTopics: TrendingTopic[] = [];
   
   for (const handle of selectedHandles) {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
-    
     try {
-      // Clean handle (remove @ if present)
       const cleanHandle = handle.replace('@', '');
       
-      // Try multiple URL formats for better coverage - relaxed time windows
+      // Try multiple search strategies
       const searchUrls = [
-        // Primary: Recent content (3 days) for better chances
         `https://news.google.com/rss/search?q=site:x.com/${cleanHandle}+when:3d&hl=en-IN&gl=IN&ceid=IN:en`,
-        `https://news.google.com/rss/search?q=site:twitter.com/${cleanHandle}+when:3d&hl=en-IN&gl=IN&ceid=IN:en`,
         `https://news.google.com/rss/search?q="${cleanHandle}"+when:3d&hl=en-IN&gl=IN&ceid=IN:en`,
-        // Fallback: No time filter for maximum coverage
-        `https://news.google.com/rss/search?q=site:x.com/${cleanHandle}&hl=en-IN&gl=IN&ceid=IN:en`,
-        `https://news.google.com/rss/search?q=site:twitter.com/${cleanHandle}&hl=en-IN&gl=IN&ceid=IN:en`,
-        `https://news.google.com/rss/search?q="${cleanHandle}"&hl=en-IN&gl=IN&ceid=IN:en`,
-        // Additional broad searches
         `https://news.google.com/rss/search?q=${cleanHandle}+india&hl=en-IN&gl=IN&ceid=IN:en`,
-        `https://news.google.com/rss/search?q=${cleanHandle}+tech&hl=en-IN&gl=IN&ceid=IN:en`
       ];
       
-      console.log(`🔍 Searching Twitter content for ${handle}...`);
-      
-      // Special debugging for known active handles
-      if (cleanHandle.toLowerCase() === 'inc42') {
-        console.log(`🔍 Special attention: ${handle} is known to be active`);
-      }
-      
-      let items: Array<{
-        title?: string[];
-        link?: string[];
-        "ht:approx_traffic"?: string[];
-      }> = [];
-      let success = false;
-      
-      // Try multiple URL formats
-      for (let i = 0; i < searchUrls.length; i++) {
-        const searchUrl = searchUrls[i];
+      for (const searchUrl of searchUrls) {
         try {
           const response = await fetch(searchUrl, {
             headers: {
@@ -264,301 +165,101 @@ async function fetchFromTwitterRSS(persona?: string): Promise<TrendingTopic[]> {
               'Accept': 'application/rss+xml,application/xml,text/xml',
               'Accept-Language': 'en-IN,en;q=0.9',
             },
-            signal: controller.signal,
+            signal: AbortSignal.timeout(10000),
           });
 
-          if (!response.ok) {
-            if (cleanHandle.toLowerCase() === 'inc42') {
-              console.log(`⚠️ URL ${i + 1} failed for ${handle}: ${response.status} - ${searchUrl.split('?q=')[1]?.split('&')[0]}`);
-            }
-            continue; // Try next URL format
-          }
+          if (!response.ok) continue;
 
           const xml = await response.text();
           const parsed: RSSResponse = await parseStringPromise(xml);
-          const fetchedItems = parsed?.rss?.channel?.[0]?.item ?? [];
+          const items = parsed?.rss?.channel?.[0]?.item ?? [];
           
-          if (Array.isArray(fetchedItems) && fetchedItems.length > 0) {
-            items = fetchedItems;
-            success = true;
-            console.log(`✅ Found content using URL format ${i + 1}: ${searchUrl.split('?q=')[1]?.split('&')[0]}`);
-            break; // Use this successful result
-          } else {
-            if (cleanHandle.toLowerCase() === 'inc42') {
-              console.log(`⚠️ URL ${i + 1} returned empty results for ${handle}: ${searchUrl.split('?q=')[1]?.split('&')[0]}`);
-            }
-          }
-        } catch (err) {
-          if (cleanHandle.toLowerCase() === 'inc42') {
-            console.log(`⚠️ URL ${i + 1} threw error for ${handle}: ${err instanceof Error ? err.message : String(err)}`);
-          }
-          // Continue to next URL format
-          continue;
-        }
-      }
-      
-      if (!success) {
-        console.log(`📭 No content found for ${handle} with any URL format`);
-        
-        // Try one more fallback: direct Twitter RSS (if available)
-        try {
-          const twitterRssUrl = `https://nitter.net/${cleanHandle}/rss`;
-          const response = await fetch(twitterRssUrl, {
-            headers: {
-              'User-Agent': userAgent,
-              'Accept': 'application/rss+xml,application/xml,text/xml',
-            },
-            signal: controller.signal,
-          });
-          
-          if (response.ok) {
-            const xml = await response.text();
-            const parsed: RSSResponse = await parseStringPromise(xml);
-            const fetchedItems = parsed?.rss?.channel?.[0]?.item ?? [];
+          if (items.length > 0) {
+            const topics = items.slice(0, 3).map((item: RSSItem) => ({
+              title: Array.isArray(item.title) ? item.title[0] : item.title || 'Breaking News',
+              traffic: Array.isArray(item["ht:approx_traffic"]) ? item["ht:approx_traffic"][0] : Math.floor(Math.random() * 500 + 100) + 'K',
+              category: 'News',
+              hashtags: []
+            }));
             
-            if (Array.isArray(fetchedItems) && fetchedItems.length > 0) {
-              items = fetchedItems;
-              success = true;
-              console.log(`✅ Found content using Nitter RSS for ${handle}`);
-            }
+            allTopics.push(...topics);
+            console.log(`✅ Found ${topics.length} topics from ${handle}`);
+            break; // Success, move to next handle
           }
         } catch {
-          // Ignore this fallback error
-        }
-        
-        if (!success) {
-          continue; // Move to next handle
+          continue; // Try next URL
         }
       }
-
-      if (Array.isArray(items) && items.length > 0) {
-        const topics: TrendingTopic[] = items
-          .slice(0, 3) // Take max 3 per handle
-          .filter((item) => {
-            const title = item.title?.[0]?.trim();
-            // More lenient filtering for Twitter content
-            return title && 
-                   title.length > 10 && // Further reduced minimum length
-                   title.length < 300 && // Increased maximum length
-                   !title.startsWith('http') && // Exclude URLs
-                   !title.match(/^https?:\/\//) && // Exclude URLs more thoroughly
-                   !title.includes('support.') && // Exclude support pages
-                   !title.includes('help.') && // Exclude help pages
-                   !title.includes('docs.') && // Exclude documentation
-                   !title.includes('api.') && // Exclude API pages
-                   !title.toLowerCase().includes('cookie') && // Exclude cookie notices
-                   !title.toLowerCase().includes('privacy') && // Exclude privacy notices
-                   title.split(' ').length > 1; // Just need more than 1 word
-          })
-          .map((item) => {
-            const title = item.title?.[0]?.trim() ?? "Twitter Update";
-            // Clean the title from news formatting
-            const cleanTitle = title
-              .replace(/^.*?:\s*/, '') // Remove news source prefix
-              .replace(/\s*-\s*(Twitter|X\.com).*$/i, '') // Remove Twitter suffix
-              .replace(/\s*\.\.\.$/, '') // Remove trailing ellipsis
-              .replace(/^["']|["']$/g, '') // Remove quotes
-              .replace(/\s+/g, ' ') // Normalize whitespace
-              .trim();
-            
-            // Very lenient validation for Twitter content
-            if (!cleanTitle || cleanTitle.length < 5 || cleanTitle.length > 250) {
-              return null;
-            }
-            
-            // Extract real hashtags from the content
-            const realHashtags = extractExistingHashtags(cleanTitle);
-            
-            const topic: TrendingTopic = {
-              title: cleanTitle,
-              hashtags: realHashtags,
-              traffic: `${randomInt(10, 100)}K`,
-              category: `Twitter via ${handle}`,
-              author: handle,
-              tweetUrl: item.link?.[0] || `https://x.com/${cleanHandle}`,
-            };
-            return topic;
-          })
-          .filter((topic): topic is TrendingTopic => topic !== null); // Remove null entries with proper typing
-
-        allTopics.push(...topics);
-        if (topics.length > 0) {
-          console.log(`✅ Found ${topics.length} tweets from ${handle}`);
-          console.log(`📝 Sample topics from ${handle}:`, topics.slice(0, 2).map(t => t.title.substring(0, 60) + '...'));
-        }
-      } else {
-        console.log(`📭 No recent tweets found for ${handle}`);
-      }
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
-      console.log(`⚠️ Twitter RSS failed for ${handle}: ${message}`);
-      await logFailure(`TwitterRSS-${handle}`, message);
-    } finally {
-      clearTimeout(timeoutId);
+    } catch {
+      console.warn(`⚠️ Failed to fetch from ${handle}`);
+      continue;
     }
-    
-    // Small delay between requests to be respectful
-    await delay(randomInt(1000, 2000));
   }
   
-  if (allTopics.length > 0) {
-    // Shuffle and take top topics
-    const shuffled = allTopics.sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, MAX_TOPICS);
-    console.log(`✅ Twitter RSS successful - ${selected.length} topics from ${selectedHandles.length} handles`);
-    return selected;
-  }
-  
-  throw new Error('No Twitter content found from any handles');
+  return allTopics;
 }
 
 // ─────────────────────────────────────────────
-// 🔴 Reddit RSS Feed System
+// 🔴 Reddit RSS Fetching
 // ─────────────────────────────────────────────
-async function fetchFromRedditRSS(persona?: string): Promise<TrendingTopic[]> {
+async function fetchFromReddit(persona?: string): Promise<TrendingTopic[]> {
   console.log(`🔴 Fetching Reddit RSS feeds for ${persona || 'general'}...`);
   
   const userAgent = getRandomUserAgent();
   const sources = await loadSources(persona);
-  const selectedSubreddits = getRandomSubreddits(sources.reddit.subreddits, 6);
+  const selectedSubreddits = getRandomSubreddits(sources.reddit.subreddits, 4);
   
   const allTopics: TrendingTopic[] = [];
   
   for (const subreddit of selectedSubreddits) {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 20000); // Increased timeout
-    
     try {
-      // Try multiple Reddit RSS formats for better reliability
-      const rssUrls = [
-        `https://www.reddit.com/r/${subreddit}.rss`,
-        `https://www.reddit.com/r/${subreddit}/hot.rss`,
-        `https://www.reddit.com/r/${subreddit}/new.rss`,
-        `https://old.reddit.com/r/${subreddit}.rss`
-      ];
+      const redditUrl = `https://www.reddit.com/r/${subreddit}/hot.json?limit=5`;
       
-      console.log(`🔍 Fetching content from r/${subreddit}...`);
+      const response = await fetch(redditUrl, {
+        headers: {
+          'User-Agent': userAgent,
+        },
+        signal: AbortSignal.timeout(10000),
+      });
+
+      if (!response.ok) continue;
+
+      const data = await response.json() as { data?: { children?: Array<{ data: { title: string; score: number } }> } };
+      const posts = data?.data?.children || [];
       
-      let response;
-      let xml;
-      let success = false;
-      
-      // Try different Reddit RSS URLs
-      for (const rssUrl of rssUrls) {
-        try {
-          response = await fetch(rssUrl, {
-            headers: {
-              'User-Agent': userAgent,
-              'Accept': 'application/rss+xml,application/xml,text/xml',
-              'Accept-Language': 'en-IN,en;q=0.9',
-            },
-            signal: controller.signal,
-          });
-
-          if (response.ok) {
-            xml = await response.text();
-            success = true;
-            console.log(`✅ Successfully fetched from ${rssUrl}`);
-            break;
-          }
-        } catch (err) {
-          console.log(`⚠️ Failed to fetch ${rssUrl}: ${err instanceof Error ? err.message : String(err)}`);
-          continue;
-        }
-      }
-      
-      if (!success || !xml) {
-        throw new Error(`All Reddit RSS URLs failed for r/${subreddit}`);
-      }
-
-      const parsed: FeedResponse = await parseStringPromise(xml);
-      // Handle both RSS and Atom feeds
-      const items = ('rss' in parsed ? parsed?.rss?.channel?.[0]?.item : (parsed as AtomResponse)?.feed?.entry) ?? [];
-
-      if (Array.isArray(items) && items.length > 0) {
-        const topics: TrendingTopic[] = items
-          .slice(0, 5) // Take max 5 per subreddit for better variety
-          .filter((item) => {
-            // Handle both RSS and Atom feed formats
-            const title = Array.isArray(item.title) ? item.title[0]?.trim() : typeof item.title === 'string' ? item.title.trim() : '';
-            // More lenient filtering for Reddit content
-            return title && 
-                   title.length > 10 && // Reduced minimum length
-                   title.length < 300 && // Increased maximum length
-                   !title.includes('[deleted]') && 
-                   !title.includes('[removed]') &&
-                   !title.toLowerCase().includes('nsfw') &&
-                   !title.startsWith('http') && // Exclude URLs
-                   !title.match(/^https?:\/\//) && // Exclude URLs more thoroughly
-                   !title.match(/^\[.*\]$/) && // Skip posts that are just [category] tags
-                   title.split(' ').length > 2; // Must have at least 3 words
-          })
-          .map((item) => {
-            // Handle both RSS and Atom feed formats
-            const title = Array.isArray(item.title) ? item.title[0]?.trim() : typeof item.title === 'string' ? item.title.trim() : "Reddit Post";
-            // Clean the title from Reddit formatting
-            const cleanTitle = title
-              .replace(/^submitted by .*? to .*?$/i, '') // Remove submission info
-              .replace(/\s*\[.*?\]\s*/g, '') // Remove category tags
-              .replace(/^r\/.*?:\s*/, '') // Remove subreddit prefix
-              .replace(/\s*\.\.\.$/, '') // Remove trailing ellipsis
-              .replace(/^["']|["']$/g, '') // Remove quotes
-              .replace(/\s+/g, ' ') // Normalize whitespace
-              .trim();
-            
-            // More lenient validation
-            if (!cleanTitle || cleanTitle.length < 8 || cleanTitle.length > 200) {
-              return null;
-            }
-            
-            // Extract real hashtags from the content
-            const realHashtags = extractExistingHashtags(cleanTitle);
-            
-            const topic: TrendingTopic = {
-              title: cleanTitle,
-              hashtags: realHashtags,
-              traffic: `${randomInt(5, 50)}K`, // Reddit traffic is generally lower
-              category: `Reddit r/${subreddit}`,
-              author: `r/${subreddit}`,
-              tweetUrl: (Array.isArray(item.link) ? item.link[0] : item.link) || `https://www.reddit.com/r/${subreddit}`,
-            };
-            return topic;
-          })
-          .filter((topic): topic is TrendingTopic => topic !== null); // Remove null entries with proper typing
-
+      if (posts.length > 0) {
+        const topics = posts.slice(0, 2).map((post) => ({
+          title: post.data.title || 'Reddit Discussion',
+          traffic: (post.data.score || Math.floor(Math.random() * 1000)) + ' upvotes',
+          category: 'Discussion',
+          hashtags: []
+        }));
+        
         allTopics.push(...topics);
-        if (topics.length > 0) {
-          console.log(`✅ Found ${topics.length} posts from r/${subreddit}`);
-        }
-      } else {
-        console.log(`📭 No recent posts found for r/${subreddit}`);
+        console.log(`✅ Found ${topics.length} topics from r/${subreddit}`);
       }
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
-      console.log(`⚠️ Reddit RSS failed for r/${subreddit}: ${message}`);
-      await logFailure(`RedditRSS-${subreddit}`, message);
-    } finally {
-      clearTimeout(timeoutId);
+    } catch {
+      console.warn(`⚠️ Failed to fetch from r/${subreddit}`);
+      continue;
     }
-    
-    // Small delay between requests to be respectful
-    await delay(randomInt(1000, 2000));
   }
   
-  if (allTopics.length > 0) {
-    // Shuffle and take top topics
-    const shuffled = allTopics.sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, MAX_TOPICS);
-    console.log(`✅ Reddit RSS successful - ${selected.length} topics from ${selectedSubreddits.length} subreddits`);
-    return selected;
-  }
-  
-  throw new Error('No Reddit content found from any subreddits');
+  return allTopics;
 }
 
 // ─────────────────────────────────────────────
-// 🏗️ Static Fallback Topics  
+// 🎯 Helper Functions
 // ─────────────────────────────────────────────
+function getRandomTwitterHandles(handles: string[], count: number = 5): string[] {
+  const shuffled = [...handles].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+}
+
+function getRandomSubreddits(subreddits: string[], count: number = 5): string[] {
+  const shuffled = [...subreddits].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+}
+
 function getStaticFallbackTopics(): TrendingTopic[] {
   const fallbackTopics = [
     { title: "Indian Startup Ecosystem", traffic: "500K", category: "Business", hashtags: [] },
@@ -583,10 +284,53 @@ export async function getTrendingTopics(persona?: string): Promise<TrendingTopic
     return cached;
   }
 
-  console.log(`🎯 Using static trending topics for ${persona || 'general'} (RSS feeds disabled for reliability)`);
+  console.log(`🎯 Fetching real-time trending topics for ${persona || 'general'}...`);
   
-  // Use static topics directly for maximum reliability
-  const staticTopics = getStaticFallbackTopics();
-  setCachedTrends(staticTopics, persona);
-  return staticTopics;
+  const allTopics: TrendingTopic[] = [];
+  
+  try {
+    // Try to fetch from RSS sources with timeout
+    const rssPromises = [
+      fetchFromGoogleNews(persona),
+      fetchFromReddit(persona)
+    ];
+    
+    // Race with timeout to ensure we don't hang
+    const results = await Promise.allSettled(
+      rssPromises.map(promise => 
+        Promise.race([
+          promise,
+          new Promise<TrendingTopic[]>((_, reject) => 
+            setTimeout(() => reject(new Error('RSS fetch timeout')), 15000)
+          )
+        ])
+      )
+    );
+    
+    // Collect successful results
+    results.forEach(result => {
+      if (result.status === 'fulfilled' && Array.isArray(result.value)) {
+        allTopics.push(...result.value);
+      }
+    });
+    
+    console.log(`📊 Fetched ${allTopics.length} topics from RSS sources`);
+    
+  } catch (error) {
+    console.warn('⚠️ RSS fetching failed, using static fallback:', error);
+  }
+  
+  // If we don't have enough topics, add static fallbacks
+  if (allTopics.length < 5) {
+    const staticTopics = getStaticFallbackTopics();
+    const needed = 8 - allTopics.length;
+    allTopics.push(...staticTopics.slice(0, needed));
+    console.log(`📋 Added ${needed} static fallback topics`);
+  }
+  
+  // Shuffle and limit to 8 topics
+  const finalTopics = allTopics.sort(() => 0.5 - Math.random()).slice(0, 8);
+  
+  setCachedTrends(finalTopics, persona);
+  return finalTopics;
 }

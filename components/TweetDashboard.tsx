@@ -57,7 +57,7 @@ export default function TweetDashboard() {
     getNextOptimalPostTime,
     
     // Constants
-    PERSONAS,
+    personas,
     BULK_GENERATION_CONFIG,
   } = useTweetDashboard();
 
@@ -75,7 +75,7 @@ export default function TweetDashboard() {
         {latestTweet && (
           <TweetPreview 
             tweet={latestTweet}
-            personas={PERSONAS}
+            personas={personas}
             onShare={shareOnX}
             loading={autoGenerating}
           />
@@ -93,7 +93,7 @@ export default function TweetDashboard() {
           form={generateForm}
           loading={loading}
           nextOptimalTime={formatOptimalTime(getNextOptimalPostTime())}
-          personas={PERSONAS}
+          personas={personas}
           bulkCount={BULK_GENERATION_CONFIG.count}
           onFormChange={(updates) => setGenerateForm(prev => ({ ...prev, ...updates }))}
           onGenerate={generateTweet}

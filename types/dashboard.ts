@@ -16,7 +16,7 @@ export interface Tweet {
 }
 
 export interface GenerateFormState {
-  persona: 'unhinged_satirist' | 'vibe_coder' | 'product_sage';
+  persona: string;
   includeHashtags: boolean;
   useTrendingTopics: boolean;
   customPrompt: string;

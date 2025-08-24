@@ -5,6 +5,17 @@ import { calculateQualityScore } from '@/lib/quality-scorer';
 import { getTrendingTopics } from '@/lib/trending';
 import { getNextOptimalPostTime, getSpacedPostingSchedule } from '@/lib/timing';
 
+// Import personas directly instead of making HTTP calls
+const PERSONAS = [
+  { id: "unhinged_satirist", name: "Unhinged Satirist" },
+  { id: "product_sage", name: "Product Sage" },
+];
+
+// Helper function to get default persona
+function getDefaultPersona(): string {
+  return PERSONAS[0].id;
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -33,21 +44,24 @@ export async function POST(request: Request) {
     }
 
     if (action === 'generate') {
+      const defaultPersona = getDefaultPersona();
+      const persona = data.persona || defaultPersona;
+      
       const options: TweetGenerationOptions = {
-        persona: data.persona,
+        persona,
         includeHashtags: data.includeHashtags,
         customPrompt: data.customPrompt,
         useTrendingTopics: data.useTrendingTopics,
       };
 
       const generatedTweet = await generateTweet(options);
-      const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, data.persona || 'unhinged_satirist');
+      const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, persona);
       
       const tweet = {
         id: generateTweetId(),
         content: generatedTweet.content,
         hashtags: generatedTweet.hashtags,
-        persona: data.persona || 'unhinged_satirist',
+        persona,
         status: 'draft' as const,
         created_at: new Date().toISOString(),
         quality_score: qualityScore,
@@ -58,12 +72,13 @@ export async function POST(request: Request) {
     }
 
     if (action === 'schedule') {
+      const defaultPersona = getDefaultPersona();
       const scheduledFor = new Date(data.scheduledFor);
       const tweet = {
         id: generateTweetId(),
         content: data.content,
         hashtags: data.hashtags || [],
-        persona: data.persona || 'unhinged_satirist',
+        persona: data.persona || defaultPersona,
         scheduled_for: scheduledFor.toISOString(),
         status: 'scheduled' as const,
         created_at: new Date().toISOString(),
@@ -74,15 +89,18 @@ export async function POST(request: Request) {
     }
 
     if (action === 'generate-and-schedule') {
+      const defaultPersona = getDefaultPersona();
+      const persona = data.persona || defaultPersona;
+      
       const options: TweetGenerationOptions = {
-        persona: data.persona,
+        persona,
         includeHashtags: data.includeHashtags,
         customPrompt: data.customPrompt,
         useTrendingTopics: data.useTrendingTopics,
       };
 
       const generatedTweet = await generateTweet(options);
-      const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, data.persona || 'unhinged_satirist');
+      const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, persona);
       
       // Use optimal posting time if no scheduledFor provided
       const scheduledFor = data.scheduledFor ? new Date(data.scheduledFor) : getNextOptimalPostTime();
@@ -91,7 +109,7 @@ export async function POST(request: Request) {
         id: generateTweetId(),
         content: generatedTweet.content,
         hashtags: generatedTweet.hashtags,
-        persona: data.persona || 'unhinged_satirist',
+        persona,
         scheduled_for: scheduledFor.toISOString(),
         status: 'scheduled' as const,
         created_at: new Date().toISOString(),
@@ -103,6 +121,9 @@ export async function POST(request: Request) {
     }
 
     if (action === 'bulk_generate') {
+      const defaultPersona = getDefaultPersona();
+      const persona = data.persona || defaultPersona;
+      
       // Import timing to check optimal slot limits
       const { OPTIMAL_POSTING_TIMES } = await import('@/lib/timing');
       const maxOptimalSlots = OPTIMAL_POSTING_TIMES.length; // 15 slots per day
@@ -118,9 +139,9 @@ export async function POST(request: Request) {
       // Step 1: Fetch fresh trending topics from RSS sources
       let trendingTopics;
       try {
-        console.log(`📡 Fetching fresh trending topics from RSS sources for ${data.persona}...`);
-        trendingTopics = await getTrendingTopics(data.persona);
-        console.log(`✅ Retrieved ${trendingTopics.length} trending topics from RSS feeds for ${data.persona}`);
+        console.log(`📡 Fetching fresh trending topics from RSS sources for ${persona}...`);
+        trendingTopics = await getTrendingTopics(persona);
+        console.log(`✅ Retrieved ${trendingTopics.length} trending topics from RSS feeds for ${persona}`);
       } catch (error) {
         console.error('❌ Failed to fetch trending topics:', error);
         return NextResponse.json({ 
@@ -191,13 +212,13 @@ export async function POST(request: Request) {
             continue;
           }
           
-          const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, data.persona || 'unhinged_satirist');
+          const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, persona);
           
           const tweet = {
             id: generateTweetId(),
             content: generatedTweet.content,
             hashtags: generatedTweet.hashtags,
-            persona: data.persona || 'unhinged_satirist',
+            persona,
             status: 'draft' as const,
             created_at: new Date().toISOString(),
             quality_score: qualityScore,

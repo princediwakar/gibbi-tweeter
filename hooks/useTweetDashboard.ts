@@ -3,30 +3,10 @@ import { toast } from 'sonner';
 import { getNextOptimalPostTime, formatOptimalTime, toDateTimeLocal, formatISTTime } from '@/lib/timing';
 import { Tweet, GenerateFormState, AutoSchedulerStats, Persona } from '@/types/dashboard';
 
-const PERSONAS: Persona[] = [
-  {
-    id: 'unhinged_satirist',
-    name: 'Unhinged Satirist',
-    description: 'Sharp Indian satirist with cultural references, exaggeration, and absurd metaphors',
-    emoji: '🃏',
-  },
-  {
-    id: 'vibe_coder',
-    name: 'Vibe Coder',
-    description: 'Chill Indian developer sharing relatable coding life humor and tech culture',
-    emoji: '💻',
-  },
-  {
-    id: 'product_sage',
-    name: 'Product Sage',
-    description: 'Hilariously witty product leader revealing genius behind beloved product decisions',
-    emoji: '🎯',
-  },
-];
+// Personas will be fetched from API
 
 const BULK_GENERATION_CONFIG = {
   count: 5,
-  persona: 'unhinged_satirist' as const,
   includeHashtags: true,
   useTrendingTopics: true,
 };
@@ -54,8 +34,9 @@ export function useTweetDashboard() {
   const [hasHydrated, setHasHydrated] = useState(false);
   const [autoSchedulerStats, setAutoSchedulerStats] = useState<AutoSchedulerStats | null>(null);
   const [showHistory, setShowHistory] = useState(true);
+  const [personas, setPersonas] = useState<Persona[]>([]);
   const [generateForm, setGenerateForm] = useState<GenerateFormState>({
-    persona: 'unhinged_satirist',
+    persona: '',
     includeHashtags: true,
     useTrendingTopics: true,
     customPrompt: '',
@@ -124,6 +105,27 @@ export function useTweetDashboard() {
       return [];
     }
   }, []);
+
+  const fetchPersonas = useCallback(async () => {
+    try {
+      const response = await fetch('/api/personas');
+      if (response.ok) {
+        const data = await response.json();
+        const fetchedPersonas = data.personas || [];
+        setPersonas(fetchedPersonas);
+        
+        // Set default persona if none selected and personas are available
+        if (!generateForm.persona && fetchedPersonas.length > 0) {
+          setGenerateForm(prev => ({
+            ...prev,
+            persona: fetchedPersonas[0].id
+          }));
+        }
+      }
+    } catch (error) {
+      console.warn('Failed to fetch personas:', error);
+    }
+  }, [generateForm.persona]);
 
   // Pagination navigation functions
   const goToPage = useCallback(async (page: number) => {
@@ -456,11 +458,12 @@ export function useTweetDashboard() {
     // Initial data fetch
     fetchTweets();
     fetchAutoSchedulerStats();
+    fetchPersonas();
     
     // Poll auto-scheduler stats every 5 minutes
     const interval = setInterval(fetchAutoSchedulerStats, 300000);
     return () => clearInterval(interval);
-  }, [fetchTweets, fetchAutoSchedulerStats]);
+  }, [fetchTweets, fetchAutoSchedulerStats, fetchPersonas]);
 
   // Auto-generation on mount is paused
   // useEffect(() => {
@@ -563,7 +566,7 @@ export function useTweetDashboard() {
     getNextOptimalPostTime,
     
     // Constants
-    PERSONAS,
+    personas,
     BULK_GENERATION_CONFIG,
   };
 }

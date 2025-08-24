@@ -46,8 +46,14 @@ export async function GET(request: NextRequest) {
     logIST(`🚀 Starting synchronous generation of ${tweetsToGenerate} tweet...`);
     
     try {
+      // Use personas directly instead of API calls
+      const personas = [
+        { id: "unhinged_satirist", name: "Unhinged Satirist" },
+        { id: "product_sage", name: "Product Sage" },
+      ];
+      
       // Generate single tweet with timeout
-      const persona = (['unhinged_satirist', 'vibe_coder', 'product_sage'] as const)[pendingTweets.length % 3];
+      const persona = personas[pendingTweets.length % personas.length].id;
       const options: TweetGenerationOptions = {
         persona,
         includeHashtags: Math.random() > 0.3,

@@ -9,12 +9,6 @@ const PERSONAS: Persona[] = [
     emoji: '🃏',
   },
   {
-    id: 'vibe_coder',
-    name: 'Vibe Coder',
-    description: 'Chill Indian developer sharing relatable coding life humor and tech culture',
-    emoji: '💻',
-  },
-  {
     id: 'product_sage',
     name: 'Product Sage',
     description: 'Hilariously witty product leader revealing genius behind beloved product decisions',

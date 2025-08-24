@@ -60,13 +60,18 @@ async function processScheduledTweets() {
 
 async function generateAndScheduleTweet() {
   try {
-    const personas = ['unhinged_satirist', 'vibe_coder', 'product_sage'] as const;
+    // Use personas directly instead of API calls
+    const personas = [
+      { id: "unhinged_satirist", name: "Unhinged Satirist" },
+      { id: "product_sage", name: "Product Sage" },
+    ];
+    
     const randomPersona = personas[Math.floor(Math.random() * personas.length)];
     
-    console.log(`Generating tweet with ${randomPersona} persona`);
+    console.log(`Generating tweet with ${randomPersona.id} persona`);
     
     const generatedTweet = await generateTweet({
-      persona: randomPersona,
+      persona: randomPersona.id,
       includeHashtags: true,
     });
 
@@ -77,7 +82,7 @@ async function generateAndScheduleTweet() {
       id: Date.now().toString(36) + Math.random().toString(36).substr(2),
       content: generatedTweet.content,
       hashtags: generatedTweet.hashtags,
-      persona: randomPersona,
+      persona: randomPersona.id,
       scheduledFor,
       status: 'scheduled' as const,
       createdAt: new Date(),

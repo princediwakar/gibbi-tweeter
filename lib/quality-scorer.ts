@@ -154,7 +154,7 @@ function calculatePersonaAlignment(content: string, persona: string): number {
       if (content.match(/paradox|irony|while|yet|but|though/i)) score += 0.1; // complexity
       
       // Cultural universality
-      if (content.match(/family|relatives|wedding|festival|traffic|food delivery|office/i)) score += 0.1; // universal experiences
+      if (content.match(/wedding|festival|traffic|food delivery|office/i)) score += 0.1; // universal experiences
       
       // Reduce penalty for seriousness in poetic context
       if (!content.match(/[!?]/) && !content.match(/😂|🤣|😭/)) score -= 0.05;
@@ -207,7 +207,7 @@ function calculatePersonaAlignment(content: string, persona: string): number {
       if (content.match(/why|because|reason|insight|genius|brilliant|smart|clever/i)) score += 0.1;
       
       // Indian market context
-      if (content.match(/indian?|india|desi|aunties?|uncles?|family|relatives|bharath?/i)) score += 0.1;
+      if (content.match(/indian?|india|desi|bharat?/i)) score += 0.1;
       
       // Humorous wisdom tone
       if (content.match(/actually|basically|obviously|clearly|simply|pure|classic/i)) score += 0.05;

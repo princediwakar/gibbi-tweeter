@@ -47,13 +47,14 @@ export function ManualGeneration({
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
           {/* Persona Selection */}
           <div className="space-y-2">
-            <label className="text-xs text-gray-400 uppercase tracking-wide">Persona ({personas.length} available)</label>
+            <label className="text-xs text-gray-400 uppercase tracking-wide">Persona ({personas?.length || 0} available)</label>
             <select
               value={form.persona}
-              onChange={(e) => onFormChange({ persona: e.target.value as 'unhinged_satirist' | 'vibe_coder' | 'product_sage' })}
+              onChange={(e) => onFormChange({ persona: e.target.value })}
               className="w-full bg-gray-800 border border-gray-600 text-gray-200 text-sm p-3 rounded-lg focus:border-blue-500 focus:outline-none"
+              disabled={!personas || personas.length === 0}
             >
-              {personas.map(persona => (
+              {personas?.map(persona => (
                 <option key={persona.id} value={persona.id}>
                   {persona.emoji} {persona.name}
                 </option>
@@ -62,7 +63,7 @@ export function ManualGeneration({
             {/* Debug info - remove after testing */}
             {process.env.NODE_ENV === 'development' && (
               <div className="text-xs text-gray-500">
-                Debug: {personas.map(p => p.name).join(', ')}
+                Debug: {personas?.map(p => p.name).join(', ') || 'No personas loaded'}
               </div>
             )}
           </div>

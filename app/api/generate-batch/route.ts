@@ -42,9 +42,13 @@ export async function GET(request: NextRequest) {
 
     for (let i = 0; i < tweetsToGenerate; i++) {
       try {
-        // Rotate through all personas
-        const personas = ['unhinged_satirist', 'vibe_coder', 'product_sage'] as const;
-        const persona = personas[i % personas.length];
+        // Use personas directly instead of API calls
+        const personas = [
+          { id: "unhinged_satirist", name: "Unhinged Satirist" },
+          { id: "product_sage", name: "Product Sage" },
+        ];
+        
+        const persona = personas[i % personas.length].id;
         
         const options: TweetGenerationOptions = {
           persona,

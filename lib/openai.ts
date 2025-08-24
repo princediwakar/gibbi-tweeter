@@ -1,6 +1,5 @@
 import OpenAI from "openai";
 import { getTrendingTopics, TrendingTopic } from "./trending";
-import fs from "fs/promises"; // Use promises for async file operations
 
 const openai = new OpenAI({
 apiKey: process.env.OPENAI_API_KEY,
@@ -10,7 +9,7 @@ baseURL: "https://api.deepseek.com",
 const BASE_DELAY = 2000;
 
 export interface TweetGenerationOptions {
-persona: "unhinged_satirist" | "vibe_coder" | "product_sage"; // Required, not optional
+persona: string; // Required, not optional
 includeHashtags?: boolean;
 maxLength?: number;
 customPrompt?: string;
@@ -97,51 +96,11 @@ if (bulkIndex !== undefined) {
   randomArchetype = comedyArchetypes[Math.floor(Math.random() * comedyArchetypes.length)];
 }
 
-// Enhanced anti-repetition system: analyze last 20 tweets for patterns
-let antiRepetitionGuard = "";
-let structuralPatterns: string[] = [];
-let themeKeywords: string[] = [];
-
-try {
-  const data = await fs.readFile("data/tweets.json", "utf8");
-  const tweetsData: Array<{ content: string }> = JSON.parse(data);
-  const recent20 = tweetsData.slice(-20).map((t) => t.content);
-  
-  if (recent20.length > 0) {
-    // Extract structural patterns (sentence starters, formats)
-    structuralPatterns = recent20.map(tweet => {
-      const words = tweet.split(' ');
-      if (words.length >= 3) {
-        // Get first 3 words pattern and last word pattern
-        return `${words.slice(0, 3).join(' ')} ... ${words[words.length - 1]}`;
-      }
-      return tweet.slice(0, 30);
-    });
-    
-    // Extract theme keywords (excluding common words)
-    const allWords = recent20.join(' ').toLowerCase()
-      .replace(/[^a-z\s]/g, ' ')
-      .split(/\s+/)
-      .filter(word => word.length > 4 && 
-        !['this', 'that', 'with', 'when', 'where', 'while', 'india', 'indian'].includes(word));
-    
-    const wordFreq = allWords.reduce((acc, word) => {
-      acc[word] = (acc[word] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-    
-    themeKeywords = Object.entries(wordFreq)
-      .filter(([, count]) => count >= 2)
-      .map(([word]) => word)
-      .slice(0, 8);
-
-    antiRepetitionGuard = `
+// Simplified anti-repetition system (database-based would be implemented here)
+const antiRepetitionGuard = `
 🚫 STRICT ANTI-REPETITION PROTOCOL:
 
-AVOID these overused structural patterns:
-${structuralPatterns.slice(0, 5).map((p, i) => `${i + 1}. ${p}`).join('\n')}
-
-AVOID these overused themes/keywords: ${themeKeywords.join(', ')}
+AVOID family references: NO uncle, aunty, mother, father, cousin, grandma, etc.
 
 ✅ FRESHNESS REQUIREMENTS:
 - Use a COMPLETELY different sentence structure
@@ -149,10 +108,6 @@ AVOID these overused themes/keywords: ${themeKeywords.join(', ')}
 - Create a new metaphor/comparison not used before
 - If it sounds familiar, SCRAP IT and think of something else
 - Surprise even yourself with the punchline direction`;
-  }
-} catch (err) {
-  console.warn("Could not read tweets.json for anti-repetition analysis:", err);
-}
 
 // Removed overcomplicated creativity injection - let natural humor flow
 
@@ -161,27 +116,7 @@ AVOID these overused themes/keywords: ${themeKeywords.join(', ')}
   
   const taggingInstruction = "\nWhen mentioning people, celebrities, politicians, or entities, always use their real Twitter handles (e.g., @elonmusk instead of Elon, @narendramodi instead of Modi) instead of just their names.";
   
-  if (persona === "vibe_coder") {
-    basePrompt = `You're a chill Indian developer who finds humor in coding life and tech culture. 
-
-Write one relatable, funny tweet about: ${selectedTopic}
-
-Use ${randomArchetype} style. Mix coding references with Indian developer reality. Be witty and relatable, not cynical.
-
-// Examples of the vibe:
-- "ChatGPT suggested a fix. My code still threw tantrums. #AIInDev #CodingLife"
-- "Deploying while Elon tweets = high-stakes multitasking. #ProdLife #TechIndia"
-- "Hackathons: where sleep is optional and caffeine is mandatory. #HackathonLife #DevHumor"
-- "GitHub Copilot wrote my docstring; I wrote a resignation letter. #AIProgramming #DevStruggles"
-
-${taggingInstruction}
-
-${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
-
-${antiRepetitionGuard}
-
-Make it something fellow developers will relate to and share:`;
-  } else if (persona === "product_sage") {
+  if (persona === "product_sage") {
     basePrompt = `You're a hilariously witty Indian product leader with 9 years of building beloved (and sometimes cursed) products. Share brutally funny insights about product decisions.
 
 Write one outrageously funny yet insightful tweet about: ${selectedTopic}
@@ -202,10 +137,12 @@ ${antiRepetitionGuard}
 
 Make it so funny that product managers will screenshot it while crying from laughter:`;
   } else {
-    // Simplified unhinged satirist prompt
+    // Simplified unhinged satirist prompt - NO family references
     basePrompt = `You're a savage Indian comedian. Write one brutal, hilarious tweet about: ${selectedTopic}
 
 Use ${randomArchetype} style. Be ruthlessly funny about Indian reality. Roast everyone and everything.
+
+STRICT RULE: NO references to family members (uncle, aunty, mother, father, cousin, grandma, etc.)
 
 // Examples of the energy:
 - "Digital India: Aadhar update took 3 hours. Crypto wallet verification: 3 minutes. #ModernIndia #TechFail"
@@ -303,26 +240,12 @@ function extractHashtags(text: string): string[] {
   return cleanHashtags as string[];
 }
 
+// Personas are managed centrally
 export const personas = [
-{
-  id: "unhinged_satirist",
-  name: "Unhinged Satirist",
-  description:
-    "Sharp Indian poet-comedian blending Hasya-Kavi rhythm with modern satire",
-  emoji: "🃏",
-},
-{
-  id: "vibe_coder",
-  name: "Vibe Coder",
-  description:
-    "Chill Indian developer sharing relatable coding life humor",
-  emoji: "💻",
-},
-{
-  id: "product_sage",
-  name: "Product Sage",
-  description:
-    "Seasoned product leader revealing insights behind beloved products",
-  emoji: "🎯",
-},
-] as const;
+  { id: "unhinged_satirist", name: "Unhinged Satirist", emoji: "🃏" },
+  { id: "product_sage", name: "Product Sage", emoji: "🎯" },
+];
+
+export function getPersonas() {
+  return personas;
+}
