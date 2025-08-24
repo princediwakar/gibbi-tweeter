@@ -92,9 +92,10 @@ async function loadSources(persona?: string): Promise<Sources> {
   if (persona) {
     // Map persona names to source file names
     const personaToFile: Record<string, string> = {
-      'unhinged_satirist': 'sources-satirist.json',
-      'product_sage': 'sources-product.json',
-      'vibe_coder': 'sources-coder.json'
+      'sat_coach': 'sources-sat.json',
+      'gre_master': 'sources-gre.json',
+      'gmat_pro': 'sources-gmat.json',
+      'test_prep_guru': 'sources-testprep.json'
     };
     
     sourceFile = personaToFile[persona] || 'sources.json';
@@ -125,10 +126,10 @@ async function loadSources(persona?: string): Promise<Sources> {
     // Final fallback to hardcoded defaults
     return {
       twitter: {
-        handles: ["@livemint", "@EconomicTimes", "@TechCrunch", "@Inc42"]
+        handles: ["@CollegeBoard", "@ETS", "@KaplanTestPrep", "@PrincetonReview"]
       },
       reddit: {
-        subreddits: ["india", "technology", "startups", "business"]
+        subreddits: ["SAT", "GRE", "GMAT", "college", "ApplyingToCollege"]
       }
     };
   }
@@ -152,9 +153,9 @@ async function fetchFromGoogleNews(persona?: string): Promise<TrendingTopic[]> {
       
       // Try multiple search strategies
       const searchUrls = [
-        `https://news.google.com/rss/search?q=site:x.com/${cleanHandle}+when:3d&hl=en-IN&gl=IN&ceid=IN:en`,
-        `https://news.google.com/rss/search?q="${cleanHandle}"+when:3d&hl=en-IN&gl=IN&ceid=IN:en`,
-        `https://news.google.com/rss/search?q=${cleanHandle}+india&hl=en-IN&gl=IN&ceid=IN:en`,
+        `https://news.google.com/rss/search?q=site:x.com/${cleanHandle}+when:3d&hl=en-US&gl=US&ceid=US:en`,
+        `https://news.google.com/rss/search?q="${cleanHandle}"+education+test+prep+when:3d&hl=en-US&gl=US&ceid=US:en`,
+        `https://news.google.com/rss/search?q=${cleanHandle}+college+university+when:3d&hl=en-US&gl=US&ceid=US:en`,
       ];
       
       for (const searchUrl of searchUrls) {
@@ -163,7 +164,7 @@ async function fetchFromGoogleNews(persona?: string): Promise<TrendingTopic[]> {
             headers: {
               'User-Agent': userAgent,
               'Accept': 'application/rss+xml,application/xml,text/xml',
-              'Accept-Language': 'en-IN,en;q=0.9',
+              'Accept-Language': 'en-US,en;q=0.9',
             },
             signal: AbortSignal.timeout(10000),
           });
@@ -262,14 +263,14 @@ function getRandomSubreddits(subreddits: string[], count: number = 5): string[] 
 
 function getStaticFallbackTopics(): TrendingTopic[] {
   const fallbackTopics = [
-    { title: "Indian Startup Ecosystem", traffic: "500K", category: "Business", hashtags: [] },
-    { title: "Digital India Initiatives", traffic: "800K", category: "Technology", hashtags: [] },
-    { title: "Bollywood Industry Updates", traffic: "300K", category: "Entertainment", hashtags: [] },
-    { title: "Cricket Season Highlights", traffic: "400K", category: "Sports", hashtags: [] },
-    { title: "Tech Innovation in India", traffic: "250K", category: "Technology", hashtags: [] },
-    { title: "Indian Political Landscape", traffic: "600K", category: "Politics", hashtags: [] },
-    { title: "Economic Policy Changes", traffic: "350K", category: "Economy", hashtags: [] },
-    { title: "Social Media Trends", traffic: "450K", category: "Social", hashtags: [] },
+    { title: "SAT Test Changes 2024", traffic: "500K", category: "SAT", hashtags: ["#SAT2024", "#TestPrep"] },
+    { title: "College Application Deadlines", traffic: "800K", category: "College", hashtags: ["#CollegePrep", "#Applications"] },
+    { title: "GRE Score Requirements", traffic: "300K", category: "GRE", hashtags: ["#GRE", "#GradSchool"] },
+    { title: "GMAT vs GRE for MBA", traffic: "400K", category: "MBA", hashtags: ["#GMAT", "#MBA"] },
+    { title: "Study Abroad Scholarships", traffic: "250K", category: "Education", hashtags: ["#Scholarships", "#StudyAbroad"] },
+    { title: "US University Rankings 2024", traffic: "600K", category: "Universities", hashtags: ["#Rankings", "#College"] },
+    { title: "Student Loan Updates", traffic: "350K", category: "Finance", hashtags: ["#StudentLoans", "#Education"] },
+    { title: "Online Learning Trends", traffic: "450K", category: "EdTech", hashtags: ["#OnlineLearning", "#EdTech"] },
   ];
 
   return fallbackTopics;

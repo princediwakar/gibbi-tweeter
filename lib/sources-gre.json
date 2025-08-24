@@ -1,0 +1,62 @@
+{
+  "twitter": {
+    "handles": [
+      "@ETS",
+      "@KaplanTestPrep", 
+      "@PrincetonReview",
+      "@Manhattan_Prep",
+      "@gregmatpreprep",
+      "@Magoosh",
+      "@PrepScholar",
+      "@TargetTestPrep",
+      "@Harvard",
+      "@Stanford",
+      "@mit",
+      "@ucberkeley",
+      "@UCLA",
+      "@Northwestern",
+      "@UChicago",
+      "@UPenn",
+      "@Columbia",
+      "@yale",
+      "@Princeton",
+      "@Duke",
+      "@Georgetown",
+      "@VanderbiltU",
+      "@nyu",
+      "@usc",
+      "@BostonUniversity",
+      "@GradSchoolGuide",
+      "@FindAPhD", 
+      "@gradschoollife",
+      "@PhDVoice",
+      "@AcademicChatter",
+      "@chronicle",
+      "@InsideHigherEd",
+      "@EdSurgeNews",
+      "@TimesHigherEd",
+      "@usnews",
+      "@forbes"
+    ]
+  },
+  "reddit": {
+    "subreddits": [
+      "GRE",
+      "GradSchool", 
+      "gradadmissions",
+      "gradschoolproblems",
+      "PhD",
+      "AskAcademia",
+      "gradschoolmemes",
+      "TestPrep",
+      "EngineeringStudents",
+      "compsci",
+      "MachineLearning",
+      "statistics",
+      "Psychology",
+      "biology",
+      "chemistry",
+      "physics"
+    ]
+  }
+}

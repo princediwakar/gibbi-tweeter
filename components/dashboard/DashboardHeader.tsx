@@ -1,4 +1,4 @@
-import { Twitter, RefreshCw } from 'lucide-react';
+import { GraduationCap, RefreshCw } from 'lucide-react';
 import { DashboardStats } from '@/types/dashboard';
 import { Button } from '@/components/ui/button';
 
@@ -22,12 +22,12 @@ export function DashboardHeader({
       <div className="flex justify-between items-start mb-6">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <div className="bg-blue-600 p-2 rounded-lg">
-              <Twitter className="h-6 w-6 text-white" />
+            <div className="bg-emerald-600 p-2 rounded-lg">
+              <GraduationCap className="h-6 w-6 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-white">AI Tweet Generator</h1>
+            <h1 className="text-2xl font-bold text-white">Test Prep Tweet Bot</h1>
           </div>
-          <p className="text-gray-400 text-sm">Automated content generation with multi-persona AI</p>
+          <p className="text-gray-400 text-sm">Automated US test prep content for SAT, GRE, GMAT & more</p>
         </div>
         
         <div className="flex flex-col gap-3">

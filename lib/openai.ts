@@ -68,103 +68,136 @@ if (useTrendingTopics && !customPrompt) {
 } else if (customPrompt) {
   selectedTopic = customPrompt;
 } else if (!useTrendingTopics) {
-  selectedTopic = "Current Indian Reality";
+  selectedTopic = "Test Preparation Strategy";
 }
 
-// Infuse variability with comedy archetypes from top influential comedians
-const comedyArchetypes = [
-  "observational comedy (Jerry Seinfeld style) - finding absurdity in everyday mundane situations",
-  "self-deprecating roast (Russell Peters style) - turning personal/cultural flaws into punchlines",
-  "social commentary (George Carlin style) - exposing societal hypocrisies with sharp wit",
-  "absurdist exaggeration (Dave Chappelle style) - taking real situations to ridiculous extremes",
-  "deadpan irony (Steven Wright style) - delivering shocking truths with matter-of-fact delivery",
-  "storytelling humor (Kevin Hart style) - turning relatable experiences into comedic narratives",
-  "political satire (John Oliver style) - dissecting current events with intelligent mockery",
-  "cultural mashup (Aziz Ansari style) - blending traditional and modern perspectives for contrast",
-  "wordplay and puns (Robin Williams style) - clever linguistic manipulation for humor",
-  "dark humor (Louis C.K. style) - finding comedy in uncomfortable truths",
-  "physical comedy concepts (Mr. Bean style) - describing visual absurdity in words",
-  "improvisational wit (Whose Line style) - quick, unexpected connections and callbacks"
+// Test prep teaching approaches for content variability
+const teachingApproaches = [
+  "practice question format - direct MCQ with clear answer explanation",
+  "study tip approach - actionable strategy for test improvement",
+  "concept clarification - breaking down complex topics simply",
+  "motivation and mindset - encouraging persistence and confidence",
+  "time management strategy - efficient study and test-taking techniques",
+  "common mistake prevention - highlighting frequent errors to avoid",
+  "memory technique - mnemonics and retention strategies",
+  "test strategy - approach for different question types",
+  "progress tracking - measuring improvement and setting goals",
+  "real-world application - connecting concepts to practical use"
 ];
-// Select comedy archetype with better distribution for bulk generation
-let randomArchetype;
+// Select teaching approach with better distribution for bulk generation
+let randomApproach;
 if (bulkIndex !== undefined) {
-  // For bulk generation, ensure different archetypes by cycling through them
-  const archetypeIndex = (bulkIndex + Math.floor(Math.random() * 3)) % comedyArchetypes.length;
-  randomArchetype = comedyArchetypes[archetypeIndex];
+  // For bulk generation, ensure different approaches by cycling through them
+  const approachIndex = (bulkIndex + Math.floor(Math.random() * 3)) % teachingApproaches.length;
+  randomApproach = teachingApproaches[approachIndex];
 } else {
-  randomArchetype = comedyArchetypes[Math.floor(Math.random() * comedyArchetypes.length)];
+  randomApproach = teachingApproaches[Math.floor(Math.random() * teachingApproaches.length)];
 }
 
-// Simplified anti-repetition system (database-based would be implemented here)
-const antiRepetitionGuard = `
-🚫 STRICT ANTI-REPETITION PROTOCOL:
+// Content quality and variety guidelines
+const contentQualityGuard = `
+📚 EDUCATIONAL CONTENT STANDARDS:
 
-AVOID family references: NO uncle, aunty, mother, father, cousin, grandma, etc.
-
-✅ FRESHNESS REQUIREMENTS:
-- Use a COMPLETELY different sentence structure
-- Pick an unexplored angle using ${randomArchetype}
-- Create a new metaphor/comparison not used before
-- If it sounds familiar, SCRAP IT and think of something else
-- Surprise even yourself with the punchline direction`;
+✅ CONTENT REQUIREMENTS:
+- Use clear, educational language appropriate for students
+- Provide accurate information relevant to US standardized tests
+- Include helpful study strategies or practice questions
+- Maintain encouraging and supportive tone
+- Vary content format using: ${randomApproach}
+- Make content engaging and actionable for test prep`;
 
 // Removed overcomplicated creativity injection - let natural humor flow
 
   // Persona-specific prompt generation
   let basePrompt: string;
   
-  const taggingInstruction = "\nWhen mentioning people, celebrities, politicians, or entities, always use their real Twitter handles (e.g., @elonmusk instead of Elon, @narendramodi instead of Modi) instead of just their names.";
+  const hashtagInstruction = "\nInclude 2-3 relevant hashtags for test prep engagement (e.g., #SAT2024, #TestPrep, #StudyTips).";
   
-  if (persona === "product_sage") {
-    basePrompt = `Write ONE brutal, hilarious one-liner tweet about: ${selectedTopic}
+  if (persona === "sat_coach") {
+    basePrompt = `Create an engaging SAT prep tweet about: ${selectedTopic}
 
-MANDATORY RULES:
-- EXACTLY one sentence maximum (one-liner only)
-- NO family references whatsoever (uncle, aunty, mother, father, cousin, grandma, etc.)
-- Roast product decisions with savage wit
-- Use Indian context and @handles for people/companies
-- Make it screenshot-worthy hilarious
+TWEET FORMAT OPTIONS:
+- Practice question with multiple choice answers
+- Study tip for SAT success
+- Motivational message for test-takers
+- Test strategy or time management advice
 
-STYLE: ${randomArchetype}
+APPROACH: ${randomApproach}
 
-Perfect one-liner examples:
-- "@OpenAI's ChatGPT costs $20/month but my startup's AI chatbot costs ₹2000 and still asks 'aap kaise hain?'"
-- "Indian fintech: @Paytm takes 2% fee on ₹10 but @zerodhaonline lets you trade crores for free."
-- "@swiggy_in's 'delivery in 30 mins' is more reliable than @narendramodi's 'achhe din' promise."
+EXAMPLES:
+- "📚 SAT Math: If 3x + 5 = 20, what's 6x + 10? A) 30 B) 40 C) 35 D) 45 Think it through... Answer: A! #SAT2024 #MathPrep"
+- "⏰ SAT Strategy: Spend 30 seconds on easy questions, 1 minute on medium, 2+ on hard. Time management = higher scores! #SATPrep #TestStrategy"
+- "💪 Remember: Every practice test brings you closer to your target score. Consistency beats cramming every time! #SAT2024 #StudyMotivation"
 
-${taggingInstruction}
+${hashtagInstruction}
 
-${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
+${contentQualityGuard}
 
-${antiRepetitionGuard}
+Write ONLY the tweet - no explanations:`;
+  } else if (persona === "gre_master") {
+    basePrompt = `Create an engaging GRE prep tweet about: ${selectedTopic}
 
-Write ONLY the one-liner tweet - no explanations:`;
+TWEET FORMAT OPTIONS:
+- Vocabulary word with definition and example
+- Math practice question
+- Graduate school prep advice
+- Writing tips for analytical writing
+
+APPROACH: ${randomApproach}
+
+EXAMPLES:
+- "📖 GRE Vocab: UBIQUITOUS means 'present everywhere' - like anxiety during grad school apps! Use it: 'Smartphones are ubiquitous in modern society.' #GRE #Vocabulary"
+- "🧮 GRE Quant: What's 25% of 80% of 200? A) 30 B) 40 C) 50 D) 35 Break it down: 0.25 × 0.80 × 200 = 40! #GREMath #TestPrep"
+- "✍️ GRE Writing tip: Start with a clear thesis, support with 2-3 examples, address counterarguments. Structure = higher scores! #GREWriting #GradSchool"
+
+${hashtagInstruction}
+
+${contentQualityGuard}
+
+Write ONLY the tweet - no explanations:`;
+  } else if (persona === "gmat_pro") {
+    basePrompt = `Create an engaging GMAT prep tweet about: ${selectedTopic}
+
+TWEET FORMAT OPTIONS:
+- Critical reasoning practice question
+- Data sufficiency problem
+- MBA application strategy
+- Business school prep advice
+
+APPROACH: ${randomApproach}
+
+EXAMPLES:
+- "💼 GMAT Critical Reasoning: 'Sales increased 20% after hiring new manager.' What strengthens this? A) Manager has MBA B) Sales team expanded C) No other changes occurred D) Previous manager quit. Answer: C! #GMAT #CriticalReasoning"
+- "📊 Data Sufficiency: Is x > 5? (1) x² > 25 (2) x + 3 > 8. Need both statements! x could be negative in (1), (2) gives x > 5 directly. #GMATMath #DataSufficiency"
+- "🎯 MBA Strategy: Apply to 6-8 schools (2 reach, 4 target, 2 safety). Diversify your chances while staying focused! #MBA2024 #BusinessSchool"
+
+${hashtagInstruction}
+
+${contentQualityGuard}
+
+Write ONLY the tweet - no explanations:`;
   } else {
-    // Unhinged satirist - one-liner only
-    basePrompt = `Write ONE savage, hilarious one-liner roast about: ${selectedTopic}
+    // Test Prep Guru - general test prep wisdom
+    basePrompt = `Create an engaging test prep tweet about: ${selectedTopic}
 
-MANDATORY RULES:
-- EXACTLY one sentence maximum (one-liner only) 
-- ABSOLUTELY NO family references (uncle, aunty, mother, father, cousin, grandma, etc.)
-- Roast Indian reality with brutal wit
-- Use @handles for people/politicians/companies
-- Make it devastatingly funny
+TWEET FORMAT OPTIONS:
+- General study strategy
+- Test-taking mindset advice
+- Time management tips
+- Preparation motivation
 
-STYLE: ${randomArchetype}
+APPROACH: ${randomApproach}
 
-Perfect one-liner examples:
-- "@narendramodi's Digital India: my Aadhaar update crashed but my meme went viral instantly."
-- "Indian startups raising $100M to disrupt the chaiwalla while @zomato charges ₹5 delivery for tea."
-- "@RBI's new crypto rules: more confusing than @KejriwalAAP's alliance strategies."
+EXAMPLES:
+- "🧠 Study Science: Spaced repetition beats cramming. Review material after 1 day, 3 days, 1 week, 2 weeks. Your brain will thank you! #StudyTips #TestPrep"
+- "⚡ Test Day Mindset: Read questions twice, eliminate wrong answers first, guess strategically on tough ones. Confidence + strategy = success! #TestTaking #Mindset"
+- "📈 Progress Tracking: Take a practice test every 2 weeks. Measure improvement, identify weak areas, adjust study plan. Data drives results! #TestPrep #Progress"
 
-${taggingInstruction}
+${hashtagInstruction}
 
-${randomTopic?.hashtags && randomTopic.hashtags.length > 0 ? `Use these hashtags: ${randomTopic.hashtags.join(' ')}` : ''}
+${contentQualityGuard}
 
-${antiRepetitionGuard}
-
-Write ONLY the one-liner roast - no explanations:`;
+Write ONLY the tweet - no explanations:`;
   }
   
 
@@ -175,8 +208,8 @@ try {
     messages: [{ role: "user", content: basePrompt }],
     max_tokens: Math.min(120, Math.ceil(maxLength / 2)),
     temperature: bulkIndex !== undefined ? 
-      1.3 + (bulkIndex * 0.15) % 0.5 : // 1.3 to 1.8 range for bulk generation
-      1.4, // Higher temperature for funnier, more creative outputs
+      0.8 + (bulkIndex * 0.1) % 0.3 : // 0.8 to 1.1 range for bulk generation
+      0.9, // Moderate temperature for educational consistency with some creativity
   });
 
   let tweet = completion.choices[0]?.message?.content?.trim();
@@ -269,8 +302,10 @@ function extractHashtags(text: string): string[] {
 
 // Personas are managed centrally
 export const personas = [
-  { id: "unhinged_satirist", name: "Unhinged Satirist", emoji: "🃏" },
-  { id: "product_sage", name: "Product Sage", emoji: "🎯" },
+  { id: "sat_coach", name: "SAT Coach", emoji: "🎓" },
+  { id: "gre_master", name: "GRE Master", emoji: "📚" },
+  { id: "gmat_pro", name: "GMAT Pro", emoji: "💼" },
+  { id: "test_prep_guru", name: "Test Prep Guru", emoji: "🧠" },
 ];
 
 export function getPersonas() {

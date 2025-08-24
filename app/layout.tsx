@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Tweet Scheduler",
-  description: "Generate AI-powered tweets with relevant hashtags and schedule them to post on X every 2 hours",
+  title: "Test Prep Tweet Bot",
+  description: "Automated US test prep content generator for SAT, GRE, GMAT, and standardized test preparation",
 };
 
 export default function RootLayout({

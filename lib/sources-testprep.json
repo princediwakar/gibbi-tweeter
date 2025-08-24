@@ -1,0 +1,62 @@
+{
+  "twitter": {
+    "handles": [
+      "@KaplanTestPrep",
+      "@PrincetonReview",
+      "@PrepScholar",
+      "@KhanAcademy",
+      "@Magoosh",
+      "@TargetTestPrep",
+      "@Manhattan_Prep",
+      "@VeritasPrep",
+      "@McGrawHillPrep",
+      "@Varsity_Tutors",
+      "@StudyPoint",
+      "@IvyWise",
+      "@AcceptedInc",
+      "@CollegeBoard",
+      "@ETS",
+      "@GMATofficial",
+      "@usnews",
+      "@forbes",
+      "@nytimes",
+      "@EdSurgeNews",
+      "@InsideHigherEd",
+      "@chronicle",
+      "@TimesHigherEd",
+      "@TeacherOfYear",
+      "@CourseHero",
+      "@Quizlet",
+      "@StudyBlue",
+      "@Chegg",
+      "@PearsonSupport",
+      "@CengageLearning",
+      "@WileyGlobal",
+      "@mcgrawhilledu",
+      "@HoughtonMifflin",
+      "@ScholasticNews",
+      "@TestMasters"
+    ]
+  },
+  "reddit": {
+    "subreddits": [
+      "TestPrep",
+      "SAT",
+      "GRE", 
+      "GMAT",
+      "MCAT",
+      "LSAT",
+      "college",
+      "ApplyingToCollege",
+      "GradSchool",
+      "MBA",
+      "premed",
+      "prelaw",
+      "studytips",
+      "GetStudying",
+      "HomeworkHelp",
+      "education",
+      "teachers"
+    ]
+  }
+}

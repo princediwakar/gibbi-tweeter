@@ -1,0 +1,62 @@
+{
+  "twitter": {
+    "handles": [
+      "@CollegeBoard",
+      "@KaplanTestPrep",
+      "@PrincetonReview",
+      "@PrepScholar",
+      "@KhanAcademy",
+      "@McGrawHillPrep",
+      "@IvyWise",
+      "@AcceptedInc",
+      "@Harvard",
+      "@Yale",
+      "@Stanford",
+      "@mit",
+      "@Princeton",
+      "@Columbia",
+      "@UPenn",
+      "@Cornell",
+      "@Brown",
+      "@Dartmouth",
+      "@Georgetown",
+      "@Northwestern",
+      "@UChicago",
+      "@VanderbiltU",
+      "@ucberkeley",
+      "@UCLA",
+      "@NYU",
+      "@usc",
+      "@CollegeConfidential",
+      "@usnews",
+      "@forbes",
+      "@nytimes",
+      "@washingtonpost",
+      "@WSJ",
+      "@ApplyingToCollege",
+      "@StudentLoanHero",
+      "@EdSurgeNews",
+      "@InsideHigherEd",
+      "@chronicle"
+    ]
+  },
+  "reddit": {
+    "subreddits": [
+      "SAT",
+      "SATPrep", 
+      "ApplyingToCollege",
+      "college",
+      "CollegeAdmissions",
+      "TestPrep",
+      "highschool",
+      "A2C_circlejerk",
+      "chanceme",
+      "CollegeEssayReview",
+      "scholarships",
+      "premed",
+      "prelaw",
+      "CollegeBasketball",
+      "education"
+    ]
+  }
+}

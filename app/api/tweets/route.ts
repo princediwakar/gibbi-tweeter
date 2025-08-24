@@ -7,8 +7,10 @@ import { getNextOptimalPostTime, getSpacedPostingSchedule } from '@/lib/timing';
 
 // Import personas directly instead of making HTTP calls
 const PERSONAS = [
-  { id: "unhinged_satirist", name: "Unhinged Satirist" },
-  { id: "product_sage", name: "Product Sage" },
+  { id: "sat_coach", name: "SAT Coach" },
+  { id: "gre_master", name: "GRE Master" },
+  { id: "gmat_pro", name: "GMAT Pro" },
+  { id: "test_prep_guru", name: "Test Prep Guru" },
 ];
 
 // Helper function to get default persona
