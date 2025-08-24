@@ -64,7 +64,7 @@ vercel --prod
 
 After deployment:
 
-1. **Test API connection**: Visit `https://your-app.vercel.app/api/test-twitter`
+1. **Test API connection**: Visit `https://gibbi-tweeter.vercel.app/api/test-twitter`
 2. **Generate a tweet**: Use the UI to create and post a test tweet
 3. **Check scheduler**: Start the auto-posting scheduler
 4. **Monitor logs**: Check Vercel function logs for any errors

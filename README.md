@@ -11,6 +11,8 @@
 
 Gibbi Tweeter is a specialized AI-powered content generator that creates educational tweets for US students preparing for standardized tests. Built as a marketing channel for [Gibbi AI](https://gibbi.vercel.app), it targets the $4.5B US test prep industry with 3M+ annual test-takers.
 
+**🌐 Live Demo:** [https://gibbi-tweeter.vercel.app](https://gibbi-tweeter.vercel.app)
+
 ## ✨ Features
 
 ### 🎓 Four Test Prep Personas
@@ -165,7 +167,7 @@ vercel --prod
 ### Production Auto-Posting Setup
 1. Create account at [cron-job.org](https://cron-job.org)
 2. Configure cron job:
-   - **URL**: `https://your-app.vercel.app/api/auto-chain`
+   - **URL**: `https://gibbi-tweeter.vercel.app/api/auto-chain`
    - **Schedule**: `*/15 * * * *` (Every 15 minutes)
    - **Headers**: `Authorization: Bearer ${CRON_SECRET}`
 

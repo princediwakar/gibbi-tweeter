@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       deployment_url:
-        description: 'Deployment URL (e.g., https://your-app.vercel.app)'
+        description: 'Deployment URL (e.g., https://gibbi-tweeter.vercel.app)'
         required: true
         type: string
 

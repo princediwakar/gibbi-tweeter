@@ -267,12 +267,13 @@ The app is configured for Vercel deployment with external cron service for produ
 **External Cron Service Setup:**
 1. **Create account** at https://cron-job.org
 2. **Configure cron job**:
-   - **URL**: `https://your-vercel-app.vercel.app/api/auto-chain`
+   - **URL**: `https://gibbi-tweeter.vercel.app/api/auto-chain`
    - **Schedule**: `*/15 * * * *` (Every 15 minutes)
    - **Method**: GET
    - **Headers**: `Authorization: Bearer ${CRON_SECRET}`
 
 **Auto-Chain Educational Content:**
+- **Production URL**: https://gibbi-tweeter.vercel.app/api/auto-chain
 - **Frequency**: Every 15 minutes during US active hours
 - **Daily Output**: 15-20 educational tweets optimized for US time zones
 - **Content Variety**: Rotates through 4 test prep personas
