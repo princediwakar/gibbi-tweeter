@@ -1,131 +1,181 @@
-# 🤖 AI Tweet Bot
+# Gibbi Tweeter - US Test Prep Tweet Bot 🎓
 
-A powerful AI-powered tweet generation and scheduling bot with multi-persona support.
+**Automated US test preparation content generator targeting SAT, GRE, GMAT, and standardized test markets.**
 
-![Next.js](https://img.shields.io/badge/Next.js-15-black)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC)
+[![Next.js](https://img.shields.io/badge/Next.js-15.4.7-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.0-38bdf8)](https://tailwindcss.com/)
+[![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000)](https://vercel.com/)
+
+## 🎯 Overview
+
+Gibbi Tweeter is a specialized AI-powered content generator that creates educational tweets for US students preparing for standardized tests. Built as a marketing channel for [Gibbi AI](https://gibbi.vercel.app), it targets the $4.5B US test prep industry with 3M+ annual test-takers.
 
 ## ✨ Features
 
-### 🎭 Multi-Persona AI
-- **Unhinged Comedian** - Brutally honest, darkly funny takes
-- **Quiz Expert** - Engaging trivia questions and facts
-- **Motivational Whiz** - Uplifting inspiration and positivity
+### 🎓 Four Test Prep Personas
+- **SAT Coach** (🎓) - High school test preparation specialist
+- **GRE Master** (📚) - Graduate school preparation expert  
+- **GMAT Pro** (💼) - MBA preparation specialist
+- **Test Prep Guru** (🧠) - General study strategies and motivation
 
-### 🚀 Tweet Generation
-- **Single Tweets** - Generate individual tweets with custom prompts
-- **Bulk Generation** - Create 5-20 tweets at once on any topic
-- **Smart Scheduling** - Auto-schedule tweets at 1-24 hour intervals
-- **Full Content Preview** - See complete tweet content before posting
+### 📚 Educational Content Types
+- **Practice Questions** with MCQ format and explanations
+- **Study Tips** and actionable test strategies
+- **Motivational Content** for test-takers
+- **Test Updates** about deadlines and score releases
+- **Concept Explanations** breaking down complex topics
 
-### ⚡ Automation
-- **Auto-Posting Scheduler** - Automatically post scheduled tweets
-- **Batch Operations** - Select and schedule multiple tweets at once
-- **Real-time Dashboard** - Track drafts, scheduled, and posted tweets
+### ⚡ Automation Features
+- **Smart Scheduling** optimized for US time zones
+- **RSS Integration** with US education sources (College Board, ETS, universities)
+- **Bulk Generation** (5-20 tweets at once)
+- **Auto-posting** via external cron services
+- **Quality Control** with educational accuracy prioritization
 
 ## 🛠 Tech Stack
 
 - **Framework:** Next.js 15 (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS + shadcn/ui
-- **AI:** OpenAI/DeepSeek API
+- **AI:** OpenAI/DeepSeek API (Educational prompts)
 - **Social:** Twitter API v2 (OAuth 1.0a)
 - **Scheduling:** Node-cron
-- **Data:** JSON file storage
+- **Data:** Neon PostgreSQL database
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+
-- Twitter Developer Account
-- OpenAI/DeepSeek API Key
+- Node.js 18+ 
+- Twitter Developer Account with API v2 access
+- OpenAI API key (or DeepSeek)
+- PostgreSQL database (Neon recommended)
 
 ### Installation
 
-1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/ai-tweet-bot.git
-cd ai-tweet-bot
-```
+# Clone the repository
+git clone https://github.com/princediwakar/gibbi-tweeter.git
+cd gibbi-tweeter
 
-2. **Install dependencies**
-```bash
+# Install dependencies  
 npm install
+
+# Copy environment variables
+cp .env.example .env.local
+
+# Configure your environment variables (see below)
+
+# Run development server
+npm run dev
 ```
 
-3. **Environment Setup**
-Create `.env.local` with your API keys:
-```env
-# AI API (Choose one)
-OPENAI_API_KEY=your_openai_key_here
-DEEPSEEK_API_KEY=your_deepseek_key_here
+### Environment Variables
 
-# Twitter API v2 (Required)
+```env
+# AI API
+OPENAI_API_KEY=your_openai_key_here
+
+# Twitter API v2
 TWITTER_API_KEY=your_api_key
 TWITTER_API_SECRET=your_api_secret
 TWITTER_ACCESS_TOKEN=your_access_token
 TWITTER_ACCESS_TOKEN_SECRET=your_access_secret
+OAUTH_CLIENT_ID=your_oauth_client_id
+OAUTH_CLIENT_SECRET=your_oauth_client_secret
+
+# Security (Production)
+CRON_SECRET=your_random_secret_key_here
 ```
 
-4. **Run the application**
-```bash
-npm run dev
+## 📊 Content Sources
+
+### Specialized RSS Feeds by Persona
+- **SAT Coach**: @CollegeBoard, @KaplanTestPrep, @PrincetonReview + Reddit SAT communities
+- **GRE Master**: @ETS, @Manhattan_Prep, @Magoosh + Graduate school subreddits  
+- **GMAT Pro**: @GMATofficial, @ManhattanGMAT + Business school Twitter feeds
+- **Test Prep Guru**: General education sources + Test prep communities
+
+## 🎯 Marketing Strategy
+
+### Target Market
+- **Primary**: 2.1M SAT test-takers annually
+- **Secondary**: 500K GRE + 200K GMAT test-takers
+- **Total Addressable Market**: 3M+ US students
+
+### Content Marketing Approach
+1. **Authority Building** in US test prep space
+2. **Value-First Strategy** with genuine educational content
+3. **Audience Development** of US test prep students
+4. **Traffic Generation** to Gibbi AI platform
+
+## 📈 Sample Generated Content
+
+**SAT Coach:**
+```
+📝 SAT Reading Tip: Don't just pick the first answer that "sounds right." 
+Find the exact text evidence that proves Choice A is the best answer! 
+#CloseReading is key. #SATPrep #StudyTips
 ```
 
-Visit `http://localhost:3000` to start generating tweets!
+**GRE Master:**  
+```
+📚 GRE Vocab: UBIQUITOUS means 'present everywhere' - like anxiety during 
+grad school apps! Use it: 'Smartphones are ubiquitous in modern society.' 
+#GRE #Vocabulary
+```
 
-## 📱 Usage
+**GMAT Pro:**
+```
+🧠 GMAT Critical Reasoning: 'Sales increased 20% after hiring new manager.' 
+What strengthens this? A) Manager has MBA B) Sales team expanded 
+C) No other changes occurred D) Previous manager quit. Answer: C! 
+#GMAT #CriticalReasoning
+```
 
-### Single Tweet Generation
-1. Select persona (Comedian/Quiz Expert/Motivational)
-2. Choose topic or write custom prompt
-3. Click "Generate & Schedule" or "Draft"
+## 📁 Project Structure
 
-### Bulk Tweet Generation
-1. Write prompt like "Generate 10 tweets about coffee"
-2. Select count (5-20 tweets)
-3. Choose persona and scheduling interval
-4. Review generated tweets and select which to schedule
-
-### Auto-Posting
-1. Click "Start Auto-Post" to enable scheduler
-2. Scheduled tweets will be posted automatically
-3. Monitor progress in the dashboard
-
-## 🔧 Configuration
-
-### Twitter App Permissions
-Your Twitter app needs **Read and Write** permissions to post tweets. Update in Twitter Developer Console.
-
-### AI Models
-- **DeepSeek** (Recommended) - Cost-effective, high quality
-- **OpenAI GPT** - Premium option, excellent results
-
-## 📈 Dashboard
-
-The dashboard shows:
-- **Total Tweets** - All tweets in system
-- **Drafts** - Unscheduled tweets ready to edit
-- **Scheduled** - Tweets queued for posting
-- **Posted** - Successfully published tweets
+```
+gibbi-tweeter/
+├── app/
+│   ├── api/tweets/route.ts       # Tweet generation API
+│   ├── api/scheduler/route.ts    # Auto-posting scheduler
+│   └── layout.tsx                # App layout with test prep branding
+├── components/
+│   ├── dashboard/                # Dashboard components
+│   └── ui/                       # shadcn/ui components
+├── lib/
+│   ├── sources-sat.json          # SAT-focused RSS sources
+│   ├── sources-gre.json          # GRE-focused RSS sources
+│   ├── sources-gmat.json         # GMAT-focused RSS sources
+│   ├── openai.ts                 # AI content generation
+│   └── trending.ts               # RSS feed processing
+└── CLAUDE.md                     # Detailed documentation
+```
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
-
-1. **Connect to Vercel**
+### Vercel Deployment
 ```bash
-npx vercel
+# Deploy to Vercel
+npm run build
+vercel --prod
 ```
 
-2. **Add Environment Variables**
-Go to Vercel Dashboard → Project → Settings → Environment Variables
-Add all variables from `.env.local`
+### Production Auto-Posting Setup
+1. Create account at [cron-job.org](https://cron-job.org)
+2. Configure cron job:
+   - **URL**: `https://your-app.vercel.app/api/auto-chain`
+   - **Schedule**: `*/15 * * * *` (Every 15 minutes)
+   - **Headers**: `Authorization: Bearer ${CRON_SECRET}`
 
-3. **Deploy**
+## 🛠️ Development
+
 ```bash
-npx vercel --prod
+npm run dev        # Start development server
+npm run build      # Build for production  
+npm run start      # Start production server
+npm run lint       # Run ESLint
 ```
 
 ## 🤝 Contributing
@@ -140,12 +190,17 @@ npx vercel --prod
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
-## ⚠️ Disclaimer
+## 🔗 Related Projects
 
-This bot posts to Twitter automatically. Use responsibly and ensure compliance with Twitter's Terms of Service.
+- **[Gibbi AI](https://gibbi.vercel.app)** - AI-powered quiz creation platform for students
+- **[Original Tweeter](https://github.com/princediwakar/tweeter-ai)** - Satirical tweet generator (parent project)
+
+## 📞 Support
+
+For questions about Gibbi Tweeter or integration with Gibbi AI:
+- Create an issue in this repository
+- Visit [Gibbi AI](https://gibbi.vercel.app) for the quiz platform
 
 ---
 
-**Built with ❤️ using Next.js and AI**
-
-🤖 *Generated with [Claude Code](https://claude.ai/code)*
+**Built for the US test prep market • Targeting 3M+ students annually • Marketing channel for Gibbi AI**
