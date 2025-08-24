@@ -15,7 +15,6 @@ export default function TweetDashboard() {
     latestTweet,
     selectedTweets,
     loading,
-    autoGenerating,
     schedulerRunning,
     autoSchedulerRunning,
     autoChainRunning,
@@ -77,7 +76,7 @@ export default function TweetDashboard() {
             tweet={latestTweet}
             personas={personas}
             onShare={shareOnX}
-            loading={autoGenerating}
+            loading={loading}
           />
         )}
 
