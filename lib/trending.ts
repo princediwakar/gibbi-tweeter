@@ -2,8 +2,8 @@ import { parseStringPromise } from "xml2js";
 import fs from "fs/promises";
 import path from "path";
 
-// Use native fetch in Node.js 18+ or polyfill for older versions
-const fetchFn = globalThis.fetch || require('node-fetch').default;
+// Use native fetch in Node.js 18+
+const fetchFn = globalThis.fetch;
 
 // ─────────────────────────────────────────────
 // 🔑 Types & Interfaces
