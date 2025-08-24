@@ -1,7 +1,9 @@
 import { parseStringPromise } from "xml2js";
-import fetch from "node-fetch";
 import fs from "fs/promises";
 import path from "path";
+
+// Use native fetch in Node.js 18+ or polyfill for older versions
+const fetchFn = globalThis.fetch || require('node-fetch').default;
 
 // ─────────────────────────────────────────────
 // 🔑 Types & Interfaces
@@ -160,7 +162,7 @@ async function fetchFromGoogleNews(persona?: string): Promise<TrendingTopic[]> {
       
       for (const searchUrl of searchUrls) {
         try {
-          const response = await fetch(searchUrl, {
+          const response = await fetchFn(searchUrl, {
             headers: {
               'User-Agent': userAgent,
               'Accept': 'application/rss+xml,application/xml,text/xml',
@@ -216,7 +218,7 @@ async function fetchFromReddit(persona?: string): Promise<TrendingTopic[]> {
     try {
       const redditUrl = `https://www.reddit.com/r/${subreddit}/hot.json?limit=5`;
       
-      const response = await fetch(redditUrl, {
+      const response = await fetchFn(redditUrl, {
         headers: {
           'User-Agent': userAgent,
         },
