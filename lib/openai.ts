@@ -151,60 +151,66 @@ const selectedPersonality = personalityTraits[Math.floor(Math.random() * persona
   if (persona === "sat_coach") {
     basePrompt = `You are a ${selectedPersonality} creating VIRAL SAT content about: ${selectedTopic}
 
-VIRAL CONTENT MISSION:
+STRICT REQUIREMENTS:
+- MUST be under 270 characters total
+- NEVER enclose the tweet in quotes
 - Create tweets that students MUST share, comment on, and RT
 - Use dramatic language that creates urgency and FOMO
 - Make every tweet feel like a limited-time challenge or reveal
 
 VIRAL SAT EXAMPLES:
-- "🚨 BRUTAL SAT TRAP: 95% fall for this! If f(x) = x²-4x+3 and f(a) = f(3), what are ALL possible values of a? Most pick just ONE answer... #SATTrap #TestTrick"
-- "⏱️ INSANE 30-SECOND CHALLENGE: Triangle ABC has sides 5, 12, 13. Point P inside creates triangles with areas 6, 8, and x. Find x in 30 seconds! #30SecondChallenge"
-- "💥 SAT READING NIGHTMARE: 'The author's tone can best be described as...' - but there are TWO right answers. 99% miss the subtle distinction. Can you spot both? #SATReading"
-- "🔥 EVIL SAT QUESTION: If 3^(x+1) + 3^(x+1) + 3^(x+1) = 27^x, find x. Looks easy? 9/10 students get -1. The real answer will SHOCK you. #QuestionOfTheDay"
+🚨 BRUTAL SAT TRAP: 95% fall for this! If f(x) = x²-4x+3 and f(a) = f(3), what are ALL possible values of a? Most pick just ONE answer... #SATTrap #TestTrick
+⏱️ INSANE 30-SECOND CHALLENGE: Triangle ABC has sides 5, 12, 13. Point P inside creates triangles with areas 6, 8, and x. Find x in 30 seconds! #30SecondChallenge
+💥 SAT READING NIGHTMARE: The author's tone can best be described as... - but there are TWO right answers. 99% miss the subtle distinction. Can you spot both? #SATReading
+🔥 EVIL SAT QUESTION: If 3^(x+1) + 3^(x+1) + 3^(x+1) = 27^x, find x. Looks easy? 9/10 students get -1. The real answer will SHOCK you. #QuestionOfTheDay
 
 ${hashtagInstruction}
 
 ${contentQualityGuard}
 
-Write ONLY the tweet:`;
+Write ONLY the tweet content, NO quotes around it, under 270 characters:`;
   } else if (persona === "gre_master") {
     basePrompt = `You are a ${selectedPersonality} creating VIRAL GRE content about: ${selectedTopic}
 
-VIRAL CONTENT MISSION:
+STRICT REQUIREMENTS:
+- MUST be under 270 characters total
+- NEVER enclose the tweet in quotes
 - Create tweets that grad school hopefuls CANNOT ignore
 - Use competitive language that challenges their intelligence
 - Make every tweet feel like insider knowledge they need to share
 
 VIRAL GRE EXAMPLES:
-- "🚨 DIABOLICAL GRE TRAP: ENERVATE means to weaken, but 95% think it means energize. If you got that wrong, you'll HATE this: What does INFLAMMABLE mean? #GRETrap #VocabNightmare"
-- "⚡ IMPOSSIBLE 45-SECOND CHALLENGE: If x@y = x²-y² and 3@a = a@3, find all values of a. Princeton Review says this is 'difficulty level 5.' #GREMath #BrainMelter"
-- "💣 GRE QUANT DESTROYER: Set A = {1,2,3,4,5}, Set B = {3,4,5,6,7}. If you pick one number from each set, what's the probability their product is odd? Most get 40%. #GREQuant"
-- "🔥 READING COMP FROM HELL: 'Paradoxically, the author's ostensible support actually undermines...' If this sentence doesn't make you panic, you're ready for 170V. #GREReading"
+🚨 DIABOLICAL GRE TRAP: ENERVATE means to weaken, but 95% think it means energize. If you got that wrong, you'll HATE this: What does INFLAMMABLE mean? #GRETrap #VocabNightmare
+⚡ IMPOSSIBLE 45-SECOND CHALLENGE: If x@y = x²-y² and 3@a = a@3, find all values of a. Princeton Review says this is difficulty level 5. #GREMath #BrainMelter
+💣 GRE QUANT DESTROYER: Set A = {1,2,3,4,5}, Set B = {3,4,5,6,7}. If you pick one number from each set, what's the probability their product is odd? Most get 40%. #GREQuant
+🔥 READING COMP FROM HELL: Paradoxically, the author's ostensible support actually undermines... If this sentence doesn't make you panic, you're ready for 170V. #GREReading
 
 ${hashtagInstruction}
 
 ${contentQualityGuard}
 
-Write ONLY the tweet:`;
+Write ONLY the tweet content, NO quotes around it, under 270 characters:`;
   } else if (persona === "gmat_pro") {
     basePrompt = `You are a ${selectedPersonality} creating VIRAL GMAT content about: ${selectedTopic}
 
-VIRAL CONTENT MISSION:
+STRICT REQUIREMENTS:
+- MUST be under 270 characters total
+- NEVER enclose the tweet in quotes
 - Create tweets that MBA candidates feel compelled to engage with
 - Use high-stakes language that reflects business school pressure
 - Make every tweet feel like executive-level insider information
 
 VIRAL GMAT EXAMPLES:
-- "🚨 GMAT DEATH TRAP: 'Revenue increased 200% but profits fell 50%.' Which weakens this paradox? A) Market share grew B) Costs tripled C) Competitors failed D) Both A&B. 95% pick wrong. #GMATTrap"
-- "⏰ NIGHTMARE DATA SUFFICIENCY: Is |x-3| > |x+3|? (1) x < -3 (2) x² > 9. Wharton admits get this in 60 seconds. Can you? Timer starts NOW! #GMATChallenge"  
-- "💼 BRUTAL QUANT REALITY: If 3^n × 9^(n+1) = 1/27, find n. Looks like high school math? 8/10 future MBAs get positive numbers. Dead wrong. #GMATQuant"
-- "🔥 CRITICAL REASONING HELL: Premise has 3 assumptions, conclusion has 2 flaws, but only 1 answer choice addresses both. This is why 700+ scorers quit their jobs. #CriticalReasoning"
+🚨 GMAT DEATH TRAP: Revenue increased 200% but profits fell 50%. Which weakens this paradox? A) Market share grew B) Costs tripled C) Competitors failed D) Both A&B. 95% pick wrong. #GMATTrap
+⏰ NIGHTMARE DATA SUFFICIENCY: Is |x-3| > |x+3|? (1) x < -3 (2) x² > 9. Wharton admits get this in 60 seconds. Can you? Timer starts NOW! #GMATChallenge
+💼 BRUTAL QUANT REALITY: If 3^n × 9^(n+1) = 1/27, find n. Looks like high school math? 8/10 future MBAs get positive numbers. Dead wrong. #GMATQuant
+🔥 CRITICAL REASONING HELL: Premise has 3 assumptions, conclusion has 2 flaws, but only 1 answer choice addresses both. This is why 700+ scorers quit their jobs. #CriticalReasoning
 
 ${hashtagInstruction}
 
 ${contentQualityGuard}
 
-Write ONLY the tweet:`;
+Write ONLY the tweet content, NO quotes around it, under 270 characters:`;
   } else {
     // Default fallback - should not happen with only 3 personas
     throw new Error(`Unknown persona: ${persona}`);
@@ -225,9 +231,17 @@ try {
   let tweet = completion.choices[0]?.message?.content?.trim();
   if (!tweet) throw new Error("Empty response from model");
 
+  // Remove quotes if present (sometimes AI adds them despite instructions)
+  if ((tweet.startsWith('"') && tweet.endsWith('"')) || (tweet.startsWith("'") && tweet.endsWith("'"))) {
+    tweet = tweet.slice(1, -1).trim();
+  }
+
+  // Strict character limit enforcement
   if (tweet.length > maxLength) {
-    // Better truncation logic to preserve sentence structure
-    const maxTruncateLength = maxLength - 3; // Reserve space for "..."
+    console.log(`⚠️ Tweet too long (${tweet.length} chars), truncating to ${maxLength} chars`);
+    
+    // More aggressive truncation to ensure we stay under limit
+    const maxTruncateLength = maxLength - 5; // Reserve more space
     const truncated = tweet.slice(0, maxTruncateLength);
     
     // Try to find the last complete sentence
@@ -237,19 +251,34 @@ try {
     const lastSentenceEnd = Math.max(lastPeriod, lastExclamation, lastQuestion);
     
     // If we find a sentence ending within reasonable bounds, use it
-    if (lastSentenceEnd > maxTruncateLength * 0.6) {
+    if (lastSentenceEnd > maxTruncateLength * 0.5) {
       tweet = truncated.slice(0, lastSentenceEnd + 1);
     } else {
       // Otherwise, find last complete word
       const lastSpaceIndex = truncated.lastIndexOf(' ');
-      if (lastSpaceIndex > maxTruncateLength * 0.7) {
-        tweet = truncated.slice(0, lastSpaceIndex);
+      if (lastSpaceIndex > maxTruncateLength * 0.6) {
+        tweet = truncated.slice(0, lastSpaceIndex).trim();
       } else {
-        // Last resort: clean cut with ellipsis
-        tweet = truncated + '...';
+        // Last resort: clean cut without ellipsis to save characters
+        tweet = truncated.trim();
       }
     }
+    
+    // Final safety check
+    if (tweet.length > maxLength) {
+      tweet = tweet.slice(0, maxLength - 1).trim();
+    }
+    
+    console.log(`✂️ Truncated to ${tweet.length} chars: ${tweet.substring(0, 50)}...`);
   }
+
+  // Final validation - ensure tweet is under 270 characters
+  if (tweet.length > 270) {
+    console.error(`🚨 CRITICAL: Tweet still over 270 chars (${tweet.length}), forcing truncation`);
+    tweet = tweet.slice(0, 269).trim();
+  }
+
+  console.log(`✅ Final tweet: ${tweet.length} chars - ${tweet}`);
 
   return {
     content: tweet,
