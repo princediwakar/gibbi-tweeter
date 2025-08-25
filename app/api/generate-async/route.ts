@@ -3,6 +3,7 @@ import { generateTweet, TweetGenerationOptions } from '@/lib/openai';
 import { getAllTweets, saveTweet, generateTweetId } from '@/lib/neon-db';
 import { calculateQualityScore } from '@/lib/quality-scorer';
 import { logWithTimezone, getCurrentTimeInET, getNextOptimalPostingTimeET } from '@/lib/datetime';
+import { getPersonas } from '@/lib/personas';
 
 // Job tracking removed - using synchronous generation
 
@@ -41,12 +42,8 @@ export async function GET(request: NextRequest) {
     logWithTimezone(`🚀 Starting synchronous generation of ${tweetsToGenerate} tweet...`);
     
     try {
-      // Use test prep personas from openai.ts
-      const personas = [
-        { id: "sat_coach", name: "SAT Coach" },
-        { id: "gre_master", name: "GRE Master" },
-        { id: "gmat_pro", name: "GMAT Pro" },
-      ];
+      // Use centralized persona configuration
+      const personas = getPersonas();
       
       // Generate single tweet with timeout
       const persona = personas[pendingTweets.length % personas.length].id;

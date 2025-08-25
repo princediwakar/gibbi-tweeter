@@ -2,6 +2,7 @@ import cron from 'node-cron';
 import { getScheduledTweets, saveTweet } from './neon-db';
 import { postTweet } from './twitter';
 import { generateTweet } from './openai';
+import { getPersonas } from './personas';
 
 let schedulerRunning = false;
 
@@ -61,11 +62,7 @@ async function processScheduledTweets() {
 async function generateAndScheduleTweet() {
   try {
     // Use test prep personas from openai.ts
-    const personas = [
-      { id: "sat_coach", name: "SAT Coach" },
-      { id: "gre_master", name: "GRE Master" },
-      { id: "gmat_pro", name: "GMAT Pro" },
-    ];
+    const personas = getPersonas();
     
     const randomPersona = personas[Math.floor(Math.random() * personas.length)];
     

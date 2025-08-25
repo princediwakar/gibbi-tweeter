@@ -283,15 +283,10 @@ function extractHashtags(text: string): string[] {
   return validHashtags;
 }
 
-// Personas are managed centrally
-export const personas = [
-  { id: "sat_coach", name: "SAT Coach", emoji: "🎓" },
-  { id: "gre_master", name: "GRE Master", emoji: "📚" },
-  { id: "gmat_pro", name: "GMAT Pro", emoji: "💼" },
-];
+// Import centralized persona configuration
+import { VIRAL_PERSONAS, getPersonas } from './personas';
 
-export function getPersonas() {
-  return personas;
-}
+// Re-export for backward compatibility
+export { VIRAL_PERSONAS as personas, getPersonas };
 
 

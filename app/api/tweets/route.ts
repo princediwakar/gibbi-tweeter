@@ -5,17 +5,8 @@ import { calculateQualityScore } from '@/lib/quality-scorer';
 import { getTrendingTopics } from '@/lib/trending';
 import { getNextOptimalPostTime, getSpacedPostingSchedule } from '@/lib/timing';
 
-// Import personas directly instead of making HTTP calls
-const PERSONAS = [
-  { id: "sat_coach", name: "SAT Coach" },
-  { id: "gre_master", name: "GRE Master" },
-  { id: "gmat_pro", name: "GMAT Pro" },
-];
-
-// Helper function to get default persona
-function getDefaultPersona(): string {
-  return PERSONAS[0].id;
-}
+// Import centralized persona configuration
+import { getDefaultPersona } from '@/lib/personas';
 
 export async function GET(request: Request) {
   try {
@@ -46,7 +37,7 @@ export async function POST(request: Request) {
 
     if (action === 'generate') {
       const defaultPersona = getDefaultPersona();
-      const persona = data.persona || defaultPersona;
+      const persona = data.persona || defaultPersona.id;
       
       const options: TweetGenerationOptions = {
         persona,
