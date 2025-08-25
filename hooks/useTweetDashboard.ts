@@ -3,8 +3,9 @@ import { toast } from 'sonner';
 import { getNextOptimalPostTime, formatOptimalTime, toDateTimeLocal } from '@/lib/timing';
 import { formatForUserDisplay } from '@/lib/datetime';
 import { Tweet, GenerateFormState, Persona } from '@/types/dashboard';
+import { getPersonas } from '@/lib/personas';
 
-// Personas will be fetched from API
+// Use centralized persona configuration directly
 
 const BULK_GENERATION_CONFIG = {
   count: 5,
@@ -31,9 +32,9 @@ export function useTweetDashboard() {
   // Removed scheduler state - assuming always running
   const [hasHydrated, setHasHydrated] = useState(false);
   const [showHistory, setShowHistory] = useState(true);
-  const [personas, setPersonas] = useState<Persona[]>([]);
+  const [personas] = useState<Persona[]>(getPersonas()); // Initialize directly with centralized personas
   const [generateForm, setGenerateForm] = useState<GenerateFormState>({
-    persona: '',
+    persona: getPersonas()[0]?.id || '', // Set default persona immediately
     includeHashtags: true,
     useTrendingTopics: true,
     customPrompt: '',
@@ -89,28 +90,7 @@ export function useTweetDashboard() {
     }
   }, [isMounted]);
 
-  // Removed fetchAllTweets - not being used
-
-  const fetchPersonas = useCallback(async () => {
-    try {
-      const response = await fetch('/api/personas');
-      if (response.ok) {
-        const data = await response.json();
-        const fetchedPersonas = data.personas || [];
-        setPersonas(fetchedPersonas);
-        
-        // Set default persona if none selected and personas are available
-        if (!generateForm.persona && fetchedPersonas.length > 0) {
-          setGenerateForm(prev => ({
-            ...prev,
-            persona: fetchedPersonas[0].id
-          }));
-        }
-      }
-    } catch (error) {
-      console.warn('Failed to fetch personas:', error);
-    }
-  }, [generateForm.persona]);
+  // Removed fetchAllTweets and fetchPersonas - now using centralized persona configuration directly
 
   // Pagination navigation functions
   const goToPage = useCallback(async (page: number) => {
@@ -385,8 +365,7 @@ export function useTweetDashboard() {
   useEffect(() => {
     // Initial data fetch
     fetchTweets();
-    fetchPersonas();
-  }, [fetchTweets, fetchPersonas]);
+  }, [fetchTweets]);
 
 
   // Manual refresh function
