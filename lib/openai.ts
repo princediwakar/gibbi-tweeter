@@ -159,10 +159,10 @@ STRICT REQUIREMENTS:
 - Make every tweet feel like a limited-time challenge or reveal
 
 VIRAL SAT EXAMPLES:
-🚨 BRUTAL SAT TRAP: 95% fall for this! If f(x) = x²-4x+3 and f(a) = f(3), what are ALL possible values of a? Most pick just ONE answer... #SATTrap #TestTrick
-⏱️ INSANE 30-SECOND CHALLENGE: Triangle ABC has sides 5, 12, 13. Point P inside creates triangles with areas 6, 8, and x. Find x in 30 seconds! #30SecondChallenge
-💥 SAT READING NIGHTMARE: The author's tone can best be described as... - but there are TWO right answers. 99% miss the subtle distinction. Can you spot both? #SATReading
-🔥 EVIL SAT QUESTION: If 3^(x+1) + 3^(x+1) + 3^(x+1) = 27^x, find x. Looks easy? 9/10 students get -1. The real answer will SHOCK you. #QuestionOfTheDay
+🚨 SAT QUESTION: If f(x) = x²-4x+3 and f(a) = f(3), what are ALL possible values of a? Most pick just ONE answer... #SATTrap #TestTrick
+⏱️ 30-SECOND CHALLENGE: Triangle ABC has sides 5, 12, 13. Point P inside creates triangles with areas 6, 8, and x. Find x in 30 seconds! #30SecondChallenge
+💥 SAT READING CHALLENGE: The author's tone can best be described as... - but there are TWO right answers. /n 99% miss the subtle distinction. Can you spot both? #SATReading
+🔥 SAT QUESTION: If 3^(x+1) + 3^(x+1) + 3^(x+1) = 27^x, find x. Looks easy? 9/10 students get -1. The real answer will SHOCK you. #QuestionOfTheDay
 
 ${hashtagInstruction}
 
@@ -180,10 +180,10 @@ STRICT REQUIREMENTS:
 - Make every tweet feel like insider knowledge they need to share
 
 VIRAL GRE EXAMPLES:
-🚨 DIABOLICAL GRE TRAP: ENERVATE means to weaken, but 95% think it means energize. If you got that wrong, you'll HATE this: What does INFLAMMABLE mean? #GRETrap #VocabNightmare
-⚡ IMPOSSIBLE 45-SECOND CHALLENGE: If x@y = x²-y² and 3@a = a@3, find all values of a. Princeton Review says this is difficulty level 5. #GREMath #BrainMelter
-💣 GRE QUANT DESTROYER: Set A = {1,2,3,4,5}, Set B = {3,4,5,6,7}. If you pick one number from each set, what's the probability their product is odd? Most get 40%. #GREQuant
-🔥 READING COMP FROM HELL: Paradoxically, the author's ostensible support actually undermines... If this sentence doesn't make you panic, you're ready for 170V. #GREReading
+🚨 GRE QUESTION: ENERVATE means to weaken, but 95% think it means energize. What does INFLAMMABLE mean? #GRETrap #VocabChallenge
+⚡ 45-SECOND CHALLENGE: If x@y = x²-y² and 3@a = a@3, find all values of a. #GREMath #45SecondChallenge
+💣 GRE QUANT CHALLENGE: Set A = {1,2,3,4,5}, Set B = {3,4,5,6,7}. If you pick one number from each set, what's the probability their product is odd? #GREQuant
+🔥 READING COMP: Paradoxically, the author's ostensible support actually undermines... #GREReading
 
 ${hashtagInstruction}
 
@@ -201,10 +201,10 @@ STRICT REQUIREMENTS:
 - Make every tweet feel like executive-level insider information
 
 VIRAL GMAT EXAMPLES:
-🚨 GMAT DEATH TRAP: Revenue increased 200% but profits fell 50%. Which weakens this paradox? A) Market share grew B) Costs tripled C) Competitors failed D) Both A&B. 95% pick wrong. #GMATTrap
-⏰ NIGHTMARE DATA SUFFICIENCY: Is |x-3| > |x+3|? (1) x < -3 (2) x² > 9. Wharton admits get this in 60 seconds. Can you? Timer starts NOW! #GMATChallenge
-💼 BRUTAL QUANT REALITY: If 3^n × 9^(n+1) = 1/27, find n. Looks like high school math? 8/10 future MBAs get positive numbers. Dead wrong. #GMATQuant
-🔥 CRITICAL REASONING HELL: Premise has 3 assumptions, conclusion has 2 flaws, but only 1 answer choice addresses both. This is why 700+ scorers quit their jobs. #CriticalReasoning
+🚨 GMAT TRAP: Revenue increased 200% but profits fell 50%. Which weakens this paradox? A) Market share grew B) Costs tripled C) Competitors failed D) Both A&B. #GMATTrap
+⏰ DATA SUFFICIENCY: Is |x-3| > |x+3|? (1) x < -3 (2) x² > 9. Wharton admits get this in 60 seconds. #GMATChallenge
+💼 QUANT REALITY: If 3^n × 9^(n+1) = 1/27, find n. #GMATQuant
+🔥 CRITICAL REASONING: Premise has 3 assumptions, conclusion has 2 flaws, but only 1 answer choice addresses both. #CriticalReasoning
 
 ${hashtagInstruction}
 
