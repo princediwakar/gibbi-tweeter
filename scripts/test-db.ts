@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 
 import { config } from 'dotenv';
-import { getAllTweets } from '../lib/neon-db';
+import { getAllTweets } from '../lib/db';
 
 // Load environment variables
 config({ path: '.env.local' });

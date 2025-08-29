@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
 
-import { formatForUserDisplay, toDateTimeLocal } from '@/lib/datetime';
+import { formatForUserDisplay, toDateTimeLocal } from '@/lib/utils';
 import { Tweet, GenerateFormState, Persona } from '@/types/dashboard';
-import { PERSONAS } from '@/lib/personas';
+import { personas } from '@/lib/personas';
 
 // Use centralized persona configuration directly
 
@@ -31,9 +31,9 @@ export function useTweetDashboard() {
   // Removed scheduler state - assuming always running
   const [hasHydrated, setHasHydrated] = useState(false);
   const [showHistory, setShowHistory] = useState(true);
-  const [personas] = useState<Persona[]>(PERSONAS); // Initialize directly with centralized personas
+  const [personasList] = useState<Persona[]>(personas); // Initialize directly with centralized personas
   const [generateForm, setGenerateForm] = useState<GenerateFormState>({
-    persona: PERSONAS[0]?.id || '', // Set default persona immediately
+    persona: personas[0]?.id || '', // Set default persona immediately
     includeHashtags: true,
     useTrendingTopics: false,
     customPrompt: '',
@@ -343,7 +343,7 @@ export function useTweetDashboard() {
     toDateTimeLocal,
     
     // Constants
-    personas,
+    personas: personasList,
     BULK_GENERATION_CONFIG,
   };
 }

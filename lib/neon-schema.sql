@@ -19,6 +19,7 @@ CREATE INDEX IF NOT EXISTS idx_tweets_status_scheduled ON tweets(status, schedul
 CREATE INDEX IF NOT EXISTS idx_tweets_created_at ON tweets(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_tweets_status ON tweets(status);
 
--- Add a constraint to ensure status values are valid
-ALTER TABLE tweets ADD CONSTRAINT IF NOT EXISTS tweets_status_check 
-CHECK (status IN ('draft', 'scheduled', 'posted', 'failed'));
+-- Add a constraint to ensure status values are valid  
+ALTER TABLE tweets DROP CONSTRAINT IF EXISTS tweets_status_check;
+ALTER TABLE tweets ADD CONSTRAINT tweets_status_check 
+CHECK (status IN ('draft', 'scheduled', 'ready', 'posted', 'failed'));

@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
-import { getCurrentTimeInIST } from '@/lib/datetime';
+import { getCurrentTimeInIST } from '@/lib/utils';
 
 export async function GET() {
   try {
-    logger.info('🧪 Testing cron functionality...', 'test-cron');
+    logger.info('🧪 Testing cron functionality...', 'debug-cron');
     
     const now = getCurrentTimeInIST();
     
@@ -20,7 +20,7 @@ export async function GET() {
       }
     };
 
-    logger.info('✅ Cron test completed', 'test-cron');
+    logger.info('✅ Cron test completed', 'debug-cron');
     
     return NextResponse.json({
       success: true,
@@ -29,7 +29,7 @@ export async function GET() {
     });
 
   } catch (error) {
-    logger.error('Cron test failed:', 'test-cron', error as Error);
+    logger.error('Cron test failed:', 'debug-cron', error as Error);
     
     return NextResponse.json({
       success: false,
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
   try {
     const { endpoint, secret } = await request.json();
     
-    logger.info(`🧪 Testing cron endpoint: ${endpoint}`, 'test-cron');
+    logger.info(`🧪 Testing cron endpoint: ${endpoint}`, 'debug-cron');
     
     // Simulate cron authorization header
     const headers = {
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     const protocol = request.headers.get('x-forwarded-proto') || 'http';
     const testUrl = `${protocol}://${baseUrl}${endpoint}`;
     
-    logger.info(`📡 Making request to: ${testUrl}`, 'test-cron');
+    logger.info(`📡 Making request to: ${testUrl}`, 'debug-cron');
     
     const response = await fetch(testUrl, {
       method: 'GET',
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
     
     const result = await response.json();
     
-    logger.info(`📋 Response status: ${response.status}`, 'test-cron');
+    logger.info(`📋 Response status: ${response.status}`, 'debug-cron');
     
     return NextResponse.json({
       success: response.ok,
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    logger.error('❌ Manual cron test failed:', 'test-cron', error as Error);
+    logger.error('❌ Manual cron test failed:', 'debug-cron', error as Error);
     
     return NextResponse.json({
       success: false,
