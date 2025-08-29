@@ -3,7 +3,6 @@
 import { useTweetDashboard } from '@/hooks/useTweetDashboard';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { TweetPreview } from '@/components/dashboard/TweetPreview';
-import { AutoScheduler } from '@/components/dashboard/AutoScheduler';
 import { ManualGeneration } from '@/components/dashboard/ManualGeneration';
 import { TweetHistoryToggle } from '@/components/dashboard/TweetHistoryToggle';
 import { TweetHistory } from '@/components/dashboard/TweetHistory';
@@ -15,24 +14,19 @@ export default function TweetDashboard() {
     latestTweet,
     selectedTweets,
     loading,
-    // Removed scheduler state - assuming always running
     showHistory,
     generateForm,
     pagination,
     stats,
-    // hasHydrated, // Removed - not needed anymore
     
     // Actions
     setSelectedTweets,
     setShowHistory,
     setGenerateForm,
     generateTweet,
-    generateAndScheduleTweet,
     bulkGenerateTweets,
     postTweet,
     deleteTweet,
-    updateTweetSchedule,
-    scheduleSelectedTweets,
     deleteSelectedTweets,
     // Removed toggleAutoScheduler
     shareOnX,
@@ -47,10 +41,7 @@ export default function TweetDashboard() {
     // Utilities
     getStatusBadgeColor,
     getQualityGradeColor,
-    toDateTimeLocal,
-    formatOptimalTime,
     formatForUserDisplay,
-    getNextOptimalPostTime,
     
     // Constants
     personas,
@@ -75,19 +66,14 @@ export default function TweetDashboard() {
           />
         )}
 
-        <AutoScheduler 
-          nextPostTime={stats.nextPostTime ? (typeof stats.nextPostTime === 'string' ? stats.nextPostTime : stats.nextPostTime.toISOString()) : undefined}
-        />
-
+     
         <ManualGeneration 
           form={generateForm}
           loading={loading}
-          nextOptimalTime={formatOptimalTime(getNextOptimalPostTime())}
           personas={personas}
           bulkCount={BULK_GENERATION_CONFIG.count}
           onFormChange={(updates) => setGenerateForm(prev => ({ ...prev, ...updates }))}
           onGenerate={generateTweet}
-          onGenerateAndSchedule={generateAndScheduleTweet}
           onBulkGenerate={bulkGenerateTweets}
         />
 
@@ -101,15 +87,11 @@ export default function TweetDashboard() {
             tweets={tweets}
             selectedTweets={selectedTweets}
             onSelectionChange={setSelectedTweets}
-            onScheduleSelected={scheduleSelectedTweets}
             onDeleteSelected={deleteSelectedTweets}
             onPostTweet={postTweet}
             onDeleteTweet={deleteTweet}
-            onUpdateSchedule={updateTweetSchedule}
             getStatusBadgeColor={getStatusBadgeColor}
             getQualityGradeColor={getQualityGradeColor}
-            toDateTimeLocal={toDateTimeLocal}
-            formatOptimalTime={formatOptimalTime}
             formatForUserDisplay={formatForUserDisplay}
             pagination={pagination}
             onPageChange={goToPage}

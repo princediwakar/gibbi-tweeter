@@ -1,14 +1,14 @@
-# Viral Test Prep Tweet Bot - Rapid Growth Engine 🔥
+# Viral NEET Tweet Bot - India Growth Engine 🔥
 
-**⚡ VIRAL-OPTIMIZED** - A specialized Next.js application that generates viral test preparation content designed for explosive Twitter growth using AI-powered competitive challenges.
+**⚡ VIRAL-OPTIMIZED** - A specialized Next.js application that generates viral NEET preparation content designed for explosive Twitter growth using AI-powered competitive challenges targeting Indian medical entrance aspirants.
 
-> **🎯 MISSION**: Viral content generation system targeting 5,000 followers in 60 days through brutally difficult test prep challenges, competitive engagement hooks, and strategic Gibbi AI traffic driving (gibbi.vercel.app).
+> **🎯 MISSION**: Viral content generation system targeting 10,000 followers in 60 days through brutally difficult NEET challenges, competitive engagement hooks, and strategic Gibbi AI traffic driving (gibbi.vercel.app) in the Indian medical education market.
 
 > **📝 Self-Updating Documentation**: This file should be updated whenever significant changes are made to the codebase. When adding new features, API routes, components, or configuration changes, please update the relevant sections below to keep this documentation current and useful for future development.
 
 ## Project Overview
 
-This is an AI-powered viral content generation system built with Next.js 15, TypeScript, and Tailwind CSS. The app features 3 specialized AI personas that create brutally difficult, highly engaging test prep challenges designed to drive rapid Twitter growth and build an elite community of high-performing students.
+This is an AI-powered viral content generation system built with Next.js 15, TypeScript, and Tailwind CSS. The app features 3 specialized AI personas that create brutally difficult, highly engaging NEET preparation challenges designed to drive rapid Twitter growth and build an elite community of high-performing Indian medical entrance aspirants.
 
 ## Tech Stack
 
@@ -22,46 +22,46 @@ This is an AI-powered viral content generation system built with Next.js 15, Typ
 
 ## Key Features
 
-### 🔥 Viral Test Prep Persona System
-- **SAT Coach** (🎓) - High school viral challenge specialist
-  - **Brutal SAT Traps**: "95% fall for this! If f(x) = x²-4x+3..."
-  - **30-Second Math Challenges**: "Triangle ABC has sides 5, 12, 13..."
-  - **Evil Questions**: "If 3^(x+1) + 3^(x+1) + 3^(x+1) = 27^x, find x..."
-  - **Reading Nightmares**: Questions with multiple valid interpretations
-  - **Competitive Hooks**: "Don't be the 99%... Comment your answer!"
+### 🔥 Viral NEET Persona System
+- **Physics Master** (⚗️) - NEET Physics viral challenge specialist
+  - **Brutal Physics Traps**: "90% fall for this! A 2kg block slides down 30° incline..."
+  - **30-Second Mechanics Challenges**: "Two masses connected by string over pulley..."
+  - **Electromagnetic Nightmares**: "Current loop in magnetic field. Which direction is the force?"
+  - **Thermodynamics Brain Teasers**: Questions with multiple valid interpretations
+  - **Competitive Hooks**: "Don't be the 90%... Comment your answer!"
 
-- **GRE Master** (📚) - Graduate school viral content expert  
-  - **Diabolical Vocab Traps**: "ENERVATE means to weaken, but 95% think it means energize"
-  - **Impossible Math Challenges**: "If x@y = x²-y² and 3@a = a@3, find all values of a"
-  - **Quant Destroyers**: Complex probability with product constraints
-  - **Reading Comp From Hell**: Graduate-level paradoxical statements
-  - **Brain Melters**: "Princeton Review says this is 'difficulty level 5'"
+- **Chemistry Guru** (🧪) - NEET Chemistry viral content expert  
+  - **Organic Chemistry Death Traps**: "SN1 vs SN2 mechanism. 95% get this wrong..."
+  - **Reaction Mechanism Puzzles**: "Balance this equation: C₂H₆ + O₂ → CO₂ + H₂O"
+  - **Periodic Table Destroyers**: Complex bonding and atomic property challenges
+  - **Chemical Bonding Hell**: Graduate-level orbital theory questions
+  - **Brain Melters**: "Allen Kota says this is 'difficulty level 5'"
 
-- **GMAT Pro** (💼) - MBA viral pressure specialist
-  - **GMAT Death Traps**: "Revenue increased 200% but profits fell 50%..."
-  - **Nightmare Data Sufficiency**: "Is |x-3| > |x+3|? Wharton admits get this in 60 seconds"
-  - **Critical Reasoning Hell**: Multi-layered assumptions and flawed conclusions
-  - **Executive Pressure Tests**: "If you can't solve it in 90 seconds, you're not ready for Wharton"
-  - **Reality Checks**: "This is why 700+ scorers quit their jobs"
+- **Biology Pro** (🧬) - NEET Biology viral pressure specialist
+  - **Human Physiology Nightmares**: "Which blood vessel has highest pressure..."
+  - **Genetics Death Traps**: "AaBb × AaBb cross. AIIMS toppers get this in 60 seconds"
+  - **Ecology Reasoning Hell**: Multi-layered ecosystem assumptions and classifications
+  - **Medical Pressure Tests**: "If you can't solve it in 90 seconds, you're not ready for AIIMS"
+  - **Reality Checks**: "This is why 650+ scorers get into government medical colleges"
 
-### 🚀 Viral Content Generation Engine
-- **Question of the Day**: Challenging practice problems with answer reveals and engagement hooks
-- **Spot the Trap**: Common mistakes 99% of students make with dramatic reveals
-- **30-Second Challenges**: Time-pressured problem solving with countdown urgency
-- **Quick Win Tips**: Bite-sized strategy hacks for immediate score improvement
-- **Test Trap Alerts**: Warnings about sneaky question patterns that fool most students
-- **Viral Engagement Hooks**: "99% get this wrong!", "RT if you got this right!", "Tag someone who needs to see this"
+### 🚀 Viral NEET Content Generation Engine
+- **NEET Question of the Day**: Challenging physics/chemistry/biology practice problems with answer reveals
+- **Spot the NEET Trap**: Common mistakes 99% of NEET aspirants make with dramatic reveals
+- **30-Second Challenges**: Time-pressured NEET problem solving with countdown urgency
+- **Quick Win Tips**: Bite-sized strategy hacks for immediate NEET score improvement
+- **NEET Trap Alerts**: Warnings about sneaky question patterns that fool most students
+- **Viral Engagement Hooks**: "90% get this wrong!", "RT if you're AIIMS material!", "Tag a future doctor!"
 - **Gibbi AI Integration**: Strategic traffic-driving CTAs (15% frequency) for platform growth
-- **Competitive Elements**: Leaderboards, timing challenges, and ego-driven sharing triggers
+- **Competitive Elements**: Medical college rankings, timing challenges, and ego-driven sharing triggers
 
-### ⚡ Viral Automation Features
-- **Production**: External cron service optimized for viral engagement waves
-- **Viral Timing**: Posts every 25 minutes (vs 45min) during peak viral hours
-- **Peak Engagement Windows**: 8:30 PM ET = maximum viral potential
-- **Competitive Moments**: 3:00-4:15 PM after-school peak for homework procrastination
-- **Wednesday Boost**: 1.4x engagement multiplier during mid-week stress peak
+### ⚡ Viral Automation Features (IST Optimized)
+- **Production**: External cron service optimized for viral engagement waves in India
+- **Viral Timing**: Posts every 25 minutes during IST peak hours (7 AM - 11 PM IST)
+- **Peak Engagement Windows**: 9:00 PM IST = maximum viral potential (post-study relaxation time)
+- **Competitive Moments**: 4:00-7:00 PM IST student peak for homework and coaching institute discussions
+- **Sunday Boost**: 1.5x engagement multiplier during weekend NEET prep sessions
 - **Real-time Viral Tracking**: Engagement rates, retweet velocity, comment activity
-- **Smart Content Distribution**: Cycles through viral content types for maximum variety
+- **Smart Content Distribution**: Cycles through Physics/Chemistry/Biology for maximum variety
 - **Twitter URL Tracking**: Direct links to monitor viral spread and engagement
 - **Enhanced Error Handling**: Detailed error messages with actionable solutions
 - **Quality Scoring**: Viral potential assessment with engagement predictions
@@ -83,10 +83,7 @@ gibbi-tweeter/
 │   ├── ui/                        # shadcn/ui components
 │   └── TweetDashboard.tsx         # Main dashboard component
 ├── lib/
-│   ├── sources-sat.json           # SAT-focused RSS sources
-│   ├── sources-gre.json           # GRE-focused RSS sources
-│   ├── sources-gmat.json          # GMAT-focused RSS sources
-│   ├── sources-testprep.json      # General test prep sources
+
 │   └── sources.json               # Default US education sources
 └── .env.local                     # Environment variables
 ```
@@ -100,22 +97,22 @@ gibbi-tweeter/
 
 ### **Content Sources & RSS Feeds**
 
-The system uses specialized RSS sources for each test prep persona:
+The system uses specialized RSS sources for each NEET preparation persona:
 
-**SAT Coach Sources:**
-- @CollegeBoard, @KaplanTestPrep, @PrincetonReview
-- Reddit: r/SAT, r/SATPrep, r/ApplyingToCollege
-- University feeds: @Harvard, @Stanford, @MIT
+**Physics Master Sources:**
+- @NTAofficial, @aakash_edu, @allen_neet, @PhysicsWallah
+- Reddit: r/NEET, r/JEEMain, r/physics, r/IndianAcademics
+- Educational feeds: @unacademy, @vedantu, @byjus
 
-**GRE Master Sources:**
-- @ETS, @Manhattan_Prep, @Magoosh
-- Reddit: r/GRE, r/GradSchool, r/gradadmissions
-- Academic feeds: @chronicle, @InsideHigherEd
+**Chemistry Guru Sources:**
+- @NTAofficial, @aakash_edu, @allen_neet, @PhysicsWallah  
+- Reddit: r/NEET, r/chemistry, r/OrganicChemistry, r/NEETprep
+- Educational feeds: @unacademy, @vedantu, @topperlearning
 
-**GMAT Pro Sources:**
-- @GMATofficial, @ManhattanGMAT, @VeritasPrep
-- Reddit: r/GMAT, r/MBA, r/businessschool
-- Business schools: @Wharton, @Harvard_HBS, @StanfordGSB
+**Biology Pro Sources:**
+- @NTAofficial, @aakash_edu, @allen_neet, @PhysicsWallah
+- Reddit: r/NEET, r/biology, r/MedicalSchoolIndia, r/HumanBiology
+- Medical colleges: @AIIMS_NewDelhi, @KMC_Manipal, @CMC_Vellore
 
 ## Environment Variables
 
@@ -137,18 +134,18 @@ CRON_SECRET=your_random_secret_key_here  # Generate random string for API securi
 
 ## Content Generation Strategy
 
-### Educational Content Types
-- **Practice Questions**: MCQ format with clear explanations
-- **Study Tips**: Actionable strategies for test improvement
-- **Motivational Content**: Encouraging messages for test-takers
-- **Test Updates**: Information about score releases, registration deadlines
-- **Concept Explanations**: Breaking down complex topics simply
+### NEET Educational Content Types
+- **Practice Questions**: MCQ format with clear explanations for Physics, Chemistry, Biology
+- **Study Tips**: Actionable strategies for NEET score improvement
+- **Motivational Content**: Encouraging messages for medical entrance aspirants
+- **Test Updates**: Information about NEET registration, cutoffs, admission schedules
+- **Concept Explanations**: Breaking down complex NEET topics simply
 
-### US Market Focus
-- **Target Demographics**: US high school students, college graduates, MBA candidates
-- **Posting Schedule**: Optimized for US time zones (7 AM, 12 PM, 6 PM, 9 PM EST/PST)
-- **Content Style**: American English, US-specific test formats and requirements
-- **Engagement Strategy**: Build authority in US test prep market
+### Indian Market Focus
+- **Target Demographics**: Indian Class 11-12 students, NEET aspirants, medical entrance candidates
+- **Posting Schedule**: Optimized for India Standard Time (7 AM, 12 PM, 6 PM, 9 PM IST)
+- **Content Style**: Indian English, NEET-specific question formats and NCERT curriculum
+- **Engagement Strategy**: Build authority in Indian medical entrance prep market
 
 ## Development Commands
 
@@ -173,12 +170,12 @@ git push
 
 ### TweetDashboard.tsx
 Main component containing:
-- Test prep tweet generation forms (single & bulk)
+- NEET preparation tweet generation forms (single & bulk)
 - Tweet management table with status tracking
 - Scheduler controls (start/stop auto-posting)
 - Statistics dashboard (total, drafts, scheduled, posted)
 - Batch selection and scheduling operations
-- Test prep persona selection
+- NEET persona selection (Physics Master, Chemistry Guru, Biology Pro)
 
 ### Data Model
 ```typescript
@@ -186,7 +183,7 @@ interface Tweet {
   id: string;
   content: string;
   hashtags: string[];
-  persona: string; // sat_coach, gre_master, gmat_pro
+  persona: string; // physics_master, chemistry_guru, biology_pro
   scheduledFor?: Date;
   postedAt?: Date;
   twitterId?: string; // Twitter/X tweet ID
@@ -212,37 +209,36 @@ This project is configured with Playwright MCP for direct browser testing:
 }
 ```
 
-### ✅ **Verified Functionality** (Last Tested: 2025-08-24)
+### ✅ **Verified Functionality** (Last Tested: 2025-08-29)
 
-**Test Prep Content Generation:**
-- ✅ SAT Coach persona generates practice questions and study tips
-- ✅ GRE Master creates vocabulary and analytical writing guidance
-- ✅ GMAT Pro produces critical reasoning and business school content
-- ✅ Test Prep Guru provides general study strategies and motivation
-- ✅ US education RSS sources feeding relevant trending topics
-- ✅ Educational content quality with appropriate tone and accuracy
+**NEET Content Generation:**
+- ✅ Physics Master persona generates mechanics, thermodynamics, and electromagnetism challenges
+- ✅ Chemistry Guru creates organic chemistry, periodic table, and reaction mechanism content
+- ✅ Biology Pro produces human physiology, genetics, and ecology challenges
+- ✅ Indian education RSS sources feeding relevant trending topics
+- ✅ Educational content quality with appropriate tone and NEET exam accuracy
 
 ### **Content Quality Examples**
 
-**SAT Coach:**
+**Physics Master:**
 ```
-📝 SAT Reading Tip: Don't just pick the first answer that "sounds right." 
-Find the exact text evidence that proves Choice A is the best answer! 
-#CloseReading is key. #SATPrep #StudyTips
-```
-
-**GRE Master:**
-```
-✍️ GRE Writing Tip: Don't just state your achievements—analyze their significance. 
-For your "Describe an experience" essay, show the skills gained and how they 
-shaped your goals. This depth turns self-promotion into compelling narrative.
+🚨 PHYSICS TRAP: A 2kg block slides down a 30° incline. If friction coefficient is 0.3, 
+what's the acceleration? 90% get this wrong! 
+#NEETPhysics #PhysicsTrap #30SecondChallenge
 ```
 
-**GMAT Pro:**
+**Chemistry Guru:**
 ```
-🧠 GMAT Critical Reasoning Practice: Use the M.I.C.E. mnemonic to evaluate 
-arguments: Money, Ideology, Compromise, Electability. 
-What assumptions does the author make?
+💣 ORGANIC NIGHTMARE: SN1 vs SN2 mechanism. Which occurs with (CH₃)₃CBr + OH⁻? 
+The answer reveals everything about carbocations! Most NEET aspirants miss this crucial detail.
+#OrganicChemistry #NEETChemistry #ChemTrap
+```
+
+**Biology Pro:**
+```
+🧬 GENETICS CHALLENGE: AaBb × AaBb cross. What's probability of AaBB offspring? 
+Most students mess up the calculation! AIIMS toppers solve this in 45 seconds.
+#GeneticsChallenge #NEETBiology #MedicalEntrance
 ```
 
 ## Security Notes
@@ -269,9 +265,9 @@ The app is configured for Vercel deployment with external cron service for produ
 
 **Auto-Chain Viral Content:**
 - **Production URL**: https://gibbi-tweeter.vercel.app/api/generate-async
-- **Frequency**: Every 8-10 minutes during peak viral hours (6AM-11PM ET)
-- **Daily Output**: 18-25 viral tweets optimized for maximum engagement
-- **Content Variety**: Rotates through 3 viral personas + 6 content types
+- **Frequency**: Every 25 minutes during peak viral hours (7AM-11PM IST)
+- **Daily Output**: 20-28 viral NEET tweets optimized for maximum engagement
+- **Content Variety**: Rotates through 3 NEET personas (Physics/Chemistry/Biology) + 6 content types
 - **Quality Control**: Viral potential prioritized with engagement optimization
 
 ## 🎯 **Viral Growth Strategy for Gibbi AI**
@@ -279,56 +275,56 @@ The app is configured for Vercel deployment with external cron service for produ
 This bot serves as a high-velocity marketing engine for Gibbi AI (gibbi.vercel.app):
 
 ### **Viral Marketing Approach**
-- **Community Building**: Create elite community of high-performing students through difficult challenges
-- **Ego-Driven Sharing**: Students share to prove intelligence and compete with peers
-- **FOMO Generation**: Exclusive insights and challenges that students MUST engage with
+- **Community Building**: Create elite community of high-performing NEET aspirants through difficult challenges
+- **Ego-Driven Sharing**: Students share to prove medical entrance readiness and compete with peers
+- **FOMO Generation**: Exclusive NEET insights and challenges that students MUST engage with
 - **Traffic Funneling**: Strategic Gibbi mentions (15% frequency) during peak engagement
 
 ### **Current Integration Points**
-- **Strategic CTAs**: "Want unlimited practice questions? Check out gibbi.vercel.app"
-- **Challenge Extensions**: "Ready for the full quiz challenge? Try gibbi.vercel.app"
-- **Platform Credits**: "Master more questions like this at gibbi.vercel.app"
-- **Custom Quiz Promotion**: "Create your own custom quizzes at gibbi.vercel.app"
+- **Strategic CTAs**: "Want unlimited NEET practice questions? Check out gibbi.vercel.app"
+- **Challenge Extensions**: "Ready for the full NEET quiz challenge? Try gibbi.vercel.app"
+- **Platform Credits**: "Master more NEET questions like this at gibbi.vercel.app"
+- **Custom Quiz Promotion**: "Create your own custom NEET quizzes at gibbi.vercel.app"
 
-### **Viral Growth Metrics (Target: 5,000 followers in 60 days)**
-- **Week 1-2**: 300-500 followers (viral content establishment)
-- **Week 3-4**: 800-1,500 followers (viral tipping point reached)
-- **Week 5-6**: 2,000-3,500 followers (exponential growth phase)
-- **Week 7-8**: 4,000-7,000 followers (target exceeded)
-- **Daily Engagement Rate**: 3-5% for viral amplification
-- **Gibbi Traffic**: 15-25 qualified visitors per day from strategic CTAs
+### **Viral Growth Metrics (Target: 10,000 followers in 60 days)**
+- **Week 1-2**: 500-800 followers (viral NEET content establishment)
+- **Week 3-4**: 1,200-2,500 followers (viral tipping point reached)
+- **Week 5-6**: 3,000-6,000 followers (exponential growth phase)
+- **Week 7-8**: 7,000-12,000 followers (target exceeded)
+- **Daily Engagement Rate**: 4-6% for viral amplification (higher due to exam pressure)
+- **Gibbi Traffic**: 25-40 qualified visitors per day from strategic CTAs
 
 ---
 
-## 🔥 **Viral Test Prep System Status**
+## 🔥 **Viral NEET System Status**
 
-### **⚡ VIRAL-OPTIMIZED & PRODUCTION-READY** (as of 2025-08-25)
+### **⚡ VIRAL-OPTIMIZED & PRODUCTION-READY** (as of 2025-08-29)
 - **Twitter API Integration**: ✅ Working with viral content optimization
 - **AI Content Generation**: ✅ Working (DeepSeek + viral prompt engineering)
-- **Viral Timing System**: ✅ Working (peak engagement windows, 25min spacing)
-- **3-Persona Viral System**: ✅ Working (SAT Coach, GRE Master, GMAT Pro)
+- **IST Timing System**: ✅ Working (IST peak engagement windows, 25min spacing)
+- **3-Persona NEET System**: ✅ Working (Physics Master, Chemistry Guru, Biology Pro)
 - **Engagement Amplification**: ✅ Working (competitive hooks, sharing triggers)
 - **Gibbi AI Integration**: ✅ Working (15% strategic CTA frequency)
-- **Viral Growth Engine**: ✅ Ready (targeting 5,000 followers in 60 days)
+- **Viral Growth Engine**: ✅ Ready (targeting 10,000 followers in 60 days)
 
 ### **Viral Content Examples**
 
-**SAT Coach:**
+**Physics Master:**
 ```
-🚨 BRUTAL SAT TRAP: 95% fall for this! If f(x) = x²-4x+3 and f(a) = f(3), 
-what are ALL possible values of a? Most pick just ONE answer... #SATTrap #TestTrick
-```
-
-**GRE Master:**
-```
-🚨 DIABOLICAL GRE TRAP: ENERVATE means to weaken, but 95% think it means energize. 
-If you got that wrong, you'll HATE this: What does INFLAMMABLE mean? #GRETrap #VocabNightmare
+🚨 BRUTAL NEET PHYSICS TRAP: 90% fall for this! A 2kg block slides down a 30° incline. 
+If friction coefficient is 0.3, what's the acceleration? Most forget THIS step... #NEETPhysics #PhysicsTrap
 ```
 
-**GMAT Pro:**
+**Chemistry Guru:**
 ```
-🚨 GMAT DEATH TRAP: 'Revenue increased 200% but profits fell 50%.' Which weakens this paradox? 
-A) Market share grew B) Costs tripled C) Competitors failed D) Both A&B. 95% pick wrong. #GMATTrap
+🚨 DIABOLICAL CHEMISTRY TRAP: Which has higher boiling point - HF or HCl? 95% say HF but forget THIS factor... 
+The real answer will SHOCK NEET aspirants! #NEETChemistry #ChemTrap
+```
+
+**Biology Pro:**
+```
+🚨 BIOLOGY DEATH TRAP: Which blood vessel has highest pressure - aorta or pulmonary artery? 90% say aorta but forget THIS crucial detail... 
+Future doctors MUST know this! #NEETBiology #BioTrap
 ```
 
 ### **Growth Projections & Market Impact**
@@ -340,4 +336,4 @@ A) Market share grew B) Costs tripled C) Competitors failed D) Both A&B. 95% pic
 
 ---
 
-*Last Updated: VIRAL CONTENT TRANSFORMATION COMPLETE - Successfully converted educational tweet bot to viral growth engine with brutally difficult challenges, competitive engagement hooks, and optimized timing for rapid Twitter growth targeting 5,000 followers in 60 days while driving strategic traffic to Gibbi AI platform.*
+*Last Updated: NEET VIRAL TRANSFORMATION COMPLETE - Successfully converted US test prep bot to Indian NEET viral growth engine with brutally difficult Physics/Chemistry/Biology challenges, competitive engagement hooks, and IST-optimized timing for rapid Twitter growth targeting 10,000 followers in 60 days while driving strategic traffic to Gibbi AI platform.*

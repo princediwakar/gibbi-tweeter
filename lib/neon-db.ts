@@ -5,12 +5,11 @@ export interface Tweet {
   content: string;
   hashtags: string[];
   persona: string;
-  scheduled_for?: string;
   posted_at?: string;
   twitter_id?: string;
   twitter_url?: string;
   error_message?: string;
-  status: 'draft' | 'scheduled' | 'posted' | 'failed';
+  status: 'ready' | 'posted' | 'failed';
   created_at: string;
   quality_score?: unknown;
 }
@@ -27,7 +26,6 @@ export async function getAllTweets(): Promise<Tweet[]> {
       content: row.content,
       hashtags: row.hashtags || [],
       persona: row.persona,
-      scheduledFor: row.scheduled_for ? new Date(row.scheduled_for) : undefined,
       postedAt: row.posted_at ? new Date(row.posted_at) : undefined,
       twitterId: row.twitter_id,
       twitterUrl: row.twitter_url,
@@ -36,7 +34,6 @@ export async function getAllTweets(): Promise<Tweet[]> {
       createdAt: new Date(row.created_at),
       qualityScore: row.quality_score,
       // Keep snake_case for backward compatibility
-      scheduled_for: row.scheduled_for,
       posted_at: row.posted_at,
       twitter_id: row.twitter_id,
       twitter_url: row.twitter_url,
@@ -62,14 +59,13 @@ export async function saveTweet(tweet: Omit<Tweet, 'created_at'> & { createdAt?:
     
     await sql`
       INSERT INTO tweets (
-        id, content, hashtags, persona, scheduled_for, posted_at, 
+        id, content, hashtags, persona, posted_at, 
         twitter_id, twitter_url, error_message, status, created_at, quality_score
       ) VALUES (
         ${tweet.id},
         ${tweet.content},
         ${JSON.stringify(tweet.hashtags)},
         ${tweet.persona},
-        ${getProperty(tweetObj, 'scheduled_for', 'scheduledFor')},
         ${getProperty(tweetObj, 'posted_at', 'postedAt')},
         ${getProperty(tweetObj, 'twitter_id', 'twitterId')},
         ${getProperty(tweetObj, 'twitter_url', 'twitterUrl')},
@@ -83,7 +79,6 @@ export async function saveTweet(tweet: Omit<Tweet, 'created_at'> & { createdAt?:
         content = EXCLUDED.content,
         hashtags = EXCLUDED.hashtags,
         persona = EXCLUDED.persona,
-        scheduled_for = EXCLUDED.scheduled_for,
         posted_at = EXCLUDED.posted_at,
         twitter_id = EXCLUDED.twitter_id,
         twitter_url = EXCLUDED.twitter_url,
@@ -99,50 +94,19 @@ export async function saveTweet(tweet: Omit<Tweet, 'created_at'> & { createdAt?:
   }
 }
 
-export async function getScheduledTweets(options: {
-  status?: string;
-  from?: Date;
-  to?: Date;
-  limit?: number;
-} = {}): Promise<Tweet[]> {
+export async function getReadyTweets(): Promise<Tweet[]> {
   try {
-    let query = 'SELECT * FROM tweets WHERE 1=1';
-    const params: unknown[] = [];
-    let paramIndex = 1;
-    
-    if (options.status) {
-      query += ` AND status = $${paramIndex}`;
-      params.push(options.status);
-      paramIndex++;
-    }
-    
-    if (options.from) {
-      query += ` AND scheduled_for >= $${paramIndex}`;
-      params.push(options.from.toISOString());
-      paramIndex++;
-    }
-    
-    if (options.to) {
-      query += ` AND scheduled_for <= $${paramIndex}`;
-      params.push(options.to.toISOString());
-      paramIndex++;
-    }
-    
-    query += ' ORDER BY scheduled_for ASC';
-    
-    if (options.limit) {
-      query += ` LIMIT $${paramIndex}`;
-      params.push(options.limit);
-    }
-    
-    const result = await sql.query(query, params);
+    const result = await sql`
+      SELECT * FROM tweets
+      WHERE status = 'ready'
+      ORDER BY created_at ASC
+    `;
     
     return result.rows.map(row => ({
       id: row.id,
       content: row.content,
       hashtags: row.hashtags || [],
       persona: row.persona,
-      scheduledFor: row.scheduled_for ? new Date(row.scheduled_for) : undefined,
       postedAt: row.posted_at ? new Date(row.posted_at) : undefined,
       twitterId: row.twitter_id,
       twitterUrl: row.twitter_url,
@@ -151,7 +115,6 @@ export async function getScheduledTweets(options: {
       createdAt: new Date(row.created_at),
       qualityScore: row.quality_score,
       // Keep snake_case for backward compatibility
-      scheduled_for: row.scheduled_for,
       posted_at: row.posted_at,
       twitter_id: row.twitter_id,
       twitter_url: row.twitter_url,
@@ -160,7 +123,7 @@ export async function getScheduledTweets(options: {
       quality_score: row.quality_score
     }));
   } catch (error) {
-    console.error('[Neon] Error getting scheduled tweets:', error);
+    console.error('[Neon] Error getting ready tweets:', error);
     return [];
   }
 }
@@ -193,7 +156,6 @@ export async function getPaginatedTweets(params: { page: number; limit: number }
       content: row.content,
       hashtags: row.hashtags || [],
       persona: row.persona,
-      scheduledFor: row.scheduled_for ? new Date(row.scheduled_for) : undefined,
       postedAt: row.posted_at ? new Date(row.posted_at) : undefined,
       twitterId: row.twitter_id,
       twitterUrl: row.twitter_url,
@@ -202,7 +164,6 @@ export async function getPaginatedTweets(params: { page: number; limit: number }
       createdAt: new Date(row.created_at),
       qualityScore: row.quality_score,
       // Keep snake_case for backward compatibility
-      scheduled_for: row.scheduled_for,
       posted_at: row.posted_at,
       twitter_id: row.twitter_id,
       twitter_url: row.twitter_url,

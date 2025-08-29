@@ -1,3 +1,4 @@
+
 import { parseStringPromise } from "xml2js";
 import fs from "fs/promises";
 import path from "path";
@@ -94,9 +95,9 @@ async function loadSources(persona?: string): Promise<Sources> {
   if (persona) {
     // Map persona names to source file names
     const personaToFile: Record<string, string> = {
-      'sat_coach': 'sources-sat.json',
-      'gre_master': 'sources-gre.json',
-      'gmat_pro': 'sources-gmat.json',
+      'physics_master': 'sources-physics.json',
+      'chemistry_guru': 'sources-chemistry.json', 
+      'biology_pro': 'sources-biology.json',
     };
     
     sourceFile = personaToFile[persona] || 'sources.json';
@@ -127,10 +128,10 @@ async function loadSources(persona?: string): Promise<Sources> {
     // Final fallback to hardcoded defaults
     return {
       twitter: {
-        handles: ["@CollegeBoard", "@ETS", "@KaplanTestPrep", "@PrincetonReview"]
+        handles: ["@NTAofficial", "@aakash_edu", "@allen_neet", "@PhysicsWallah"]
       },
       reddit: {
-        subreddits: ["SAT", "GRE", "GMAT", "college", "ApplyingToCollege"]
+        subreddits: ["NEET", "JEEMain", "IndianAcademics", "MedicalSchoolIndia", "NEETprep"]
       }
     };
   }
@@ -264,14 +265,14 @@ function getRandomSubreddits(subreddits: string[], count: number = 5): string[] 
 
 function getStaticFallbackTopics(): TrendingTopic[] {
   const fallbackTopics = [
-    { title: "SAT Test Changes 2024", traffic: "500K", category: "SAT", hashtags: ["#SAT2024", "#TestPrep"] },
-    { title: "College Application Deadlines", traffic: "800K", category: "College", hashtags: ["#CollegePrep", "#Applications"] },
-    { title: "GRE Score Requirements", traffic: "300K", category: "GRE", hashtags: ["#GRE", "#GradSchool"] },
-    { title: "GMAT vs GRE for MBA", traffic: "400K", category: "MBA", hashtags: ["#GMAT", "#MBA"] },
-    { title: "Study Abroad Scholarships", traffic: "250K", category: "Education", hashtags: ["#Scholarships", "#StudyAbroad"] },
-    { title: "US University Rankings 2024", traffic: "600K", category: "Universities", hashtags: ["#Rankings", "#College"] },
-    { title: "Student Loan Updates", traffic: "350K", category: "Finance", hashtags: ["#StudentLoans", "#Education"] },
-    { title: "Online Learning Trends", traffic: "450K", category: "EdTech", hashtags: ["#OnlineLearning", "#EdTech"] },
+    { title: "NEET 2025 Registration Opens", traffic: "800K", category: "NEET", hashtags: ["#NEET2025", "#MedicalEntrance"] },
+    { title: "AIIMS MBBS Admission Process", traffic: "600K", category: "Medical", hashtags: ["#AIIMS", "#MBBS"] },
+    { title: "NTA NEET Syllabus Changes", traffic: "500K", category: "NEET", hashtags: ["#NEETSyllabus", "#NTA"] },
+    { title: "Medical College Cutoffs 2024", traffic: "750K", category: "Admissions", hashtags: ["#MedicalCutoffs", "#NEETCutoff"] },
+    { title: "Physics Wallah NEET Strategy", traffic: "400K", category: "Strategy", hashtags: ["#PhysicsWallah", "#NEETStrategy"] },
+    { title: "All India Medical Colleges List", traffic: "650K", category: "Colleges", hashtags: ["#MedicalColleges", "#NEET"] },
+    { title: "NEET Coaching Institute Rankings", traffic: "550K", category: "Coaching", hashtags: ["#NEETCoaching", "#Aakash"] },
+    { title: "Medical Seat Matrix 2025", traffic: "700K", category: "Seats", hashtags: ["#MedicalSeats", "#NEETAdmission"] },
   ];
 
   return fallbackTopics;

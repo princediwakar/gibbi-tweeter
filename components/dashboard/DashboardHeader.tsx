@@ -21,9 +21,9 @@ export function DashboardHeader({
             <div className="bg-emerald-600 p-2 rounded-lg">
               <GraduationCap className="h-6 w-6 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-white">Test Prep Tweet Bot</h1>
+            <h1 className="text-2xl font-bold text-white">NEET Prep Tweet Bot</h1>
           </div>
-          <p className="text-gray-400 text-sm">Automated US test prep content for SAT, GRE, GMAT & more</p>
+          <p className="text-gray-400 text-sm">Automated Indian test prep content for NEET & more</p>
         </div>
         
         <div className="flex flex-col gap-3">
@@ -49,8 +49,8 @@ export function DashboardHeader({
           <div className="flex items-center gap-6 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-              <span className="text-gray-300">Scheduled Posts</span>
-              <span className="font-medium text-blue-400">{stats.scheduled}</span>
+              <span className="text-gray-300">Ready to Post</span>
+              <span className="font-medium text-blue-400">{stats.ready}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-purple-500"></div>

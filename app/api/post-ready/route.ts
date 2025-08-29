@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllTweets, saveTweet } from '@/lib/neon-db';
 import { postToTwitter } from '@/lib/twitter';
-import { logWithTimezone, getCurrentTimeInET, isWithinPostingWindowET } from '@/lib/datetime';
+import { logger } from '@/lib/logger';
+import { getCurrentTimeInIST } from '@/lib/datetime';
+import { getAvailablePersonasForPosting, isPersonaAvailableForPosting } from '@/lib/personas';
 
 export async function GET(request: NextRequest) {
   try {
@@ -11,20 +13,41 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const nowET = getCurrentTimeInET();
+    const nowIST = getCurrentTimeInIST();
+    const currentHourIST = nowIST.getHours();
     
-    logWithTimezone(`🔍 Checking for tweets ready to post`);
+    logger.info(`🔍 Checking for tweets ready to post at ${currentHourIST}:00 IST`, 'post-ready');
+
+    // Check which personas are available for posting at current hour
+    const availablePersonas = getAvailablePersonasForPosting(currentHourIST);
+    
+    if (availablePersonas.length === 0) {
+      return NextResponse.json({
+        success: true,
+        message: `⏳ No personas scheduled for posting at ${currentHourIST}:00 IST`,
+        availablePersonas: [],
+        currentHour: currentHourIST,
+        found: 0,
+        posted: 0,
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    logger.info(`📋 Available personas for posting: ${availablePersonas.map(p => p.name).join(', ')}`, 'post-ready');
 
     // Get all tweets
     const allTweets = await getAllTweets();
     
-    // Find tweets ready to post using clean ET-based logic
+    // Find tweets ready to post - must not be posted yet and persona must be available for posting
     const readyTweets = allTweets.filter(tweet => {
-      if (tweet.status !== 'scheduled' || !tweet.scheduled_for) return false;
-      return isWithinPostingWindowET(new Date(tweet.scheduled_for));
+      // Skip already posted or failed tweets
+      if (tweet.status === 'posted' || tweet.status === 'failed') return false;
+      
+      // Check if tweet's persona is available for posting at current hour
+      return isPersonaAvailableForPosting(tweet.persona, currentHourIST);
     });
 
-    logWithTimezone(`📝 Found ${readyTweets.length} tweets ready to post`);
+    logger.info(`📝 Found ${readyTweets.length} tweets ready to post from available personas`, 'post-ready');
 
     let postedCount = 0;
     const errors: string[] = [];
@@ -32,7 +55,7 @@ export async function GET(request: NextRequest) {
     // Post each ready tweet
     for (const tweet of readyTweets) {
       try {
-        logWithTimezone(`📤 Posting tweet: ${tweet.content.substring(0, 50)}...`);
+        logger.info(`📤 Posting tweet: ${tweet.content.substring(0, 50)}...`, 'post-ready');
         
         const result = await postToTwitter(tweet.content, tweet.hashtags);
         
@@ -48,11 +71,11 @@ export async function GET(request: NextRequest) {
         await saveTweet(updatedTweet);
         postedCount++;
         
-        logWithTimezone(`✅ Successfully posted tweet ${tweet.id} - Twitter ID: ${result.data.id}`);
+        logger.info(`✅ Successfully posted tweet ${tweet.id} - Twitter ID: ${result.data.id}`, 'post-ready');
         
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : String(error);
-        logWithTimezone(`❌ Failed to post tweet ${tweet.id}: ${errorMsg}`);
+        logger.error(`Failed to post tweet ${tweet.id}: ${errorMsg}`, 'post-ready', error as Error);
         
         // Mark tweet as failed
         const failedTweet = {
@@ -69,22 +92,25 @@ export async function GET(request: NextRequest) {
     const response = {
       success: true,
       timestamp: new Date().toISOString(),
-      currentTime: `${nowET.getHours()}:${nowET.getMinutes().toString().padStart(2, '0')} ET`,
+      currentTime: `${nowIST.getHours()}:${nowIST.getMinutes().toString().padStart(2, '0')} IST`,
+      availablePersonas: availablePersonas.map(p => p.name),
       found: readyTweets.length,
       posted: postedCount,
       errors: errors.length,
       errorDetails: errors,
       message: postedCount > 0 
-        ? `🚀 Posted ${postedCount} tweets successfully!`
-        : '⏳ No tweets ready to post at this time',
+        ? `🚀 Posted ${postedCount} tweets successfully from available personas!`
+        : availablePersonas.length > 0 
+          ? '⏳ No tweets ready to post from available personas at this time'
+          : `⏳ No personas scheduled for posting at ${currentHourIST}:00 IST`,
     };
 
-    logWithTimezone(`📊 Posting summary: ${postedCount}/${readyTweets.length} posted, ${errors.length} errors`);
+    logger.info(`📊 Posting summary: ${postedCount}/${readyTweets.length} posted, ${errors.length} errors`, 'post-ready');
     
     return NextResponse.json(response);
 
   } catch (error) {
-    logWithTimezone('❌ Post-ready check failed:', error instanceof Error ? error.message : String(error));
+    logger.error('Post-ready check failed', 'post-ready', error as Error);
     
     return NextResponse.json({
       success: false,

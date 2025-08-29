@@ -10,15 +10,11 @@ interface TweetHistoryProps {
   tweets: Tweet[];
   selectedTweets: string[];
   onSelectionChange: (tweetIds: string[]) => void;
-  onScheduleSelected: () => void;
   onDeleteSelected: () => void;
   onPostTweet: (tweetId: string) => void;
   onDeleteTweet: (tweetId: string) => void;
-  onUpdateSchedule: (tweetId: string, newTime: Date) => void;
   getStatusBadgeColor: (status: string) => string;
   getQualityGradeColor: (grade: string) => string;
-  toDateTimeLocal: (date: Date) => string;
-  formatOptimalTime: (date: Date) => string;
   formatForUserDisplay: (date: Date | string) => string;
   // Pagination props
   pagination?: {
@@ -37,15 +33,11 @@ export function TweetHistory({
   tweets,
   selectedTweets,
   onSelectionChange,
-  onScheduleSelected,
   onDeleteSelected,
   onPostTweet,
   onDeleteTweet,
-  onUpdateSchedule,
   getStatusBadgeColor,
   getQualityGradeColor,
-  toDateTimeLocal,
-  formatOptimalTime,
   formatForUserDisplay,
   pagination,
   onPageChange,
@@ -54,7 +46,7 @@ export function TweetHistory({
   const isClient = useClientSafe();
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      onSelectionChange(tweets.filter(t => t.status === 'draft').map(t => t.id));
+      onSelectionChange(tweets.filter(t => t.status === 'ready').map(t => t.id));
     } else {
       onSelectionChange([]);
     }
@@ -68,22 +60,12 @@ export function TweetHistory({
     }
   };
 
-  const handleScheduleUpdate = async (tweetId: string, newTimeString: string) => {
-    const newTime = new Date(newTimeString);
-    onUpdateSchedule(tweetId, newTime);
-  };
 
   return (
     <section className="bg-gray-900 rounded-xl border border-gray-800 p-6">
       {/* Bulk Actions */}
       {selectedTweets.length > 0 && (
         <div className="flex gap-2 mb-4">
-          <Button 
-            onClick={onScheduleSelected} 
-            className="bg-blue-900 hover:bg-blue-800 text-gray-200 h-8 text-sm"
-          >
-            Schedule {selectedTweets.length}
-          </Button>
           <Button 
             onClick={onDeleteSelected} 
             className="bg-red-900 hover:bg-red-800 text-gray-200 h-8 text-sm"
@@ -102,7 +84,7 @@ export function TweetHistory({
                 <input
                   type="checkbox"
                   onChange={(e) => handleSelectAll(e.target.checked)}
-                  checked={selectedTweets.length > 0 && selectedTweets.length === tweets.filter(t => t.status === 'draft').length}
+                  checked={selectedTweets.length > 0 && selectedTweets.length === tweets.filter(t => t.status === 'ready').length}
                   className="accent-blue-500"
                 />
               </TableHead>
@@ -117,7 +99,7 @@ export function TweetHistory({
             {tweets.map((tweet) => (
               <TableRow key={tweet.id} className="border-gray-600 hover:bg-gray-900">
                 <TableCell>
-                  {tweet.status === 'draft' && (
+                  {tweet.status === 'ready' && (
                     <input
                       type="checkbox"
                       checked={selectedTweets.includes(tweet.id)}
@@ -154,19 +136,6 @@ export function TweetHistory({
                   <Badge className={getStatusBadgeColor(tweet.status)}>{tweet.status}</Badge>
                 </TableCell>
                 <TableCell>
-                  {tweet.status === 'scheduled' && tweet.scheduledFor && (
-                    <div className="space-y-1">
-                      <input
-                        type="datetime-local"
-                        value={toDateTimeLocal(tweet.scheduledFor)}
-                        onChange={(e) => handleScheduleUpdate(tweet.id, e.target.value)}
-                        className="text-xs bg-gray-800 border-gray-600 text-gray-200 rounded px-1 py-1 w-full"
-                      />
-                      <div className="text-xs text-gray-400 break-words">
-                        {isClient ? formatOptimalTime(tweet.scheduledFor) : 'Loading...'}
-                      </div>
-                    </div>
-                  )}
                   {tweet.status === 'posted' && tweet.postedAt && (
                     <div className="text-xs text-green-400 break-words">
                       {isClient ? formatForUserDisplay(new Date(tweet.postedAt)) : 'Loading...'}
@@ -175,7 +144,7 @@ export function TweetHistory({
                 </TableCell>
                 <TableCell>
                   <div className="flex gap-1">
-                    {(tweet.status === 'draft' || tweet.status === 'failed') && (
+                    {(tweet.status === 'ready' || tweet.status === 'failed') && (
                       <Button
                         onClick={() => onPostTweet(tweet.id)}
                         className="bg-gray-800 hover:bg-gray-700 text-gray-200 h-6 text-xs px-2"
@@ -210,7 +179,7 @@ export function TweetHistory({
             {/* Mobile Card Header */}
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-3">
-                {tweet.status === 'draft' && (
+                {tweet.status === 'ready' && (
                   <input
                     type="checkbox"
                     checked={selectedTweets.includes(tweet.id)}
@@ -226,7 +195,7 @@ export function TweetHistory({
                 )}
               </div>
               <div className="flex gap-2">
-                {(tweet.status === 'draft' || tweet.status === 'failed') && (
+                {(tweet.status === 'ready' || tweet.status === 'failed') && (
                   <Button
                     onClick={() => onPostTweet(tweet.id)}
                     className="bg-gray-800 hover:bg-gray-700 text-gray-200 h-8 w-8 p-1"
@@ -261,21 +230,6 @@ export function TweetHistory({
                 {tweet.content.length}/270 characters
               </div>
 
-              {/* Mobile Card Timing */}
-              {tweet.status === 'scheduled' && tweet.scheduledFor && (
-                <div className="bg-gray-900 rounded p-3 space-y-2">
-                  <div className="text-xs text-gray-400">Scheduled for:</div>
-                  <input
-                    type="datetime-local"
-                    value={toDateTimeLocal(tweet.scheduledFor)}
-                    onChange={(e) => handleScheduleUpdate(tweet.id, e.target.value)}
-                    className="bg-gray-800 border-gray-600 text-gray-200 text-sm p-2 rounded w-full"
-                  />
-                  <div className="text-xs text-blue-400">
-                    IST: {isClient ? formatOptimalTime(tweet.scheduledFor) : 'Loading...'}
-                  </div>
-                </div>
-              )}
 
               {tweet.status === 'posted' && tweet.postedAt && (
                 <div className="bg-gray-900 rounded p-3">
@@ -303,9 +257,9 @@ export function TweetHistory({
                 </div>
               )}
 
-              {tweet.status === 'draft' && (
+              {tweet.status === 'ready' && (
                 <div className="text-xs text-gray-400">
-                  Ready to schedule or post
+                  Ready to post
                 </div>
               )}
             </div>

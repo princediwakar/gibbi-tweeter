@@ -1,29 +1,25 @@
 import { Button } from '@/components/ui/button';
-import { Bot, Send, Plus, Edit3 } from 'lucide-react';
+import { Bot, Plus, Edit3 } from 'lucide-react';
 import { GenerateFormState, Persona } from '@/types/dashboard';
 import { useClientSafe } from '@/hooks/useClientSafe';
 
 interface ManualGenerationProps {
   form: GenerateFormState;
   loading: boolean;
-  nextOptimalTime: string;
   personas: Persona[];
   bulkCount: number;
   onFormChange: (updates: Partial<GenerateFormState>) => void;
   onGenerate: () => void;
-  onGenerateAndSchedule: () => void;
   onBulkGenerate: () => void;
 }
 
 export function ManualGeneration({
   form,
   loading,
-  nextOptimalTime,
   personas,
   bulkCount,
   onFormChange,
   onGenerate,
-  onGenerateAndSchedule,
   onBulkGenerate
 }: ManualGenerationProps) {
   const isClient = useClientSafe();
@@ -35,9 +31,6 @@ export function ManualGeneration({
             📝 Manual Generation
           </h2>
           <p className="text-gray-400 text-sm">Create and customize individual tweets</p>
-        </div>
-        <div className="text-xs text-gray-400 bg-gray-800 px-3 py-1 rounded-full">
-          Next Optimal: {nextOptimalTime}
         </div>
       </div>
       
@@ -174,19 +167,6 @@ export function ManualGeneration({
             </div>
           </Button>
           
-          <Button
-            onClick={onGenerateAndSchedule}
-            disabled={loading}
-            className={`${isClient && form.customPrompt.trim() ? 'opacity-50' : ''} bg-blue-600 hover:bg-blue-500 text-white h-12 text-sm font-medium rounded-lg transition-all`}
-          >
-            <Send className="h-5 w-5 mr-2" /> 
-            <div className="flex flex-col items-start">
-              <span>Generate & Schedule</span>
-              <span className="text-xs text-blue-200">
-                {isClient && form.customPrompt.trim() ? 'Custom + auto' : 'Auto-schedule'}
-              </span>
-            </div>
-          </Button>
           
           <Button
             onClick={onBulkGenerate}

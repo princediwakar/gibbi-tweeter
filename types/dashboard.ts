@@ -7,8 +7,7 @@ export interface Tweet {
     overall: number;
     grade: 'A' | 'B' | 'C' | 'D' | 'F';
   };
-  status: 'draft' | 'scheduled' | 'posted' | 'failed';
-  scheduledFor?: Date;
+  status: 'ready' | 'posted' | 'failed';
   postedAt?: Date;
   twitterUrl?: string;
   errorMessage?: string;
@@ -40,6 +39,6 @@ export interface Persona {
 }
 
 export interface DashboardStats {
-  scheduled: number;
+  ready: number;
   posted: number;
 }

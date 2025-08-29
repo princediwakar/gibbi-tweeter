@@ -1,6 +1,6 @@
-# Gibbi Tweeter - US Test Prep Tweet Bot 🎓
+# Gibbi Tweeter - NEET Prep Tweet Bot 🎓
 
-**Automated US test preparation content generator targeting SAT, GRE, GMAT, and standardized test markets.**
+**Automated NEET preparation content generator targeting Indian medical entrance aspirants.**
 
 [![Next.js](https://img.shields.io/badge/Next.js-15.4.7-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
@@ -15,11 +15,7 @@ Gibbi Tweeter is a specialized AI-powered content generator that creates educati
 
 ## ✨ Features
 
-### 🎓 Four Test Prep Personas
-- **SAT Coach** (🎓) - High school test preparation specialist
-- **GRE Master** (📚) - Graduate school preparation expert  
-- **GMAT Pro** (💼) - MBA preparation specialist
-- **Test Prep Guru** (🧠) - General study strategies and motivation
+
 
 ### 📚 Educational Content Types
 - **Practice Questions** with MCQ format and explanations
@@ -92,18 +88,11 @@ CRON_SECRET=your_random_secret_key_here
 
 ## 📊 Content Sources
 
-### Specialized RSS Feeds by Persona
-- **SAT Coach**: @CollegeBoard, @KaplanTestPrep, @PrincetonReview + Reddit SAT communities
-- **GRE Master**: @ETS, @Manhattan_Prep, @Magoosh + Graduate school subreddits  
-- **GMAT Pro**: @GMATofficial, @ManhattanGMAT + Business school Twitter feeds
-- **Test Prep Guru**: General education sources + Test prep communities
+
 
 ## 🎯 Marketing Strategy
 
-### Target Market
-- **Primary**: 2.1M SAT test-takers annually
-- **Secondary**: 500K GRE + 200K GMAT test-takers
-- **Total Addressable Market**: 3M+ US students
+
 
 ### Content Marketing Approach
 1. **Authority Building** in US test prep space
@@ -111,29 +100,7 @@ CRON_SECRET=your_random_secret_key_here
 3. **Audience Development** of US test prep students
 4. **Traffic Generation** to Gibbi AI platform
 
-## 📈 Sample Generated Content
 
-**SAT Coach:**
-```
-📝 SAT Reading Tip: Don't just pick the first answer that "sounds right." 
-Find the exact text evidence that proves Choice A is the best answer! 
-#CloseReading is key. #SATPrep #StudyTips
-```
-
-**GRE Master:**  
-```
-📚 GRE Vocab: UBIQUITOUS means 'present everywhere' - like anxiety during 
-grad school apps! Use it: 'Smartphones are ubiquitous in modern society.' 
-#GRE #Vocabulary
-```
-
-**GMAT Pro:**
-```
-🧠 GMAT Critical Reasoning: 'Sales increased 20% after hiring new manager.' 
-What strengthens this? A) Manager has MBA B) Sales team expanded 
-C) No other changes occurred D) Previous manager quit. Answer: C! 
-#GMAT #CriticalReasoning
-```
 
 ## 📁 Project Structure
 
@@ -147,9 +114,7 @@ gibbi-tweeter/
 │   ├── dashboard/                # Dashboard components
 │   └── ui/                       # shadcn/ui components
 ├── lib/
-│   ├── sources-sat.json          # SAT-focused RSS sources
-│   ├── sources-gre.json          # GRE-focused RSS sources
-│   ├── sources-gmat.json         # GMAT-focused RSS sources
+
 │   ├── openai.ts                 # AI content generation
 │   └── trending.ts               # RSS feed processing
 └── CLAUDE.md                     # Detailed documentation
@@ -205,4 +170,4 @@ For questions about Gibbi Tweeter or integration with Gibbi AI:
 
 ---
 
-**Built for the US test prep market • Targeting 3M+ students annually • Marketing channel for Gibbi AI**
+**Built for the Indian medical entrance market • Targeting 2M+ students annually • Marketing channel for Gibbi AI**

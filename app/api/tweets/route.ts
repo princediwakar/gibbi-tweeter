@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server';
-import { getAllTweets, getPaginatedTweets, saveTweet, generateTweetId, deleteTweets, Tweet } from '@/lib/neon-db';
+import { getPaginatedTweets, saveTweet, generateTweetId, deleteTweets, Tweet } from '@/lib/neon-db';
 import { generateTweet, TweetGenerationOptions } from '@/lib/openai';
-import { calculateQualityScore } from '@/lib/quality-scorer';
 import { getTrendingTopics } from '@/lib/trending';
-import { getNextOptimalPostTime, getSpacedPostingSchedule } from '@/lib/timing';
-
+import { logger } from '@/lib/logger';
 // Import centralized persona configuration
-import { getDefaultPersona } from '@/lib/personas';
+import { PHYSICS_MASTER } from '@/lib/personas';
 
 export async function GET(request: Request) {
   try {
@@ -36,8 +34,7 @@ export async function POST(request: Request) {
     }
 
     if (action === 'generate') {
-      const defaultPersona = getDefaultPersona();
-      const persona = data.persona || defaultPersona.id;
+      const persona = data.persona || PHYSICS_MASTER.id;
       
       const options: TweetGenerationOptions = {
         persona,
@@ -47,103 +44,49 @@ export async function POST(request: Request) {
       };
 
       const generatedTweet = await generateTweet(options);
-      const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, persona);
       
       const tweet = {
         id: generateTweetId(),
         content: generatedTweet.content,
         hashtags: generatedTweet.hashtags,
         persona,
-        status: 'draft' as const,
+        status: 'ready' as const,
         created_at: new Date().toISOString(),
-        quality_score: qualityScore,
+        quality_score: 1,
       };
 
       await saveTweet(tweet);
       return NextResponse.json({ tweet });
     }
 
-    if (action === 'schedule') {
-      const defaultPersona = getDefaultPersona();
-      const scheduledFor = new Date(data.scheduledFor);
-      const tweet = {
-        id: generateTweetId(),
-        content: data.content,
-        hashtags: data.hashtags || [],
-        persona: data.persona || defaultPersona,
-        scheduled_for: scheduledFor.toISOString(),
-        status: 'scheduled' as const,
-        created_at: new Date().toISOString(),
-      };
 
-      await saveTweet(tweet);
-      return NextResponse.json({ tweet });
-    }
-
-    if (action === 'generate-and-schedule') {
-      const defaultPersona = getDefaultPersona();
-      const persona = data.persona || defaultPersona;
-      
-      const options: TweetGenerationOptions = {
-        persona,
-        includeHashtags: data.includeHashtags,
-        customPrompt: data.customPrompt,
-        useTrendingTopics: data.useTrendingTopics,
-      };
-
-      const generatedTweet = await generateTweet(options);
-      const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, persona);
-      
-      // Use optimal posting time if no scheduledFor provided
-      const scheduledFor = data.scheduledFor ? new Date(data.scheduledFor) : getNextOptimalPostTime();
-      
-      const tweet = {
-        id: generateTweetId(),
-        content: generatedTweet.content,
-        hashtags: generatedTweet.hashtags,
-        persona,
-        scheduled_for: scheduledFor.toISOString(),
-        status: 'scheduled' as const,
-        created_at: new Date().toISOString(),
-        quality_score: qualityScore,
-      };
-
-      await saveTweet(tweet);
-      return NextResponse.json({ tweet });
-    }
 
     if (action === 'bulk_generate') {
-      const defaultPersona = getDefaultPersona();
-      const persona = data.persona || defaultPersona;
+      const persona = data.persona || PHYSICS_MASTER.id;
       
-      // Import timing to check optimal slot limits
-      const { OPTIMAL_POSTING_TIMES_ET } = await import('@/lib/datetime');
-      const maxOptimalSlots = OPTIMAL_POSTING_TIMES_ET.length; // 15 slots per day
+      
       const requestedCount = data.count || 5;
-      const count = Math.min(requestedCount, maxOptimalSlots);
+      const count = requestedCount;
       
-      if (count < requestedCount) {
-        console.log(`⚠️ Requested ${requestedCount} tweets, limited to ${count} (max optimal slots: ${maxOptimalSlots})`);
-      }
-      
-      console.log(`🎯 Starting real-time RSS-based bulk generation of ${count} tweets...`);
+      logger.info(`🎯 Starting real-time RSS-based bulk generation of ${count} tweets...`, 'tweets-api');
       
       // Step 1: Fetch fresh trending topics from RSS sources
       let trendingTopics;
       try {
-        console.log(`📡 Fetching fresh trending topics from RSS sources for ${persona}...`);
+        logger.info(`📡 Fetching fresh trending topics from RSS sources for ${persona}...`, 'tweets-api');
         trendingTopics = await getTrendingTopics(persona);
-        console.log(`✅ Retrieved ${trendingTopics.length} trending topics from RSS feeds for ${persona}`);
+        logger.info(`✅ Retrieved ${trendingTopics.length} trending topics from RSS feeds for ${persona}`, 'tweets-api');
       } catch (error) {
-        console.error('❌ Failed to fetch trending topics:', error);
+        logger.error('Failed to fetch trending topics:', 'tweets-api', error as Error);
         return NextResponse.json({ 
           error: 'Failed to fetch trending topics for bulk generation',
           details: error instanceof Error ? error.message : String(error)
         }, { status: 500 });
       }
 
-      if (trendingTopics.length < count) {
-        console.warn(`⚠️ Only ${trendingTopics.length} trending topics available, needed ${count}`);
+      if (trendingTopics.length === 0) {
+        logger.warn('No trending topics found. Using fallback topic.', 'tweets-api');
+        trendingTopics = [{ title: 'NEET Preparation Strategy', traffic: 'N/A', category: 'Fallback', hashtags: [] }];
       }
 
       const generatedTweets: Tweet[] = [];
@@ -189,7 +132,7 @@ export async function POST(request: Request) {
             useTrendingTopics: false, // We're manually providing the trending context
           };
 
-          console.log(`📝 Tweet ${i + 1}/${count} - RSS TOPIC: "${selectedTopic.title}":`, {
+          logger.info(`📝 Tweet ${i + 1}/${count} - RSS TOPIC: "${selectedTopic.title}":`, 'tweets-api', {
             source: selectedTopic.category || 'RSS Feed',
             traffic: selectedTopic.traffic,
             hashtags: includeHashtags,
@@ -200,27 +143,26 @@ export async function POST(request: Request) {
           
           // Skip if we've seen this exact content before
           if (generatedTweets.some(t => t.content === generatedTweet.content)) {
-            console.log(`⚠️ Duplicate content detected for tweet ${i + 1}, skipping...`);
+            logger.warn(`Duplicate content detected for tweet ${i + 1}, skipping...`, 'tweets-api');
             continue;
           }
           
-          const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, persona);
           
           const tweet = {
             id: generateTweetId(),
             content: generatedTweet.content,
             hashtags: generatedTweet.hashtags,
-            persona,
-            status: 'draft' as const,
+            persona: persona,
+            status: 'ready' as const,
             created_at: new Date().toISOString(),
-            quality_score: qualityScore,
+            quality_score: 1,
           };
 
           await saveTweet(tweet);
           generatedTweets.push(tweet);
           
-          console.log(`✅ Generated tweet ${i + 1}: ${generatedTweet.content.substring(0, 60)}...`);
-          console.log(`   📊 Based on RSS topic: ${selectedTopic.title} (${selectedTopic.traffic})`);
+          logger.info(`✅ Generated tweet ${i + 1}: ${generatedTweet.content.substring(0, 60)}...`, 'tweets-api');
+          logger.info(`   📊 Based on RSS topic: ${selectedTopic.title} (${selectedTopic.traffic})`, 'tweets-api');
           
           // Add delay between generations for API variety
           if (i < count - 1) {
@@ -229,13 +171,13 @@ export async function POST(request: Request) {
           }
           
         } catch (error) {
-          console.error(`❌ Error generating tweet ${i + 1}:`, error);
+          logger.error(`Error generating tweet ${i + 1}:`, 'tweets-api', error as Error);
           // Continue with next tweet instead of failing entire batch
           continue;
         }
       }
 
-      console.log(`🎉 RSS-based bulk generation completed! Generated ${generatedTweets.length}/${count} unique tweets from trending topics`);
+      logger.info(`🎉 RSS-based bulk generation completed! Generated ${generatedTweets.length}/${count} unique tweets from trending topics`, 'tweets-api');
       return NextResponse.json({ 
         tweets: generatedTweets,
         meta: {
@@ -246,28 +188,6 @@ export async function POST(request: Request) {
       });
     }
 
-    if (action === 'schedule_selected') {
-      const { tweetIds } = data;
-      const tweets = await getAllTweets();
-      const scheduledTweets = [];
-
-      // Get optimal spaced posting schedule for all selected tweets
-      const optimalTimes = getSpacedPostingSchedule(tweetIds.length, 45); // 45-minute minimum spacing
-
-      let timeIndex = 0;
-      for (const tweetId of tweetIds) {
-        const tweet = tweets.find(t => t.id === tweetId);
-        if (tweet && tweet.status === 'draft') {
-          tweet.status = 'scheduled';
-          tweet.scheduled_for = (optimalTimes[timeIndex] || getNextOptimalPostTime()).toISOString();
-          await saveTweet(tweet);
-          scheduledTweets.push(tweet);
-          timeIndex++;
-        }
-      }
-
-      return NextResponse.json({ tweets: scheduledTweets });
-    }
 
     if (action === 'bulk_delete') {
       const { tweetIds } = data;
@@ -286,7 +206,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ error: `Invalid action: ${action}` }, { status: 400 });
   } catch (error) {
-    console.error('Error in tweets API:', error);
+    logger.error('Error in tweets API:', 'tweets-api', error as Error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json({ 
       error: 'Internal server error',

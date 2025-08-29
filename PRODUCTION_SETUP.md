@@ -25,7 +25,7 @@
 # Test tweet generation
 curl -X POST https://gibbi-tweeter.vercel.app/api/tweets \
   -H "Content-Type: application/json" \
-  -d '{"action": "generate", "persona": "sat_coach", "includeHashtags": true}'
+  -d '{"action": "generate", "persona": "physics_master", "includeHashtags": true}'
 
 # Test auto-chain system (requires CRON_SECRET)
 curl -X GET https://gibbi-tweeter.vercel.app/api/generate-async \
@@ -45,11 +45,7 @@ curl -X GET https://gibbi-tweeter.vercel.app/api/generate-async \
 - **US Time Zone Optimization** (8 AM - 10 PM EST/PST)
 - **Smart Scheduling** with 45-minute minimum spacing
 
-**Content Distribution:**
-- **25%** SAT Coach (high school prep)
-- **25%** GRE Master (graduate school)
-- **25%** GMAT Pro (MBA preparation)  
-- **25%** Test Prep Guru (general strategies)
+
 
 ### 4. Monitor Performance
 
@@ -92,11 +88,7 @@ jobs:
 
 ## 🎯 Marketing Results
 
-**Target Audience:**
-- 2.1M SAT test-takers annually
-- 500K GRE test-takers annually  
-- 200K GMAT test-takers annually
-- **Total: 3M+ US students**
+
 
 **Expected Growth:**
 - **Week 1:** 50-100 followers (initial content)

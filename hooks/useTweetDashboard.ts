@@ -1,23 +1,22 @@
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
-import { getNextOptimalPostTime, formatOptimalTime, toDateTimeLocal } from '@/lib/timing';
-import { formatForUserDisplay } from '@/lib/datetime';
+
+import { formatForUserDisplay, toDateTimeLocal } from '@/lib/datetime';
 import { Tweet, GenerateFormState, Persona } from '@/types/dashboard';
-import { getPersonas } from '@/lib/personas';
+import { PERSONAS } from '@/lib/personas';
 
 // Use centralized persona configuration directly
 
 const BULK_GENERATION_CONFIG = {
   count: 5,
   includeHashtags: true,
-  useTrendingTopics: true,
+  useTrendingTopics: false,
 };
 
 // Helper function to parse dates from API response
 function parseTweetDates(tweets: Tweet[]): Tweet[] {
   return tweets.map(tweet => ({
     ...tweet,
-    scheduledFor: tweet.scheduledFor ? new Date(tweet.scheduledFor) : undefined,
     postedAt: tweet.postedAt ? new Date(tweet.postedAt) : undefined,
     createdAt: new Date(tweet.createdAt),
   }));
@@ -32,11 +31,11 @@ export function useTweetDashboard() {
   // Removed scheduler state - assuming always running
   const [hasHydrated, setHasHydrated] = useState(false);
   const [showHistory, setShowHistory] = useState(true);
-  const [personas] = useState<Persona[]>(getPersonas()); // Initialize directly with centralized personas
+  const [personas] = useState<Persona[]>(PERSONAS); // Initialize directly with centralized personas
   const [generateForm, setGenerateForm] = useState<GenerateFormState>({
-    persona: getPersonas()[0]?.id || '', // Set default persona immediately
+    persona: PERSONAS[0]?.id || '', // Set default persona immediately
     includeHashtags: true,
-    useTrendingTopics: true,
+    useTrendingTopics: false,
     customPrompt: '',
   });
 
@@ -147,35 +146,6 @@ export function useTweetDashboard() {
     }
   }, [loading, generateForm, fetchTweets]);
 
-  const generateAndScheduleTweet = useCallback(async () => {
-    if (loading) return;
-    setLoading(true);
-    
-    try {
-      const response = await fetch('/api/tweets', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'generate-and-schedule',
-          ...generateForm,
-        })
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setLatestTweet(parseTweetDates([data.tweet])[0]);
-        toast.success('Tweet generated and scheduled!');
-        await fetchTweets();
-      } else {
-        toast.error('Failed to generate and schedule tweet');
-      }
-    } catch (error) {
-      console.error('Failed to generate and schedule tweet:', error);
-      toast.error('Failed to generate and schedule tweet');
-    } finally {
-      setLoading(false);
-    }
-  }, [loading, generateForm, fetchTweets]);
 
   const bulkGenerateTweets = useCallback(async () => {
     if (loading) return;
@@ -247,52 +217,7 @@ export function useTweetDashboard() {
     }
   }, [fetchTweets]);
 
-  const updateTweetSchedule = useCallback(async (tweetId: string, newTime: Date) => {
-    try {
-      const response = await fetch(`/api/tweets/${tweetId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'update',
-          scheduledFor: newTime.toISOString(),
-        })
-      });
-      
-      if (response.ok) {
-        await fetchTweets();
-        toast.success('Schedule updated!');
-      } else {
-        toast.error('Failed to update schedule');
-      }
-    } catch (error) {
-      console.error('Failed to update schedule:', error);
-      toast.error('Failed to update schedule');
-    }
-  }, [fetchTweets]);
 
-  const scheduleSelectedTweets = useCallback(async () => {
-    try {
-      const response = await fetch('/api/tweets', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'schedule_selected',
-          tweetIds: selectedTweets
-        })
-      });
-      
-      if (response.ok) {
-        toast.success(`Scheduled ${selectedTweets.length} tweets!`);
-        setSelectedTweets([]);
-        await fetchTweets();
-      } else {
-        toast.error('Failed to schedule tweets');
-      }
-    } catch (error) {
-      console.error('Failed to schedule tweets:', error);
-      toast.error('Failed to schedule tweets');
-    }
-  }, [selectedTweets, fetchTweets]);
 
   const deleteSelectedTweets = useCallback(async () => {
     try {
@@ -338,7 +263,7 @@ export function useTweetDashboard() {
   const getStatusBadgeColor = (status: string) => {
     switch (status) {
       case 'posted': return 'bg-green-900 text-green-200';
-      case 'scheduled': return 'bg-blue-900 text-blue-200';
+      case 'ready': return 'bg-blue-900 text-blue-200';
       case 'failed': return 'bg-red-900 text-red-200';
       default: return 'bg-gray-700 text-gray-200';
     }
@@ -374,15 +299,11 @@ export function useTweetDashboard() {
   }, [fetchTweets]);
 
   // Computed values
-  const scheduledTweets = tweets.filter(t => t.status === 'scheduled');
-  const nextScheduledTweet = scheduledTweets
-    .filter(t => t.scheduledFor && new Date(t.scheduledFor) > new Date())
-    .sort((a, b) => new Date(a.scheduledFor!).getTime() - new Date(b.scheduledFor!).getTime())[0];
+  const readyTweets = tweets.filter(t => t.status === 'ready');
 
   const stats = {
-    scheduled: scheduledTweets.length,
+    ready: readyTweets.length,
     posted: tweets.filter(t => t.status === 'posted').length,
-    nextPostTime: nextScheduledTweet?.scheduledFor,
   };
 
   return {
@@ -402,12 +323,9 @@ export function useTweetDashboard() {
     setShowHistory,
     setGenerateForm,
     generateTweet,
-    generateAndScheduleTweet,
     bulkGenerateTweets,
     postTweet,
     deleteTweet,
-    updateTweetSchedule,
-    scheduleSelectedTweets,
     deleteSelectedTweets,
     shareOnX,
     refreshData,
@@ -421,10 +339,8 @@ export function useTweetDashboard() {
     // Utilities
     getStatusBadgeColor,
     getQualityGradeColor,
-    toDateTimeLocal,
-    formatOptimalTime,
     formatForUserDisplay,
-    getNextOptimalPostTime,
+    toDateTimeLocal,
     
     // Constants
     personas,

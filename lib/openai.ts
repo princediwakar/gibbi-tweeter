@@ -1,321 +1,161 @@
 import OpenAI from "openai";
-import { getTrendingTopics, TrendingTopic } from "./trending";
+import { getTrendingTopics } from "./trending"; // Assuming this function exists
+import { logger } from '@/lib/logger'; // Assuming a logger utility exists
 
+// --- AI Configuration ---
 const openai = new OpenAI({
-apiKey: process.env.OPENAI_API_KEY,
-baseURL: "https://api.deepseek.com",
+  apiKey: process.env.OPENAI_API_KEY,
+  baseURL: "https://api.deepseek.com", // Or your preferred endpoint
 });
 
-const BASE_DELAY = 2000;
+// The core persona and strategy for the AI. This is the "brain" of the operation.
+const NEET_MENTOR_SYSTEM_PROMPT = `
+You are "NEET Catalyst," the #1 Twitter coach for India's NEET medical entrance exam. Your mission is to create hyper-engaging, high-value, text-only tweets that are irresistible to ambitious students.
+
+**Core Persona & Voice:**
+- **Expert & Sharp:** You are a master of Physics, Chemistry, and Biology. You know the toughest concepts and the most common traps.
+- **Viral Strategist:** You write like a top content creator. You use suspense, curiosity, and challenges to drive maximum engagement (likes, replies, shares).
+- **Empathetic Coach:** You understand the immense pressure NEET aspirants face. You're encouraging and motivational, but you don't sugarcoat the difficulty.
+- **Visual Text Master:** Since you can't use images, you use emojis, creative spacing, and unicode characters (like ■,  countdown numbers, arrows) to make your tweets stand out and be easily scannable.
+
+**Rules for Every Tweet:**
+1.  **Character Limit:** Strictly stay under 270 characters for the main content.
+2.  **Text-Only Visuals:** Use emojis (🔬, 💡, 🚨, 🤯, 🎯) and formatting to create visual appeal.
+3.  **Engagement Hooks:** ALWAYS end with a question, a challenge, or a call-to-action to encourage replies.
+4.  **Hashtags:** Provide 3-4 highly relevant and popular hashtags (e.g., #NEET, #NEETUG, #NEET2026, #NEETPrep, #Physics, #Chemistry, #Biology, #MedStudent).
+5.  **Output Format:** ALWAYS respond in a clean JSON object: { "tweet_content": "...", "hashtags": ["...", "...", "..."] }
+`;
+
+// --- Content Strategy Configuration ---
+
+// These are high-level "blueprints" for the AI to follow, giving it creative freedom.
+const TWEET_BLUEPRINTS = [
+  "**The Trap:** A tricky question with a common mistake that 90% of students make. Build suspense.",
+  "**The Countdown Crusher:** A time-pressure challenge. (e.g., 'You have 45 seconds to solve this').",
+  "**Concept Flash:** A complex topic explained in a super-condensed, easy-to-remember way.",
+  "**Mnemonic Master:** A clever mnemonic or hack to memorize a difficult concept.",
+  "**Myth Buster:** Debunk a common NEET preparation myth with a surprising fact.",
+  "**Motivation Shot:** An empathetic, powerful message acknowledging the struggle but inspiring resilience.",
+];
+
+const GIBBI_CTAS = [
+  "Struggled with this? Get unlimited practice questions on gibbi.vercel.app",
+  "Want to build your speed? Take a full quiz challenge on gibbi.vercel.app",
+  "Master this topic by creating custom quizzes at gibbi.vercel.app"
+];
+
+
+// --- Interfaces ---
 
 export interface TweetGenerationOptions {
-persona: string; // Required, not optional
-includeHashtags?: boolean;
-maxLength?: number;
-customPrompt?: string;
-useTrendingTopics?: boolean;
+  persona: string;
+  customPrompt?: string;
+  useTrendingTopics?: boolean;
+  includeHashtags?: boolean;
 }
 
 export interface TweetResponse {
-content: string;
-hashtags: string[];
-length: number;
-topic: string;
+  content: string;
+  hashtags: string[];
+  length: number;
+  topic: string;
 }
 
+// --- Main Function ---
+
 export async function generateTweet(options: TweetGenerationOptions, bulkIndex?: number): Promise<TweetResponse> {
-const {
-  persona, // Required, no default
-  maxLength = 270,
-  customPrompt,
-  useTrendingTopics = true,
-} = options;
+  const { persona, customPrompt, useTrendingTopics = false } = options;
 
-let selectedTopic: string = customPrompt || "General Satire";
-let randomTopic: TrendingTopic | null = null;
+  let selectedTopic: string = "a high-yield concept"; // Default topic
+  const selectedBlueprint = TWEET_BLUEPRINTS[Math.floor(Math.random() * TWEET_BLUEPRINTS.length)];
 
-if (useTrendingTopics && !customPrompt) {
-  for (let attempt = 1; attempt <= 3; attempt++) {
+  // 1. Determine the Topic
+  if (customPrompt) {
+    selectedTopic = customPrompt;
+    logger.info(`📝 Using custom topic: ${selectedTopic}`, 'openai');
+  } else if (useTrendingTopics) {
     try {
       const trendingTopics = await getTrendingTopics(persona);
       if (trendingTopics.length > 0) {
-        // For bulk generation, try to select different topics by using bulkIndex as seed
-        let randomIndex;
-        if (bulkIndex !== undefined && trendingTopics.length > 1) {
-          // Use a combination of bulkIndex and random for better distribution
-          const seed = (bulkIndex * 3 + Math.floor(Math.random() * 5)) % trendingTopics.length;
-          randomIndex = seed;
-        } else {
-          randomIndex = Math.floor(Math.random() * trendingTopics.length);
-        }
-        
-        randomTopic = trendingTopics[randomIndex];
-        selectedTopic = randomTopic.title;
-        console.log(`📈 Using RSS-sourced trending topic (${bulkIndex !== undefined ? 'bulk #' + bulkIndex : 'single'}): ${randomTopic.title}`);
-        break;
+        const randomIndex = bulkIndex !== undefined
+          ? bulkIndex % trendingTopics.length
+          : Math.floor(Math.random() * trendingTopics.length);
+        selectedTopic = trendingTopics[randomIndex].title;
+        logger.info(`📈 Using trending topic: ${selectedTopic}`, 'openai');
       }
     } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
-      console.error(`⚠️ Failed to fetch trending topics (attempt ${attempt}/3): ${message}`);
-      if (attempt < 3) {
-        await new Promise((r) => setTimeout(r, BASE_DELAY * 2 ** (attempt - 1)));
-      } else {
-        console.warn("⚠️ Failed to fetch trending topics after 3 attempts, proceeding without trends");
-        selectedTopic = "Breaking News & Current Events";
-      }
+      logger.error(`Failed to fetch trending topics, using default.`, 'openai', err as Error);
+      // Fallback to default if trends fail
     }
   }
-} else if (customPrompt) {
-  selectedTopic = customPrompt;
-} else if (!useTrendingTopics) {
-  selectedTopic = "Test Preparation Strategy";
-}
 
-// Viral content types for maximum engagement and shareability
-const viralContentTypes = [
-  "Question of the Day - challenging practice problem with answer reveal and engagement hooks",
-  "Spot the Trap - common mistake 99% of students make with dramatic reveal",
-  "30-Second Challenge - time-pressured problem solving with countdown urgency",
-  "Quick Win Tip - bite-sized strategy hack for immediate score improvement",
-  "Test Trap Alert - warning about sneaky question patterns that fool most students",
-  "Speed Round - rapid-fire questions with competitive timing elements"
-];
-// Select viral content type with better distribution for bulk generation
-let randomViralType;
-if (bulkIndex !== undefined) {
-  // For bulk generation, ensure different viral types by cycling through them
-  const viralIndex = (bulkIndex + Math.floor(Math.random() * 3)) % viralContentTypes.length;
-  randomViralType = viralContentTypes[viralIndex];
-} else {
-  randomViralType = viralContentTypes[Math.floor(Math.random() * viralContentTypes.length)];
-}
-
-// Viral engagement techniques for maximum shareability
-const viralEngagementHooks = [
-  "start with dramatic statements like '99% of students miss this'",
-  "create urgency with countdown language 'Solve in 30 seconds!'",
-  "use competitive hooks 'Can you beat yesterday's average?'",
-  "pose direct challenges 'RT if you got this right!'",
-  "create curiosity gaps 'The answer will shock you'",
-  "use specific numbers for credibility '87% of test-takers fall for this trap'",
-  "add call-to-action endings 'Comment your answer below!'",
-  "create shareability with 'Tag someone who needs to see this'"
-];
-
-const randomViralHook = bulkIndex !== undefined ? 
-  viralEngagementHooks[(bulkIndex + Math.floor(Math.random() * 2)) % viralEngagementHooks.length] :
-  viralEngagementHooks[Math.floor(Math.random() * viralEngagementHooks.length)];
-
-// Occasional Gibbi AI traffic drivers (use sparingly - not every tweet)
-const gibbiCTAs = [
-  "Want unlimited practice questions like this? Check out gibbi.vercel.app",
-  "Ready for a full quiz challenge? Try gibbi.vercel.app",
-  "Create your own custom quizzes at gibbi.vercel.app",
-  "Master more questions like this at gibbi.vercel.app"
-];
-
-const shouldIncludeGibbiCTA = Math.random() < 0.15; // 15% chance to include Gibbi mention
-const selectedGibbiCTA = shouldIncludeGibbiCTA ? 
-  gibbiCTAs[Math.floor(Math.random() * gibbiCTAs.length)] : "";
-
-// Viral content quality guidelines
-const contentQualityGuard = `
-🔥 VIRAL EDUCATIONAL CONTENT:
-
-✅ VIRAL REQUIREMENTS:
-- ${randomViralHook}
-- Use dramatic, attention-grabbing language that demands engagement
-- Include specific timing pressure or competitive elements
-- Create immediate urge to share, comment, or RT
-- Content Type: ${randomViralType}
-- End with clear engagement hooks (questions, challenges, CTAs)
-${shouldIncludeGibbiCTA ? `- Include this CTA: ${selectedGibbiCTA}` : ""}`;
-
-// Personality injection for natural voice
-const personalityTraits = [
-  "confident mentor who's been there",
-  "encouraging coach celebrating small wins", 
-  "wise strategist sharing battle-tested tactics",
-  "supportive friend who gets the pressure",
-  "experienced guide revealing shortcuts",
-  "motivational teacher igniting potential"
-];
-
-const selectedPersonality = personalityTraits[Math.floor(Math.random() * personalityTraits.length)];
-
-  // Persona-specific prompt generation
-  let basePrompt: string;
-  
-  const hashtagInstruction = "\nInclude 2-3 VIRAL hashtags for maximum engagement (e.g., #QuestionOfTheDay, #30SecondChallenge, #SpotTheTrap, #TestTrap, #SolveThis, #ChallengeMeBack).";
-  
-  if (persona === "sat_coach") {
-    basePrompt = `You are a ${selectedPersonality} creating VIRAL SAT content about: ${selectedTopic}
-
-STRICT REQUIREMENTS:
-- MUST be under 270 characters total
-- NEVER enclose the tweet in quotes
-- Create tweets that students MUST share, comment on, and RT
-- Use dramatic language that creates urgency and FOMO
-- Make every tweet feel like a limited-time challenge or reveal
-
-VIRAL SAT EXAMPLES:
-🚨 SAT QUESTION: If f(x) = x²-4x+3 and f(a) = f(3), what are ALL possible values of a? Most pick just ONE answer... #SATTrap #TestTrick
-⏱️ 30-SECOND CHALLENGE: Triangle ABC has sides 5, 12, 13. Point P inside creates triangles with areas 6, 8, and x. Find x in 30 seconds! #30SecondChallenge
-💥 SAT READING CHALLENGE: The author's tone can best be described as... - but there are TWO right answers. /n 99% miss the subtle distinction. Can you spot both? #SATReading
-🔥 SAT QUESTION: If 3^(x+1) + 3^(x+1) + 3^(x+1) = 27^x, find x. Looks easy? 9/10 students get -1. The real answer will SHOCK you. #QuestionOfTheDay
-
-${hashtagInstruction}
-
-${contentQualityGuard}
-
-Write ONLY the tweet content, NO quotes around it, under 270 characters:`;
-  } else if (persona === "gre_master") {
-    basePrompt = `You are a ${selectedPersonality} creating VIRAL GRE content about: ${selectedTopic}
-
-STRICT REQUIREMENTS:
-- MUST be under 270 characters total
-- NEVER enclose the tweet in quotes
-- Create tweets that grad school hopefuls CANNOT ignore
-- Use competitive language that challenges their intelligence
-- Make every tweet feel like insider knowledge they need to share
-
-VIRAL GRE EXAMPLES:
-🚨 GRE QUESTION: ENERVATE means to weaken, but 95% think it means energize. What does INFLAMMABLE mean? #GRETrap #VocabChallenge
-⚡ 45-SECOND CHALLENGE: If x@y = x²-y² and 3@a = a@3, find all values of a. #GREMath #45SecondChallenge
-💣 GRE QUANT CHALLENGE: Set A = {1,2,3,4,5}, Set B = {3,4,5,6,7}. If you pick one number from each set, what's the probability their product is odd? #GREQuant
-🔥 READING COMP: Paradoxically, the author's ostensible support actually undermines... #GREReading
-
-${hashtagInstruction}
-
-${contentQualityGuard}
-
-Write ONLY the tweet content, NO quotes around it, under 270 characters:`;
-  } else if (persona === "gmat_pro") {
-    basePrompt = `You are a ${selectedPersonality} creating VIRAL GMAT content about: ${selectedTopic}
-
-STRICT REQUIREMENTS:
-- MUST be under 270 characters total
-- NEVER enclose the tweet in quotes
-- Create tweets that MBA candidates feel compelled to engage with
-- Use high-stakes language that reflects business school pressure
-- Make every tweet feel like executive-level insider information
-
-VIRAL GMAT EXAMPLES:
-🚨 GMAT TRAP: Revenue increased 200% but profits fell 50%. Which weakens this paradox? A) Market share grew B) Costs tripled C) Competitors failed D) Both A&B. #GMATTrap
-⏰ DATA SUFFICIENCY: Is |x-3| > |x+3|? (1) x < -3 (2) x² > 9. Wharton admits get this in 60 seconds. #GMATChallenge
-💼 QUANT REALITY: If 3^n × 9^(n+1) = 1/27, find n. #GMATQuant
-🔥 CRITICAL REASONING: Premise has 3 assumptions, conclusion has 2 flaws, but only 1 answer choice addresses both. #CriticalReasoning
-
-${hashtagInstruction}
-
-${contentQualityGuard}
-
-Write ONLY the tweet content, NO quotes around it, under 270 characters:`;
-  } else {
-    // Default fallback - should not happen with only 3 personas
-    throw new Error(`Unknown persona: ${persona}`);
-  }
-  
-
-try {
-  console.log("🚀 Generating tweet...");
-  const completion = await openai.chat.completions.create({
-    model: "deepseek-chat",
-    messages: [{ role: "user", content: basePrompt }],
-    max_tokens: Math.min(120, Math.ceil(maxLength / 2)),
-    temperature: bulkIndex !== undefined ? 
-      0.9 + (bulkIndex * 0.15) % 0.4 : // 0.9 to 1.3 range for bulk generation variety
-      1.1, // Higher temperature for more creative and engaging content
-  });
-
-  let tweet = completion.choices[0]?.message?.content?.trim();
-  if (!tweet) throw new Error("Empty response from model");
-
-  // Remove quotes if present (sometimes AI adds them despite instructions)
-  if ((tweet.startsWith('"') && tweet.endsWith('"')) || (tweet.startsWith("'") && tweet.endsWith("'"))) {
-    tweet = tweet.slice(1, -1).trim();
+  // 2. Decide if a CTA should be included (15% chance)
+  let finalCtaInstruction = "";
+  if (Math.random() < 0.15) {
+    const selectedCta = GIBBI_CTAS[Math.floor(Math.random() * GIBBI_CTAS.length)];
+    finalCtaInstruction = `Seamlessly integrate this call-to-action: "${selectedCta}"`;
   }
 
-  // Strict character limit enforcement
-  if (tweet.length > maxLength) {
-    console.log(`⚠️ Tweet too long (${tweet.length} chars), truncating to ${maxLength} chars`);
-    
-    // More aggressive truncation to ensure we stay under limit
-    const maxTruncateLength = maxLength - 5; // Reserve more space
-    const truncated = tweet.slice(0, maxTruncateLength);
-    
-    // Try to find the last complete sentence
-    const lastPeriod = truncated.lastIndexOf('.');
-    const lastExclamation = truncated.lastIndexOf('!');
-    const lastQuestion = truncated.lastIndexOf('?');
-    const lastSentenceEnd = Math.max(lastPeriod, lastExclamation, lastQuestion);
-    
-    // If we find a sentence ending within reasonable bounds, use it
-    if (lastSentenceEnd > maxTruncateLength * 0.5) {
-      tweet = truncated.slice(0, lastSentenceEnd + 1);
-    } else {
-      // Otherwise, find last complete word
-      const lastSpaceIndex = truncated.lastIndexOf(' ');
-      if (lastSpaceIndex > maxTruncateLength * 0.6) {
-        tweet = truncated.slice(0, lastSpaceIndex).trim();
-      } else {
-        // Last resort: clean cut without ellipsis to save characters
-        tweet = truncated.trim();
-      }
+  // 3. Construct the User Prompt
+  // This is much simpler now. We just tell the AI what to do, relying on the system prompt for the "how".
+  const userPrompt = `
+      **Subject:** ${persona.charAt(0).toUpperCase() + persona.slice(1)}
+      **Topic:** ${selectedTopic}
+      **Tweet Blueprint:** ${selectedBlueprint}
+      ${finalCtaInstruction}
+    `;
+
+  try {
+    logger.info(`Generating tweet with blueprint: ${selectedBlueprint.split(':')[0]}`, 'openai');
+
+    const completion = await openai.chat.completions.create({
+      model: "deepseek-chat",
+      messages: [
+        { role: "system", content: NEET_MENTOR_SYSTEM_PROMPT },
+        { role: "user", content: userPrompt }
+      ],
+      response_format: { type: "json_object" },
+      temperature: 1.1, // High temperature for creative, varied outputs
+      max_tokens: 250,
+    });
+
+    const rawResponse = completion.choices[0]?.message?.content;
+    if (!rawResponse) {
+      throw new Error("Empty response from AI model");
     }
-    
-    // Final safety check
-    if (tweet.length > maxLength) {
-      tweet = tweet.slice(0, maxLength - 1).trim();
+
+    // Parse the JSON response, which is more reliable than manual extraction
+    const parsedResponse = JSON.parse(rawResponse) as { tweet_content: string; hashtags: string[] };
+
+    let tweetContent = parsedResponse.tweet_content.trim();
+    const hashtags = parsedResponse.hashtags || [];
+
+    // Combine content and hashtags
+    const finalTweet = `${tweetContent} ${hashtags.join(' ')}`.trim();
+
+    if (finalTweet.length > 280) {
+      logger.warn(`Generated tweet is too long (${finalTweet.length}). Truncating.`, 'openai');
+      // Simple truncation is fine as a fallback, as the model should usually respect the limit.
+      tweetContent = tweetContent.slice(0, 280 - hashtags.join(' ').length - 5) + "...";
     }
-    
-    console.log(`✂️ Truncated to ${tweet.length} chars: ${tweet.substring(0, 50)}...`);
+
+    logger.info(`✅ Final tweet (${finalTweet.length} chars): ${finalTweet}`, 'openai');
+
+    return {
+      content: finalTweet,
+      hashtags: hashtags,
+      length: finalTweet.length,
+      topic: selectedTopic,
+    };
+
+  } catch (err) {
+    logger.error("Error generating tweet:", 'openai', err as Error);
+    // Provide a safe fallback response
+    return {
+      content: `🚨 #NEETProTip: Double-check your formulas for '${persona}' questions! A small mistake can cost you big marks. Keep pushing! #NEET #NEETPrep`,
+      hashtags: ["#NEETProTip", "#NEET", "#NEETPrep"],
+      length: 195,
+      topic: "Generic Advice"
+    };
   }
-
-  // Final validation - ensure tweet is under 270 characters
-  if (tweet.length > 270) {
-    console.error(`🚨 CRITICAL: Tweet still over 270 chars (${tweet.length}), forcing truncation`);
-    tweet = tweet.slice(0, 269).trim();
-  }
-
-  console.log(`✅ Final tweet: ${tweet.length} chars - ${tweet}`);
-
-  return {
-    content: tweet,
-    hashtags: extractHashtags(tweet),
-    length: tweet.length,
-    topic: selectedTopic,
-  };
-} catch (err) {
-  const message = err instanceof Error ? err.message : String(err);
-  console.error("❌ Error generating tweet:", message);
-  throw new Error("Tweet generation failed");
 }
-}
-
-function extractHashtags(text: string): string[] {
-  const regex = /#[a-zA-Z0-9_]+/g;
-  const rawHashtags = text.match(regex) || [];
-  
-  // Simplified hashtag validation - trust AI more
-  const validHashtags = rawHashtags
-    .filter(tag => {
-      const cleanTag = tag.slice(1); // Remove #
-      // Basic validation only
-      return cleanTag.length >= 2 && 
-             cleanTag.length <= 20 && 
-             /^[A-Za-z][A-Za-z0-9]*$/.test(cleanTag) &&
-             !cleanTag.match(/^(http|www|com|org)/i); // No URLs
-    })
-    .slice(0, 3); // Allow up to 3 hashtags
-  
-  return validHashtags;
-}
-
-// Import centralized persona configuration
-import { VIRAL_PERSONAS, getPersonas } from './personas';
-
-// Re-export for backward compatibility
-export { VIRAL_PERSONAS as personas, getPersonas };
-
-

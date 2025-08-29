@@ -1,6 +1,6 @@
 /**
- * Centralized persona configuration for the viral test prep bot
- * Single source of truth for all persona definitions
+ * Centralized persona configuration for the Gibbi-Tweeter NEET prep bot.
+ * This file defines the authoritative personas for all content generation.
  */
 
 export interface Persona {
@@ -9,56 +9,80 @@ export interface Persona {
   emoji: string;
   description: string;
   viralFocus: string;
+  sourceFile: string;
+  schedule: {
+    generateAt: number[];  // Hours when this persona generates content (IST)
+    postAt: number[];      // Hours when this persona posts content (IST)
+  };
 }
 
-export const VIRAL_PERSONAS: Persona[] = [
-  {
-    id: "sat_coach",
-    name: "SAT Coach",
-    emoji: "🎓",
-    description: "High school viral challenge specialist",
-    viralFocus: "Brutal SAT traps, 30-second challenges, evil questions, competitive hooks"
-  },
-  {
-    id: "gre_master", 
-    name: "GRE Master",
-    emoji: "📚",
-    description: "Graduate school viral content expert",
-    viralFocus: "Diabolical vocab traps, impossible math, brain melters, reading comp from hell"
-  },
-  {
-    id: "gmat_pro",
-    name: "GMAT Pro", 
-    emoji: "💼",
-    description: "MBA viral pressure specialist",
-    viralFocus: "GMAT death traps, nightmare data sufficiency, executive pressure tests"
+export const PHYSICS_MASTER: Persona = {
+  id: "physics_master",
+  name: "NEET Physics",
+  emoji: "⚛️",
+  description: "Your go-to source for mind-bending NEET physics problems and concepts.",
+  viralFocus: "Challenging MCQs, physics traps, 30-second challenges, and mechanics nightmares.",
+  sourceFile: "lib/sources-physics.json",
+  schedule: {
+    generateAt: [8, 14, 20],    // Generate at 8 AM, 2 PM, 8 PM IST
+    postAt: [9, 15, 21]         // Post at 9 AM, 3 PM, 9 PM IST
   }
-] as const;
+};
+
+export const CHEMISTRY_GURU: Persona = {
+  id: "chemistry_guru",
+  name: "NEET Chemistry",
+  emoji: "🧪",
+  description: "The expert on chemical reactions, organic chemistry, and all things molecules for NEET.",
+  viralFocus: "Chemistry traps, 45-second challenges, organic nightmares, and periodic table secrets.",
+  sourceFile: "lib/sources-chemistry.json",
+  schedule: {
+    generateAt: [10, 16, 22],   // Generate at 10 AM, 4 PM, 10 PM IST
+    postAt: [11, 17, 23]        // Post at 11 AM, 5 PM, 11 PM IST
+  }
+};
+
+export const BIOLOGY_PRO: Persona = {
+  id: "biology_pro",
+  name: "NEET Biology",
+  emoji: "🧬",
+  description: "The authority on the human body, genetics, and the living world for NEET.",
+  viralFocus: "Biology traps, genetics challenges, physiology nightmares, and ecology puzzles.",
+  sourceFile: "lib/sources-biology.json",
+  schedule: {
+    generateAt: [12, 18],       // Generate at 12 PM, 6 PM IST
+    postAt: [13, 19]            // Post at 1 PM, 7 PM IST
+  }
+};
+
+export const PERSONAS: Persona[] = [PHYSICS_MASTER, CHEMISTRY_GURU, BIOLOGY_PRO] as const;
 
 // Type helpers
-export type PersonaId = typeof VIRAL_PERSONAS[number]['id'];
+export type PersonaId = typeof PERSONAS[number]['id'];
 
 // Utility functions
-export function getPersonas(): Persona[] {
-  return [...VIRAL_PERSONAS];
-}
-
 export function getPersonaById(id: string): Persona | undefined {
-  return VIRAL_PERSONAS.find(p => p.id === id);
+  return PERSONAS.find(p => p.id === id);
 }
 
-export function getDefaultPersona(): Persona {
-  return VIRAL_PERSONAS[0];
+// Persona scheduling functions
+export function getAvailablePersonasForGeneration(currentHour: number): Persona[] {
+  return PERSONAS.filter(persona => 
+    persona.schedule.generateAt.includes(currentHour)
+  );
 }
 
-export function getRandomPersona(): Persona {
-  return VIRAL_PERSONAS[Math.floor(Math.random() * VIRAL_PERSONAS.length)];
+export function getAvailablePersonasForPosting(currentHour: number): Persona[] {
+  return PERSONAS.filter(persona => 
+    persona.schedule.postAt.includes(currentHour)
+  );
 }
 
-export function getPersonaIds(): string[] {
-  return VIRAL_PERSONAS.map(p => p.id);
+export function isPersonaAvailableForPosting(personaId: string, currentHour: number): boolean {
+  const persona = getPersonaById(personaId);
+  return persona ? persona.schedule.postAt.includes(currentHour) : false;
 }
 
 // For legacy compatibility
-export const personas = VIRAL_PERSONAS;
-export default VIRAL_PERSONAS;
+export const personas = PERSONAS;
+export default PERSONAS;

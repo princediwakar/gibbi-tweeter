@@ -1,0 +1,77 @@
+
+{
+  "displayName": "NEET Prep",
+  "topics": {
+    "physics": {
+      "displayName": "Physics",
+      "weight": 30,
+      "factTemplates": [
+        "The formula for {concept} is {formula}.",
+        "In optics, Snell's Law is given by {formula}.",
+        "The SI unit of {quantity} is {unit}.",
+        "Kinematics Corner: The three equations of motion are {equations}.",
+        "Thermodynamics Teaser: The First Law is a statement of the conservation of {conserved_quantity}."
+      ],
+      "questionTemplates": [
+        "A body of mass {mass} kg is moving with a velocity of {velocity} m/s. What is its kinetic energy?",
+        "Two resistors of {resistance1} ohms and {resistance2} ohms are connected in parallel. What is their equivalent resistance?",
+        "If a light ray enters from a rarer medium to a denser medium, it bends {direction}. True or False?",
+        "POLL: The dimensional formula for Gravitational Constant (G) is:",
+        "POLL: Which of the following is a vector quantity?"
+      ]
+    },
+    "chemistry": {
+      "displayName": "Chemistry",
+      "weight": 30,
+      "factTemplates": [
+        "The IUPAC name for {compound} is {iupac_name}.",
+        "In the periodic table, electronegativity {trend} across a period.",
+        "Organic Chemistry Quick Fact: The general formula for alkanes is {formula}.",
+        "The pH of a neutral solution is exactly {ph_value}.",
+        "Key Reaction: The Haber process is used to synthesize {product} from Nitrogen and Hydrogen."
+      ],
+      "questionTemplates": [
+        "What is the molarity of a solution containing {moles} moles of solute in {volume} L of solution?",
+        "Balance the following chemical equation: {unbalanced_equation}.",
+        "Which of the following has the highest bond energy: {bond1}, {bond2}, or {bond3}?",
+        "POLL: The shape of the methane (CH4) molecule is:",
+        "POLL: Which gas is produced when a metal reacts with an acid?"
+      ]
+    },
+    "biology": {
+      "displayName": "Biology",
+      "weight": 40,
+      "factTemplates": [
+        "The powerhouse of the cell is the {organelle}.",
+        "Human Anatomy Fact: The largest bone in the human body is the {bone_name}.",
+        "Botany Bite: Photosynthesis primarily occurs in the {location} of the leaves.",
+        "The process of converting glucose into pyruvate is called {process_name}.",
+        "Genetics Gem: The basic unit of heredity is the {unit_name}."
+      ],
+      "questionTemplates": [
+        "Which of the following is NOT a part of the human digestive system: {option1}, {option2}, {option3}?",
+        "The vertebral column in humans consists of how many vertebrae?",
+        "Explain the process of double fertilization in angiosperms in a short thread.",
+        "POLL: Which blood group is known as the universal donor?",
+        "POLL: Which of these diseases is caused by a virus?"
+      ]
+    },
+    "strategy": {
+        "displayName": "NEET Strategy",
+        "weight": 10,
+        "factTemplates": [
+            "#NEETStrategy: Create a realistic timetable and stick to it. Consistency is key!",
+            "#NEETStrategy: Don't neglect NCERT textbooks. They are the foundation for your preparation.",
+            "#NEETStrategy: Practice mock tests in an exam-like environment to manage time and pressure.",
+            "#NEETStrategy: Regular revision is more important than learning new topics in the last month.",
+            "Myth Buster: You don't need to study 16 hours a day. Quality of study is more important than quantity.",
+            "Feeling overwhelmed? Take a short break. A 15-minute walk can refresh your mind. #StudentWellness"
+        ],
+        "questionTemplates": [
+            "POLL: What's the hardest part of NEET prep for you?",
+            "What's your favorite subject to study and why? #NEETCommunity",
+            "What's your study goals for this week? Share below! 👇"
+        ]
+    }
+  }
+}

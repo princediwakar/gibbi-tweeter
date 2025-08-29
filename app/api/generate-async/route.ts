@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateTweet, TweetGenerationOptions } from '@/lib/openai';
 import { getAllTweets, saveTweet, generateTweetId } from '@/lib/neon-db';
-import { calculateQualityScore } from '@/lib/quality-scorer';
-import { logWithTimezone, getCurrentTimeInET, getNextOptimalPostingTimeET } from '@/lib/datetime';
-import { getPersonas } from '@/lib/personas';
+import { getCurrentTimeInIST } from '@/lib/datetime';
+import { logger } from '@/lib/logger';
+import { getAvailablePersonasForGeneration } from '@/lib/personas';
 
 // Job tracking removed - using synchronous generation
 
@@ -15,16 +15,31 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const nowET = getCurrentTimeInET();
+    const nowIST = getCurrentTimeInIST();
+    const currentHourIST = nowIST.getHours();
     
-    logWithTimezone(`🎯 Async generation check...`);
-    logWithTimezone(`🕐 Current ET Time: ${nowET.toISOString()}`);
+    logger.info(`🎯 Async generation check at ${currentHourIST}:00 IST`, 'generate-async');
+
+    // Check which personas are available for generation at current hour
+    const availablePersonas = getAvailablePersonasForGeneration(currentHourIST);
+    
+    if (availablePersonas.length === 0) {
+      return NextResponse.json({
+        success: true,
+        message: `⏳ No personas scheduled for generation at ${currentHourIST}:00 IST`,
+        availablePersonas: [],
+        currentHour: currentHourIST,
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    logger.info(`📋 Available personas: ${availablePersonas.map(p => p.name).join(', ')}`, 'generate-async');
 
     // Get current tweet pipeline
     const allTweets = await getAllTweets();
-    const pendingTweets = allTweets.filter(t => t.status === 'scheduled' || t.status === 'draft');
+    const pendingTweets = allTweets.filter(t => t.status !== 'posted' && t.status !== 'failed');
     
-    logWithTimezone(`📊 Current pipeline: ${pendingTweets.length} pending tweets`);
+    logger.info(`📊 Current pipeline: ${pendingTweets.length} pending tweets`, 'generate-async');
 
     // Only generate if pipeline is low (production-ready threshold)
     if (pendingTweets.length >= 15) {
@@ -32,28 +47,25 @@ export async function GET(request: NextRequest) {
         success: true,
         message: `✅ Pipeline is healthy with ${pendingTweets.length} tweets. No generation needed.`,
         currentPipeline: pendingTweets.length,
+        availablePersonas: availablePersonas.map(p => p.name),
         generated: 0,
         timestamp: new Date().toISOString()
       });
     }
 
-    // Generate 1 tweet synchronously to stay within cron timeout limits
-    const tweetsToGenerate = 1;
-    logWithTimezone(`🚀 Starting synchronous generation of ${tweetsToGenerate} tweet...`);
+    // Select persona (round robin among available ones)
+    const selectedPersona = availablePersonas[pendingTweets.length % availablePersonas.length];
+    logger.info(`👨‍🏫 Selected persona: ${selectedPersona.name} (${selectedPersona.emoji})`, 'generate-async');
     
     try {
-      // Use centralized persona configuration
-      const personas = getPersonas();
-      
-      // Generate single tweet with timeout
-      const persona = personas[pendingTweets.length % personas.length].id;
+      // Generate single tweet with timeout using selected persona
       const options: TweetGenerationOptions = {
-        persona,
+        persona: selectedPersona.id,
         includeHashtags: Math.random() > 0.3,
         useTrendingTopics: Math.random() > 0.4,
       };
 
-      logWithTimezone(`📝 Generating tweet with ${persona}...`);
+      logger.info(`📝 Generating tweet with ${selectedPersona.name}...`, 'generate-async');
 
       // Add timeout to prevent hanging (20s max for cron safety)
       const generatedTweet = await Promise.race([
@@ -61,43 +73,35 @@ export async function GET(request: NextRequest) {
         new Promise((_, reject) => setTimeout(() => reject(new Error('Generation timeout after 20s')), 20000))
       ]) as Awaited<ReturnType<typeof generateTweet>>;
       
-      const qualityScore = calculateQualityScore(generatedTweet.content, generatedTweet.hashtags, persona);
 
-      // Use clean ET-based scheduling logic
-      const scheduledFor = getNextOptimalPostingTimeET();
-      
-      logWithTimezone(`📅 Scheduled tweet for optimal US student time`);
-
-      // Tweet object creation moved outside the complex logic
-
+      // Create tweet ready for posting (no scheduling needed)
       const tweet = {
         id: generateTweetId(),
         content: generatedTweet.content,
         hashtags: generatedTweet.hashtags,
-        persona,
-        scheduled_for: scheduledFor.toISOString(),
-        status: 'scheduled' as const,
+        persona: selectedPersona.id,
+        status: 'ready' as const,
         created_at: new Date().toISOString(),
-        quality_score: qualityScore,
+        quality_score: 1,
       };
 
       await saveTweet(tweet);
       
-      logWithTimezone(`✅ Generated tweet - ${tweet.content.substring(0, 50)}... (scheduled for ${scheduledFor.toISOString()})`);
+      logger.info(`✅ Generated tweet - ${tweet.content.substring(0, 50)}... (ready for posting)`, 'generate-async');
 
       return NextResponse.json({
         success: true,
-        message: `✅ Generated 1 tweet successfully`,
+        message: `✅ Generated 1 tweet successfully with ${selectedPersona.name}`,
         generated: 1,
         currentPipeline: pendingTweets.length + 1,
-        scheduledFor: scheduledFor.toISOString(),
-        persona,
+        persona: selectedPersona.name,
+        personaEmoji: selectedPersona.emoji,
         timestamp: new Date().toISOString()
       });
 
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : String(error);
-      logWithTimezone(`❌ Failed to generate tweet: ${errorMsg}`);
+      logger.error(`Failed to generate tweet: ${errorMsg}`, 'generate-async', error as Error);
       
       return NextResponse.json({
         success: false,
@@ -109,7 +113,7 @@ export async function GET(request: NextRequest) {
     }
 
   } catch (error) {
-    logWithTimezone('❌ Async generation check failed:', error instanceof Error ? error.message : String(error));
+    logger.error('Async generation check failed', 'generate-async', error as Error);
     
     return NextResponse.json({
       success: false,
@@ -120,6 +124,3 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// Removed background generation - now using synchronous generation
-
-// POST endpoint removed - using synchronous generation only

@@ -19,7 +19,7 @@ async function testDatabase() {
       console.log(`   Persona: ${tweet.persona}`);
       console.log(`   Status: ${tweet.status}`);
       console.log(`   Created: ${tweet.created_at}`);
-      console.log(`   Scheduled: ${tweet.scheduled_for || 'Not scheduled'}`);
+      console.log(`   Posted At: ${tweet.posted_at || 'Not posted'}`);
       console.log(`   Hashtags: ${tweet.hashtags.join(', ')}`);
     }
     
