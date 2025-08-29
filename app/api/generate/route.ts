@@ -104,7 +104,7 @@ export async function GET(request: NextRequest) {
         topic: generatedTweet.topic,
         contentType,
         engagementHooks: generatedTweet.engagementHooks || [],
-        gibibiCTA: generatedTweet.gibibiCTA,
+        gibbiCTA: generatedTweet.gibbiCTA,
         enhanced: true,
         timestamp: new Date().toISOString()
       });

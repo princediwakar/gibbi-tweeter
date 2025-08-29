@@ -5,7 +5,7 @@ export interface EnhancedTweet {
   category: string;
   topic: string;
   engagementHooks: string[];
-  gibibiCTA?: string;
+  gibbiCTA?: string;
   contentType: 'explanation' | 'concept_clarification' | 'memory_aid' | 'practical_application' | 'common_mistake' | 'analogy';
 }
 

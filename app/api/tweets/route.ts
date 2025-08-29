@@ -69,7 +69,7 @@ export async function POST(request: Request) {
         meta: {
           topic: generatedTweet.topic,
           hooks: generatedTweet.engagementHooks || [],
-          gibibiCTA: generatedTweet.gibibiCTA,
+          gibbiCTA: generatedTweet.gibbiCTA,
           contentType,
           enhanced: true
         }
@@ -145,7 +145,7 @@ export async function POST(request: Request) {
             personaDistribution: personaStats,
             topicDiversity: Object.keys(topicStats).length,
             engagementElements: generatedTweets.flatMap(t => 'viralHooks' in t ? t.viralHooks || [] : t.engagementHooks || []).length,
-            gibibiCTAs: generatedTweets.filter(t => t.gibibiCTA).length,
+            gibbiCTAs: generatedTweets.filter(t => t.gibbiCTA).length,
             enhanced: true
           }
         });

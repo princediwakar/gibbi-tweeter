@@ -145,12 +145,12 @@ EDUCATIONAL FOCUS: Clear explanation and practical learning
   }
 
   // Add Gibbi CTA requirement (15% chance)
-  const includeGibibiCTA = Math.random() < 0.15;
-  if (includeGibibiCTA) {
+  const includegibbiCTA = Math.random() < 0.15;
+  if (includegibbiCTA) {
     basePrompt += `\n\nIMPORTANT: Include a natural Gibbi AI mention like "Practice more questions at gibbi.vercel.app" or "Master this topic at gibbi.vercel.app" - keep it helpful and non-promotional.`;
   }
 
-  return basePrompt + `\n\nFormat as JSON with: "content", "teachingElements" (array of educational approaches used like "analogy", "common mistake", "practical tip"), "gibibiCTA" (string or null). Write like a helpful teacher, not a marketer!`;
+  return basePrompt + `\n\nFormat as JSON with: "content", "teachingElements" (array of educational approaches used like "analogy", "common mistake", "practical tip"), "gibbiCTA" (string or null). Write like a helpful teacher, not a marketer!`;
 }
 
 /**
@@ -171,11 +171,11 @@ function parseAndValidateTweetResponse(content: string, persona: string, topic: 
     
     // Ensure content is under 280 characters including hashtags
     const hashtagString = hashtags.join(' ');
-    const totalLength = data.content.length + hashtagString.length + (data.gibibiCTA ? data.gibibiCTA.length : 0) + 2; // +2 for spaces
+    const totalLength = data.content.length + hashtagString.length + (data.gibbiCTA ? data.gibbiCTA.length : 0) + 2; // +2 for spaces
     
     if (totalLength > 280) {
       console.warn('Generated tweet exceeds 280 characters, truncating...');
-      const availableLength = 250 - hashtagString.length - (data.gibibiCTA ? data.gibibiCTA.length : 0);
+      const availableLength = 250 - hashtagString.length - (data.gibbiCTA ? data.gibbiCTA.length : 0);
       data.content = data.content.substring(0, availableLength);
     }
 
@@ -186,7 +186,7 @@ function parseAndValidateTweetResponse(content: string, persona: string, topic: 
       category: topic.key.split('_')[1] || 'general', // Extract category from topic key
       topic: topic.key,
       engagementHooks: data.teachingElements, // Map teachingElements to engagementHooks for backward compatibility
-      gibibiCTA: data.gibibiCTA || undefined,
+      gibbiCTA: data.gibbiCTA || undefined,
       contentType: 'explanation' // Default content type for teacher approach
     };
     
