@@ -61,10 +61,10 @@ export async function GET(request: NextRequest) {
     logger.info(`👨‍🏫 Selected persona: ${selectedPersonaKey} with content type: ${contentType}`, 'generate');
     
     try {
-      // Generate viral tweet with new system
+      // Generate educational tweet with teacher approach
       const config: TweetGenerationConfig = {
         persona: selectedPersonaKey,
-        contentType: contentType as 'challenge' | 'trap' | 'quick_tip' | 'motivation' | 'question_reveal' | 'competitive'
+        contentType: contentType as 'explanation' | 'concept_clarification' | 'memory_aid' | 'practical_application' | 'common_mistake' | 'analogy'
       };
 
       logger.info(`📝 Generating enhanced NEET tweet with ${selectedPersonaKey}...`, 'generate');

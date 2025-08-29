@@ -93,53 +93,53 @@ async function generateTweetPrompt(config: TweetGenerationConfig): Promise<strin
   let basePrompt = '';
   
   if (persona.key === 'neet_physics') {
-    basePrompt = `Create an engaging NEET Physics tweet about "${topic.displayName}" for medical entrance preparation.
+    basePrompt = `Write a helpful NEET Physics explanation about "${topic.displayName}" in the voice of an experienced physics teacher.
 
-REQUIREMENTS:
-• Start with an attention-grabbing hook (e.g., "Physics Challenge:", "Tricky Concept:")
-• Include a challenging physics concept or problem from ${topic.displayName}
-• Add educational value with clear explanations
-• Include competitive elements like "NEET toppers know this" or "Medical college aspirants should master this"
+TEACHER APPROACH:
+• Address a common student confusion or question about ${topic.displayName}
+• Provide a clear, simple explanation that students can understand
+• Include a practical memory aid, analogy, or problem-solving tip
+• Connect to real-world application or why it matters for NEET
 • Keep under 240 characters (excluding hashtags)
-• Make it educational and shareable
-• Focus on concept clarity and problem-solving
+• Sound like a knowledgeable, helpful teacher - not a salesperson
+• Focus on genuine educational value
 
 CONTENT TYPE: ${contentType}
-EDUCATIONAL FOCUS: ${persona.viralFocus}
+EDUCATIONAL FOCUS: Clear explanation and practical learning
 
 [${timeMarker}-${tokenMarker}]`;
 
   } else if (persona.key === 'neet_chemistry') {
-    basePrompt = `Create an engaging NEET Chemistry tweet about "${topic.displayName}" for medical entrance preparation.
+    basePrompt = `Write a helpful NEET Chemistry explanation about "${topic.displayName}" in the voice of an experienced chemistry teacher.
 
-REQUIREMENTS:
-• Start with educational hooks like "Chemistry Concept:" or "Important for NEET:"
-• Focus on key chemistry concepts from ${topic.displayName}
-• Include reaction mechanisms, equations, or molecular concepts when relevant
-• Add educational context like "Essential for medical entrance" or "NEET frequently asks this"
+TEACHER APPROACH:
+• Start with a common student question or mistake about ${topic.displayName}
+• Provide clear explanation with step-by-step reasoning
+• Include a simple memory trick, pattern, or way to remember the concept
+• Explain why this concept is important for medical entrance or real medicine
 • Keep under 240 characters (excluding hashtags)
-• Make it informative and educational
-• Focus on conceptual understanding
+• Sound like a patient, knowledgeable teacher who understands student struggles
+• Focus on making complex chemistry simple and memorable
 
 CONTENT TYPE: ${contentType}
-EDUCATIONAL FOCUS: ${persona.viralFocus}
+EDUCATIONAL FOCUS: Clear explanation and practical learning
 
 [${timeMarker}-${tokenMarker}]`;
 
   } else if (persona.key === 'neet_biology') {
-    basePrompt = `Create an engaging NEET Biology tweet about "${topic.displayName}" for medical entrance preparation.
+    basePrompt = `Write a helpful NEET Biology explanation about "${topic.displayName}" in the voice of an experienced biology teacher.
 
-REQUIREMENTS:
-• Start with educational hooks like "Biology Fact:" or "Medical Entrance Tip:"
-• Focus on important biology concepts from ${topic.displayName}
-• Add medical relevance and clinical applications when appropriate
-• Include educational context like "Future doctors should know" or "Important for NEET"
+TEACHER APPROACH:
+• Address a common biology concept that students find confusing about ${topic.displayName}
+• Break it down into simple, understandable parts
+• Include a relatable analogy or real-life example to make it memorable
+• Connect to medical applications or why future doctors need to know this
 • Keep under 240 characters (excluding hashtags)
-• Make it educational and informative
-• Focus on conceptual clarity and medical relevance
+• Sound like an encouraging biology teacher who makes complex topics accessible
+• Focus on building genuine understanding, not memorization
 
 CONTENT TYPE: ${contentType}
-EDUCATIONAL FOCUS: ${persona.viralFocus}
+EDUCATIONAL FOCUS: Clear explanation and practical learning
 
 [${timeMarker}-${tokenMarker}]`;
   }
@@ -150,7 +150,7 @@ EDUCATIONAL FOCUS: ${persona.viralFocus}
     basePrompt += `\n\nIMPORTANT: Include a natural Gibbi AI mention like "Practice more questions at gibbi.vercel.app" or "Master this topic at gibbi.vercel.app" - keep it helpful and non-promotional.`;
   }
 
-  return basePrompt + `\n\nFormat as JSON with: "content", "engagementHooks" (array of educational elements used), "gibibiCTA" (string or null). Focus on educational value and clarity!`;
+  return basePrompt + `\n\nFormat as JSON with: "content", "teachingElements" (array of educational approaches used like "analogy", "common mistake", "practical tip"), "gibibiCTA" (string or null). Write like a helpful teacher, not a marketer!`;
 }
 
 /**
@@ -162,7 +162,7 @@ function parseAndValidateTweetResponse(content: string, persona: string, topic: 
     const data = JSON.parse(cleanedContent);
     
     if (!data.content || typeof data.content !== 'string' ||
-        !data.engagementHooks || !Array.isArray(data.engagementHooks)) {
+        !data.teachingElements || !Array.isArray(data.teachingElements)) {
       throw new Error('AI response missing required fields or has invalid structure.');
     }
     
@@ -185,9 +185,9 @@ function parseAndValidateTweetResponse(content: string, persona: string, topic: 
       persona: persona,
       category: topic.key.split('_')[1] || 'general', // Extract category from topic key
       topic: topic.key,
-      engagementHooks: data.engagementHooks,
+      engagementHooks: data.teachingElements, // Map teachingElements to engagementHooks for backward compatibility
       gibibiCTA: data.gibibiCTA || undefined,
-      contentType: 'challenge' // Default content type
+      contentType: 'explanation' // Default content type for teacher approach
     };
     
   } catch (error) {

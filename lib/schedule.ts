@@ -188,11 +188,11 @@ export function isPeakViralTime(hour: number): boolean {
  * Get content type recommendations based on time of day
  */
 export function getContentTypeForHour(hour: number): string {
-  if (hour >= 6 && hour <= 9) return 'motivation';      // Morning motivation
-  if (hour >= 10 && hour <= 15) return 'challenge';     // Daytime challenges  
-  if (hour >= 16 && hour <= 18) return 'quick_tip';     // Evening tips
-  if (hour >= 19 && hour <= 22) return 'competitive';   // Prime time competition
-  return 'trap';                                         // Night traps and complex concepts
+  if (hour >= 6 && hour <= 9) return 'practical_application';  // Morning - real-world connections
+  if (hour >= 10 && hour <= 15) return 'concept_clarification'; // Daytime - clear explanations
+  if (hour >= 16 && hour <= 18) return 'memory_aid';           // Evening - study aids  
+  if (hour >= 19 && hour <= 22) return 'explanation';          // Prime time - detailed teaching
+  return 'common_mistake';                                      // Night - error correction
 }
 
 export const DAILY_SCHEDULE: DailySchedule = {

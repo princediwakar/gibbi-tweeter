@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getPaginatedTweets, saveTweet, generateTweetId, deleteTweets, Tweet } from '@/lib/db';
-import { generateViralTweet, generateBatchTweets, TweetGenerationConfig } from '@/lib/generation';
-import { generateEnhancedTweet, generateBatchEnhancedTweets } from '@/lib/tweets';
+// Removed old viral generation - using only teacher-style enhanced generation
+import { generateEnhancedTweet, generateBatchEnhancedTweets, TweetGenerationConfig } from '@/lib/tweets';
 import { logger } from '@/lib/logger';
 import { getContentTypeForHour } from '@/lib/schedule';
 
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     if (action === 'generate') {
       const personaKey = data.persona || 'neet_biology'; // Default to most weighted persona
       const topic = data.topic; // Optional specific topic
-      const useEnhanced = data.enhanced !== false; // Default to enhanced unless explicitly disabled
+      // Always use teacher-style enhanced generation
       
       const currentHour = new Date().getHours();
       const contentType = getContentTypeForHour(currentHour);
@@ -43,12 +43,11 @@ export async function POST(request: Request) {
       const config: TweetGenerationConfig = {
         persona: personaKey,
         topic: topic,
-        contentType: contentType as 'challenge' | 'trap' | 'quick_tip' | 'motivation' | 'question_reveal' | 'competitive'
+        contentType: contentType as 'explanation' | 'concept_clarification' | 'memory_aid' | 'practical_application' | 'common_mistake' | 'analogy'
       };
 
-      const generatedTweet = useEnhanced 
-        ? await generateEnhancedTweet(config)
-        : await generateViralTweet(config);
+      // Always use enhanced teacher-style generation now
+      const generatedTweet = await generateEnhancedTweet(config);
       
       if (!generatedTweet) {
         return NextResponse.json({ error: 'Failed to generate tweet' }, { status: 500 });
@@ -68,11 +67,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ 
         tweet,
         meta: {
-          topic: 'topicDisplayName' in generatedTweet ? generatedTweet.topicDisplayName : generatedTweet.topic,
-          hooks: 'viralHooks' in generatedTweet ? generatedTweet.viralHooks || [] : generatedTweet.engagementHooks || [],
+          topic: generatedTweet.topic,
+          hooks: generatedTweet.engagementHooks || [],
           gibibiCTA: generatedTweet.gibibiCTA,
           contentType,
-          enhanced: useEnhanced
+          enhanced: true
         }
       });
     }
@@ -81,25 +80,24 @@ export async function POST(request: Request) {
 
     if (action === 'bulk_generate') {
       const personaKey = data.persona; // Optional - will use weighted selection if not provided
-      const useEnhanced = data.enhanced !== false; // Default to enhanced unless explicitly disabled
+      // Always use teacher-style enhanced generation
       
       const requestedCount = data.count || 5;
       const count = requestedCount;
       
-      logger.info(`🎯 Starting ${useEnhanced ? 'enhanced' : 'viral'} NEET bulk generation of ${count} tweets with advanced persona system...`, 'tweets-api');
+      logger.info(`🎯 Starting teacher-style NEET bulk generation of ${count} tweets with advanced persona system...`, 'tweets-api');
       
       const currentHour = new Date().getHours();
       const contentType = getContentTypeForHour(currentHour);
       
       const config: TweetGenerationConfig = {
         persona: personaKey,
-        contentType: contentType as 'challenge' | 'trap' | 'quick_tip' | 'motivation' | 'question_reveal' | 'competitive'
+        contentType: contentType as 'explanation' | 'concept_clarification' | 'memory_aid' | 'practical_application' | 'common_mistake' | 'analogy'
       };
 
       try {
-        const generatedTweets = useEnhanced 
-          ? await generateBatchEnhancedTweets(count, config)
-          : await generateBatchTweets(count, config);
+        // Always use enhanced teacher-style generation now
+        const generatedTweets = await generateBatchEnhancedTweets(count, config);
         
         if (generatedTweets.length === 0) {
           return NextResponse.json({ error: 'Failed to generate any tweets' }, { status: 500 });
@@ -133,7 +131,7 @@ export async function POST(request: Request) {
         
         // Calculate topic diversity
         const topicStats = generatedTweets.reduce((acc, tweet) => {
-          const topicName = 'topicDisplayName' in tweet ? tweet.topicDisplayName : tweet.topic;
+          const topicName = tweet.topic;
           if (topicName) {
             acc[topicName] = (acc[topicName] || 0) + 1;
           }
@@ -148,7 +146,7 @@ export async function POST(request: Request) {
             topicDiversity: Object.keys(topicStats).length,
             engagementElements: generatedTweets.flatMap(t => 'viralHooks' in t ? t.viralHooks || [] : t.engagementHooks || []).length,
             gibibiCTAs: generatedTweets.filter(t => t.gibibiCTA).length,
-            enhanced: useEnhanced
+            enhanced: true
           }
         });
         

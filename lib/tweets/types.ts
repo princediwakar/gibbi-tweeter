@@ -6,7 +6,7 @@ export interface EnhancedTweet {
   topic: string;
   engagementHooks: string[];
   gibibiCTA?: string;
-  contentType: 'challenge' | 'trap' | 'quick_tip' | 'motivation' | 'question_reveal' | 'competitive';
+  contentType: 'explanation' | 'concept_clarification' | 'memory_aid' | 'practical_application' | 'common_mistake' | 'analogy';
 }
 
 export interface TweetJob {
@@ -42,7 +42,7 @@ export interface TweetGenerationConfig {
   persona?: string;
   category?: string;
   topic?: string;
-  contentType?: 'challenge' | 'trap' | 'quick_tip' | 'motivation' | 'question_reveal' | 'competitive';
+  contentType?: 'explanation' | 'concept_clarification' | 'memory_aid' | 'practical_application' | 'common_mistake' | 'analogy';
 }
 
 export interface GenerationResult {
