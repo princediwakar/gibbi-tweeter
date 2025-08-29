@@ -9,7 +9,7 @@ import { personas } from '@/lib/personas';
 
 const BULK_GENERATION_CONFIG = {
   count: 5,
-  includeHashtags: true,
+  includeHashtags: false,
   useTrendingTopics: false,
 };
 
