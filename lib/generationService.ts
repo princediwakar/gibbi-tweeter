@@ -47,12 +47,12 @@ function generateContentHash(tweet: EnhancedTweet): string {
  */
 function generateOptimizedHashtags(persona: string, categoryDisplayName: string, topicDisplayName: string): string[] {
   const baseHashtags: Record<string, string[]> = {
-    neet_physics: ['#NEET', '#NEETPhysics', '#Physics', '#NEETPrep', '#MedicalEntrance'],
-    neet_chemistry: ['#NEET', '#NEETChemistry', '#Chemistry', '#NEETPrep', '#MedicalEntrance'],
-    neet_biology: ['#NEET', '#NEETBiology', '#Biology', '#NEETPrep', '#MedicalEntrance']
+    english_vocab_builder: ['#EnglishLearning', '#Vocabulary', '#WordPower', '#EnglishTips'],
+    english_grammar_master: ['#EnglishGrammar', '#Grammar', '#EnglishLearning', '#WritingSkills'],
+    english_communication_expert: ['#Communication', '#Speaking', '#EnglishSkills', '#Conversation']
   };
 
-  const hashtags = [...(baseHashtags[persona] || ['#NEET', '#Education', '#Quiz'])];
+  const hashtags = [...(baseHashtags[persona] || ['#EnglishLearning', '#Education', '#Language'])];
   
   // Add topic-specific hashtag
   const topicKey = topicDisplayName.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
@@ -92,54 +92,54 @@ async function generateTweetPrompt(config: TweetGenerationConfig): Promise<strin
   
   let basePrompt = '';
   
-  if (persona.key === 'neet_physics') {
-    basePrompt = `Write a helpful NEET Physics explanation about "${topic.displayName}" in the voice of an experienced physics teacher.
+  if (persona.key === 'english_vocab_builder') {
+    basePrompt = `Write a helpful English vocabulary lesson about "${topic.displayName}" in the voice of an experienced English teacher.
 
 TEACHER APPROACH:
-• Address a common student confusion or question about ${topic.displayName}
-• Provide a clear, simple explanation that students can understand
-• Include a practical memory aid, analogy, or problem-solving tip
-• Connect to real-world application or why it matters for NEET
+• Address a common vocabulary challenge or question about ${topic.displayName}
+• Provide a clear, simple explanation that learners can understand
+• Include a practical memory aid, example sentence, or usage tip
+• Connect to real-world usage or why it matters for communication
 • Keep under 240 characters (excluding hashtags)
 • Sound like a knowledgeable, helpful teacher - not a salesperson
-• Focus on genuine educational value
+• Focus on genuine educational value and practical usage
 
 CONTENT TYPE: ${contentType}
-EDUCATIONAL FOCUS: Clear explanation and practical learning
+EDUCATIONAL FOCUS: Clear explanation and practical vocabulary building
 
 [${timeMarker}-${tokenMarker}]`;
 
-  } else if (persona.key === 'neet_chemistry') {
-    basePrompt = `Write a helpful NEET Chemistry explanation about "${topic.displayName}" in the voice of an experienced chemistry teacher.
+  } else if (persona.key === 'english_grammar_master') {
+    basePrompt = `Write a helpful English grammar lesson about "${topic.displayName}" in the voice of an experienced grammar teacher.
 
 TEACHER APPROACH:
-• Start with a common student question or mistake about ${topic.displayName}
+• Start with a common grammar mistake or confusion about ${topic.displayName}
 • Provide clear explanation with step-by-step reasoning
-• Include a simple memory trick, pattern, or way to remember the concept
-• Explain why this concept is important for medical entrance or real medicine
+• Include a simple rule, pattern, or way to remember the concept
+• Explain why this grammar point is important for clear communication
 • Keep under 240 characters (excluding hashtags)
-• Sound like a patient, knowledgeable teacher who understands student struggles
-• Focus on making complex chemistry simple and memorable
+• Sound like a patient, knowledgeable teacher who understands learner struggles
+• Focus on making complex grammar simple and memorable
 
 CONTENT TYPE: ${contentType}
-EDUCATIONAL FOCUS: Clear explanation and practical learning
+EDUCATIONAL FOCUS: Clear explanation and practical grammar learning
 
 [${timeMarker}-${tokenMarker}]`;
 
-  } else if (persona.key === 'neet_biology') {
-    basePrompt = `Write a helpful NEET Biology explanation about "${topic.displayName}" in the voice of an experienced biology teacher.
+  } else if (persona.key === 'english_communication_expert') {
+    basePrompt = `Write a helpful English communication tip about "${topic.displayName}" in the voice of an experienced communication coach.
 
 TEACHER APPROACH:
-• Address a common biology concept that students find confusing about ${topic.displayName}
-• Break it down into simple, understandable parts
-• Include a relatable analogy or real-life example to make it memorable
-• Connect to medical applications or why future doctors need to know this
+• Address a common communication challenge that learners face about ${topic.displayName}
+• Break it down into simple, actionable steps
+• Include a relatable scenario or real-life example to make it memorable
+• Connect to professional or personal communication benefits
 • Keep under 240 characters (excluding hashtags)
-• Sound like an encouraging biology teacher who makes complex topics accessible
-• Focus on building genuine understanding, not memorization
+• Sound like an encouraging communication coach who makes complex skills accessible
+• Focus on building genuine confidence and practical communication skills
 
 CONTENT TYPE: ${contentType}
-EDUCATIONAL FOCUS: Clear explanation and practical learning
+EDUCATIONAL FOCUS: Clear explanation and practical communication skills
 
 [${timeMarker}-${tokenMarker}]`;
   }
@@ -147,7 +147,7 @@ EDUCATIONAL FOCUS: Clear explanation and practical learning
   // Add Gibbi CTA requirement (15% chance)
   const includegibbiCTA = Math.random() < 0.15;
   if (includegibbiCTA) {
-    basePrompt += `\n\nIMPORTANT: Include a natural Gibbi AI mention like "Practice more questions at gibbi.vercel.app" or "Master this topic at gibbi.vercel.app" - keep it helpful and non-promotional.`;
+    basePrompt += `\n\nIMPORTANT: Include a natural Gibbi AI mention like "Practice more English at gibbi.vercel.app" or "Improve your skills at gibbi.vercel.app" - keep it helpful and non-promotional.`;
   }
 
   return basePrompt + `\n\nFormat as JSON with: "content", "teachingElements" (array of educational approaches used like "analogy", "common mistake", "practical tip"), "gibbiCTA" (string or null). Write like a helpful teacher, not a marketer!`;

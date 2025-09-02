@@ -1,6 +1,6 @@
 /**
- * Viral NEET Tweet Schedule for Maximum Engagement
- * Optimized for IST timezone and NEET aspirant study patterns
+ * English Learning Tweet Schedule for Maximum Engagement
+ * Optimized for IST timezone and English learner patterns
  */
 
 
@@ -19,35 +19,33 @@ export interface DailySchedule {
 export const GENERATION_SCHEDULE: ScheduleSlot[] = [
   {
     hour: 2,  // 2:00 AM IST - Early morning batch for 7 AM posts
-    personas: ['neet_biology'],
-    
-    description: 'Morning Biology batch - Start day with confidence boosters'
+    personas: ['english_communication_expert'],
+    description: 'Morning Communication batch - Start day with confidence boosters'
   },
   {
     hour: 6,  // 6:00 AM IST - Mid-morning batch for 12 PM posts
-    personas: ['neet_chemistry'],
-    description: 'Chemistry batch for lunch break revision'
+    personas: ['english_vocab_builder'],
+    description: 'Vocabulary batch for lunch break learning'
   },
   {
     hour: 8,  // 8:00 AM IST - Morning batch for 1 PM posts
-    personas: ['neet_biology'],
-    
-    description: 'Post-breakfast biology concepts'
+    personas: ['english_grammar_master'],
+    description: 'Post-breakfast grammar concepts'
   },
   {
     hour: 10, // 10:00 AM IST - Late morning batch for 4 PM posts
-    personas: ['neet_physics'],
-    description: 'Physics challenges for afternoon reinforcement'
+    personas: ['english_vocab_builder'],
+    description: 'Vocabulary challenges for afternoon learning'
   },
   {
     hour: 17, // 5:00 PM IST - Evening batch for 8 PM prime time
-    personas: ['neet_biology'],
-    description: 'Prime time biology content for intensive study'
+    personas: ['english_communication_expert'],
+    description: 'Prime time communication content for evening practice'
   },
   {
     hour: 20, // 8:00 PM IST - Night batch for 10 PM posts
-    personas: ['neet_biology'], 
-    description: 'Night revision biology challenges'
+    personas: ['english_grammar_master'], 
+    description: 'Night revision grammar challenges'
   }
 ];
 
@@ -55,42 +53,38 @@ export const GENERATION_SCHEDULE: ScheduleSlot[] = [
 export const POSTING_SCHEDULE: ScheduleSlot[] = [
   {
     hour: 7,   // 7:00 AM IST - Early morning motivation
-    personas: ['neet_biology'],
-    
+    personas: ['english_communication_expert'],
     description: 'Morning motivation and confidence boosters'
   },
   {
     hour: 12,  // 12:00 PM IST - Lunch break learning
-    personas: ['neet_chemistry'],
-    description: 'Quick chemistry revision during coaching break'
+    personas: ['english_vocab_builder'],
+    description: 'Quick vocabulary learning during lunch break'
   },
   {
     hour: 13,  // 1:00 PM IST - Post-lunch engagement
-    personas: ['neet_biology'],
-    
-    description: 'Afternoon biology challenges'
+    personas: ['english_grammar_master'],
+    description: 'Afternoon grammar challenges'
   },
   {
-    hour: 16,  // 4:00 PM IST - Post-coaching session
-    personas: ['neet_physics'],
-    description: 'Reinforce physics concepts learned in coaching'
+    hour: 16,  // 4:00 PM IST - Post-work session
+    personas: ['english_vocab_builder'],
+    description: 'Reinforce vocabulary concepts learned during the day'
   },
   {
     hour: 18,  // 6:00 PM IST - Evening study prep
-    personas: ['neet_chemistry'],
-    description: 'Chemistry concepts for evening study preparation'
+    personas: ['english_communication_expert'],
+    description: 'Communication skills for evening practice preparation'
   },
   {
     hour: 20,  // 8:00 PM IST - Prime time engagement
-    personas: ['neet_biology'],
-    
-    description: 'Peak engagement hour - biology focus for medical aspirants'
+    personas: ['english_grammar_master'],
+    description: 'Peak engagement hour - grammar focus for serious learners'
   },
   {
     hour: 22,  // 10:00 PM IST - Night revision
-    personas: ['neet_biology'],
-    
-    description: 'End day with challenging concepts for night owls'
+    personas: ['english_vocab_builder'],
+    description: 'End day with challenging vocabulary for night owls'
   }
 ];
 
@@ -116,9 +110,9 @@ export function getPostingPersonasForHour(hour: number): string[] {
  * Get content type recommendations based on time of day
  */
 export function getContentTypeForHour(hour: number): string {
-  if (hour >= 6 && hour <= 9) return 'practical_application';  // Morning - real-world connections
+  if (hour >= 6 && hour <= 9) return 'practical_application';  // Morning - real-world usage
   if (hour >= 10 && hour <= 15) return 'concept_clarification'; // Daytime - clear explanations
-  if (hour >= 16 && hour <= 18) return 'memory_aid';           // Evening - study aids  
+  if (hour >= 16 && hour <= 18) return 'memory_aid';           // Evening - learning aids  
   if (hour >= 19 && hour <= 22) return 'explanation';          // Prime time - detailed teaching
   return 'common_mistake';                                      // Night - error correction
 }

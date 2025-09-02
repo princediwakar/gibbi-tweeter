@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateEnhancedTweet } from '@/lib/tweets';
+import { generateEnhancedTweet } from '@/lib/generationService';
 import { getAllTweets, saveTweet, generateTweetId } from '@/lib/db';
 import { getCurrentTimeInIST } from '@/lib/utils';
 import { logger } from '@/lib/logger';
 import { getGenerationPersonasForHour, getContentTypeForHour } from '@/lib/schedule';
-import { TweetGenerationConfig } from '@/lib/tweets/types';
+import { TweetGenerationConfig } from '@/lib/types';
 
 // Job tracking removed - using synchronous generation
 

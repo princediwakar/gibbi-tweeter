@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getPaginatedTweets, saveTweet, generateTweetId, deleteTweets, Tweet } from '@/lib/db';
 // Removed old viral generation - using only teacher-style enhanced generation
-import { generateEnhancedTweet, generateBatchEnhancedTweets, TweetGenerationConfig } from '@/lib/tweets';
+import { generateEnhancedTweet, generateBatchEnhancedTweets } from '@/lib/generationService';
+import { TweetGenerationConfig } from '@/lib/types';
 import { logger } from '@/lib/logger';
 import { getContentTypeForHour } from '@/lib/schedule';
 
