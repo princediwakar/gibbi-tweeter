@@ -81,12 +81,12 @@ export async function getAllAccounts(): Promise<Account[]> {
       twitter_api_secret: decrypt(row.twitter_api_secret),
       twitter_access_token: decrypt(row.twitter_access_token),
       twitter_access_token_secret: decrypt(row.twitter_access_token_secret),
-      personas: row.personas ? JSON.parse(row.personas) : [],
-      branding: row.branding ? JSON.parse(row.branding) : {
+      personas: Array.isArray(row.personas) ? row.personas : (row.personas ? JSON.parse(row.personas) : []),
+      branding: (typeof row.branding === 'object' && row.branding !== null) ? row.branding : (row.branding ? JSON.parse(row.branding) : {
         theme: 'educational',
         audience: 'general',
         tone: 'professional'
-      },
+      }),
       status: row.status,
       created_at: new Date(row.created_at),
       updated_at: new Date(row.updated_at)
@@ -120,12 +120,12 @@ export async function getAccount(id: string): Promise<Account | null> {
       twitter_api_secret: decrypt(row.twitter_api_secret),
       twitter_access_token: decrypt(row.twitter_access_token),
       twitter_access_token_secret: decrypt(row.twitter_access_token_secret),
-      personas: row.personas ? JSON.parse(row.personas) : [],
-      branding: row.branding ? JSON.parse(row.branding) : {
+      personas: Array.isArray(row.personas) ? row.personas : (row.personas ? JSON.parse(row.personas) : []),
+      branding: (typeof row.branding === 'object' && row.branding !== null) ? row.branding : (row.branding ? JSON.parse(row.branding) : {
         theme: 'educational',
         audience: 'general',
         tone: 'professional'
-      },
+      }),
       status: row.status,
       created_at: new Date(row.created_at),
       updated_at: new Date(row.updated_at)
@@ -175,12 +175,12 @@ export async function getAccountByTwitterHandle(twitterHandle: string): Promise<
       twitter_api_secret: decrypt(row.twitter_api_secret),
       twitter_access_token: decrypt(row.twitter_access_token),
       twitter_access_token_secret: decrypt(row.twitter_access_token_secret),
-      personas: row.personas ? JSON.parse(row.personas) : [],
-      branding: row.branding ? JSON.parse(row.branding) : {
+      personas: Array.isArray(row.personas) ? row.personas : (row.personas ? JSON.parse(row.personas) : []),
+      branding: (typeof row.branding === 'object' && row.branding !== null) ? row.branding : (row.branding ? JSON.parse(row.branding) : {
         theme: 'educational',
         audience: 'general',
         tone: 'professional'
-      },
+      }),
       status: row.status,
       created_at: new Date(row.created_at),
       updated_at: new Date(row.updated_at)
@@ -319,12 +319,12 @@ export async function getActiveAccounts(): Promise<Account[]> {
       twitter_api_secret: decrypt(row.twitter_api_secret),
       twitter_access_token: decrypt(row.twitter_access_token),
       twitter_access_token_secret: decrypt(row.twitter_access_token_secret),
-      personas: row.personas ? JSON.parse(row.personas) : [],
-      branding: row.branding ? JSON.parse(row.branding) : {
+      personas: Array.isArray(row.personas) ? row.personas : (row.personas ? JSON.parse(row.personas) : []),
+      branding: (typeof row.branding === 'object' && row.branding !== null) ? row.branding : (row.branding ? JSON.parse(row.branding) : {
         theme: 'educational',
         audience: 'general',
         tone: 'professional'
-      },
+      }),
       status: row.status,
       created_at: new Date(row.created_at),
       updated_at: new Date(row.updated_at)
