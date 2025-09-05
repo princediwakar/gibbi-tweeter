@@ -8,18 +8,7 @@ interface TwitterCredentials {
   accessSecret: string;
 }
 
-function getCredentials(): TwitterCredentials {
-  const apiKey = process.env.TWITTER_API_KEY;
-  const apiSecret = process.env.TWITTER_API_SECRET;
-  const accessToken = process.env.TWITTER_ACCESS_TOKEN;
-  const accessSecret = process.env.TWITTER_ACCESS_TOKEN_SECRET;
-
-  if (!apiKey || !apiSecret || !accessToken || !accessSecret) {
-    throw new Error('Twitter API credentials are missing');
-  }
-
-  return { apiKey, apiSecret, accessToken, accessSecret };
-}
+// Legacy function removed - now using per-account credentials
 
 function generateOAuthSignature(
   method: string,
@@ -74,12 +63,11 @@ function createOAuthHeader(
   return authHeader;
 }
 
-export async function postTweet(content: string, retryCount = 0): Promise<{ data: { id: string; text: string } }> {
+export async function postTweet(content: string, credentials: TwitterCredentials, retryCount = 0): Promise<{ data: { id: string; text: string } }> {
   const maxRetries = 3;
   const retryDelay = Math.pow(2, retryCount) * 1000; // Exponential backoff
 
   try {
-    const credentials = getCredentials();
     const url = 'https://api.twitter.com/2/tweets';
     const method = 'POST';
     
@@ -132,7 +120,7 @@ Current error: ${errorObj.detail || errorText}`);
       if (response.status >= 500 && retryCount < maxRetries) {
         console.warn(`⚠️ Server error (${response.status}), retrying in ${retryDelay}ms... (${retryCount + 1}/${maxRetries})`);
         await new Promise(resolve => setTimeout(resolve, retryDelay));
-        return postTweet(content, retryCount + 1);
+        return postTweet(content, credentials, retryCount + 1);
       }
 
       throw new Error(`Twitter API error: ${response.status} ${response.statusText} - ${errorObj.detail || errorText}`);
@@ -162,7 +150,7 @@ Current error: ${errorObj.detail || errorText}`);
     if (retryCount < maxRetries && !(error instanceof Error)) {
       console.warn(`⚠️ Unexpected error, retrying in ${retryDelay}ms... (${retryCount + 1}/${maxRetries})`);
       await new Promise(resolve => setTimeout(resolve, retryDelay));
-      return postTweet(content, retryCount + 1);
+      return postTweet(content, credentials, retryCount + 1);
     }
 
     console.error('❌ Error posting tweet:', error);
@@ -170,19 +158,18 @@ Current error: ${errorObj.detail || errorText}`);
   }
 }
 
-export async function postToTwitter(content: string, hashtags: string[]): Promise<{ data: { id: string; text: string } }> {
+export async function postToTwitter(content: string, hashtags: string[], credentials: TwitterCredentials): Promise<{ data: { id: string; text: string } }> {
   // Combine content and hashtags if hashtags aren't already in content
   const hasHashtagsInContent = hashtags.some(hashtag => content.includes(hashtag));
   const tweetText = hasHashtagsInContent 
     ? content 
     : `${content}${hashtags.length > 0 ? ' ' + hashtags.join(' ') : ''}`;
 
-  return postTweet(tweetText);
+  return postTweet(tweetText, credentials);
 }
 
-export async function validateTwitterCredentials(): Promise<boolean> {
+export async function validateTwitterCredentials(credentials: TwitterCredentials): Promise<{ valid: boolean; userInfo?: { username: string; name: string; id: string } }> {
   try {
-    const credentials = getCredentials();
     const url = 'https://api.twitter.com/2/users/me';
     const method = 'GET';
     
@@ -198,7 +185,7 @@ export async function validateTwitterCredentials(): Promise<boolean> {
     if (!response.ok) {
       const errorText = await response.text();
       console.error('❌ Twitter credentials validation failed:', response.status, errorText);
-      return false;
+      return { valid: false };
     }
 
     const result = await response.json();
@@ -207,9 +194,16 @@ export async function validateTwitterCredentials(): Promise<boolean> {
     console.log(`👤 Connected as: @${result.data.username} (${result.data.name})`);
     console.log(`🆔 User ID: ${result.data.id}`);
     
-    return true;
+    return {
+      valid: true,
+      userInfo: {
+        username: result.data.username,
+        name: result.data.name,
+        id: result.data.id
+      }
+    };
   } catch (error) {
     console.error('❌ Twitter credentials validation failed:', error);
-    return false;
+    return { valid: false };
   }
 }

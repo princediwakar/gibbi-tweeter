@@ -15,6 +15,8 @@ export interface PersonaConfig {
   displayName: string;
   description: string;
   topics: PersonaTopic[];
+  prompt_template?: string; // Custom prompt template for this persona
+  hashtag_sets?: string[][]; // Different hashtag sets for variety
 }
 
 export const VOCABULARY_BUILDER: PersonaConfig = {
@@ -107,7 +109,73 @@ export const COMMUNICATION_EXPERT: PersonaConfig = {
   ],
 };
 
-export const PERSONAS: PersonaConfig[] = [VOCABULARY_BUILDER, GRAMMAR_MASTER, COMMUNICATION_EXPERT] as const;
+// Professional personas for multi-account support
+export const PRODUCT_INSIGHTS: PersonaConfig = {
+  key: 'product_insights',
+  displayName: 'Product Insights 💡',
+  description: 'Share practical product development insights and experiences',
+  hashtag_sets: [
+    ['#ProductDevelopment', '#UserResearch', '#ProductManagement', '#StartupLife'],
+    ['#Product', '#Tech', '#Innovation', '#BuildInPublic'],
+    ['#UX', '#Design', '#ProductStrategy', '#Entrepreneurship']
+  ],
+  topics: [
+    { key: 'product_user_research', displayName: 'User Research & Insights' },
+    { key: 'product_feature_decisions', displayName: 'Feature Development Decisions' },
+    { key: 'product_market_fit', displayName: 'Product-Market Fit Challenges' },
+    { key: 'product_metrics', displayName: 'Product Metrics & KPIs' },
+    { key: 'product_roadmap', displayName: 'Roadmap Planning & Prioritization' },
+    { key: 'product_team_dynamics', displayName: 'Product Team Collaboration' },
+  ],
+};
+
+export const STARTUP_CONTENT: PersonaConfig = {
+  key: 'startup_content',
+  displayName: 'Startup Content 🚀',
+  description: 'Entrepreneurship insights and startup building experiences',
+  hashtag_sets: [
+    ['#Startup', '#Entrepreneur', '#BuildInPublic', '#StartupLife'],
+    ['#Founder', '#Business', '#Innovation', '#Growth'],
+    ['#Entrepreneurship', '#Tech', '#StartupTips', '#Leadership']
+  ],
+  topics: [
+    { key: 'startup_validation', displayName: 'Idea Validation & Market Research' },
+    { key: 'startup_funding', displayName: 'Funding & Investment Insights' },
+    { key: 'startup_team_building', displayName: 'Team Building & Hiring' },
+    { key: 'startup_growth', displayName: 'Growth Strategies & Scaling' },
+    { key: 'startup_challenges', displayName: 'Common Startup Challenges' },
+    { key: 'startup_failures', displayName: 'Learning from Failures' },
+  ],
+};
+
+export const TECH_COMMENTARY: PersonaConfig = {
+  key: 'tech_commentary',
+  displayName: 'Tech Commentary 💻',
+  description: 'Technology trends, industry analysis, and technical insights',
+  hashtag_sets: [
+    ['#Tech', '#Technology', '#Software', '#Programming'],
+    ['#AI', '#MachineLearning', '#WebDev', '#Innovation'],
+    ['#Developer', '#Coding', '#TechTrends', '#DigitalTransformation']
+  ],
+  topics: [
+    { key: 'tech_ai_trends', displayName: 'AI & Machine Learning Trends' },
+    { key: 'tech_web_development', displayName: 'Web Development Evolution' },
+    { key: 'tech_industry_analysis', displayName: 'Tech Industry Analysis' },
+    { key: 'tech_developer_tools', displayName: 'Developer Tools & Productivity' },
+    { key: 'tech_career_advice', displayName: 'Tech Career Development' },
+    { key: 'tech_future_predictions', displayName: 'Future of Technology' },
+  ],
+};
+
+// All personas including multi-account support
+export const PERSONAS: PersonaConfig[] = [
+  VOCABULARY_BUILDER, 
+  GRAMMAR_MASTER, 
+  COMMUNICATION_EXPERT,
+  PRODUCT_INSIGHTS,
+  STARTUP_CONTENT,
+  TECH_COMMENTARY
+] as const;
 
 // Type helpers
 export type PersonaKey = typeof PERSONAS[number]['key'];
@@ -137,6 +205,43 @@ export function selectPersonaByWeight(): PersonaConfig {
   return PERSONAS[randomIndex];
 }
 
+// Account-agnostic utility functions
+export function getRandomPersonaFromList(personaKeys?: string[]): PersonaConfig {
+  if (!personaKeys || personaKeys.length === 0) {
+    return selectPersonaByWeight();
+  }
+  
+  const availablePersonas = personaKeys
+    .map(key => getPersonaByKey(key))
+    .filter((persona): persona is PersonaConfig => persona !== undefined);
+  
+  if (availablePersonas.length === 0) {
+    return selectPersonaByWeight();
+  }
+  
+  const randomIndex = Math.floor(Math.random() * availablePersonas.length);
+  return availablePersonas[randomIndex];
+}
+
+export function getHashtagsForPersona(persona: PersonaConfig, variation = 0): string[] {
+  if (!persona.hashtag_sets || persona.hashtag_sets.length === 0) {
+    // Generate default hashtags based on persona key patterns
+    const defaultHashtags: Record<string, string[]> = {
+      english_vocab_builder: ['#EnglishLearning', '#Vocabulary', '#WordPower', '#Learning'],
+      english_grammar_master: ['#EnglishGrammar', '#Grammar', '#Writing', '#Learning'],
+      english_communication_expert: ['#Communication', '#Speaking', '#English', '#Skills'],
+      product_insights: ['#ProductDevelopment', '#Product', '#Tech', '#Innovation'],
+      startup_content: ['#Startup', '#Entrepreneur', '#Business', '#Growth'],
+      tech_commentary: ['#Tech', '#Technology', '#Programming', '#Innovation']
+    };
+    
+    return defaultHashtags[persona.key] || ['#Content', '#Learning', '#Growth', '#Tips'];
+  }
+  
+  const setIndex = variation % persona.hashtag_sets.length;
+  return persona.hashtag_sets[setIndex];
+}
+
 // For legacy compatibility (with key mapping)
 export const personas = PERSONAS.map(p => ({
   id: p.key,
@@ -144,5 +249,12 @@ export const personas = PERSONAS.map(p => ({
   emoji: p.displayName.includes('🏆') ? '🏆' : p.displayName.includes('📚') ? '📚' : '🗣️',
   description: p.description,
 }));
+
+/**
+ * Get all available personas for any account (account-agnostic)
+ */
+export function getAllPersonas(): PersonaConfig[] {
+  return PERSONAS;
+}
 
 export default PERSONAS;

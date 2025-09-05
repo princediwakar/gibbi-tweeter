@@ -39,6 +39,7 @@ export interface VariationMarkers {
 }
 
 export interface TweetGenerationConfig {
+  account_id?: string; // Multi-account support
   persona?: string;
   category?: string;
   topic?: string;

@@ -1,5 +1,6 @@
 export interface Tweet {
   id: string;
+  account_id: string; // Multi-account support
   content: string;
   hashtags: string[];
   persona: string;
@@ -15,10 +16,20 @@ export interface Tweet {
 }
 
 export interface GenerateFormState {
+  account_id: string; // Required for multi-account
   persona: string;
   includeHashtags: boolean;
   useTrendingTopics: boolean;
   customPrompt: string;
+}
+
+export interface Account {
+  id: string;
+  name: string;
+  twitter_handle: string;
+  status: 'active' | 'inactive';
+  created_at: string;
+  updated_at: string;
 }
 
 export interface AutoSchedulerStats {

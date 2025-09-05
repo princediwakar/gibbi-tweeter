@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAllTweets, saveTweet, deleteTweet } from '@/lib/db';
+import { getAllTweets, saveTweet, deleteTweet, getAccount } from '@/lib/db';
 import { postTweet } from '@/lib/twitter';
 
 export async function GET(
@@ -53,7 +53,20 @@ export async function PUT(
 
     if (action === 'post') {
       try {
-        const result = await postTweet(tweet.content);
+        // Get account credentials for posting
+        const account = await getAccount(tweet.account_id);
+        if (!account) {
+          return NextResponse.json({ error: 'Account not found for this tweet' }, { status: 404 });
+        }
+
+        const credentials = {
+          apiKey: account.twitter_api_key,
+          apiSecret: account.twitter_api_secret,
+          accessToken: account.twitter_access_token,
+          accessSecret: account.twitter_access_token_secret
+        };
+
+        const result = await postTweet(tweet.content, credentials);
         tweet.status = 'posted';
         tweet.posted_at = new Date().toISOString();
         tweet.twitter_id = result.data.id; // Store the Twitter tweet ID

@@ -4,20 +4,26 @@ import { getPaginatedTweets, saveTweet, generateTweetId, deleteTweets, Tweet } f
 import { generateEnhancedTweet, generateBatchEnhancedTweets } from '@/lib/generationService';
 import { TweetGenerationConfig } from '@/lib/types';
 import { logger } from '@/lib/logger';
-import { getContentTypeForHour } from '@/lib/schedule';
+// Removed import of getContentTypeForHour - using inline content type generation
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '10');
+    const accountId = searchParams.get('account_id'); // Multi-account support
     
     // Validate pagination parameters
     if (page < 1 || limit < 1 || limit > 100) {
       return NextResponse.json({ error: 'Invalid pagination parameters' }, { status: 400 });
     }
 
-    const result = await getPaginatedTweets({ page, limit });
+    const result = await getPaginatedTweets({ 
+      page, 
+      limit, 
+      accountId: accountId || undefined 
+    });
+    
     return NextResponse.json(result);
   } catch {
     return NextResponse.json({ error: 'Failed to fetch tweets' }, { status: 500 });
@@ -34,20 +40,28 @@ export async function POST(request: Request) {
     }
 
     if (action === 'generate') {
-      const personaKey = data.persona || 'neet_biology'; // Default to most weighted persona
+      const personaKey = data.persona || 'english_vocab_builder'; // Default to educational persona
       const topic = data.topic; // Optional specific topic
-      // Always use teacher-style enhanced generation
+      const accountId = data.account_id; // Optional for backward compatibility
+      
+      // Allow fallback to environment variables if no account_id provided (for development/testing)
+      if (!accountId) {
+        console.warn('No account_id provided, using environment variable fallback for development');
+      }
       
       const currentHour = new Date().getHours();
-      const contentType = getContentTypeForHour(currentHour);
+      // Simple content type based on hour
+      const contentTypes = ['explanation', 'concept_clarification', 'memory_aid', 'practical_application', 'common_mistake', 'analogy'];
+      const contentType = contentTypes[currentHour % contentTypes.length];
       
       const config: TweetGenerationConfig = {
+        account_id: accountId || 'fallback',
         persona: personaKey,
         topic: topic,
         contentType: contentType as 'explanation' | 'concept_clarification' | 'memory_aid' | 'practical_application' | 'common_mistake' | 'analogy'
       };
 
-      // Always use enhanced teacher-style generation now
+      // Generate tweet with account context
       const generatedTweet = await generateEnhancedTweet(config);
       
       if (!generatedTweet) {
@@ -56,6 +70,7 @@ export async function POST(request: Request) {
       
       const tweet = {
         id: generateTweetId(),
+        account_id: accountId || 'fallback',
         content: generatedTweet.content,
         hashtags: generatedTweet.hashtags,
         persona: generatedTweet.persona,
@@ -81,17 +96,25 @@ export async function POST(request: Request) {
 
     if (action === 'bulk_generate') {
       const personaKey = data.persona; // Optional - will use weighted selection if not provided
-      // Always use teacher-style enhanced generation
+      const accountId = data.account_id; // Optional for backward compatibility
+      
+      // Allow fallback to environment variables if no account_id provided (for development/testing)
+      if (!accountId) {
+        console.warn('No account_id provided for bulk generation, using environment variable fallback for development');
+      }
       
       const requestedCount = data.count || 5;
       const count = requestedCount;
       
-      logger.info(`🎯 Starting teacher-style NEET bulk generation of ${count} tweets with advanced persona system...`, 'tweets-api');
+      logger.info(`🎯 Starting bulk generation of ${count} tweets for account ${accountId}...`, 'tweets-api');
       
       const currentHour = new Date().getHours();
-      const contentType = getContentTypeForHour(currentHour);
+      // Simple content type based on hour
+      const contentTypes = ['explanation', 'concept_clarification', 'memory_aid', 'practical_application', 'common_mistake', 'analogy'];
+      const contentType = contentTypes[currentHour % contentTypes.length];
       
       const config: TweetGenerationConfig = {
+        account_id: accountId || 'fallback',
         persona: personaKey,
         contentType: contentType as 'explanation' | 'concept_clarification' | 'memory_aid' | 'practical_application' | 'common_mistake' | 'analogy'
       };
@@ -110,6 +133,7 @@ export async function POST(request: Request) {
         for (const generatedTweet of generatedTweets) {
           const tweet = {
             id: generateTweetId(),
+            account_id: accountId || 'fallback',
             content: generatedTweet.content,
             hashtags: generatedTweet.hashtags,
             persona: generatedTweet.persona,
