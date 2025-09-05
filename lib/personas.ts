@@ -116,20 +116,24 @@ export const COMMUNICATION_EXPERT: PersonaConfig = {
 export const SATIRIST: PersonaConfig = {
   key: 'satirist',
   displayName: 'Satirist 😏',
-  description: 'Witty and satirical observations about startup culture, tech industry, and business world',
+  description: 'Witty and satirical observations about current events, politics, business, and social trends',
   content_types: ['single_tweet'],
   topics: [
-    { key: 'startup_satire', displayName: 'Startup Culture Satire' },
-    { key: 'business_irony', displayName: 'Business World Irony' },
-    { key: 'tech_humor', displayName: 'Tech Industry Humor' },
-    { key: 'entrepreneurship_comedy', displayName: 'Entrepreneurship Comedy' },
-    { key: 'corporate_parody', displayName: 'Corporate Culture Parody' },
+    { key: 'political_satire', displayName: 'Political News Satire' },
+    { key: 'current_events_humor', displayName: 'Current Events Humor' },
+    { key: 'business_news_irony', displayName: 'Business News Irony' },
+    { key: 'social_trends_comedy', displayName: 'Social Trends Comedy' },
+    { key: 'news_absurdity', displayName: 'News Absurdity Commentary' },
+    { key: 'media_parody', displayName: 'Media Coverage Parody' },
+    { key: 'economic_humor', displayName: 'Economic News Humor' },
+    { key: 'celebrity_politics_satire', displayName: 'Celebrity Politics Satire' },
   ],
   hashtag_sets: [
-    ['#StartupLife', '#TechHumor', '#BusinessReality', '#Satire'],
-    ['#Entrepreneurship', '#TechTwitter', '#StartupStruggles', '#Reality'],
-    ['#BusinessHumor', '#TechSatire', '#StartupComedy', '#Truth'],
-    ['#CorporateLife', '#TechIndustry', '#BusinessTruth', '#Humor']
+    ['#PoliticalSatire', '#CurrentEvents', '#NewsHumor', '#Satire'],
+    ['#IndianPolitics', '#NewsCommentary', '#Reality', '#Truth'],
+    ['#BusinessNews', '#NewsSatire', '#MediaHumor', '#Irony'],
+    ['#SocialTrends', '#NewsParody', '#Commentary', '#Humor'],
+    ['#PoliticalHumor', '#NewsAbsurdity', '#SatiricalNews', '#WittyTakes']
   ]
 };
 

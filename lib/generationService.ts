@@ -174,31 +174,28 @@ function generateOptimizedHashtags(persona: string, categoryDisplayName: string,
 }
 
 /**
- * Determines if RSS sources should be used based on account type
+ * Determines if RSS sources should be used based on specific account handles
  */
 function shouldUseRSSSources(account: Account | null): boolean {
   if (!account) return false;
   
-  const handle = account.twitter_handle.toLowerCase();
-  const name = account.name.toLowerCase();
+  // Remove @ symbol and convert to lowercase for comparison
+  const handle = account.twitter_handle.replace('@', '').toLowerCase();
   
-  // Gibbi accounts (English learning) should NOT use RSS sources - rely on educational content
-  if (handle.includes('gibbi') || name.includes('gibbi') || name.includes('english') || name.includes('learning')) {
-    return false;
+  // Specific account-based RSS usage (absolute clarity)
+  switch (handle) {
+    case 'gibbiai':
+      // English learning account - no RSS sources, focus on educational content
+      return false;
+    
+    case 'princediwakar25':
+      // Personal/professional account - use RSS sources for current events and trends
+      return true;
+    
+    default:
+      // For any future accounts, default to RSS enabled for professional content
+      return true;
   }
-  
-  // Prince accounts (personal/professional) should use RSS sources by default
-  if (handle.includes('prince') || name.includes('prince') || name.includes('diwakar')) {
-    return true;
-  }
-  
-  // Other professional accounts should use RSS sources
-  if (name.includes('business') || name.includes('company') || name.includes('brand') || name.includes('professional')) {
-    return true;
-  }
-  
-  // Default to RSS sources for non-educational accounts
-  return true;
 }
 
 /**
@@ -227,8 +224,8 @@ async function generateTweetPrompt(config: TweetGenerationConfig): Promise<{ pro
   let rssContext = '';
   if (useRSSSources && config.persona) {
     try {
-      // Fetch RSS context for professional personas
-      if (['product_insights', 'startup_content', 'tech_commentary'].includes(config.persona)) {
+      // Fetch RSS context for personas that use current events
+      if (['product_insights', 'startup_content', 'tech_commentary', 'satirist'].includes(config.persona)) {
         const topicForRSS = config.topic || 'technology';
         rssContext = await getDynamicContext(config.persona, topicForRSS);
         console.log(`📰 Fetched RSS context for ${config.persona}: ${rssContext.length > 0 ? 'success' : 'no content'}`);
@@ -485,6 +482,31 @@ ${useRSSSources ? '• You may reference current tech trends, recent development
 
 CONTENT TYPE: ${contentType}
 TECH FOCUS: Thoughtful industry commentary
+
+[${timeMarker}-${tokenMarker}]`;
+
+  } else if (persona.key === 'satirist') {
+    // Build RSS context for satirist persona - needs current news for fresh satirical content
+    let rssSourceContext = '';
+    if (rssContext.length > 0) {
+      rssSourceContext = `\n\nRECENT NEWS & DEVELOPMENTS (from RSS sources):\n${rssContext}`;
+    }
+
+    basePrompt = `Write witty satirical content about "${topic.displayName}" that makes people laugh while making a sharp point about current events.
+
+SATIRIST APPROACH:
+• Create clever, satirical observations about current political news, business developments, and social trends
+• Use irony, wit, and humor to highlight absurdities or contradictions in news events
+• Reference specific current news, political developments, or trending topics for timely satirical commentary
+• Keep under 240 characters (excluding hashtags)
+• Sound intelligent and observant - satirical but not mean-spirited or offensive
+• Focus on making people both laugh and think about the absurdity of current events
+• Draw from political news, business headlines, celebrity controversies, and social media trends
+• Comment on media coverage patterns, political rhetoric, or societal contradictions
+${useRSSSources ? '• Use current political news, business headlines, social controversies, or trending topics as satirical material' : ''}${rssSourceContext}
+
+CONTENT TYPE: ${contentType}
+SATIRE FOCUS: Current events, political news, and social trend satirical commentary
 
 [${timeMarker}-${tokenMarker}]`;
   }
