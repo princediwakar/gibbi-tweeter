@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NEET Prep Tweet Bot",
-  description: "Automated Indian test prep content generator for NEET and standardized test preparation",
+  title: "Multi-Account Twitter Bot",
+  description: "AI-powered multi-account Twitter automation system with custom personas and content generation",
 };
 
 export default function RootLayout({

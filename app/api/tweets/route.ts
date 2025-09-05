@@ -146,7 +146,7 @@ export async function POST(request: Request) {
           savedTweets.push(tweet);
         }
 
-        logger.info(`🎉 Viral bulk generation completed! Generated ${savedTweets.length}/${count} NEET tweets`, 'tweets-api');
+        logger.info(`🎉 Viral bulk generation completed! Generated ${savedTweets.length}/${count} tweets`, 'tweets-api');
         
         // Calculate persona distribution
         const personaStats = savedTweets.reduce((acc, tweet) => {

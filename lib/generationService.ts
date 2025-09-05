@@ -3,6 +3,7 @@ import { getRandomTopicForPersona, getPersonaByKey, selectPersonaByWeight, getHa
 import { EnhancedTweet, TweetGenerationConfig, VariationMarkers } from './types';
 import { getAccount } from './db';
 import type { Account } from './db';
+import { getDynamicContext } from './contentSource';
 
 const deepseekClient = new OpenAI({
   apiKey: process.env.DEEPSEEK_API_KEY,
@@ -223,6 +224,21 @@ async function generateEnhancedTweetPrompt(config: TweetGenerationConfig): Promi
   const useRSSSources = shouldUseRSSSources(account);
   console.log(`📰 RSS sources ${useRSSSources ? 'enabled' : 'disabled'} for account: ${account?.name || 'unknown'}`);
   
+  // Fetch RSS context if RSS sources are enabled
+  let rssContext = '';
+  if (useRSSSources && config.persona) {
+    try {
+      // Fetch RSS context for professional personas
+      if (['product_insights', 'startup_content', 'tech_commentary'].includes(config.persona)) {
+        const topicForRSS = config.topic || 'technology';
+        rssContext = await getDynamicContext(config.persona, topicForRSS);
+        console.log(`📰 Fetched RSS context for ${config.persona}: ${rssContext.length > 0 ? 'success' : 'no content'}`);
+      }
+    } catch (error) {
+      console.warn('⚠️ Failed to fetch RSS context, continuing without it:', error);
+    }
+  }
+  
   // Select persona - completely account-agnostic
   let persona: PersonaConfig | undefined;
   
@@ -370,6 +386,12 @@ EDUCATIONAL FOCUS: Practical communication mastery
       engagement: 'Build better products with proven strategies'
     };
 
+    // Build RSS context for professional personas
+    let rssSourceContext = '';
+    if (rssContext.length > 0) {
+      rssSourceContext = `\n\nRECENT INDUSTRY DEVELOPMENTS (from RSS sources):\n${rssContext}`;
+    }
+
     basePrompt = `You are a seasoned product expert sharing viral product development insights on Twitter.
 
 TOPIC: "${topic.displayName}" - ${enhancedGuidelines.focus}
@@ -388,7 +410,7 @@ CONTENT APPROACH:
 • Keep under 240 characters (excluding hashtags)
 • Sound authentic and based on real experience - avoid generic advice
 • Focus on actionable insights that product people can apply immediately
-${useRSSSources ? '• May reference current industry trends or recent product examples' : ''}
+${useRSSSources ? '• May reference current industry trends or recent product examples' : ''}${rssSourceContext}
 
 CONTENT TYPE: ${contentType}
 PROFESSIONAL FOCUS: Practical product insights
@@ -396,6 +418,12 @@ PROFESSIONAL FOCUS: Practical product insights
 [${timeMarker}-${tokenMarker}]`;
 
   } else if (persona.key === 'startup_content') {
+    // Build RSS context for startup personas
+    let rssSourceContext = '';
+    if (rssContext.length > 0) {
+      rssSourceContext = `\n\nRECENT STARTUP DEVELOPMENTS (from RSS sources):\n${rssContext}`;
+    }
+
     basePrompt = `Write valuable startup content about "${topic.displayName}" from the perspective of someone building in the trenches.
 
 ENTREPRENEUR APPROACH:
@@ -405,7 +433,7 @@ ENTREPRENEUR APPROACH:
 • Keep under 240 characters (excluding hashtags)
 • Sound authentic and vulnerable - startup life is messy
 • Focus on real experiences that fellow entrepreneurs can relate to
-${useRSSSources ? '• You may reference current startup trends, funding news, or market insights if relevant' : ''}
+${useRSSSources ? '• You may reference current startup trends, funding news, or market insights if relevant' : ''}${rssSourceContext}
 
 CONTENT TYPE: ${contentType}
 STARTUP FOCUS: Honest entrepreneurship insights
@@ -413,6 +441,12 @@ STARTUP FOCUS: Honest entrepreneurship insights
 [${timeMarker}-${tokenMarker}]`;
 
   } else if (persona.key === 'tech_commentary') {
+    // Build RSS context for tech personas
+    let rssSourceContext = '';
+    if (rssContext.length > 0) {
+      rssSourceContext = `\n\nRECENT TECH DEVELOPMENTS (from RSS sources):\n${rssContext}`;
+    }
+
     basePrompt = `Write thoughtful tech commentary about "${topic.displayName}" from a developer/tech professional perspective.
 
 TECH PROFESSIONAL APPROACH:
@@ -422,7 +456,7 @@ TECH PROFESSIONAL APPROACH:
 • Keep under 240 characters (excluding hashtags)
 • Sound knowledgeable but accessible - not gatekeeping
 • Focus on insights that tech professionals would find valuable
-${useRSSSources ? '• You may reference current tech trends, recent developments, or industry news if it enhances the insight' : ''}
+${useRSSSources ? '• You may reference current tech trends, recent developments, or industry news if it enhances the insight' : ''}${rssSourceContext}
 
 CONTENT TYPE: ${contentType}
 TECH FOCUS: Thoughtful industry commentary

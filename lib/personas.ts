@@ -113,7 +113,7 @@ export const COMMUNICATION_EXPERT: PersonaConfig = {
 export const PRODUCT_INSIGHTS: PersonaConfig = {
   key: 'product_insights',
   displayName: 'Product Insights 💡',
-  description: 'Share practical product development insights and experiences',
+  description: 'Share practical product development insights and experiences with RSS trend integration',
   hashtag_sets: [
     ['#ProductDevelopment', '#UserResearch', '#ProductManagement', '#StartupLife'],
     ['#Product', '#Tech', '#Innovation', '#BuildInPublic'],
@@ -132,7 +132,7 @@ export const PRODUCT_INSIGHTS: PersonaConfig = {
 export const STARTUP_CONTENT: PersonaConfig = {
   key: 'startup_content',
   displayName: 'Startup Content 🚀',
-  description: 'Entrepreneurship insights and startup building experiences',
+  description: 'Entrepreneurship insights and startup building experiences with RSS trend integration',
   hashtag_sets: [
     ['#Startup', '#Entrepreneur', '#BuildInPublic', '#StartupLife'],
     ['#Founder', '#Business', '#Innovation', '#Growth'],
@@ -151,7 +151,7 @@ export const STARTUP_CONTENT: PersonaConfig = {
 export const TECH_COMMENTARY: PersonaConfig = {
   key: 'tech_commentary',
   displayName: 'Tech Commentary 💻',
-  description: 'Technology trends, industry analysis, and technical insights',
+  description: 'Technology trends, industry analysis, and technical insights with RSS trend integration',
   hashtag_sets: [
     ['#Tech', '#Technology', '#Software', '#Programming'],
     ['#AI', '#MachineLearning', '#WebDev', '#Innovation'],

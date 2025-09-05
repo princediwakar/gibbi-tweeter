@@ -21,9 +21,9 @@ export function DashboardHeader({
             <div className="bg-emerald-600 p-2 rounded-lg">
               <GraduationCap className="h-6 w-6 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-white">NEET Prep Tweet Bot</h1>
+            <h1 className="text-2xl font-bold text-white">Multi-Account Twitter Bot</h1>
           </div>
-          <p className="text-gray-400 text-sm">Automated Indian test prep content for NEET & more</p>
+          <p className="text-gray-400 text-sm">AI-powered multi-account Twitter automation system</p>
         </div>
         
         <div className="flex flex-col gap-3">
