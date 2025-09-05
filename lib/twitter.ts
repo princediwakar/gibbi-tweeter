@@ -63,6 +63,107 @@ function createOAuthHeader(
   return authHeader;
 }
 
+export async function postReplyTweet(content: string, replyToTweetId: string, credentials: TwitterCredentials, retryCount = 0): Promise<{ data: { id: string; text: string } }> {
+  const maxRetries = 3;
+  const retryDelay = Math.pow(2, retryCount) * 1000; // Exponential backoff
+
+  try {
+    const url = 'https://api.twitter.com/2/tweets';
+    const method = 'POST';
+    
+    const authHeader = createOAuthHeader(method, url, {}, credentials);
+    
+    const response = await fetch(url, {
+      method,
+      headers: {
+        'Authorization': authHeader,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ 
+        text: content,
+        reply: {
+          in_reply_to_tweet_id: replyToTweetId
+        }
+      })
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      let errorObj;
+      
+      try {
+        errorObj = JSON.parse(errorText);
+      } catch {
+        errorObj = { title: 'Unknown error', detail: errorText };
+      }
+
+      // Handle specific Twitter API errors
+      if (response.status === 403) {
+        if (errorText.includes('oauth1 app permissions')) {
+          throw new Error(`🚫 PERMISSION ERROR: Your Twitter app needs "Read and Write" permissions. Please:
+1. Visit https://developer.x.com/en/portal/dashboard
+2. Select your app
+3. Navigate to Settings > User authentication settings  
+4. Enable "Read and Write" permissions
+5. Regenerate your Access Token and Secret
+6. Update your .env.local file with the new tokens
+
+Current error: ${errorObj.detail || errorText}`);
+        }
+        throw new Error(`🚫 FORBIDDEN: ${errorObj.detail || errorText}`);
+      }
+
+      if (response.status === 429) {
+        throw new Error(`⏰ RATE LIMIT: Too many requests. Please wait before trying again.`);
+      }
+
+      if (response.status === 401) {
+        throw new Error(`🔐 UNAUTHORIZED: Invalid credentials or expired tokens. Please check your Twitter API keys.`);
+      }
+
+      // Retry on server errors (5xx)
+      if (response.status >= 500 && retryCount < maxRetries) {
+        console.warn(`⚠️ Server error (${response.status}), retrying in ${retryDelay}ms... (${retryCount + 1}/${maxRetries})`);
+        await new Promise(resolve => setTimeout(resolve, retryDelay));
+        return postReplyTweet(content, replyToTweetId, credentials, retryCount + 1);
+      }
+
+      throw new Error(`Twitter API error: ${response.status} ${response.statusText} - ${errorObj.detail || errorText}`);
+    }
+
+    const result = await response.json();
+    
+    console.log('✅ Reply tweet posted successfully to X/Twitter!');
+    console.log(`📝 Content: ${content}`);
+    console.log(`🔗 In reply to: ${replyToTweetId}`);
+    console.log(`🆔 Tweet ID: ${result.data.id}`);
+    console.log(`📊 Length: ${content.length} characters`);
+    console.log(`🔗 URL: https://x.com/user/status/${result.data.id}`);
+    
+    return {
+      data: {
+        id: result.data.id,
+        text: content
+      }
+    };
+  } catch (error) {
+    // Don't retry on client errors (4xx) except specific cases
+    if (error instanceof Error && error.message.includes('PERMISSION ERROR')) {
+      console.error('❌ Permission Error:', error.message);
+      throw error;
+    }
+
+    if (retryCount < maxRetries && !(error instanceof Error)) {
+      console.warn(`⚠️ Unexpected error, retrying in ${retryDelay}ms... (${retryCount + 1}/${maxRetries})`);
+      await new Promise(resolve => setTimeout(resolve, retryDelay));
+      return postReplyTweet(content, replyToTweetId, credentials, retryCount + 1);
+    }
+
+    console.error('❌ Error posting reply tweet:', error);
+    throw error;
+  }
+}
+
 export async function postTweet(content: string, credentials: TwitterCredentials, retryCount = 0): Promise<{ data: { id: string; text: string } }> {
   const maxRetries = 3;
   const retryDelay = Math.pow(2, retryCount) * 1000; // Exponential backoff

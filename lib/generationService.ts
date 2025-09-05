@@ -1,8 +1,8 @@
 import OpenAI from 'openai';
-import { getRandomTopicForPersona, getPersonaByKey, selectPersonaByWeight, getHashtagsForPersona, PersonaConfig } from '@/lib/personas';
+import { getRandomTopicForPersona, getPersonaByKey, selectPersonaByWeight, getHashtagsForPersona, PersonaConfig, getRandomPersonaForHandle, isPersonaAllowedForHandle } from '@/lib/personas';
 import { EnhancedTweet, TweetGenerationConfig, VariationMarkers } from './types';
 import { getAccount } from './db';
-import type { Account } from './db';
+import type { Account } from './types';
 import { getDynamicContext } from './contentSource';
 
 const deepseekClient = new OpenAI({
@@ -87,7 +87,6 @@ const TOPIC_GUIDELINES = {
     engagement: 'Start conversations with confidence'
   },
 
-  // Professional Development Categories
   product_user_research: {
     focus: 'User research insights and practical application methods',
     hook: 'The user research mistake that kills great products',
@@ -206,7 +205,7 @@ function shouldUseRSSSources(account: Account | null): boolean {
  * Generates enhanced tweet prompts using topic guidelines and variation markers
  * Inspired by the YouTube system's sophisticated prompt generation
  */
-async function generateEnhancedTweetPrompt(config: TweetGenerationConfig): Promise<{ prompt: string; persona: PersonaConfig; topic: unknown }> {
+async function generateTweetPrompt(config: TweetGenerationConfig): Promise<{ prompt: string; persona: PersonaConfig; topic: unknown }> {
   const markers = generateVariationMarkers();
   const { time_marker: timeMarker, token_marker: tokenMarker } = markers;
   
@@ -239,22 +238,48 @@ async function generateEnhancedTweetPrompt(config: TweetGenerationConfig): Promi
     }
   }
   
-  // Select persona - completely account-agnostic
+  // Select persona with account-aware validation based on Twitter handle
   let persona: PersonaConfig | undefined;
   
   if (config.persona) {
-    // Use specifically requested persona
-    persona = getPersonaByKey(config.persona);
-    if (persona) {
-      console.log(`✅ Using requested persona: ${persona.displayName}`);
+    // Use specifically requested persona but validate it's allowed for this account
+    if (config.account_id && config.account_id !== 'fallback' && account) {
+      if (!isPersonaAllowedForHandle(config.persona, account.twitter_handle)) {
+        console.warn(`⚠️  Persona ${config.persona} not allowed for handle @${account.twitter_handle}, using allowed persona instead`);
+        persona = getRandomPersonaForHandle(account.twitter_handle);
+        console.log(`🔒 Using handle-allowed persona: ${persona.displayName}`);
+      } else {
+        persona = getPersonaByKey(config.persona);
+        if (persona) {
+          console.log(`✅ Using requested and validated persona: ${persona.displayName}`);
+        }
+      }
+    } else {
+      // No account ID provided, use requested persona (legacy support)
+      persona = getPersonaByKey(config.persona);
+      if (persona) {
+        console.log(`✅ Using requested persona (no account validation): ${persona.displayName}`);
+      }
     }
   }
   
   if (!persona) {
-    // No specific persona requested or not found - use random selection
-    // In the future, this could use account-specific allowed personas from database config
-    persona = selectPersonaByWeight();
-    console.log(`🎲 Using random persona: ${persona.displayName}`);
+    // No specific persona requested or not found/allowed - use account-specific selection
+    if (config.account_id && config.account_id !== 'fallback' && account) {
+      try {
+        persona = getRandomPersonaForHandle(account.twitter_handle);
+        console.log(`🔒 Using handle-allowed random persona: ${persona.displayName} for @${account.twitter_handle}`);
+      } catch (error) {
+        console.error(`❌ Failed to get persona for handle @${account.twitter_handle}:`, error);
+        // Fall back to legacy random selection
+        persona = selectPersonaByWeight();
+        console.log(`⚠️  Falling back to legacy random persona: ${persona.displayName}`);
+      }
+    } else {
+      // No account ID provided, use legacy random selection
+      persona = selectPersonaByWeight();
+      console.log(`🎲 Using legacy random persona: ${persona.displayName}`);
+    }
   }
     
   if (!persona) {
@@ -529,9 +554,11 @@ function parseAndValidateTweetResponse(content: string, persona: string, topic: 
 /**
  * Main enhanced tweet generation function with multi-account support
  */
-export async function generateEnhancedTweet(config: TweetGenerationConfig = {}): Promise<EnhancedTweet | null> {
+export async function generateTweet(config: TweetGenerationConfig = {}): Promise<EnhancedTweet | null> {
   try {
-    const { prompt, persona, topic } = await generateEnhancedTweetPrompt(config);
+    
+
+    const { prompt, persona, topic } = await generateTweetPrompt(config);
     const markers = generateVariationMarkers();
   const { time_marker: timeMarker, token_marker: tokenMarker } = markers;
 
@@ -570,12 +597,12 @@ export async function generateEnhancedTweet(config: TweetGenerationConfig = {}):
 /**
  * Generate multiple enhanced tweets in batch
  */
-export async function generateBatchEnhancedTweets(count: number, config: TweetGenerationConfig = {}): Promise<EnhancedTweet[]> {
+export async function generateBatchTweets(count: number, config: TweetGenerationConfig = {}): Promise<EnhancedTweet[]> {
   const tweets: EnhancedTweet[] = [];
   const promises: Promise<EnhancedTweet | null>[] = [];
 
   for (let i = 0; i < count; i++) {
-    promises.push(generateEnhancedTweet(config));
+    promises.push(generateTweet(config));
   }
 
   const results = await Promise.all(promises);

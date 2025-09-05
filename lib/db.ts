@@ -1,55 +1,31 @@
 import { sql } from '@vercel/postgres';
+import type { Account, Tweet } from './types';
+
 // In-memory storage for testing when database is not available
 const inMemoryAccounts: Account[] = [];
 const inMemoryTweets: Tweet[] = [];
 // Use real database connection
 const USE_IN_MEMORY = false; // Use PostgreSQL database
 
-// Account configuration for individual account preferences
-interface AccountConfig {
-  allowed_personas?: string[]; // Specific personas this account can use
-  schedule_template?: 'highFrequency' | 'mediumFrequency' | 'lowFrequency' | 'custom';
-  custom_schedule?: Record<string, unknown>; // Custom schedule configuration
-  cta_settings?: {
-    enabled: boolean;
-    url?: string;
-    frequency?: number; // 0.0 to 1.0
-    message_templates?: string[];
-  };
-  timezone?: string;
-  posting_enabled?: boolean;
-}
 
-// Account interface for multi-account support
-export interface Account {
-  id: string;
-  name: string;
-  twitter_handle: string;
-  twitter_api_key: string;
-  twitter_api_secret: string;
-  twitter_access_token: string;
-  twitter_access_token_secret: string;
-  config?: AccountConfig; // Individual account configuration
-  status: 'active' | 'inactive';
-  created_at: string;
-  updated_at: string;
-}
-
-// Updated Tweet interface with account_id
-export interface Tweet {
+// Thread interface for threading system
+export interface Thread {
   id: string;
   account_id: string;
-  content: string;
-  hashtags: string[];
+  title: string;
   persona: string;
-  posted_at?: string;
-  twitter_id?: string;
-  twitter_url?: string;
-  error_message?: string;
-  status: 'ready' | 'posted' | 'failed' | 'draft' | 'scheduled';
+  story_template: string;
+  total_tweets: number;
+  current_tweet: number;
+  parent_tweet_id?: string; // Twitter ID of first tweet in thread
+  status: 'ready' | 'posting' | 'completed' | 'failed';
+  next_post_time?: string;
+  engagement_score: number;
+  story_category: string;
   created_at: string;
-  quality_score?: unknown;
 }
+
+// Updated Tweet interface with account_id and threading support
 
 // Encryption utilities for Twitter credentials
 // Encryption key for future use - currently using unencrypted storage
@@ -105,10 +81,15 @@ export async function getAllAccounts(): Promise<Account[]> {
       twitter_api_secret: decrypt(row.twitter_api_secret),
       twitter_access_token: decrypt(row.twitter_access_token),
       twitter_access_token_secret: decrypt(row.twitter_access_token_secret),
-      config: row.config ? JSON.parse(row.config) : undefined,
+      personas: row.personas ? JSON.parse(row.personas) : [],
+      branding: row.branding ? JSON.parse(row.branding) : {
+        theme: 'educational',
+        audience: 'general',
+        tone: 'professional'
+      },
       status: row.status,
-      created_at: row.created_at,
-      updated_at: row.updated_at
+      created_at: new Date(row.created_at),
+      updated_at: new Date(row.updated_at)
     }));
   } catch (error) {
     console.error('[Neon] Error getting accounts:', error);
@@ -139,13 +120,73 @@ export async function getAccount(id: string): Promise<Account | null> {
       twitter_api_secret: decrypt(row.twitter_api_secret),
       twitter_access_token: decrypt(row.twitter_access_token),
       twitter_access_token_secret: decrypt(row.twitter_access_token_secret),
-      config: row.config ? JSON.parse(row.config) : undefined,
+      personas: row.personas ? JSON.parse(row.personas) : [],
+      branding: row.branding ? JSON.parse(row.branding) : {
+        theme: 'educational',
+        audience: 'general',
+        tone: 'professional'
+      },
       status: row.status,
-      created_at: row.created_at,
-      updated_at: row.updated_at
+      created_at: new Date(row.created_at),
+      updated_at: new Date(row.updated_at)
     };
   } catch (error) {
     console.error('[Neon] Error getting account:', error);
+    return null;
+  }
+}
+
+export async function getAccountByTwitterHandle(twitterHandle: string): Promise<Account | null> {
+  // Normalize handle - try both with and without @ prefix
+  const withPrefix = twitterHandle.startsWith('@') ? twitterHandle : `@${twitterHandle}`;
+  const withoutPrefix = twitterHandle.replace('@', '');
+  
+  if (USE_IN_MEMORY) {
+    let account = inMemoryAccounts.find(acc => acc.twitter_handle === withPrefix);
+    if (!account) {
+      account = inMemoryAccounts.find(acc => acc.twitter_handle === withoutPrefix);
+    }
+    return account || null;
+  }
+
+  try {
+    // Try with @ prefix first (most common storage format)
+    let result = await sql`
+      SELECT * FROM accounts
+      WHERE twitter_handle = ${withPrefix}
+    `;
+    
+    // If not found, try without @ prefix
+    if (result.rows.length === 0) {
+      result = await sql`
+        SELECT * FROM accounts
+        WHERE twitter_handle = ${withoutPrefix}
+      `;
+    }
+    
+    if (result.rows.length === 0) return null;
+    
+    const row = result.rows[0];
+    return {
+      id: row.id,
+      name: row.name,
+      twitter_handle: row.twitter_handle,
+      twitter_api_key: decrypt(row.twitter_api_key),
+      twitter_api_secret: decrypt(row.twitter_api_secret),
+      twitter_access_token: decrypt(row.twitter_access_token),
+      twitter_access_token_secret: decrypt(row.twitter_access_token_secret),
+      personas: row.personas ? JSON.parse(row.personas) : [],
+      branding: row.branding ? JSON.parse(row.branding) : {
+        theme: 'educational',
+        audience: 'general',
+        tone: 'professional'
+      },
+      status: row.status,
+      created_at: new Date(row.created_at),
+      updated_at: new Date(row.updated_at)
+    };
+  } catch (error) {
+    console.error('[Neon] Error getting account by twitter handle:', error);
     return null;
   }
 }
@@ -156,8 +197,8 @@ export async function saveAccount(account: Omit<Account, 'id' | 'created_at' | '
     const newAccount: Account = {
       ...account,
       id: accountId,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
+      created_at: new Date(),
+      updated_at: new Date()
     };
     inMemoryAccounts.push(newAccount);
     console.log(`[Memory] Saved account ${accountId} - ${account.name}`);
@@ -168,7 +209,7 @@ export async function saveAccount(account: Omit<Account, 'id' | 'created_at' | '
     const result = await sql`
       INSERT INTO accounts (
         name, twitter_handle, twitter_api_key, twitter_api_secret,
-        twitter_access_token, twitter_access_token_secret, config, status
+        twitter_access_token, twitter_access_token_secret, personas, branding, status
       ) VALUES (
         ${account.name},
         ${account.twitter_handle},
@@ -176,7 +217,8 @@ export async function saveAccount(account: Omit<Account, 'id' | 'created_at' | '
         ${encrypt(account.twitter_api_secret)},
         ${encrypt(account.twitter_access_token)},
         ${encrypt(account.twitter_access_token_secret)},
-        ${account.config ? JSON.stringify(account.config) : null},
+        ${JSON.stringify(account.personas)},
+        ${JSON.stringify(account.branding)},
         ${account.status}
       )
       RETURNING id
@@ -221,9 +263,13 @@ export async function updateAccount(id: string, updates: Partial<Omit<Account, '
       updateFields.push(`twitter_access_token_secret = $${paramIndex++}`);
       values.push(encrypt(updates.twitter_access_token_secret));
     }
-    if (updates.config !== undefined) {
-      updateFields.push(`config = $${paramIndex++}`);
-      values.push(updates.config ? JSON.stringify(updates.config) : 'null');
+    if (updates.personas !== undefined) {
+      updateFields.push(`personas = $${paramIndex++}`);
+      values.push(JSON.stringify(updates.personas));
+    }
+    if (updates.branding !== undefined) {
+      updateFields.push(`branding = $${paramIndex++}`);
+      values.push(JSON.stringify(updates.branding));
     }
     if (updates.status) {
       updateFields.push(`status = $${paramIndex++}`);
@@ -273,9 +319,15 @@ export async function getActiveAccounts(): Promise<Account[]> {
       twitter_api_secret: decrypt(row.twitter_api_secret),
       twitter_access_token: decrypt(row.twitter_access_token),
       twitter_access_token_secret: decrypt(row.twitter_access_token_secret),
+      personas: row.personas ? JSON.parse(row.personas) : [],
+      branding: row.branding ? JSON.parse(row.branding) : {
+        theme: 'educational',
+        audience: 'general',
+        tone: 'professional'
+      },
       status: row.status,
-      created_at: row.created_at,
-      updated_at: row.updated_at
+      created_at: new Date(row.created_at),
+      updated_at: new Date(row.updated_at)
     }));
   } catch (error) {
     console.error('[Neon] Error getting active accounts:', error);
@@ -310,7 +362,13 @@ export async function getAllTweets(): Promise<Tweet[]> {
       twitter_url: row.twitter_url,
       error_message: row.error_message,
       created_at: row.created_at,
-      quality_score: row.quality_score
+      quality_score: row.quality_score,
+      // Threading support
+      thread_id: row.thread_id,
+      thread_sequence: row.thread_sequence,
+      parent_twitter_id: row.parent_twitter_id,
+      content_type: row.content_type || 'single_tweet',
+      hook_type: row.hook_type
     }));
   } catch (error) {
     console.error('[Neon] Error getting tweets:', error);
@@ -345,7 +403,13 @@ export async function getTweetsByAccount(accountId: string): Promise<Tweet[]> {
       twitter_url: row.twitter_url,
       error_message: row.error_message,
       created_at: row.created_at,
-      quality_score: row.quality_score
+      quality_score: row.quality_score,
+      // Threading support
+      thread_id: row.thread_id,
+      thread_sequence: row.thread_sequence,
+      parent_twitter_id: row.parent_twitter_id,
+      content_type: row.content_type || 'single_tweet',
+      hook_type: row.hook_type
     }));
   } catch (error) {
     console.error('[Neon] Error getting tweets by account:', error);
@@ -374,7 +438,13 @@ export async function saveTweet(tweet: Omit<Tweet, 'created_at'> & { createdAt?:
       twitter_id: getProperty(tweetObj, 'twitter_id', 'twitterId'),
       twitter_url: getProperty(tweetObj, 'twitter_url', 'twitterUrl'),
       error_message: getProperty(tweetObj, 'error_message', 'errorMessage'),
-      quality_score: tweetObj.quality_score ? JSON.stringify(tweetObj.quality_score) : (tweetObj.qualityScore ? JSON.stringify(tweetObj.qualityScore) : undefined)
+      quality_score: tweetObj.quality_score ? JSON.stringify(tweetObj.quality_score) : (tweetObj.qualityScore ? JSON.stringify(tweetObj.qualityScore) : undefined),
+      // Threading support
+      content_type: tweet.content_type || 'single_tweet',
+      thread_id: tweetObj.thread_id as string | undefined,
+      thread_sequence: tweetObj.thread_sequence as number | undefined,
+      parent_twitter_id: tweetObj.parent_twitter_id as string | undefined,
+      hook_type: tweetObj.hook_type as 'opener' | 'context' | 'crisis' | 'resolution' | 'lesson' | undefined
     };
 
     // Find existing tweet and update or add new
@@ -392,10 +462,12 @@ export async function saveTweet(tweet: Omit<Tweet, 'created_at'> & { createdAt?:
   try {
     const tweetObj = tweet as Record<string, unknown>;
     
+    console.log(`[Neon] Executing saveTweet SQL query for tweet ${tweet.id}`);
     await sql`
       INSERT INTO tweets (
         id, account_id, content, hashtags, persona, posted_at, 
-        twitter_id, twitter_url, error_message, status, created_at, quality_score
+        twitter_id, twitter_url, error_message, status, created_at, quality_score,
+        thread_id, thread_sequence, parent_twitter_id, content_type, hook_type
       ) VALUES (
         ${tweet.id},
         ${tweet.account_id},
@@ -408,7 +480,12 @@ export async function saveTweet(tweet: Omit<Tweet, 'created_at'> & { createdAt?:
         ${getProperty(tweetObj, 'error_message', 'errorMessage')},
         ${tweet.status},
         ${tweet.createdAt || getProperty(tweetObj, 'created_at', 'createdAt') || new Date().toISOString()},
-        ${tweetObj.quality_score ? JSON.stringify(tweetObj.quality_score) : (tweetObj.qualityScore ? JSON.stringify(tweetObj.qualityScore) : null)}
+        ${tweetObj.quality_score ? JSON.stringify(tweetObj.quality_score) : (tweetObj.qualityScore ? JSON.stringify(tweetObj.qualityScore) : null)},
+        ${(tweetObj.thread_id as string) || null},
+        ${(tweetObj.thread_sequence as number) || null},
+        ${(tweetObj.parent_twitter_id as string) || null},
+        ${tweet.content_type || 'single_tweet'},
+        ${(tweetObj.hook_type as string) || null}
       )
       ON CONFLICT (id) 
       DO UPDATE SET
@@ -421,7 +498,12 @@ export async function saveTweet(tweet: Omit<Tweet, 'created_at'> & { createdAt?:
         twitter_url = EXCLUDED.twitter_url,
         error_message = EXCLUDED.error_message,
         status = EXCLUDED.status,
-        quality_score = EXCLUDED.quality_score
+        quality_score = EXCLUDED.quality_score,
+        thread_id = EXCLUDED.thread_id,
+        thread_sequence = EXCLUDED.thread_sequence,
+        parent_twitter_id = EXCLUDED.parent_twitter_id,
+        content_type = EXCLUDED.content_type,
+        hook_type = EXCLUDED.hook_type
     `;
     
     console.log(`[Neon] Saved tweet ${tweet.id}`);
@@ -458,7 +540,13 @@ export async function getReadyTweets(): Promise<Tweet[]> {
       twitter_url: row.twitter_url,
       error_message: row.error_message,
       created_at: row.created_at,
-      quality_score: row.quality_score
+      quality_score: row.quality_score,
+      // Threading support
+      thread_id: row.thread_id,
+      thread_sequence: row.thread_sequence,
+      parent_twitter_id: row.parent_twitter_id,
+      content_type: row.content_type || 'single_tweet',
+      hook_type: row.hook_type
     }));
   } catch (error) {
     console.error('[Neon] Error getting ready tweets:', error);
@@ -493,7 +581,13 @@ export async function getReadyTweetsByAccount(accountId: string): Promise<Tweet[
       twitter_url: row.twitter_url,
       error_message: row.error_message,
       created_at: row.created_at,
-      quality_score: row.quality_score
+      quality_score: row.quality_score,
+      // Threading support
+      thread_id: row.thread_id,
+      thread_sequence: row.thread_sequence,
+      parent_twitter_id: row.parent_twitter_id,
+      content_type: row.content_type || 'single_tweet',
+      hook_type: row.hook_type
     }));
   } catch (error) {
     console.error('[Neon] Error getting ready tweets by account:', error);
@@ -557,7 +651,7 @@ export async function getPaginatedTweets(params: { page: number; limit: number; 
           LIMIT ${params.limit} OFFSET ${offset}
         `;
     
-    const tweets = result.rows.map(row => ({
+    const tweets: Tweet[] = result.rows.map(row => ({
       id: row.id,
       account_id: row.account_id,
       content: row.content,
@@ -576,7 +670,13 @@ export async function getPaginatedTweets(params: { page: number; limit: number; 
       twitter_url: row.twitter_url,
       error_message: row.error_message,
       created_at: row.created_at,
-      quality_score: row.quality_score
+      quality_score: row.quality_score,
+      // Threading support
+      thread_id: row.thread_id,
+      thread_sequence: row.thread_sequence,
+      parent_twitter_id: row.parent_twitter_id,
+      content_type: row.content_type || 'single_tweet',
+      hook_type: row.hook_type
     }));
     
     const totalPages = Math.ceil(total / params.limit);
@@ -631,4 +731,219 @@ export async function deleteTweets(ids: string[]): Promise<void> {
 
 export function generateTweetId(): string {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
+
+// Thread management functions
+export async function createThread(thread: Omit<Thread, 'id' | 'created_at' | 'current_tweet' | 'engagement_score'>): Promise<string> {
+  try {
+    const threadId = crypto.randomUUID();
+    
+    await sql`
+      INSERT INTO threads (
+        id, account_id, title, persona, story_template, total_tweets,
+        current_tweet, parent_tweet_id, status, next_post_time,
+        engagement_score, story_category, created_at
+      ) VALUES (
+        ${threadId},
+        ${thread.account_id},
+        ${thread.title},
+        ${thread.persona},
+        ${thread.story_template},
+        ${thread.total_tweets},
+        1,
+        ${thread.parent_tweet_id || null},
+        ${thread.status},
+        ${thread.next_post_time || null},
+        0,
+        ${thread.story_category},
+        ${new Date().toISOString()}
+      )
+    `;
+    
+    console.log(`[Neon] Created thread ${threadId}`);
+    return threadId;
+  } catch (error) {
+    console.error('[Neon] Error creating thread:', error);
+    throw error;
+  }
+}
+
+export async function getActiveThreadForPosting(accountId: string): Promise<Thread | null> {
+  try {
+    const result = await sql`
+      SELECT * FROM threads
+      WHERE account_id = ${accountId}
+        AND status = 'posting'
+        AND next_post_time IS NOT NULL
+        AND next_post_time <= NOW()
+      ORDER BY next_post_time ASC
+      LIMIT 1
+    `;
+    
+    if (result.rows.length === 0) return null;
+    
+    const row = result.rows[0];
+    return {
+      id: row.id,
+      account_id: row.account_id,
+      title: row.title,
+      persona: row.persona,
+      story_template: row.story_template,
+      total_tweets: row.total_tweets,
+      current_tweet: row.current_tweet,
+      parent_tweet_id: row.parent_tweet_id,
+      status: row.status,
+      next_post_time: row.next_post_time,
+      engagement_score: row.engagement_score,
+      story_category: row.story_category,
+      created_at: row.created_at
+    };
+  } catch (error) {
+    console.error('[Neon] Error getting active thread:', error);
+    return null;
+  }
+}
+
+export async function getReadyThreads(accountId: string): Promise<Thread[]> {
+  try {
+    const result = await sql`
+      SELECT * FROM threads
+      WHERE account_id = ${accountId}
+        AND status = 'ready'
+      ORDER BY created_at ASC
+      LIMIT 5
+    `;
+    
+    return result.rows.map(row => ({
+      id: row.id,
+      account_id: row.account_id,
+      title: row.title,
+      persona: row.persona,
+      story_template: row.story_template,
+      total_tweets: row.total_tweets,
+      current_tweet: row.current_tweet,
+      parent_tweet_id: row.parent_tweet_id,
+      status: row.status,
+      next_post_time: row.next_post_time,
+      engagement_score: row.engagement_score,
+      story_category: row.story_category,
+      created_at: row.created_at
+    }));
+  } catch (error) {
+    console.error('[Neon] Error getting ready threads:', error);
+    return [];
+  }
+}
+
+export async function updateThreadAfterPosting(threadId: string, twitterId: string, isComplete: boolean): Promise<void> {
+  try {
+    if (isComplete) {
+      await sql`
+        UPDATE threads 
+        SET status = 'completed', next_post_time = NULL
+        WHERE id = ${threadId}
+      `;
+    } else {
+      await sql`
+        UPDATE threads 
+        SET current_tweet = current_tweet + 1,
+            next_post_time = NOW() + INTERVAL '5 minutes',
+            parent_tweet_id = COALESCE(parent_tweet_id, ${twitterId})
+        WHERE id = ${threadId}
+      `;
+    }
+    console.log(`[Neon] Updated thread ${threadId} after posting`);
+  } catch (error) {
+    console.error('[Neon] Error updating thread after posting:', error);
+    throw error;
+  }
+}
+
+export async function startThreadPosting(threadId: string): Promise<void> {
+  try {
+    await sql`
+      UPDATE threads 
+      SET status = 'posting', next_post_time = NOW()
+      WHERE id = ${threadId} AND status = 'ready'
+    `;
+    console.log(`[Neon] Started thread posting for ${threadId}`);
+  } catch (error) {
+    console.error('[Neon] Error starting thread posting:', error);
+    throw error;
+  }
+}
+
+export async function getThreadTweet(threadId: string, sequence: number): Promise<Tweet | null> {
+  try {
+    const result = await sql`
+      SELECT * FROM tweets
+      WHERE thread_id = ${threadId} AND thread_sequence = ${sequence}
+      LIMIT 1
+    `;
+    
+    if (result.rows.length === 0) return null;
+    
+    const row = result.rows[0];
+    return {
+      id: row.id,
+      account_id: row.account_id,
+      content: row.content,
+      hashtags: row.hashtags || [],
+      persona: row.persona,
+      posted_at: row.posted_at,
+      twitter_id: row.twitter_id,
+      twitter_url: row.twitter_url,
+      error_message: row.error_message,
+      status: row.status,
+      created_at: row.created_at,
+      quality_score: row.quality_score,
+      thread_id: row.thread_id,
+      thread_sequence: row.thread_sequence,
+      parent_twitter_id: row.parent_twitter_id,
+      content_type: row.content_type || 'single_tweet',
+      hook_type: row.hook_type
+    };
+  } catch (error) {
+    console.error('[Neon] Error getting thread tweet:', error);
+    return null;
+  }
+}
+
+export async function getLastPostedTweetInThread(threadId: string): Promise<Tweet | null> {
+  try {
+    const result = await sql`
+      SELECT * FROM tweets
+      WHERE thread_id = ${threadId}
+        AND twitter_id IS NOT NULL
+        AND status = 'posted'
+      ORDER BY thread_sequence DESC
+      LIMIT 1
+    `;
+    
+    if (result.rows.length === 0) return null;
+    
+    const row = result.rows[0];
+    return {
+      id: row.id,
+      account_id: row.account_id,
+      content: row.content,
+      hashtags: row.hashtags || [],
+      persona: row.persona,
+      posted_at: row.posted_at,
+      twitter_id: row.twitter_id,
+      twitter_url: row.twitter_url,
+      error_message: row.error_message,
+      status: row.status,
+      created_at: row.created_at,
+      quality_score: row.quality_score,
+      thread_id: row.thread_id,
+      thread_sequence: row.thread_sequence,
+      parent_twitter_id: row.parent_twitter_id,
+      content_type: row.content_type || 'single_tweet',
+      hook_type: row.hook_type
+    };
+  } catch (error) {
+    console.error('[Neon] Error getting last posted tweet in thread:', error);
+    return null;
+  }
 }

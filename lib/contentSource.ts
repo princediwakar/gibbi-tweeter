@@ -65,10 +65,9 @@ function setCachedContext(key: string, context: string): void {
 // ─────────────────────────────────────────────
 async function loadSources(persona: string): Promise<Sources> {
   const personaToFile: Record<string, string> = {
-    'current_affairs': 'sources-current-affairs.json',
     'product_insights': 'sources-product.json',
     'startup_content': 'sources-startup.json',
-    'tech_commentary': 'sources-satirist.json', // Tech commentary uses satirist/commentary sources
+    'satirist': 'sources-satirist.json',
   };
   const sourceFile = personaToFile[persona];
 
@@ -201,7 +200,7 @@ async function fetchFromReddit(sources: Sources, topic: string): Promise<string[
 // 🚀 Main API
 // ─────────────────────────────────────────────
 export async function getDynamicContext(persona: string, topic: string): Promise<string> {
-  const supportedPersonas = ['current_affairs', 'product_insights', 'startup_content', 'tech_commentary'];
+  const supportedPersonas = ['product_insights', 'startup_content', 'satirist'];
   if (!supportedPersonas.includes(persona)) {
     return "";
   }

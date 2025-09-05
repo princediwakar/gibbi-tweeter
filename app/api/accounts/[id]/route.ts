@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAccount } from '@/lib/db';
-import { accountService, Account } from '@/lib/accountService';
+import { accountService } from '@/lib/accountService';
+import type { Account } from '@/lib/types';
 
 export async function GET(
   request: NextRequest,

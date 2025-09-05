@@ -15,8 +15,8 @@ export async function GET() {
       environment: process.env.NODE_ENV,
       cronSecret: process.env.CRON_SECRET ? 'Present' : 'Missing',
       tests: {
-        dailyTweets: '/api/cron/daily-tweets',
-        postTweet: '/api/cron/post-tweet'
+        autoPost: '/api/auto-post',
+        generate: '/api/generate'
       }
     };
 

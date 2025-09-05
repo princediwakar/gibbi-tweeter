@@ -32,6 +32,7 @@ const gibbiGenerationPattern: HourlySchedule = {
   6: ['english_vocab_builder'],         // Mid-morning generation
   8: ['english_grammar_master'],        // Morning generation
   10: ['english_vocab_builder'],        // Late morning generation
+  14: ['english_vocab_builder'],         // TEMPORARY: For debug generation
   17: ['english_communication_expert'], // Evening generation
   20: ['english_grammar_master'],       // Night generation
 };
@@ -48,21 +49,27 @@ const gibbiPostingPattern: HourlySchedule = {
 
 /**
  * Prince Professional Account Schedules
- * Focus: Entrepreneurs and tech professionals during business hours
+ * Focus: Threading system optimized for Indian business storytelling
+ * 5-minute interval support for thread progression
  */
 const princeGenerationPattern: HourlySchedule = {
-  5: ['product_insights'],              // Early professional generation
-  9: ['startup_content'],               // Business hours start
-  14: ['tech_commentary'],              // Post-lunch professional
-  19: ['product_insights'],             // Evening professional content
+  4: ['business_storyteller'],   // Early morning thread generation
+  7: ['business_storyteller'],   // Morning thread generation
+  10: ['satirist'],              // Mid-morning satirical tweet
+  13: ['business_storyteller'],  // Afternoon thread generation
+  16: ['satirist'],              // Late afternoon satirical tweet
+  18: ['business_storyteller'],  // Evening thread generation
+  21: ['business_storyteller'],  // Night thread generation (7 threads/day focus)
 };
 
 const princePostingPattern: HourlySchedule = {
-  8: ['product_insights'],              // Morning professional audience
-  11: ['startup_content'],              // Mid-morning business
-  15: ['tech_commentary'],              // Afternoon professional
-  19: ['product_insights'],             // Evening professional peak
-  21: ['tech_commentary'],              // Late evening insights
+  6: ['business_storyteller'],          // Early morning thread posting (optimal engagement)
+  9: ['business_storyteller'],          // Business hours thread posting
+  12: ['satirist'],                     // Lunch break satirical content
+  14: ['business_storyteller'],         // Afternoon thread posting
+  17: ['satirist'],                     // Evening satirical content
+  19: ['business_storyteller'],         // Prime time thread posting
+  22: ['business_storyteller'],         // Late evening thread posting
 };
 
 // Account ID mapping - maps database UUIDs to schedule keys
@@ -134,11 +141,11 @@ const ACCOUNT_SCHEDULES: Record<string, AccountSchedules> = {
       6: princePostingPattern, // Saturday
     },
     metadata: {
-      strategy: 'Professional content targeting entrepreneurs and tech professionals during business hours',
-      target_audience: 'Entrepreneurs, product managers, developers (25-45 age group)',
-      timezone_optimization: 'Business hours optimization for professional engagement',
-      daily_post_target: 5,
-      generation_batches_per_day: 4
+      strategy: 'Threading-optimized Indian business storytelling with 5-minute intervals',
+      target_audience: 'Entrepreneurs, business leaders, startup enthusiasts (25-45 age group)',
+      timezone_optimization: 'IST business hours with thread progression timing',
+      daily_post_target: 7, // Increased for thread-heavy strategy
+      generation_batches_per_day: 7 // More frequent generation for threading
     }
   }
 };
@@ -271,7 +278,7 @@ export function getCurrentScheduledActivity(date: Date = new Date()): {
  * Check if an account should generate content at current time with batch size information
  * Inspired by YouTube system's intelligent batch management
  */
-export function getGenerationBatchInfo(accountId: string, date: Date = new Date()): {
+export function getGenerationBatchInfo(accountId: string, date: Date = new Date(), debugMode: boolean = false): {
   should_generate: boolean;
   personas: string[];
   batch_size: number;
@@ -279,8 +286,21 @@ export function getGenerationBatchInfo(accountId: string, date: Date = new Date(
 } {
   const dayOfWeek = date.getDay();
   const hour = date.getHours();
-  const personas = getScheduledPersonasForGeneration(accountId, dayOfWeek, hour);
+  let personas = getScheduledPersonasForGeneration(accountId, dayOfWeek, hour);
   const metadata = getAccountMetadata(accountId);
+  
+  // In debug mode, provide default personas if none scheduled
+  if (debugMode && personas.length === 0) {
+    // Provide default personas based on account type
+    if (accountId.includes('gibbi') || accountId === 'bc1165c3-aa53-492c-83c2-d0fc68753f0f') {
+      personas = ['english_vocab_builder', 'english_grammar_master', 'english_communication_expert'];
+    } else if (accountId.includes('prince') || accountId === 'b36846db-08f1-4d1d-88ec-bd01ca964774') {
+      personas = ['business_storyteller', 'satirist'];
+    } else {
+      // Generic default personas for unknown accounts
+      personas = ['business_storyteller'];
+    }
+  }
   
   // Default batch size based on account type and scheduled personas
   let batchSize = 2; // Default
@@ -295,8 +315,11 @@ export function getGenerationBatchInfo(accountId: string, date: Date = new Date(
     }
   }
   
+  // In debug mode, always allow generation if we have personas
+  const shouldGenerate = debugMode ? personas.length > 0 : personas.length > 0;
+  
   return {
-    should_generate: personas.length > 0,
+    should_generate: shouldGenerate,
     personas,
     batch_size: batchSize,
     account_strategy: metadata?.strategy || 'Unknown strategy'

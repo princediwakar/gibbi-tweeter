@@ -136,9 +136,9 @@ export function TweetHistory({
                   <Badge className={getStatusBadgeColor(tweet.status)}>{tweet.status}</Badge>
                 </TableCell>
                 <TableCell>
-                  {tweet.status === 'posted' && tweet.postedAt && (
+                  {tweet.status === 'posted' && tweet.posted_at && (
                     <div className="text-xs text-green-400 break-words">
-                      {isClient ? formatForUserDisplay(new Date(tweet.postedAt)) : 'Loading...'}
+                      {isClient ? formatForUserDisplay(new Date(tweet.posted_at)) : 'Loading...'}
                     </div>
                   )}
                 </TableCell>
@@ -231,14 +231,14 @@ export function TweetHistory({
               </div>
 
 
-              {tweet.status === 'posted' && tweet.postedAt && (
+              {tweet.status === 'posted' && tweet.posted_at && (
                 <div className="bg-gray-900 rounded p-3">
                   <div className="text-xs text-green-400">
-                    Posted: {isClient ? formatForUserDisplay(new Date(tweet.postedAt)) : 'Loading...'}
+                    Posted: {isClient ? formatForUserDisplay(new Date(tweet.posted_at)) : 'Loading...'}
                   </div>
-                  {tweet.twitterUrl && (
+                  {tweet.twitter_url && (
                     <a 
-                      href={tweet.twitterUrl} 
+                      href={tweet.twitter_url} 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-xs text-blue-400 hover:underline"
@@ -249,10 +249,10 @@ export function TweetHistory({
                 </div>
               )}
 
-              {tweet.status === 'failed' && tweet.errorMessage && (
+              {tweet.status === 'failed' && tweet.error_message && (
                 <div className="bg-red-950 border border-red-800 rounded p-3">
                   <div className="text-xs text-red-400">
-                    Error: {tweet.errorMessage}
+                    Error: {tweet.error_message}
                   </div>
                 </div>
               )}

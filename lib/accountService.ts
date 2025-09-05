@@ -1,26 +1,6 @@
 import { sql } from '@vercel/postgres';
 import crypto from 'crypto';
-
-export interface Account {
-  id: string;
-  name: string;
-  twitter_handle: string;
-  status: 'active' | 'inactive' | 'suspended';
-  twitter_api_key: string;
-  twitter_api_secret: string;
-  twitter_access_token: string;
-  twitter_access_token_secret: string;
-  personas: string[];
-  branding: {
-    theme: string;
-    audience: string;
-    tone: string;
-    cta_frequency?: number;
-    cta_message?: string;
-  };
-  created_at: Date;
-  updated_at: Date;
-}
+import type { Account } from './types';
 
 interface AccountRow {
   id: string;

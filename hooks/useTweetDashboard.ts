@@ -18,8 +18,8 @@ const BULK_GENERATION_CONFIG = {
 function parseTweetDates(tweets: Tweet[]): Tweet[] {
   return tweets.map(tweet => ({
     ...tweet,
-    postedAt: tweet.postedAt ? new Date(tweet.postedAt) : undefined,
-    createdAt: new Date(tweet.createdAt),
+    postedAt: tweet.posted_at ? new Date(tweet.posted_at) : undefined,
+    createdAt: new Date(tweet.created_at),
   }));
 }
 
@@ -177,7 +177,7 @@ export function useTweetDashboard() {
           // Set the latest tweet to the most recently created one from current page
           if (data.data && data.data.length > 0) {
             const latest = data.data.sort((a: Tweet, b: Tweet) => 
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+              new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
             )[0];
             setLatestTweet(latest);
           }
@@ -446,7 +446,7 @@ export function useTweetDashboard() {
             
             if (data.data && data.data.length > 0) {
               const latest = data.data.sort((a: Tweet, b: Tweet) => 
-                new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
               )[0];
               setLatestTweet(latest);
             }

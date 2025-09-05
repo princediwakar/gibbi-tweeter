@@ -17,6 +17,8 @@ export interface PersonaConfig {
   topics: PersonaTopic[];
   prompt_template?: string; // Custom prompt template for this persona
   hashtag_sets?: string[][]; // Different hashtag sets for variety
+  content_types?: ('single_tweet' | 'thread')[]; // Supported content types
+  thread_templates?: string[]; // Available thread templates for this persona
 }
 
 export const VOCABULARY_BUILDER: PersonaConfig = {
@@ -109,72 +111,73 @@ export const COMMUNICATION_EXPERT: PersonaConfig = {
   ],
 };
 
-// Professional personas for multi-account support
-export const PRODUCT_INSIGHTS: PersonaConfig = {
-  key: 'product_insights',
-  displayName: 'Product Insights 💡',
-  description: 'Share practical product development insights and experiences with RSS trend integration',
-  hashtag_sets: [
-    ['#ProductDevelopment', '#UserResearch', '#ProductManagement', '#StartupLife'],
-    ['#Product', '#Tech', '#Innovation', '#BuildInPublic'],
-    ['#UX', '#Design', '#ProductStrategy', '#Entrepreneurship']
-  ],
+
+// Satirist persona for Prince's account (single tweets only)
+export const SATIRIST: PersonaConfig = {
+  key: 'satirist',
+  displayName: 'Satirist 😏',
+  description: 'Witty and satirical observations about startup culture, tech industry, and business world',
+  content_types: ['single_tweet'],
   topics: [
-    { key: 'product_user_research', displayName: 'User Research & Insights' },
-    { key: 'product_feature_decisions', displayName: 'Feature Development Decisions' },
-    { key: 'product_market_fit', displayName: 'Product-Market Fit Challenges' },
-    { key: 'product_metrics', displayName: 'Product Metrics & KPIs' },
-    { key: 'product_roadmap', displayName: 'Roadmap Planning & Prioritization' },
-    { key: 'product_team_dynamics', displayName: 'Product Team Collaboration' },
+    { key: 'startup_satire', displayName: 'Startup Culture Satire' },
+    { key: 'business_irony', displayName: 'Business World Irony' },
+    { key: 'tech_humor', displayName: 'Tech Industry Humor' },
+    { key: 'entrepreneurship_comedy', displayName: 'Entrepreneurship Comedy' },
+    { key: 'corporate_parody', displayName: 'Corporate Culture Parody' },
   ],
+  hashtag_sets: [
+    ['#StartupLife', '#TechHumor', '#BusinessReality', '#Satire'],
+    ['#Entrepreneurship', '#TechTwitter', '#StartupStruggles', '#Reality'],
+    ['#BusinessHumor', '#TechSatire', '#StartupComedy', '#Truth'],
+    ['#CorporateLife', '#TechIndustry', '#BusinessTruth', '#Humor']
+  ]
 };
 
-export const STARTUP_CONTENT: PersonaConfig = {
-  key: 'startup_content',
-  displayName: 'Startup Content 🚀',
-  description: 'Entrepreneurship insights and startup building experiences with RSS trend integration',
-  hashtag_sets: [
-    ['#Startup', '#Entrepreneur', '#BuildInPublic', '#StartupLife'],
-    ['#Founder', '#Business', '#Innovation', '#Growth'],
-    ['#Entrepreneurship', '#Tech', '#StartupTips', '#Leadership']
+// Business storyteller persona with Indian business story templates
+export const BUSINESS_STORYTELLER: PersonaConfig = {
+  key: 'business_storyteller',
+  displayName: 'Business Storyteller 📈',
+  description: 'Compelling Indian business stories with emotional depth and strategic insights',
+  content_types: ['thread'],
+  thread_templates: [
+    'founder_struggle',
+    'business_decision', 
+    'family_business_dynamics',
+    'cross_era_parallel',
+    'failure_recovery',
+    'market_disruption',
+    'succession_story',
+    'crisis_leadership',
+    'innovation_breakthrough',
+    'cultural_adaptation'
   ],
   topics: [
-    { key: 'startup_validation', displayName: 'Idea Validation & Market Research' },
-    { key: 'startup_funding', displayName: 'Funding & Investment Insights' },
-    { key: 'startup_team_building', displayName: 'Team Building & Hiring' },
-    { key: 'startup_growth', displayName: 'Growth Strategies & Scaling' },
-    { key: 'startup_challenges', displayName: 'Common Startup Challenges' },
-    { key: 'startup_failures', displayName: 'Learning from Failures' },
+    { key: 'founder_stories', displayName: 'Founder Journey Stories' },
+    { key: 'business_decisions', displayName: 'Strategic Business Decisions' },
+    { key: 'family_business', displayName: 'Family Business Dynamics' },
+    { key: 'market_disruption', displayName: 'Market Disruption Stories' },
+    { key: 'crisis_management', displayName: 'Crisis Leadership Stories' },
+    { key: 'cultural_business', displayName: 'Cultural Adaptation in Business' },
+    { key: 'succession_planning', displayName: 'Business Succession Stories' },
+    { key: 'innovation_breakthroughs', displayName: 'Innovation Breakthrough Stories' }
   ],
-};
-
-export const TECH_COMMENTARY: PersonaConfig = {
-  key: 'tech_commentary',
-  displayName: 'Tech Commentary 💻',
-  description: 'Technology trends, industry analysis, and technical insights with RSS trend integration',
   hashtag_sets: [
-    ['#Tech', '#Technology', '#Software', '#Programming'],
-    ['#AI', '#MachineLearning', '#WebDev', '#Innovation'],
-    ['#Developer', '#Coding', '#TechTrends', '#DigitalTransformation']
-  ],
-  topics: [
-    { key: 'tech_ai_trends', displayName: 'AI & Machine Learning Trends' },
-    { key: 'tech_web_development', displayName: 'Web Development Evolution' },
-    { key: 'tech_industry_analysis', displayName: 'Tech Industry Analysis' },
-    { key: 'tech_developer_tools', displayName: 'Developer Tools & Productivity' },
-    { key: 'tech_career_advice', displayName: 'Tech Career Development' },
-    { key: 'tech_future_predictions', displayName: 'Future of Technology' },
-  ],
+    ['#IndianBusiness', '#Entrepreneurship', '#StartupStories', '#Leadership'],
+    ['#BusinessHistory', '#Founders', '#Strategy', '#Innovation'],
+    ['#TataGroup', '#Reliance', '#BusinessLessons', '#Success'],
+    ['#StartupIndia', '#Jugaad', '#BusinessWisdom', '#Founders'],
+    ['#FamilyBusiness', '#Succession', '#Legacy', '#Vision'],
+    ['#BusinessDecisions', '#CrisisLeadership', '#MarketDisruption', '#Growth']
+  ]
 };
 
-// All personas including multi-account support
+// Active personas optimized for current multi-account strategy
 export const PERSONAS: PersonaConfig[] = [
   VOCABULARY_BUILDER, 
   GRAMMAR_MASTER, 
   COMMUNICATION_EXPERT,
-  PRODUCT_INSIGHTS,
-  STARTUP_CONTENT,
-  TECH_COMMENTARY
+  SATIRIST,
+  BUSINESS_STORYTELLER
 ] as const;
 
 // Type helpers
@@ -205,34 +208,121 @@ export function selectPersonaByWeight(): PersonaConfig {
   return PERSONAS[randomIndex];
 }
 
-// Account-agnostic utility functions
-export function getRandomPersonaFromList(personaKeys?: string[]): PersonaConfig {
-  if (!personaKeys || personaKeys.length === 0) {
-    return selectPersonaByWeight();
-  }
-  
-  const availablePersonas = personaKeys
-    .map(key => getPersonaByKey(key))
-    .filter((persona): persona is PersonaConfig => persona !== undefined);
-  
-  if (availablePersonas.length === 0) {
-    return selectPersonaByWeight();
-  }
-  
-  const randomIndex = Math.floor(Math.random() * availablePersonas.length);
-  return availablePersonas[randomIndex];
+// Account-to-persona mapping for strict isolation based on Twitter handles
+const ACCOUNT_PERSONA_MAPPING: Record<string, string[]> = {
+  // Gibbi English Learning Account (@gibbiai)
+  'gibbiai': [
+    'english_vocab_builder',
+    'english_grammar_master', 
+    'english_communication_expert'
+  ],
+  // Prince Business Account (@princediwakar25)  
+  'princediwakar25': [
+    'satirist',
+    'business_storyteller'
+  ]
+};
+
+/**
+ * Get allowed personas for a specific Twitter handle
+ */
+export function getAllowedPersonasForHandle(twitterHandle: string): string[] {
+  // Remove @ symbol if present and convert to lowercase
+  const cleanHandle = twitterHandle.replace('@', '').toLowerCase();
+  return ACCOUNT_PERSONA_MAPPING[cleanHandle] || [];
 }
+
+/**
+ * Get allowed personas for a specific account ID (requires account lookup)
+ */
+export async function getAllowedPersonasForAccount(accountId: string): Promise<string[]> {
+  // Import here to avoid circular dependency
+  const { getAccount } = await import('./db');
+  
+  try {
+    const account = await getAccount(accountId);
+    if (!account) {
+      return [];
+    }
+    return getAllowedPersonasForHandle(account.twitter_handle);
+  } catch (error) {
+    console.error(`Failed to get account for ID ${accountId}:`, error);
+    return [];
+  }
+}
+
+/**
+ * Check if a persona is allowed for a specific Twitter handle
+ */
+export function isPersonaAllowedForHandle(personaKey: string, twitterHandle: string): boolean {
+  const allowedPersonas = getAllowedPersonasForHandle(twitterHandle);
+  return allowedPersonas.includes(personaKey);
+}
+
+/**
+ * Check if a persona is allowed for a specific account (requires account lookup)
+ */
+export async function isPersonaAllowedForAccount(personaKey: string, accountId: string): Promise<boolean> {
+  const allowedPersonas = await getAllowedPersonasForAccount(accountId);
+  return allowedPersonas.includes(personaKey);
+}
+
+/**
+ * Get random persona from handle's allowed personas
+ */
+export function getRandomPersonaForHandle(twitterHandle: string, personaKeys?: string[]): PersonaConfig {
+  const allowedPersonas = getAllowedPersonasForHandle(twitterHandle);
+  
+  if (allowedPersonas.length === 0) {
+    throw new Error(`No personas allowed for handle: ${twitterHandle}`);
+  }
+  
+  // If specific persona keys requested, filter by allowed personas
+  let eligiblePersonas = allowedPersonas;
+  if (personaKeys && personaKeys.length > 0) {
+    eligiblePersonas = personaKeys.filter(key => allowedPersonas.includes(key));
+  }
+  
+  if (eligiblePersonas.length === 0) {
+    // Fall back to any allowed persona for this handle
+    eligiblePersonas = allowedPersonas;
+  }
+  
+  const randomKey = eligiblePersonas[Math.floor(Math.random() * eligiblePersonas.length)];
+  const persona = getPersonaByKey(randomKey);
+  
+  if (!persona) {
+    throw new Error(`Persona not found: ${randomKey}`);
+  }
+  
+  return persona;
+}
+
+/**
+ * Get random persona from account's allowed personas (requires account lookup)
+ */
+export async function getRandomPersonaForAccount(accountId: string, personaKeys?: string[]): Promise<PersonaConfig> {
+  // Import here to avoid circular dependency
+  const { getAccount } = await import('./db');
+  
+  const account = await getAccount(accountId);
+  if (!account) {
+    throw new Error(`Account not found: ${accountId}`);
+  }
+  
+  return getRandomPersonaForHandle(account.twitter_handle, personaKeys);
+}
+
 
 export function getHashtagsForPersona(persona: PersonaConfig, variation = 0): string[] {
   if (!persona.hashtag_sets || persona.hashtag_sets.length === 0) {
-    // Generate default hashtags based on persona key patterns
+    // Generate default hashtags for active personas
     const defaultHashtags: Record<string, string[]> = {
       english_vocab_builder: ['#EnglishLearning', '#Vocabulary', '#WordPower', '#Learning'],
       english_grammar_master: ['#EnglishGrammar', '#Grammar', '#Writing', '#Learning'],
       english_communication_expert: ['#Communication', '#Speaking', '#English', '#Skills'],
-      product_insights: ['#ProductDevelopment', '#Product', '#Tech', '#Innovation'],
-      startup_content: ['#Startup', '#Entrepreneur', '#Business', '#Growth'],
-      tech_commentary: ['#Tech', '#Technology', '#Programming', '#Innovation']
+      satirist: ['#StartupLife', '#TechHumor', '#BusinessReality', '#Satire'],
+      business_storyteller: ['#IndianBusiness', '#Entrepreneurship', '#StartupStories', '#Leadership']
     };
     
     return defaultHashtags[persona.key] || ['#Content', '#Learning', '#Growth', '#Tips'];
@@ -242,13 +332,6 @@ export function getHashtagsForPersona(persona: PersonaConfig, variation = 0): st
   return persona.hashtag_sets[setIndex];
 }
 
-// For legacy compatibility (with key mapping)
-export const personas = PERSONAS.map(p => ({
-  id: p.key,
-  name: p.displayName,
-  emoji: p.displayName.includes('🏆') ? '🏆' : p.displayName.includes('📚') ? '📚' : '🗣️',
-  description: p.description,
-}));
 
 /**
  * Get all available personas for any account (account-agnostic)
@@ -256,5 +339,13 @@ export const personas = PERSONAS.map(p => ({
 export function getAllPersonas(): PersonaConfig[] {
   return PERSONAS;
 }
+
+// Legacy compatibility export
+export const personas = PERSONAS.map(p => ({
+  id: p.key,
+  name: p.displayName,
+  emoji: p.displayName.includes('🏆') ? '🏆' : p.displayName.includes('📚') ? '📚' : '🗣️',
+  description: p.description,
+}));
 
 export default PERSONAS;
