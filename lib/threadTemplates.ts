@@ -10,7 +10,6 @@ export interface ThreadTemplate {
   structure: string[];
   description: string;
   example: Record<string, string>;
-  hashtags: string[];
   hook_patterns: string[];
 }
 
@@ -29,7 +28,6 @@ export const FOUNDER_STRUGGLE_TEMPLATE: ThreadTemplate = {
     decision: "Started One97 from a tiny apartment with borrowed money.",
     lesson: "Today: Paytm founder worth $2B. Sometimes your lowest point becomes your launching pad."
   },
-  hashtags: ['#FounderJourney', '#Entrepreneurship', '#StartupStruggles', '#Success'],
   hook_patterns: [
     "{name} was {struggling_situation} when {opportunity_moment}",
     "Before becoming {current_status}, {name} faced {major_challenge}",
@@ -51,7 +49,6 @@ export const BUSINESS_DECISION_TEMPLATE: ThreadTemplate = {
     decision: "Kept Jaguar-Land Rover, survived the crisis with internal restructuring.",
     outcome: "Result: JLR now contributes 25% of Tata's revenue, validated Indian automotive capability."
   },
-  hashtags: ['#BusinessDecisions', '#Leadership', '#Strategy', '#TataGroup'],
   hook_patterns: [
     "{leader} made a {decision_type} decision that {impact_description}",
     "In {year}, {company} faced {critical_choice} that would {determine_future}",
@@ -75,7 +72,6 @@ export const FAMILY_BUSINESS_TEMPLATE: ThreadTemplate = {
     outcome: "Mukesh: Telecom + Retail ($90B), Anil: Infrastructure + Finance ($5B).",
     lesson: "Sometimes division creates more value than unity, but the human cost is immeasurable."
   },
-  hashtags: ['#FamilyBusiness', '#AmbaniBrothers', '#BusinessHistory', '#Succession'],
   hook_patterns: [
     "The {family_name} {conflict/event} that {outcome_description}",
     "How {family_patriarch}'s {vision/decision} led to {unexpected_outcome}",
@@ -97,7 +93,6 @@ export const CROSS_ERA_PARALLEL_TEMPLATE: ThreadTemplate = {
     pattern: "Same principle: Build trust networks when institutions fail you.",
     application: "Whether 1970s polyester or 2020s payments, the formula works: Trust + Innovation + Persistence."
   },
-  hashtags: ['#BusinessHistory', '#PatternRecognition', '#Innovation', '#Timeless'],
   hook_patterns: [
     "{historical_figure}'s {era} strategy {prediction/parallel} {modern_phenomenon}",
     "The {time_period} business lesson that explains {current_trend}",
@@ -120,7 +115,6 @@ export const FAILURE_RECOVERY_TEMPLATE: ThreadTemplate = {
     comeback_strategy: "Lesson in progress: Can Indian founders recover from public spectacular failure?",
     lesson: "Success without systems is just luck waiting to run out."
   },
-  hashtags: ['#FailureStories', '#BusinessLessons', '#Resilience', '#StartupReality'],
   hook_patterns: [
     "{name} went from {peak_achievement} to {failure_state} in {timeframe}",
     "The {scale} rise and fall of {company/founder}",
@@ -143,7 +137,6 @@ export const MARKET_DISRUPTION_TEMPLATE: ThreadTemplate = {
     breakthrough: "400M users in 12 months, forced entire industry to cut prices 90%.",
     transformation: "Result: India became world's largest data consumer, enabled digital revolution."
   },
-  hashtags: ['#MarketDisruption', '#Jio', '#DigitalIndia', '#Innovation'],
   hook_patterns: [
     "{company} {disruption_action} and {surprising_outcome}",
     "How {company} destroyed {industry} by {strategy}",
@@ -167,7 +160,6 @@ export const CRISIS_LEADERSHIP_TEMPLATE: ThreadTemplate = {
     outcome: "Result: Zero supply disruption, suppliers stayed loyal, competitors struggled for months.",
     leadership_lesson: "True leadership isn't about protecting yourself first, it's about protecting your ecosystem."
   },
-  hashtags: ['#CrisisLeadership', '#COVID19', '#SupplyChain', '#Leadership'],
   hook_patterns: [
     "When {crisis} hit, {leader} made {decision_type} that {outcome}",
     "During {crisis_period}, {leader}'s {action} {result_preview}",
@@ -189,7 +181,6 @@ export const INNOVATION_BREAKTHROUGH_TEMPLATE: ThreadTemplate = {
     implementation: "Built mobile recharge platform, then expanded to bill payments, then to everything.",
     impact: "Today: Paytm processes $100B+ annually, digitized millions of small merchants."
   },
-  hashtags: ['#Innovation', '#Fintech', '#Paytm', '#DigitalPayments'],
   hook_patterns: [
     "A {everyday_situation} inspired {breakthrough_description}",
     "The {moment/incident} that led to {innovation}",
@@ -212,7 +203,6 @@ export const CULTURAL_ADAPTATION_TEMPLATE: ThreadTemplate = {
     result: "Today: 400+ outlets, ₹2000 crore revenue, Indian menu exported globally.",
     universal_principle: "Global brand success requires local cultural intelligence, not just marketing translation."
   },
-  hashtags: ['#CulturalAdaptation', '#GlobalLocal', '#McDonald', '#IndianMarket'],
   hook_patterns: [
     "{global_company} failed in India until {cultural_learning}",
     "How {company} cracked the Indian market by {adaptation_strategy}",
@@ -236,7 +226,6 @@ export const SUCCESSION_STORY_TEMPLATE: ThreadTemplate = {
     outcome: "Mixed results: Growth continued, but cultural dilution and founder conflicts emerged.",
     succession_wisdom: "Succession isn't just about finding next CEO, it's about preserving institutional DNA."
   },
-  hashtags: ['#Succession', '#Infosys', '#Leadership', '#CorporateGovernance'],
   hook_patterns: [
     "{founder}'s succession at {company} became {template/example}",
     "How {company} handled {succession_challenge}",

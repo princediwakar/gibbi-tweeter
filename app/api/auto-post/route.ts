@@ -2,13 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { 
   getReadyTweetsByAccount, 
   saveTweet, 
-  getActiveThreadForPosting,
   getReadyThreads,
-  updateThreadAfterPosting,
-  getThreadTweet,
-  getLastPostedTweetInThread,
   getAccountByTwitterHandle
 } from '@/lib/db';
+import { postCompleteThread } from '@/lib/instantThreadService';
 import { logger } from '@/lib/logger';
 import { getCurrentTimeInIST } from '@/lib/utils';
 import { 
@@ -17,7 +14,7 @@ import {
   isPostingScheduled 
 } from '@/lib/schedule';
 import { accountService } from '@/lib/accountService';
-import { postTweet, postReplyTweet } from '@/lib/twitter';
+import { postTweet } from '@/lib/twitter';
 
 export async function GET(request: NextRequest) {
   try {
@@ -229,7 +226,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// Enhanced POST method with 5-minute threading support
+// Enhanced POST method with instant thread posting
 export async function POST(request: NextRequest) {
   try {
     // Verify authorization
@@ -244,7 +241,7 @@ export async function POST(request: NextRequest) {
     const currentHourIST = nowIST.getHours();
     const dayOfWeek = nowIST.getDay();
     
-    logger.info(`🧵 5-minute threading system check at ${nowIST.getHours()}:${nowIST.getMinutes().toString().padStart(2, '0')} IST`, 'auto-post');
+    logger.info(`🚀 Instant thread posting system check at ${nowIST.getHours()}:${nowIST.getMinutes().toString().padStart(2, '0')} IST`, 'auto-post');
 
     // Handle specific account filtering
     let scheduledAccountIds = getScheduledAccountIds();
@@ -273,7 +270,7 @@ export async function POST(request: NextRequest) {
         message: `⚠️ No accounts configured with posting schedules`,
         accountsProcessed: 0,
         totalPosted: 0,
-        threadsProgressed: 0,
+        threadsPosted: 0,
         timestamp: new Date().toISOString()
       });
     }
@@ -284,16 +281,17 @@ export async function POST(request: NextRequest) {
     
     let totalPosted = 0;
     let totalErrors = 0;
-    let threadsProgressed = 0;
+    let threadsPosted = 0;
     const accountResults = [];
 
-    // Process each account with threading priority system
+    // Process each account with instant thread posting
     for (const account of accounts) {
       try {
         logger.info(`🏢 Processing account: ${account.name} (@${account.twitter_handle})`, 'auto-post');
         
         let accountPosted = 0;
         const accountErrors: string[] = [];
+        let readyThreadsCount = 0;
 
         // Create Twitter credentials for this account
         const twitterCredentials = {
@@ -303,137 +301,57 @@ export async function POST(request: NextRequest) {
           accessSecret: account.twitter_access_token_secret,
         };
 
-        // PRIORITY 1: Active thread progression (highest priority)
-        const activeThread = await getActiveThreadForPosting(account.id);
-        const now = new Date(); // Get current time for comparison
-        if (activeThread && (!activeThread.next_post_time || new Date(activeThread.next_post_time) <= now)) { // Check if it's time to post next tweet
-          try {
-            logger.info(`🧵 ${account.name}: Continuing active thread "${activeThread.title}" (${activeThread.current_tweet}/${activeThread.total_tweets})`, 'auto-post');
-            
-            // Get the next tweet in the thread
-            const nextTweet = await getThreadTweet(activeThread.id, activeThread.current_tweet);
-            if (!nextTweet) {
-              logger.error(`❌ ${account.name}: Could not find tweet ${activeThread.current_tweet} in thread ${activeThread.id}`, 'auto-post');
-              continue;
-            }
-
-            // Get the previous tweet for reply chain
-            const previousTweet = await getLastPostedTweetInThread(activeThread.id);
-            
-            // Format content with thread indicator
-            const threadContent = `${nextTweet.content}\n\n${activeThread.current_tweet}/${activeThread.total_tweets} 🧵`;
-            const fullContent = nextTweet.hashtags?.length > 0 
-              ? `${threadContent}\n\n${nextTweet.hashtags.join(' ')}`
-              : threadContent;
-
-            let result;
-            
-            if (previousTweet?.twitter_id) {
-              // Post as reply to create thread chain
-              result = await postReplyTweet(fullContent, previousTweet.twitter_id, twitterCredentials);
-            } else {
-              // First tweet in thread - post normally
-              result = await postTweet(fullContent, twitterCredentials);
-            }
-
-            // Update tweet status
-            const updatedTweet = {
-              ...nextTweet,
-              status: 'posted' as const,
-              posted_at: new Date().toISOString(),
-              twitter_id: result.data.id,
-              twitter_url: `https://x.com/${account.twitter_handle}/status/${result.data.id}`,
-              parent_twitter_id: previousTweet?.twitter_id || null
-            };
-            
-            await saveTweet(updatedTweet);
-
-            // Update thread progress
-            const isLastTweet = activeThread.current_tweet >= activeThread.total_tweets;
-            await updateThreadAfterPosting(activeThread.id, result.data.id, isLastTweet);
-
-            accountPosted++;
-            totalPosted++;
-            threadsProgressed++;
-            
-            const statusMsg = isLastTweet ? 'Thread completed!' : `Thread progressed (${activeThread.current_tweet + 1}/${activeThread.total_tweets})`;
-            logger.info(`✅ ${account.name}: ${statusMsg} - Twitter ID: ${result.data.id}`, 'auto-post');
-            
-            // Continue to next account after processing active thread
-            continue;
-            
-          } catch (error) {
-            const errorMsg = error instanceof Error ? error.message : String(error);
-            logger.error(`❌ ${account.name}: Failed to progress thread ${activeThread.id}: ${errorMsg}`, 'auto-post', error as Error);
-            accountErrors.push(`Thread ${activeThread.id}: ${errorMsg}`);
-            totalErrors++;
-          }
-        }
-
-        // PRIORITY 2: Start new content (only during posting schedule)
+        // Check if posting is scheduled for this account
         const debugMode = process.env.DEBUG_MODE === 'true';
         if (debugMode || isPostingScheduled(account.id, nowIST)) {
           // Get scheduled personas for this specific account
-          const accountScheduledPersonas = debugMode ? ['tech_commentary', 'business_storyteller', 'satirist'] : getScheduledPersonasForPosting(account.id, dayOfWeek, currentHourIST); // Bypass persona filter in debug mode
+          const accountScheduledPersonas = debugMode ? ['tech_commentary', 'business_storyteller', 'satirist'] : getScheduledPersonasForPosting(account.id, dayOfWeek, currentHourIST);
           
-          // Check for ready threads to start
+          // PRIORITY 1: Post ready threads instantly (highest priority)
           const readyThreads = await getReadyThreads(account.id);
           const scheduledThreads = readyThreads.filter(thread =>
             accountScheduledPersonas.includes(thread.persona)
           );
+          readyThreadsCount = scheduledThreads.length;
 
           if (scheduledThreads.length > 0) {
             try {
-              const threadToStart = scheduledThreads[0]; // Start oldest ready thread
-              logger.info(`🧵 ${account.name}: Starting new thread "${threadToStart.title}"`, 'auto-post');
+              const threadToPost = scheduledThreads[0]; // Post oldest ready thread
+              logger.info(`🚀 ${account.name}: Posting complete thread "${threadToPost.title}" (${threadToPost.total_tweets} tweets)`, 'auto-post');
               
-              // Get the first tweet in the thread
-              const firstTweet = await getThreadTweet(threadToStart.id, 1);
-              if (!firstTweet) {
-                logger.error(`❌ ${account.name}: Could not find first tweet in thread ${threadToStart.id}`, 'auto-post');
+              // Post the entire thread at once using instant thread service
+              const threadResult = await postCompleteThread(
+                threadToPost.id,
+                account.id,
+                threadToPost.total_tweets,
+                twitterCredentials,
+                account.twitter_handle
+              );
+
+              if (threadResult.success) {
+                accountPosted += threadResult.tweets_posted;
+                totalPosted += threadResult.tweets_posted;
+                threadsPosted++;
+                
+                logger.info(`✅ ${account.name}: Posted complete thread "${threadToPost.title}" - ${threadResult.tweets_posted} tweets`, 'auto-post');
+                logger.info(`🔗 Thread URL: https://x.com/${account.twitter_handle.replace('@', '')}/status/${threadResult.twitter_ids[0]}`, 'auto-post');
               } else {
-                // Format content with thread indicator
-                const threadContent = `${firstTweet.content}\n\n1/${threadToStart.total_tweets} 🧵`;
-                const fullContent = firstTweet.hashtags?.length > 0 
-                  ? `${threadContent}\n\n${firstTweet.hashtags.join(' ')}`
-                  : threadContent;
-
-                const result = await postTweet(fullContent, twitterCredentials);
-                
-                // Update tweet status
-                const updatedTweet = {
-                  ...firstTweet,
-                  status: 'posted' as const,
-                  posted_at: new Date().toISOString(),
-                  twitter_id: result.data.id,
-                  twitter_url: `https://x.com/${account.twitter_handle}/status/${result.data.id}`
-                };
-                
-                await saveTweet(updatedTweet);
-
-                // Start thread posting (sets status to 'posting' and schedules next tweet)
-                await updateThreadAfterPosting(threadToStart.id, result.data.id, false);
-                
-                accountPosted++;
-                totalPosted++;
-                threadsProgressed++;
-                
-                logger.info(`✅ ${account.name}: Started thread "${threadToStart.title}" - Twitter ID: ${result.data.id}`, 'auto-post');
+                accountErrors.push(`Thread ${threadToPost.id}: ${threadResult.error}`);
+                totalErrors++;
+                logger.error(`❌ ${account.name}: Failed to post thread "${threadToPost.title}": ${threadResult.error}`, 'auto-post');
               }
               
             } catch (error) {
               const errorMsg = error instanceof Error ? error.message : String(error);
-              logger.error(`❌ ${account.name}: Failed to start thread: ${errorMsg}`, 'auto-post', error as Error);
-              accountErrors.push(`Thread start: ${errorMsg}`);
+              logger.error(`❌ ${account.name}: Failed to post thread: ${errorMsg}`, 'auto-post', error as Error);
+              accountErrors.push(`Thread posting: ${errorMsg}`);
               totalErrors++;
             }
-          }
-
-          // Fall back to single tweets if no threads are ready
-          if (scheduledThreads.length === 0) {
+          } else {
+            // PRIORITY 2: Fall back to single tweets if no threads are ready
             const readyTweets = await getReadyTweetsByAccount(account.id);
             const scheduledTweets = readyTweets.filter(tweet =>
-              (debugMode || accountScheduledPersonas.includes(tweet.persona)) && tweet.content_type === 'single_tweet' // Bypass persona filter in debug mode
+              (debugMode || accountScheduledPersonas.includes(tweet.persona)) && tweet.content_type === 'single_tweet'
             );
 
             if (scheduledTweets.length > 0) {
@@ -474,12 +392,13 @@ export async function POST(request: NextRequest) {
                   status: 'failed' as const,
                   error_message: errorMsg
                 };
-                logger.info(`Attempting to save failed tweet status to DB for tweet ${tweet.id}`, 'auto-post');
                 await saveTweet(failedTweet);
                 
                 accountErrors.push(`Tweet ${tweet.id}: ${errorMsg}`);
                 totalErrors++;
               }
+            } else {
+              logger.info(`📋 ${account.name}: No ready content (threads or single tweets) found`, 'auto-post');
             }
           }
         } else {
@@ -495,8 +414,7 @@ export async function POST(request: NextRequest) {
           posted: accountPosted,
           errors: accountErrors.length,
           errorDetails: accountErrors,
-          hasActiveThread: !!activeThread,
-          threadTitle: activeThread?.title
+          readyThreads: readyThreadsCount
         });
 
       } catch (error) {
@@ -525,25 +443,25 @@ export async function POST(request: NextRequest) {
       accountsProcessed: accounts.length,
       totalPosted,
       totalErrors,
-      threadsProgressed,
+      threadsPosted,
       accountResults,
       message: totalPosted > 0 
-        ? `🚀 Posted ${totalPosted} tweets (${threadsProgressed} thread progressions) across ${accounts.length} accounts!`
+        ? `🚀 Posted ${totalPosted} tweets (${threadsPosted} complete threads) across ${accounts.length} accounts!`
         : accounts.length > 0
           ? `⏳ No content ready to post from ${accounts.length} accounts at this time`
           : '👥 No active accounts found',
     };
 
-    logger.info(`📊 5-minute threading system summary: ${totalPosted} posted (${threadsProgressed} threads), ${totalErrors} errors across ${accounts.length} accounts`, 'auto-post');
+    logger.info(`📊 Instant thread posting summary: ${totalPosted} posted (${threadsPosted} complete threads), ${totalErrors} errors across ${accounts.length} accounts`, 'auto-post');
     
     return NextResponse.json(response);
 
   } catch (error) {
-    logger.error('5-minute threading system failed', 'auto-post', error as Error);
+    logger.error('Instant thread posting system failed', 'auto-post', error as Error);
     
     return NextResponse.json({
       success: false,
-      error: 'Failed to process threading system',
+      error: 'Failed to process instant thread posting system',
       details: error instanceof Error ? error.message : String(error),
       timestamp: new Date().toISOString()
     }, { status: 500 });

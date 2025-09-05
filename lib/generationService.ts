@@ -144,34 +144,6 @@ function generateContentHash(tweet: EnhancedTweet): string {
   return `CH${Math.abs(hash).toString(36).toUpperCase()}`;
 }
 
-/**
- * Generates SEO-optimized hashtags based on persona and topic
- */
-function generateOptimizedHashtags(persona: string, categoryDisplayName: string, topicDisplayName: string, personaConfig?: PersonaConfig): string[] {
-  // Use persona-specific hashtags if available
-  if (personaConfig && personaConfig.hashtag_sets && personaConfig.hashtag_sets.length > 0) {
-    return getHashtagsForPersona(personaConfig, 0);
-  }
-  
-  const baseHashtags: Record<string, string[]> = {
-    english_vocab_builder: ['#EnglishLearning', '#Vocabulary', '#WordPower', '#EnglishTips'],
-    english_grammar_master: ['#EnglishGrammar', '#Grammar', '#EnglishLearning', '#WritingSkills'],
-    english_communication_expert: ['#Communication', '#Speaking', '#EnglishSkills', '#Conversation'],
-    product_insights: ['#ProductDevelopment', '#UserResearch', '#ProductManagement', '#StartupLife'],
-    startup_content: ['#Startup', '#Entrepreneur', '#BuildInPublic', '#StartupLife'],
-    tech_commentary: ['#Tech', '#Technology', '#Software', '#Programming']
-  };
-
-  const hashtags = [...(baseHashtags[persona] || ['#Content', '#Learning', '#Growth', '#Tips'])];
-  
-  // Add topic-specific hashtag
-  const topicKey = topicDisplayName.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
-  if (topicKey.length > 3) {
-    hashtags.push(`#${topicKey}`);
-  }
-
-  return hashtags.slice(0, 4); // Limit to 4 hashtags
-}
 
 /**
  * Determines if RSS sources should be used based on specific account handles
@@ -522,14 +494,25 @@ SATIRE FOCUS: Current events, political news, and social trend satirical comment
   }
 
   return {
-    prompt: basePrompt + `\n\nFormat as JSON with: "content", "teachingElements" (array of educational approaches used like "analogy", "common mistake", "practical tip"), "gibbiCTA" (string or null). Write like a helpful teacher, not a marketer!`,
+    prompt: basePrompt + `\n\nFormat as JSON with: "content", "teachingElements" (array of educational approaches used like "analogy", "common mistake", "practical tip"), "hashtags" (array of 3-4 specific, relevant hashtags that authentically relate to your content), "gibbiCTA" (string or null).
+
+HASHTAG INSTRUCTIONS:
+• Generate hashtags that are SPECIFIC to your content
+• If teaching "affect vs effect", use #AffectVsEffect not #Grammar
+• If explaining pronunciation, use the specific sound/word, not #Pronunciation
+• If it's a satirical take on a specific news event, reference that event
+• Be authentic and avoid generic hashtags like #Learning #Tips #English
+• Focus on what makes THIS specific content unique and discoverable
+• Maximum 4 hashtags for optimal engagement
+
+Write like a helpful teacher, not a marketer!`,
     persona,
     topic
   };
 }
 
 /**
- * Parse and validate the AI response for tweet content with account-specific hashtags
+ * Parse and validate the AI response for tweet content with AI-generated hashtags
  */
 function parseAndValidateTweetResponse(content: string, persona: string, topic: { key: string; displayName: string }, personaConfig?: PersonaConfig): EnhancedTweet | null {
   try {
@@ -537,14 +520,19 @@ function parseAndValidateTweetResponse(content: string, persona: string, topic: 
     const data = JSON.parse(cleanedContent);
     
     if (!data.content || typeof data.content !== 'string' ||
-        !data.teachingElements || !Array.isArray(data.teachingElements)) {
+        !data.teachingElements || !Array.isArray(data.teachingElements) ||
+        !data.hashtags || !Array.isArray(data.hashtags)) {
       throw new Error('AI response missing required fields or has invalid structure.');
     }
     
-    // Generate optimized hashtags using persona-specific sets if available
-    const hashtags = personaConfig && personaConfig.hashtag_sets 
-      ? getHashtagsForPersona(personaConfig)
-      : generateOptimizedHashtags(persona, topic.displayName, topic.displayName, personaConfig);
+    // Use AI-generated hashtags, fallback to persona hashtags if needed
+    let hashtags = data.hashtags.slice(0, 4); // Limit to 4 hashtags
+    
+    // Fallback to persona hashtags only if AI didn't generate any valid hashtags
+    if (!hashtags.length && personaConfig && personaConfig.hashtag_sets && personaConfig.hashtag_sets.length > 0) {
+      const variation = Math.floor(Math.random() * personaConfig.hashtag_sets.length);
+      hashtags = getHashtagsForPersona(personaConfig, variation);
+    }
     
     // Ensure content is under 280 characters including hashtags
     const hashtagString = hashtags.join(' ');

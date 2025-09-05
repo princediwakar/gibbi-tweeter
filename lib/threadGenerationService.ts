@@ -86,6 +86,7 @@ STORY REQUIREMENTS:
 • Use specific numbers, dates, and concrete details when possible
 • Connect historical context with modern business principles
 • Each tweet should be engaging standalone while advancing the narrative
+• IMPORTANT: Use Twitter handles (@username) instead of names when mentioning people, companies, or organizations
 
 INDIAN BUSINESS CONTEXT:
 • Draw from rich Indian business history - from independence era to modern startups
@@ -95,12 +96,13 @@ INDIAN BUSINESS CONTEXT:
 • Connect with current Indian startup ecosystem and unicorn stories
 
 CONTENT APPROACH:
-• Tweet 1: Strong hook with surprising/intriguing opening
+• Tweet 1: Strong hook with surprising/intriguing opening 
 • Middle tweets: Develop tension, conflict, or challenge with human elements
 • Final tweet: Universal business lesson or principle that applies globally
 • Use conversational tone - like storytelling, not corporate speak
 • Include specific details that make the story memorable and credible
 • Each tweet should be 200-240 characters to leave room for threading indicators
+• Use Twitter handles (@RNTata2000, @TataCompanies, @RelianceGroup, @Paytm, etc.) for better engagement
 
 THREADING FORMAT:
 • Tweet 1: "Hook content 1/${template.target_tweets} 🧵"
@@ -120,6 +122,7 @@ Generate a complete ${template.target_tweets}-tweet thread following this struct
 {
   "title": "Thread title (max 50 chars)",
   "story_category": "${template.name}",
+  "hashtags": ["Specific hashtags that authentically relate to your story content - max 4, no generic business hashtags"],
   "tweets": [
     {
       "sequence": 1,
@@ -135,18 +138,27 @@ Generate a complete ${template.target_tweets}-tweet thread following this struct
   ]
 }
 
+HASHTAG INSTRUCTIONS:
+• Generate hashtags that are SPECIFIC to your story content
+• If you mention Ratan Tata, use #RatanTata not generic #Leadership
+• If it's about a crisis in 2008, use #2008Crisis not #BusinessDecisions
+• If you mention Jugaad innovation, use #Jugaad not #Innovation
+• Be authentic and relevant to the actual narrative you're telling
+• Avoid generic business hashtags like #Leadership #Entrepreneurship #Success
+• Focus on what makes THIS specific story unique and discoverable
+
 [${timeMarker}-${tokenMarker}]`;
 }
 
 /**
  * Parse and validate thread generation response
  */
-function parseThreadResponse(content: string, template: ThreadTemplate): { title: string; story_category: string; tweets: Array<{ sequence: number; content: string; hook_type: string; }> } | null {
+function parseThreadResponse(content: string, template: ThreadTemplate): { title: string; story_category: string; hashtags: string[]; tweets: Array<{ sequence: number; content: string; hook_type: string; }> } | null {
   try {
     const cleanedContent = content.replace(/```json\n?|\n?```/g, '').trim();
     const data = JSON.parse(cleanedContent);
     
-    if (!data.title || !data.tweets || !Array.isArray(data.tweets)) {
+    if (!data.title || !data.tweets || !Array.isArray(data.tweets) || !data.hashtags || !Array.isArray(data.hashtags)) {
       throw new Error('AI response missing required fields');
     }
     
@@ -172,6 +184,7 @@ function parseThreadResponse(content: string, template: ThreadTemplate): { title
     return {
       title: data.title,
       story_category: data.story_category || template.name,
+      hashtags: data.hashtags.slice(0, 4), // Limit to 4 hashtags
       tweets: data.tweets
     };
   } catch (error) {
@@ -180,18 +193,6 @@ function parseThreadResponse(content: string, template: ThreadTemplate): { title
   }
 }
 
-/**
- * Generate hashtags for business storytelling threads
- */
-function generateThreadHashtags(template: ThreadTemplate): string[] {
-  // Combine template-specific hashtags with business storytelling hashtags
-  const baseHashtags = ['#IndianBusiness', '#BusinessStories', '#Entrepreneurship', '#Leadership'];
-  const templateHashtags = template.hashtags || [];
-  
-  // Merge and limit to 4 hashtags
-  const allHashtags = [...new Set([...baseHashtags, ...templateHashtags])];
-  return allHashtags.slice(0, 4);
-}
 
 /**
  * Main thread generation function
@@ -254,8 +255,8 @@ export async function generateThread(config: ThreadGenerationConfig): Promise<Th
       story_category: threadData.story_category
     });
 
-    // Generate hashtags for the thread
-    const hashtags = generateThreadHashtags(template);
+    // Use AI-generated hashtags from the thread response
+    const hashtags = threadData.hashtags;
 
     // Create and save individual tweets
     const tweets: Tweet[] = [];
@@ -298,36 +299,7 @@ export async function generateThread(config: ThreadGenerationConfig): Promise<Th
   }
 }
 
-/**
- * Generate content mix for account (threads + single tweets)
- */
-export async function generateContentMix(account_id: string, count: number = 1): Promise<{ threads: ThreadGenerationResult[]; single_tweets: number }> {
-  const threads: ThreadGenerationResult[] = [];
-  let single_tweets = 0;
-
-  // Content mix: 70% threads, 20% business single tweets, 10% satirist
-  for (let i = 0; i < count; i++) {
-    const rand = Math.random();
-    
-    if (rand < 0.7) {
-      // Generate business storyteller thread
-      const threadResult = await generateThread({
-        account_id,
-        persona: 'business_storyteller'
-      });
-      
-      if (threadResult) {
-        threads.push(threadResult);
-      }
-    } else {
-      // For single tweets, we'd call the existing generateEnhancedTweet function
-      // This will be handled by the existing generation system
-      single_tweets++;
-    }
-  }
-
-  return { threads, single_tweets };
-}
+/*
 
 /**
  * Get thread generation eligibility for account
@@ -348,7 +320,6 @@ export function canGenerateThreads(account: Account): boolean {
 
 const threadGenerationService = {
   generateThread,
-  generateContentMix,
   canGenerateThreads
 };
 

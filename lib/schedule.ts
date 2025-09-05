@@ -53,35 +53,31 @@ const gibbiPostingPattern: HourlySchedule = {
  * 5-minute interval support for thread progression
  */
 const princeGenerationPattern: HourlySchedule = {
-  4: ['business_storyteller'],   // Early morning thread generation
-  7: ['business_storyteller'],   // Morning thread generation
+  8: ['satirist'],   // Morning thread generation
   10: ['satirist'],              // Mid-morning satirical tweet
-  13: ['business_storyteller'],  // Afternoon thread generation
   16: ['satirist'],              // Late afternoon satirical tweet
   18: ['business_storyteller'],  // Evening thread generation
-  21: ['business_storyteller'],  // Night thread generation (7 threads/day focus)
 };
 
 const princePostingPattern: HourlySchedule = {
-  6: ['business_storyteller'],          // Early morning thread posting (optimal engagement)
-  9: ['business_storyteller'],          // Business hours thread posting
+  9: ['satirist'],          // Business hours thread posting
   12: ['satirist'],                     // Lunch break satirical content
-  14: ['business_storyteller'],         // Afternoon thread posting
+  14: ['satirist'],         // Afternoon thread posting
   17: ['satirist'],                     // Evening satirical content
   19: ['business_storyteller'],         // Prime time thread posting
-  22: ['business_storyteller'],         // Late evening thread posting
+  22: ['satirist'],         // Late evening thread posting
 };
 
 // Account ID mapping - maps database UUIDs to schedule keys
 const ACCOUNT_ID_MAPPING: Record<string, string> = {
-  'bc1165c3-aa53-492c-83c2-d0fc68753f0f': 'gibbi_account',  // @gibbiai
-  'b36846db-08f1-4d1d-88ec-bd01ca964774': 'prince_account', // @princediwakar25
+  '550e8400-e29b-41d4-a716-446655440000': 'gibbi_account',  // @gibbi_ai
+  '550e8400-e29b-41d4-a716-446655440001': 'prince_account', // @princediwakar25
 };
 
 // Reverse mapping - from schedule keys to database UUIDs
 const SCHEDULE_KEY_TO_ID: Record<string, string> = {
-  'gibbi_account': 'bc1165c3-aa53-492c-83c2-d0fc68753f0f',
-  'prince_account': 'b36846db-08f1-4d1d-88ec-bd01ca964774',
+  'gibbi_account': '550e8400-e29b-41d4-a716-446655440000',
+  'prince_account': '550e8400-e29b-41d4-a716-446655440001',
 };
 
 /**
