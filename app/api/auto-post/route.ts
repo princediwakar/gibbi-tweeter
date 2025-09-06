@@ -122,7 +122,7 @@ export async function GET(request: NextRequest) {
             
             // Combine content with hashtags
             const fullContent = tweet.hashtags?.length > 0 
-              ? `${tweet.content}\n\n${tweet.hashtags.join(' ')}`
+              ? `${tweet.content}\n\n${tweet.hashtags.map(tag => `#${tag}`).join(' ')}`
               : tweet.content;
             
             const result = await postTweet(fullContent, twitterCredentials);
@@ -362,7 +362,7 @@ export async function POST(request: NextRequest) {
                 
                 // Combine content with hashtags
                 const fullContent = tweet.hashtags?.length > 0 
-                  ? `${tweet.content}\n\n${tweet.hashtags.join(' ')}`
+                  ? `${tweet.content}\n\n${tweet.hashtags.map(tag => `#${tag}`).join(' ')}`
                   : tweet.content;
                 
                 const result = await postTweet(fullContent, twitterCredentials);

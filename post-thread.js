@@ -72,7 +72,7 @@ async function postCompleteThread() {
   for (const tweet of tweets) {
     console.log(`\n📝 Tweet ${tweet.sequence}/7:`);
     
-    const fullContent = `${tweet.content}\n\n${tweet.hashtags.join(' ')}`;
+    const fullContent = `${tweet.content}\n\n${tweet.hashtags.map(tag => `#${tag}`).join(' ')}`;
     const postedId = await postReplyTweet(fullContent, previousTweetId);
     
     if (postedId) {

@@ -264,7 +264,7 @@ export async function postToTwitter(content: string, hashtags: string[], credent
   const hasHashtagsInContent = hashtags.some(hashtag => content.includes(hashtag));
   const tweetText = hasHashtagsInContent 
     ? content 
-    : `${content}${hashtags.length > 0 ? ' ' + hashtags.join(' ') : ''}`;
+    : `${content}${hashtags.length > 0 ? ' ' + hashtags.map(tag => `#${tag}`).join(' ') : ''}`;
 
   return postTweet(tweetText, credentials);
 }

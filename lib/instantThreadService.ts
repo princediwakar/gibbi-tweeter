@@ -59,7 +59,7 @@ export async function postCompleteThread(
       
       // Add hashtags to the last tweet only to avoid repetition
       if (index === threadTweets.length - 1 && tweet.hashtags && tweet.hashtags.length > 0) {
-        return `${content}\n\n${tweet.hashtags.join(' ')}`;
+        return `${content}\n\n${tweet.hashtags.map(tag => `#${tag}`).join(' ')}`;
       }
       
       return content;
