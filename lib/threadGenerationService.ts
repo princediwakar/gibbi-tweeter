@@ -395,11 +395,8 @@ export async function generateThread(config: ThreadGenerationConfig): Promise<Th
     for (const tweetData of threadData.tweets) {
       const tweetId = generateTweetId();
       
-      // Add threading numbering to content
-      const threadNumber = `${tweetData.sequence}/${threadData.tweets.length}`;
-      const threadedContent = tweetData.sequence === 1 
-        ? `${tweetData.content} ${threadNumber} 🧵`
-        : `${tweetData.content} ${threadNumber}`;
+      // Content without thread numbering (handled by posting service)
+      const threadedContent = tweetData.content;
       
       const tweet: Tweet = {
         id: tweetId,
