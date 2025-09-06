@@ -3,7 +3,7 @@ const axios = require('axios');
 const BASE_URL = 'http://localhost:3002';
 const PRINCE_ACCOUNT_ID = '550e8400-e29b-41d4-a716-446655440001';
 const THREAD_ID = '8f75a9a0-ce30-4685-a04e-fb044a4b2437';
-const FIRST_TWEET_ID = '1964035260418867286';
+const FIRST_TWEET_ID = '1964035280418867286';
 
 // Tweet sequence data extracted from API response
 const tweets = [

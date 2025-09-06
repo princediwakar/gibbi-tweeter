@@ -111,7 +111,7 @@ async function generateForAccountEnhanced(accountId: string, debugMode = false) 
   const pendingTweets = accountTweets.filter(t => t.status !== 'posted' && t.status !== 'failed');
   
   // Enhanced pipeline management - different thresholds per account strategy
-  const maxPipelineSize = accountId.includes('gibbi') ? 8 : 5; // Educational accounts can have larger pipeline
+  const maxPipelineSize = accountId.includes('gibbi') ? 8 : 30; // Educational accounts can have larger pipeline
   
   if (pendingTweets.length >= maxPipelineSize) {
     return NextResponse.json({

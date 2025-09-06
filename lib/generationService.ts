@@ -156,7 +156,7 @@ function shouldUseRSSSources(account: Account | null): boolean {
   
   // Specific account-based RSS usage (absolute clarity)
   switch (handle) {
-    case 'gibbiai':
+    case 'gibbi_ai':
       // English learning account - no RSS sources, focus on educational content
       return false;
     
@@ -540,7 +540,7 @@ function parseAndValidateTweetResponse(content: string, persona: string, topic: 
     
     if (totalLength > 280) {
       console.warn('Generated tweet exceeds 280 characters, truncating...');
-      const availableLength = 250 - hashtagString.length - (data.gibbiCTA ? data.gibbiCTA.length : 0);
+      const availableLength = 280 - hashtagString.length - (data.gibbiCTA ? data.gibbiCTA.length : 0);
       data.content = data.content.substring(0, availableLength);
     }
 

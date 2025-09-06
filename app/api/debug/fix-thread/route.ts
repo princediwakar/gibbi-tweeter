@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       SET status = 'posting',
           current_tweet = 2,
           next_post_time = NOW(),
-          parent_tweet_id = '1964035260418867286'
+          parent_tweet_id = '1964035280418867286'
       WHERE id = ${threadId}
     `;
 

@@ -2,7 +2,7 @@
 
 **⚡ PRODUCTION-READY** - A scalable Next.js application that supports unlimited Twitter accounts with AI-powered content generation, featuring account isolation, custom personas, automated posting, and a complete threading system for engaging storytelling.
 
-> **🎯 MISSION**: Production-grade multi-account Twitter automation system supporting educational content (@gibbiai), personal branding with deep storytelling (@princediwakar25), and unlimited additional accounts with complete data isolation and custom configurations.
+> **🎯 MISSION**: Production-grade multi-account Twitter automation system supporting educational content (@gibbi_ai), personal branding with deep storytelling (@princediwakar25), and unlimited additional accounts with complete data isolation and custom configurations.
 
 ## Project Overview
 
@@ -41,7 +41,7 @@ This is an AI-powered multi-account Twitter automation system built with Next.js
 
 ### 🤖 Dynamic Persona System
 
-  - **English Learning Account (@gibbiai)**:
+  - **English Learning Account (@gibbi_ai)**:
       - **Vocabulary Builder** 🏆, **Grammar Master** 📚, **Communication Expert** 🗣️.
   - **Personal Account (@princediwakar25)**:
       - **Business Storyteller** 📈: Creates compelling threads about Indian business stories.

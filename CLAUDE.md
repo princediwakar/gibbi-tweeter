@@ -2,7 +2,7 @@
 
 **⚡ PRODUCTION-READY** - A scalable Next.js application that supports unlimited Twitter accounts with AI-powered content generation, featuring account isolation, custom personas, and automated posting for diverse content strategies.
 
-> **🎯 MISSION**: Production-grade multi-account Twitter automation system supporting educational content (@gibbiai), personal branding (@princediwakar25), and unlimited additional accounts with complete data isolation and custom configurations.
+> **🎯 MISSION**: Production-grade multi-account Twitter automation system supporting educational content (@gibbi_ai), personal branding (@princediwakar25), and unlimited additional accounts with complete data isolation and custom configurations.
 
 > **📝 Self-Updating Documentation**: This file should be updated whenever significant changes are made to the codebase. When adding new features, API routes, components, or configuration changes, please update the relevant sections below to keep this documentation current and useful for future development.
 
@@ -32,7 +32,7 @@ This is an AI-powered multi-account Twitter automation system built with Next.js
 - **Individual Rate Limiting**: Per-account posting limits and error handling
 
 ### 🤖 Dynamic Persona System
-- **English Learning Account (@gibbiai)**:
+- **English Learning Account (@gibbi_ai)**:
   - **Vocabulary Builder** 🏆 - Master new words, meanings, and usage
   - **Grammar Master** 📚 - Perfect grammar rules and sentence construction
   - **Communication Expert** 🗣️ - Enhance speaking, writing, and conversation skills
@@ -160,7 +160,7 @@ ENCRYPTION_KEY=your_encryption_key_for_credentials  # For Twitter credential enc
 
 ## Multi-Account Content Strategy
 
-### English Learning Account (@gibbiai)
+### English Learning Account (@gibbi_ai)
 - **Educational Content**: Vocabulary lessons, grammar explanations, communication tips
 - **Teacher Approach**: Helpful, professional, educational tone
 - **Target Audience**: English language learners worldwide
@@ -271,7 +271,7 @@ This project is configured with Playwright MCP for direct browser testing:
 
 ### **Content Quality Examples**
 
-**English Learning (@gibbiai):**
+**English Learning (@gibbi_ai):**
 ```
 📚 Word of the Day: "Ubiquitous" means present everywhere.
 
@@ -360,7 +360,7 @@ This system serves as a comprehensive social media automation platform:
 
 ### **Account-Specific Strategies**
 
-**English Learning Account (@gibbiai):**
+**English Learning Account (@gibbi_ai):**
 - **Educational Authority**: Build reputation as trusted English learning resource
 - **Community Building**: Create engaged community of English learners
 - **Platform Integration**: Strategic Gibbi AI mentions (15% frequency) for language learning
@@ -394,7 +394,7 @@ This system serves as a comprehensive social media automation platform:
 
 ### **Multi-Account Content Examples**
 
-**English Learning (@gibbiai):**
+**English Learning (@gibbi_ai):**
 ```
 📚 Grammar Tip: "Who" vs "Whom" - Here's the simple trick that works every time:
 If you can replace it with "he/she" → use WHO
@@ -430,7 +430,7 @@ Lesson: Long-term vision often requires short-term courage.
 
 ### **Multi-Account Growth Projections**
 
-**English Learning Account (@gibbiai):**
+**English Learning Account (@gibbi_ai):**
 - **Target Market**: Global English learners (500M+ learners worldwide)
 - **Growth Goal**: Educational authority with engaged learning community
 - **Expected Engagement**: 2-4% educational content engagement

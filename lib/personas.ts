@@ -214,8 +214,8 @@ export function selectPersonaByWeight(): PersonaConfig {
 
 // Account-to-persona mapping for strict isolation based on Twitter handles
 const ACCOUNT_PERSONA_MAPPING: Record<string, string[]> = {
-  // Gibbi English Learning Account (@gibbiai)
-  'gibbiai': [
+  // Gibbi English Learning Account (@gibbi_ai)
+  'gibbi_ai': [
     'english_vocab_builder',
     'english_grammar_master', 
     'english_communication_expert'

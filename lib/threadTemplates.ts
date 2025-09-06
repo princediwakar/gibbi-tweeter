@@ -6,231 +6,88 @@
 export interface ThreadTemplate {
   name: string;
   displayName: string;
-  target_tweets: number;
-  structure: string[];
+  story_prompt: string;
   description: string;
-  example: Record<string, string>;
-  hook_patterns: string[];
 }
 
-// 1. Founder Struggle Template (6 tweets)
+// 1. Founder Struggle Template
 export const FOUNDER_STRUGGLE_TEMPLATE: ThreadTemplate = {
   name: 'founder_struggle',
   displayName: 'Founder Struggle Journey',
-  target_tweets: 6,
-  structure: ['hook', 'background', 'crisis', 'internal_struggle', 'decision', 'lesson'],
-  description: 'Personal journey of founders overcoming adversity and self-doubt',
-  example: {
-    hook: "Vijay Shekhar Sharma was living in a Delhi slum when he got his first business idea.",
-    background: "2000: 22-year-old from small UP town, big Silicon Valley dreams.",
-    crisis: "2008 recession: His first startup failed, lost family money, wife pregnant.",
-    internal_struggle: "The sleepless nights: 'Am I fooling myself? Should I get a job?'",
-    decision: "Started One97 from a tiny apartment with borrowed money.",
-    lesson: "Today: Paytm founder worth $2B. Sometimes your lowest point becomes your launching pad."
-  },
-  hook_patterns: [
-    "{name} was {struggling_situation} when {opportunity_moment}",
-    "Before becoming {current_status}, {name} faced {major_challenge}",
-    "The story of how {name} went from {low_point} to {high_point}"
-  ]
+  story_prompt: "Tell the story of an Indian founder who overcame significant personal adversity to build a successful company. Focus on their lowest moments, self-doubt, difficult decisions, and how they persevered. Include emotional depth and the human side of entrepreneurship - family pressure, financial struggles, moments of wanting to give up. End with a universal lesson about resilience.",
+  description: 'Personal journey of founders overcoming adversity and self-doubt'
 };
 
-// 2. Business Decision Template (5 tweets)
+// 2. Business Decision Template
 export const BUSINESS_DECISION_TEMPLATE: ThreadTemplate = {
   name: 'business_decision',
   displayName: 'Strategic Business Decision',
-  target_tweets: 5,
-  structure: ['hook', 'context', 'analysis', 'decision', 'outcome'],
-  description: 'Critical business decisions with long-term consequences',
-  example: {
-    hook: "Ratan Tata rejected Ford's $50B offer for Tata Motors in 2008.",
-    context: "Financial crisis, banks calling loans, board wanted to sell everything.",
-    analysis: "Decision factors: National pride vs financial safety, long-term vision vs short-term survival.",
-    decision: "Kept Jaguar-Land Rover, survived the crisis with internal restructuring.",
-    outcome: "Result: JLR now contributes 25% of Tata's revenue, validated Indian automotive capability."
-  },
-  hook_patterns: [
-    "{leader} made a {decision_type} decision that {impact_description}",
-    "In {year}, {company} faced {critical_choice} that would {determine_future}",
-    "The {amount/scale} decision that {outcome_preview}"
-  ]
+  story_prompt: "Share a story about a critical business decision made by an Indian business leader that had major long-term consequences. Focus on the context and pressure they were under, the difficult trade-offs they had to consider, why the decision was controversial or risky, and what the ultimate outcome was. Show the human side of strategic decision-making.",
+  description: 'Critical business decisions with long-term consequences'
 };
 
-// 3. Family Business Dynamics Template (7 tweets)
+// 3. Family Business Dynamics Template
 export const FAMILY_BUSINESS_TEMPLATE: ThreadTemplate = {
   name: 'family_business_dynamics',
   displayName: 'Family Business Dynamics',
-  target_tweets: 7,
-  structure: ['hook', 'family_context', 'generational_conflict', 'crisis_point', 'resolution_attempt', 'outcome', 'lesson'],
-  description: 'Complex dynamics within family business empires',
-  example: {
-    hook: "The Ambani brothers' split created two $50B companies from one empire.",
-    family_context: "Dhirubhai's vision: Keep the family and business united forever.",
-    generational_conflict: "Mukesh (introvert, strategic) vs Anil (extrovert, aggressive). Different visions for growth.",
-    crisis_point: "2005: Public feud, stock market confusion, family reputation at stake.",
-    resolution_attempt: "Mother Kokilaben's intervention: Divide the empire to save the family.",
-    outcome: "Mukesh: Telecom + Retail ($90B), Anil: Infrastructure + Finance ($5B).",
-    lesson: "Sometimes division creates more value than unity, but the human cost is immeasurable."
-  },
-  hook_patterns: [
-    "The {family_name} {conflict/event} that {outcome_description}",
-    "How {family_patriarch}'s {vision/decision} led to {unexpected_outcome}",
-    "The {scale} family business {event} that changed {industry/market}"
-  ]
+  story_prompt: "Tell a story about complex family dynamics within an Indian business empire. Focus on generational conflicts, different visions between family members, succession challenges, or family feuds that impacted the business. Include the emotional cost of family conflicts in business, how personal relationships affect business decisions, and what lessons can be learned about managing family businesses.",
+  description: 'Complex dynamics within family business empires'
 };
 
-// 4. Cross-Era Parallel Template (5 tweets)
+// 4. Cross-Era Parallel Template
 export const CROSS_ERA_PARALLEL_TEMPLATE: ThreadTemplate = {
   name: 'cross_era_parallel',
   displayName: 'Cross-Era Business Patterns',
-  target_tweets: 5,
-  structure: ['hook', 'historical_example', 'modern_parallel', 'pattern', 'application'],
-  description: 'Drawing parallels between historical and modern business strategies',
-  example: {
-    hook: "Dhirubhai Ambani's 1970s strategy predicted every modern fintech startup.",
-    historical_example: "1970s: Used informal 'hawala' networks when banks wouldn't lend to him.",
-    modern_parallel: "2020s: Fintech startups use 'alternative credit scoring' when banks won't lend.",
-    pattern: "Same principle: Build trust networks when institutions fail you.",
-    application: "Whether 1970s polyester or 2020s payments, the formula works: Trust + Innovation + Persistence."
-  },
-  hook_patterns: [
-    "{historical_figure}'s {era} strategy {prediction/parallel} {modern_phenomenon}",
-    "The {time_period} business lesson that explains {current_trend}",
-    "How {historical_event} predicted {modern_business_pattern}"
-  ]
+  story_prompt: "Draw a fascinating parallel between a historical Indian business strategy or decision and a modern business phenomenon. Show how the same underlying principles or patterns repeat across decades. Connect a business strategy from the 1970s-90s with today's startups or business environment. Make it insightful and show timeless business wisdom.",
+  description: 'Drawing parallels between historical and modern business strategies'
 };
 
-// 5. Failure Recovery Template (6 tweets)
+// 5. Failure Recovery Template
 export const FAILURE_RECOVERY_TEMPLATE: ThreadTemplate = {
   name: 'failure_recovery',
   displayName: 'Failure to Recovery Journey',
-  target_tweets: 6,
-  structure: ['hook', 'peak_success', 'downfall', 'rock_bottom', 'comeback_strategy', 'lesson'],
-  description: 'Stories of spectacular failure and potential recovery',
-  example: {
-    hook: "Byju Raveendran went from $22B valuation to insolvency in 18 months.",
-    peak_success: "2021: World's most valuable edtech company, 150M users, global expansion.",
-    downfall: "WhiteHat Jr acquisition disaster, audit delays, governance breakdown.",
-    rock_bottom: "2024: Insolvency proceedings, investors fleeing, reputation destroyed.",
-    comeback_strategy: "Lesson in progress: Can Indian founders recover from public spectacular failure?",
-    lesson: "Success without systems is just luck waiting to run out."
-  },
-  hook_patterns: [
-    "{name} went from {peak_achievement} to {failure_state} in {timeframe}",
-    "The {scale} rise and fall of {company/founder}",
-    "How {success_metric} became {failure_outcome} - {business_name} story"
-  ]
+  story_prompt: "Tell a story of an Indian business that went from great heights to spectacular failure, and potentially recovered (or is trying to). Focus on what led to the peak success, what caused the downfall, the human impact, and lessons about business resilience. Include the emotional journey and what can be learned from both the failure and recovery attempts.",
+  description: 'Stories of spectacular failure and potential recovery'
 };
 
-// 6. Market Disruption Template (6 tweets)
+// 6. Market Disruption Template
 export const MARKET_DISRUPTION_TEMPLATE: ThreadTemplate = {
   name: 'market_disruption',
   displayName: 'Market Disruption Story',
-  target_tweets: 6,
-  structure: ['hook', 'market_status_quo', 'disruptor_entry', 'resistance', 'breakthrough', 'transformation'],
-  description: 'How companies disrupted entire industries',
-  example: {
-    hook: "Jio gave free internet to 400M Indians and still made billions.",
-    market_status_quo: "2016: Airtel, Vodafone charging ₹250/GB, 2G speeds, limited coverage.",
-    disruptor_entry: "Mukesh Ambani's bet: Free 4G for 6 months, unlimited calls forever.",
-    resistance: "Competitors called it 'predatory', filed lawsuits, claimed it was impossible.",
-    breakthrough: "400M users in 12 months, forced entire industry to cut prices 90%.",
-    transformation: "Result: India became world's largest data consumer, enabled digital revolution."
-  },
-  hook_patterns: [
-    "{company} {disruption_action} and {surprising_outcome}",
-    "How {company} destroyed {industry} by {strategy}",
-    "The {scale} disruption that {market_transformation}"
-  ]
+  story_prompt: "Share a story about how an Indian company completely disrupted an entire industry. Focus on what the market looked like before disruption, how the disruptor entered with a different approach, the resistance they faced from incumbents, their breakthrough moment, and the industry transformation that followed. Make it dramatic and show the human audacity behind the disruption.",
+  description: 'How companies disrupted entire industries'
 };
 
-// 7. Crisis Leadership Template (7 tweets)
+// 7. Crisis Leadership Template
 export const CRISIS_LEADERSHIP_TEMPLATE: ThreadTemplate = {
   name: 'crisis_leadership',
   displayName: 'Crisis Leadership Story',
-  target_tweets: 7,
-  structure: ['hook', 'crisis_context', 'immediate_response', 'difficult_decisions', 'stakeholder_management', 'outcome', 'leadership_lesson'],
-  description: 'Leadership during unprecedented crises',
-  example: {
-    hook: "When COVID hit, Harsh Mariwala made a decision that saved his entire supply chain.",
-    crisis_context: "March 2020: Lockdown announced, Marico's rural suppliers facing bankruptcy.",
-    immediate_response: "Within 24 hours: Advanced payments to all suppliers, no questions asked.",
-    difficult_decisions: "Used company's cash reserves, risked Marico's own liquidity position.",
-    stakeholder_management: "Convinced board: 'We survive together or fail separately.'",
-    outcome: "Result: Zero supply disruption, suppliers stayed loyal, competitors struggled for months.",
-    leadership_lesson: "True leadership isn't about protecting yourself first, it's about protecting your ecosystem."
-  },
-  hook_patterns: [
-    "When {crisis} hit, {leader} made {decision_type} that {outcome}",
-    "During {crisis_period}, {leader}'s {action} {result_preview}",
-    "The {crisis} decision that {defined/saved} {company/industry}"
-  ]
+  story_prompt: "Tell a story about exceptional leadership during a major crisis (economic recession, pandemic, natural disaster, industry crisis, etc.). Focus on how an Indian business leader made difficult decisions under pressure, managed competing stakeholder interests, took personal risks for the greater good, and what the outcome was. Highlight the human side of leadership in crisis.",
+  description: 'Leadership during unprecedented crises'
 };
 
-// 8. Innovation Breakthrough Template (5 tweets)
+// 8. Innovation Breakthrough Template
 export const INNOVATION_BREAKTHROUGH_TEMPLATE: ThreadTemplate = {
   name: 'innovation_breakthrough',
   displayName: 'Innovation Breakthrough',
-  target_tweets: 5,
-  structure: ['hook', 'problem', 'breakthrough_moment', 'implementation', 'impact'],
-  description: 'Moments of innovation that changed everything',
-  example: {
-    hook: "A Bangalore traffic jam inspired India's biggest fintech breakthrough.",
-    problem: "2010: Vijay Shekhar Sharma stuck in traffic, needed to recharge phone, no cash.",
-    breakthrough_moment: "'What if we could pay for everything with just a phone number?'",
-    implementation: "Built mobile recharge platform, then expanded to bill payments, then to everything.",
-    impact: "Today: Paytm processes $100B+ annually, digitized millions of small merchants."
-  },
-  hook_patterns: [
-    "A {everyday_situation} inspired {breakthrough_description}",
-    "The {moment/incident} that led to {innovation}",
-    "{simple_problem} became the inspiration for {major_innovation}"
-  ]
+  story_prompt: "Share a story about a moment of innovation or breakthrough that changed an Indian business or industry. Focus on the original problem or frustration, the 'aha moment' or breakthrough insight, how it was implemented despite challenges, and the massive impact it had. Make it feel serendipitous but show the persistence behind the innovation.",
+  description: 'Moments of innovation that changed everything'
 };
 
-// 9. Cultural Adaptation Template (6 tweets)
+// 9. Cultural Adaptation Template
 export const CULTURAL_ADAPTATION_TEMPLATE: ThreadTemplate = {
   name: 'cultural_adaptation',
   displayName: 'Cultural Adaptation Success',
-  target_tweets: 6,
-  structure: ['hook', 'cultural_challenge', 'local_insight', 'adaptation_strategy', 'result', 'universal_principle'],
-  description: 'How global companies succeeded by adapting to Indian culture',
-  example: {
-    hook: "McDonald's failed in India until they learned one cultural lesson.",
-    cultural_challenge: "1990s entry: Beef burgers in Hindu-majority country, expensive pricing for local market.",
-    local_insight: "Indians want flavors, variety, and value - not standardized global menu.",
-    adaptation_strategy: "Created Maharaja Mac (chicken), McAloo Tikki, ₹20 price points, local sourcing.",
-    result: "Today: 400+ outlets, ₹2000 crore revenue, Indian menu exported globally.",
-    universal_principle: "Global brand success requires local cultural intelligence, not just marketing translation."
-  },
-  hook_patterns: [
-    "{global_company} failed in India until {cultural_learning}",
-    "How {company} cracked the Indian market by {adaptation_strategy}",
-    "The {cultural_insight} that transformed {company}'s India strategy"
-  ]
+  story_prompt: "Tell a story about how a global company succeeded in India by adapting to local culture, or how an Indian company succeeded globally by understanding cultural nuances. Focus on the initial cultural challenges or failures, the key insights about local preferences, the adaptation strategy, and the successful results. Show why cultural intelligence matters in business.",
+  description: 'How companies succeeded through cultural adaptation'
 };
 
-// 10. Succession Story Template (7 tweets)
+// 10. Succession Story Template
 export const SUCCESSION_STORY_TEMPLATE: ThreadTemplate = {
   name: 'succession_story',
   displayName: 'Business Succession Story',
-  target_tweets: 7,
-  structure: ['hook', 'patriarch_legacy', 'succession_challenge', 'competing_visions', 'transition_strategy', 'outcome', 'succession_wisdom'],
-  description: 'Complex succession stories in Indian business families',
-  example: {
-    hook: "N.R. Narayana Murthy's Infosys succession became a template for Indian IT.",
-    patriarch_legacy: "1980s-2000s: Built Infosys from garage startup to $100B company with strong governance.",
-    succession_challenge: "How to transition from founder-CEO to professional leadership without losing culture?",
-    competing_visions: "Founders wanted continuity, new generation wanted aggressive growth, board wanted stability.",
-    transition_strategy: "Gradual handover: Murthy as Chairman, professional CEOs, founder oversight on values.",
-    outcome: "Mixed results: Growth continued, but cultural dilution and founder conflicts emerged.",
-    succession_wisdom: "Succession isn't just about finding next CEO, it's about preserving institutional DNA."
-  },
-  hook_patterns: [
-    "{founder}'s succession at {company} became {template/example}",
-    "How {company} handled {succession_challenge}",
-    "The {complexity} succession story of {business_empire}"
-  ]
+  story_prompt: "Share a complex business succession story from Indian business families or companies. Focus on the founder's legacy, the succession challenges, competing visions between generations or potential successors, the transition strategy chosen, what worked and what didn't, and lessons about preserving business culture and values across generations.",
+  description: 'Complex succession stories in Indian business families'
 };
 
 // Template registry
@@ -272,10 +129,9 @@ export function getThreadTemplatesByPersona(personaKey: string): ThreadTemplate[
 // Template structure validation
 export function validateThreadStructure(template: ThreadTemplate): boolean {
   return (
-    template.structure.length === template.target_tweets &&
-    template.structure.length > 0 &&
-    template.example &&
-    Object.keys(template.example).length === template.structure.length
+    template.story_prompt.length > 0 &&
+    template.displayName.length > 0 &&
+    template.name.length > 0
   );
 }
 

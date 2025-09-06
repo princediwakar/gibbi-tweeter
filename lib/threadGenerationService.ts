@@ -25,6 +25,63 @@ export interface ThreadGenerationResult {
 }
 
 /**
+ * Split a long tweet into multiple tweets at natural break points
+ */
+function splitLongTweet(content: string): string[] {
+  const maxLength = 280;
+  
+  if (content.length <= maxLength) {
+    return [content];
+  }
+  
+  const tweets: string[] = [];
+  let remaining = content.trim();
+  
+  while (remaining.length > maxLength) {
+    // Find natural break points in order of preference
+    let splitIndex = maxLength;
+    
+    // Try to split at sentence endings (. ! ?)
+    let lastSentence = remaining.lastIndexOf('.', maxLength);
+    if (lastSentence === -1) lastSentence = remaining.lastIndexOf('!', maxLength);
+    if (lastSentence === -1) lastSentence = remaining.lastIndexOf('?', maxLength);
+    
+    if (lastSentence > maxLength * 0.6) { // Don't split too early
+      splitIndex = lastSentence + 1;
+    } else {
+      // Try to split at comma or semicolon
+      let lastPunctuation = remaining.lastIndexOf(',', maxLength);
+      if (lastPunctuation === -1) lastPunctuation = remaining.lastIndexOf(';', maxLength);
+      
+      if (lastPunctuation > maxLength * 0.7) {
+        splitIndex = lastPunctuation + 1;
+      } else {
+        // Split at last space to avoid breaking words
+        const lastSpace = remaining.lastIndexOf(' ', maxLength);
+        if (lastSpace > maxLength * 0.5) {
+          splitIndex = lastSpace;
+        }
+      }
+    }
+    
+    // Extract the tweet and clean up
+    const tweetContent = remaining.substring(0, splitIndex).trim();
+    tweets.push(tweetContent);
+    
+    // Continue with remaining content
+    remaining = remaining.substring(splitIndex).trim();
+  }
+  
+  // Add the final piece
+  if (remaining.length > 0) {
+    tweets.push(remaining);
+  }
+  
+  console.log(`✂️ Split long tweet into ${tweets.length} parts:`, tweets.map(t => `${t.length} chars`));
+  return tweets;
+}
+
+/**
  * Select appropriate thread template for business storyteller persona
  */
 function selectThreadTemplate(persona: PersonaConfig, templateOverride?: string): ThreadTemplate {
@@ -65,19 +122,32 @@ function selectThreadTemplate(persona: PersonaConfig, templateOverride?: string)
 function generateThreadPrompt(template: ThreadTemplate): string {
   const timeMarker = `T${Date.now()}`;
   const tokenMarker = `TK${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+  const diversityMarker = `D${Math.random().toString(36).substring(2, 4).toUpperCase()}`;
+  
+  // Add variation instructions
+  const variationPrompts = [
+    "Focus on a lesser-known regional business story",
+    "Tell a story from the startup ecosystem (2010-2024)",
+    "Share a family business transition story", 
+    "Explore a crisis management story",
+    "Highlight an unexpected business pivot",
+    "Discuss a cultural adaptation success"
+  ];
+  const selectedVariation = variationPrompts[Math.floor(Math.random() * variationPrompts.length)];
 
   return `You are an expert Indian business storyteller creating compelling Twitter threads about authentic business stories with emotional depth and strategic insights.
 
-THREAD TEMPLATE: "${template.displayName}"
-TARGET TWEETS: ${template.target_tweets}
-STORY STRUCTURE: ${template.structure.join(' → ')}
+UNIQUENESS INSTRUCTION: ${selectedVariation}
 
-TEMPLATE EXAMPLE FOR REFERENCE (create different story, not this exact one):
-Hook: "${template.example.hook}"
-Background: "${template.example.background || template.example.context || template.example.family_context}"
-Development: "${template.example.crisis || template.example.analysis || template.example.generational_conflict}"
-Resolution: "${template.example.decision || template.example.resolution_attempt || template.example.outcome}"
-Lesson: "${template.example.lesson || template.example.succession_wisdom || template.example.universal_principle}"
+THREAD TEMPLATE: "${template.displayName}"
+
+STORY BRIEF: ${template.story_prompt}
+
+CREATIVE FREEDOM:
+• Find and weave a compelling, authentic Indian business story
+• Use your knowledge to discover interesting, lesser-known stories or fresh angles
+• Focus on emotional depth and strategic insights
+• Each thread should be completely unique and original
 
 STORY REQUIREMENTS:
 • Focus on authentic Indian business stories (Tata, Reliance, Infosys, newer startups, family businesses, etc.)
@@ -96,19 +166,25 @@ INDIAN BUSINESS CONTEXT:
 • Connect with current Indian startup ecosystem and unicorn stories
 
 CONTENT APPROACH:
-• Tweet 1: Strong hook with surprising/intriguing opening 
-• Middle tweets: Develop tension, conflict, or challenge with human elements
-• Final tweet: Universal business lesson or principle that applies globally
-• Use conversational tone - like storytelling, not corporate speak
-• Include specific details that make the story memorable and credible
-• Each tweet should be 200-240 characters to leave room for threading indicators
-• Use Twitter handles (@RNTata2000, @TataCompanies, @RelianceGroup, @Paytm, etc.) for better engagement
+• Start with an engaging hook
+• Tell the story with natural flow and pacing
+• Include human elements and emotional depth
+• End with meaningful insights or lessons
+• Use conversational storytelling tone
+• Include specific, memorable details
 
 THREADING FORMAT:
-• Tweet 1: "Hook content 1/${template.target_tweets} 🧵"
-• Tweet N: "Content ${template.target_tweets}/${template.target_tweets} 🧵"
-• Use thread emojis and numbering consistently
-• Each tweet must advance the story meaningfully
+• Generate clean content without numbering - numbering will be added automatically
+• Each tweet should be engaging standalone while advancing the narrative
+• Thread length should serve the story, not arbitrary constraints
+• Content will be processed for threading after generation
+
+CHARACTER LIMITS - CRITICAL:
+• EACH TWEET MUST BE STRICTLY UNDER 270 CHARACTERS (including spaces and punctuation)
+• This leaves 10 characters buffer for thread indicators (X/Y) and hashtags
+• If content exceeds 280 characters, BREAK IT INTO TWO TWEETS instead
+• Count characters carefully - Twitter rejects tweets over 280 characters
+• Shorter tweets are better for engagement - aim for 200-260 characters per tweet
 
 FORBIDDEN:
 • Generic business advice without specific story
@@ -117,43 +193,34 @@ FORBIDDEN:
 • Facts without emotional connection
 • Stories that are too well-known (find lesser-known angles)
 
-Generate a complete ${template.target_tweets}-tweet thread following this structure. Return ONLY valid JSON with this exact format:
+Generate a complete thread with optimal length for your story. Return ONLY valid JSON with this exact format:
 
 {
-  "title": "Thread title (max 50 chars)",
+  "title": "Thread title",
   "story_category": "${template.name}",
-  "hashtags": ["Specific hashtags that authentically relate to your story content - max 4, no generic business hashtags"],
+  "hashtags": ["Relevant hashtags for your specific story"],
   "tweets": [
     {
       "sequence": 1,
-      "content": "Tweet 1 content with hook",
-      "hook_type": "opener"
+      "content": "Tweet 1 content"
     },
     {
       "sequence": 2,
-      "content": "Tweet 2 content",
-      "hook_type": "context"
+      "content": "Tweet 2 content"
     }
-    // ... continue for all ${template.target_tweets} tweets
+    // ... continue for all tweets in your thread
   ]
 }
 
-HASHTAG INSTRUCTIONS:
-• Generate hashtags that are SPECIFIC to your story content
-• If you mention Ratan Tata, use #RatanTata not generic #Leadership
-• If it's about a crisis in 2008, use #2008Crisis not #BusinessDecisions
-• If you mention Jugaad innovation, use #Jugaad not #Innovation
-• Be authentic and relevant to the actual narrative you're telling
-• Avoid generic business hashtags like #Leadership #Entrepreneurship #Success
-• Focus on what makes THIS specific story unique and discoverable
+Create hashtags that are authentic and specific to your story content. Avoid generic business hashtags.
 
-[${timeMarker}-${tokenMarker}]`;
+[${timeMarker}-${tokenMarker}-${diversityMarker}]`;
 }
 
 /**
  * Parse and validate thread generation response
  */
-function parseThreadResponse(content: string, template: ThreadTemplate): { title: string; story_category: string; hashtags: string[]; tweets: Array<{ sequence: number; content: string; hook_type: string; }> } | null {
+function parseThreadResponse(content: string, template: ThreadTemplate): { title: string; story_category: string; hashtags: string[]; tweets: Array<{ sequence: number; content: string; }> } | null {
   try {
     const cleanedContent = content.replace(/```json\n?|\n?```/g, '').trim();
     const data = JSON.parse(cleanedContent);
@@ -162,30 +229,50 @@ function parseThreadResponse(content: string, template: ThreadTemplate): { title
       throw new Error('AI response missing required fields');
     }
     
-    if (data.tweets.length !== template.target_tweets) {
-      throw new Error(`Expected ${template.target_tweets} tweets, got ${data.tweets.length}`);
+    if (data.tweets.length < 3 || data.tweets.length > 10) {
+      throw new Error(`Thread length should be reasonable (3-10 tweets), got ${data.tweets.length}`);
     }
     
-    // Validate tweet structure
+    // Validate tweet structure and handle character limits
+    const processedTweets = [];
     for (let i = 0; i < data.tweets.length; i++) {
       const tweet = data.tweets[i];
       if (!tweet.content || typeof tweet.content !== 'string') {
         throw new Error(`Tweet ${i + 1} missing content`);
       }
-      if (tweet.sequence !== i + 1) {
-        throw new Error(`Tweet ${i + 1} has incorrect sequence number`);
+      
+      // Character validation and overflow handling
+      if (tweet.content.length > 280) {
+        console.warn(`Tweet ${i + 1} is too long (${tweet.content.length} chars), splitting into multiple tweets...`);
+        
+        // Split at natural break points (sentences, clauses)
+        const splitTweets = splitLongTweet(tweet.content);
+        
+        // Add split tweets with correct sequencing
+        splitTweets.forEach((content, splitIndex) => {
+          processedTweets.push({
+            sequence: processedTweets.length + 1,
+            content: content
+          });
+        });
+      } else {
+        processedTweets.push({
+          sequence: processedTweets.length + 1,
+          content: tweet.content
+        });
       }
-      if (tweet.content.length > 240) {
-        console.warn(`Tweet ${i + 1} exceeds 240 characters, truncating...`);
-        tweet.content = tweet.content.substring(0, 237) + '...';
-      }
+    }
+    
+    // Validate final length
+    if (processedTweets.length > 15) {
+      throw new Error(`Thread too long after splitting: ${processedTweets.length} tweets (max 15)`);
     }
     
     return {
       title: data.title,
       story_category: data.story_category || template.name,
-      hashtags: data.hashtags.slice(0, 4), // Limit to 4 hashtags
-      tweets: data.tweets
+      hashtags: data.hashtags,
+      tweets: processedTweets
     };
   } catch (error) {
     console.error(`Failed to parse thread response: ${error}`, { content: content.substring(0, 200) + '...' });
@@ -228,7 +315,7 @@ export async function generateThread(config: ThreadGenerationConfig): Promise<Th
       model: "deepseek-chat",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.8, // Higher creativity for storytelling
-      max_tokens: 2000, // Allow for longer responses
+      max_tokens: 4000, // Allow for longer responses
     });
 
     const aiContent = response.choices[0].message.content;
@@ -264,10 +351,16 @@ export async function generateThread(config: ThreadGenerationConfig): Promise<Th
     for (const tweetData of threadData.tweets) {
       const tweetId = generateTweetId();
       
+      // Add threading numbering to content
+      const threadNumber = `${tweetData.sequence}/${threadData.tweets.length}`;
+      const threadedContent = tweetData.sequence === 1 
+        ? `${tweetData.content} ${threadNumber} 🧵`
+        : `${tweetData.content} ${threadNumber}`;
+      
       const tweet: Tweet = {
         id: tweetId,
         account_id: config.account_id,
-        content: tweetData.content,
+        content: threadedContent,
         hashtags: hashtags,
         persona: config.persona,
         status: 'ready',
@@ -275,8 +368,7 @@ export async function generateThread(config: ThreadGenerationConfig): Promise<Th
         // Threading fields
         thread_id: threadId,
         thread_sequence: tweetData.sequence,
-        content_type: 'thread',
-        hook_type: tweetData.hook_type as 'opener' | 'context' | 'crisis' | 'resolution' | 'lesson'
+        content_type: 'thread'
       };
 
       await saveTweet(tweet);
@@ -307,15 +399,16 @@ export async function generateThread(config: ThreadGenerationConfig): Promise<Th
 export function canGenerateThreads(account: Account): boolean {
   // Currently only Prince's business account supports threading
   const handle = account.twitter_handle.toLowerCase();
-  const name = account.name.toLowerCase();
   
-  // Gibbi accounts should not generate threads
-  if (handle.includes('gibbi') || name.includes('gibbi') || name.includes('english') || name.includes('learning')) {
+  // Specific accounts that should NOT generate threads (Gibbi's educational accounts)
+  const excludedHandles = ['@gibbi_ai', 'gibbi_ai'];
+  if (excludedHandles.includes(handle) || excludedHandles.includes(handle.replace('@', ''))) {
     return false;
   }
   
-  // Prince accounts and other business accounts can generate threads
-  return true;
+  // Specific accounts that CAN generate threads (Prince's business accounts)
+  const allowedHandles = ['@princediwakar25', 'princediwakar25'];
+  return allowedHandles.includes(handle) || allowedHandles.includes(handle.replace('@', ''));
 }
 
 const threadGenerationService = {
