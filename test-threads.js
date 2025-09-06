@@ -5,11 +5,10 @@
  * Tests business_storyteller persona with instant thread posting
  */
 
-const { TwitterApi } = require('twitter-api-v2');
 
 const BASE_URL = process.env.NODE_ENV === 'production' 
   ? 'https://gibbi-tweeter.vercel.app' 
-  : 'http://localhost:3001';
+  : 'http://localhost:3000';
 
 async function apiCall(endpoint, options = {}) {
   const url = `${BASE_URL}${endpoint}`;
@@ -40,11 +39,11 @@ async function getPrinceAccount() {
   
   if (!princeAccount) {
     console.log('❌ Prince account not found. Available accounts:');
-    accounts.forEach(acc => console.log(`  - ${acc.name} (@${acc.twitter_handle})`));
+    accounts.forEach(acc => console.log(`  - ${acc.name} (${acc.twitter_handle})`));
     throw new Error('Prince account not found');
   }
   
-  console.log(`✅ Found account: ${princeAccount.name} (@${princeAccount.twitter_handle})`);
+  console.log(`✅ Found account: ${princeAccount.name} (${princeAccount.twitter_handle})`);
   return princeAccount;
 }
 
@@ -157,7 +156,7 @@ async function verifyTwitterCredentials(account) {
   
   // This would normally be decrypted in the actual service
   console.log('✅ Account has Twitter credentials configured');
-  console.log(`📱 Account: @${account.twitter_handle}`);
+  console.log(`📱 Account: ${account.twitter_handle}`);
   console.log(`🔑 API Key: ${account.twitter_api_key ? 'Present' : 'Missing'}`);
   console.log(`🔑 Access Token: ${account.twitter_access_token ? 'Present' : 'Missing'}`);
   

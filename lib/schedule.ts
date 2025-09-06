@@ -53,7 +53,7 @@ const princeGenerationPattern: HourlySchedule = {
   // 8: ['satirist'],   // Morning thread generation
   // 10: ['satirist'],              // Mid-morning satirical tweet
   // 16: ['satirist'],              // Late afternoon satirical tweet
-  14: ['business_storyteller'],  // Evening thread generation
+  16: ['business_storyteller'],  // Evening thread generation
   20: ['cricket_storyteller'],   // Evening cricket story generation
 };
 
@@ -62,7 +62,7 @@ const princePostingPattern: HourlySchedule = {
   // 12: ['satirist'],                     // Lunch break satirical content
   // 14: ['satirist'],         // Afternoon thread posting
   // 17: ['satirist'],                     // Evening satirical content
-  15: ['business_storyteller'],         // Prime time thread posting
+  17: ['business_storyteller'],         // Prime time thread posting
   21: ['cricket_storyteller'],          // Prime time cricket story posting
   // 22: ['satirist'],         // Late evening thread posting
 };

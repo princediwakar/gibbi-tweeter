@@ -6,7 +6,7 @@
 
 const { TwitterApi } = require('twitter-api-v2');
 
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = 'http://localhost:3000';
 
 async function testSingleTweet() {
   console.log('🐦 Testing single tweet posting\n');
