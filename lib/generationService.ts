@@ -197,7 +197,7 @@ async function generateTweetPrompt(config: TweetGenerationConfig): Promise<{ pro
   if (useRSSSources && config.persona) {
     try {
       // Fetch RSS context for personas that use current events
-      if (['product_insights', 'startup_content', 'tech_commentary', 'satirist'].includes(config.persona)) {
+      if (['product_insights', 'startup_content', 'tech_commentary', 'satirist', 'business_storyteller', 'cricket_storyteller'].includes(config.persona)) {
         const topicForRSS = config.topic || 'technology';
         rssContext = await getDynamicContext(config.persona, topicForRSS);
         console.log(`📰 Fetched RSS context for ${config.persona}: ${rssContext.length > 0 ? 'success' : 'no content'}`);
@@ -479,6 +479,72 @@ ${useRSSSources ? '• Use current political news, business headlines, social co
 
 CONTENT TYPE: ${contentType}
 SATIRE FOCUS: Current events, political news, and social trend satirical commentary
+
+[${timeMarker}-${tokenMarker}]`;
+
+  } else if (persona.key === 'business_storyteller') {
+    // Build RSS context for business storytelling
+    let rssSourceContext = '';
+    if (rssContext.length > 0) {
+      rssSourceContext = `\n\nRECENT BUSINESS DEVELOPMENTS (from RSS sources):\n${rssContext}`;
+    }
+
+    basePrompt = `Write compelling Indian business story threads about "${topic.displayName}" that blend iconic business moments with human psychology and strategic insights.
+
+INDIAN BUSINESS STORYTELLER APPROACH:
+• Create narrative threads (6-7 tweets) that tell complete stories from Indian business history
+• Focus on the human elements behind business decisions - psychology, pressure, family dynamics
+• Include specific details, emotions, and the strategic thinking behind major business moves
+• Connect traditional Indian business wisdom with modern startup/corporate strategies
+• Highlight the cultural and personal contexts that shaped business leaders' decisions
+• Use storytelling techniques that make business lessons memorable and relatable
+• Structure as thread with clear beginning, development, climax, and lesson/insight
+• Sound like someone who understands both business strategy and human nature
+• Include specific numbers, dates, and real business outcomes where relevant
+• Draw parallels between historical business decisions and current entrepreneurial challenges
+${useRSSSources ? '• May reference current Indian business news, startup developments, or market trends' : ''}${rssSourceContext}
+
+THREAD STRUCTURE:
+• Tweet 1: Hook with intriguing business scenario or decision
+• Tweets 2-5: Story development with context, challenges, human elements
+• Tweet 6: Climax/decision/outcome
+• Tweet 7: Strategic lesson or insight for modern entrepreneurs
+
+CONTENT TYPE: ${contentType}
+BUSINESS STORYTELLING FOCUS: Indian business narratives with emotional depth and strategic insights
+
+[${timeMarker}-${tokenMarker}]`;
+
+  } else if (persona.key === 'cricket_storyteller') {
+    // Build RSS context for cricket storytelling
+    let rssSourceContext = '';
+    if (rssContext.length > 0) {
+      rssSourceContext = `\n\nRECENT CRICKET DEVELOPMENTS (from RSS sources):\n${rssContext}`;
+    }
+
+    basePrompt = `Write compelling cricket story threads about "${topic.displayName}" that use cricket as a backdrop to explore human nature, character, and life lessons.
+
+CRICKET STORYTELLER APPROACH:
+• Create narrative threads (6-7 tweets) that blend iconic cricket moments with human psychology
+• Focus on the personalities and characters behind great cricket performances
+• Explore how cricket moments revealed character, handled pressure, or demonstrated resilience  
+• Include the entertainment value and larger-than-life personalities who transcended cricket
+• Connect cricket situations to universal human themes of pressure, character, and personal growth
+• Use cricket as a lens to examine rivalry, friendship, leadership, and personal battles
+• Structure as thread with clear narrative arc and human insight/lesson
+• Sound like someone who understands both cricket and human psychology
+• Include specific match details, scores, and outcomes where relevant
+• Draw life lessons and philosophical insights from cricket scenarios that anyone can relate to
+${useRSSSources ? '• May reference current cricket news, player stories, or ongoing tournaments' : ''}${rssSourceContext}
+
+THREAD STRUCTURE:
+• Tweet 1: Hook with intriguing cricket moment or character scenario
+• Tweets 2-5: Story development with context, pressure, human psychology elements
+• Tweet 6: Climax/moment/outcome of the cricket situation
+• Tweet 7: Life lesson or character insight that transcends cricket
+
+CONTENT TYPE: ${contentType}
+CRICKET STORYTELLING FOCUS: Human stories through cricket lens with character and life lessons
 
 [${timeMarker}-${tokenMarker}]`;
   }

@@ -175,13 +175,52 @@ export const BUSINESS_STORYTELLER: PersonaConfig = {
   ]
 };
 
+// Cricket storyteller persona focusing on human stories through cricket lens
+export const CRICKET_STORYTELLER: PersonaConfig = {
+  key: 'cricket_storyteller',
+  displayName: 'Cricket Storyteller 🏏',
+  description: 'Human stories with cricket as the backdrop - exploring character, psychology, and life lessons through iconic cricket moments',
+  content_types: ['thread'],
+  thread_templates: [
+    'iconic_moment_character_reveal',
+    'pressure_psychology_breakdown', 
+    'controversy_comeback_arc',
+    'larger_than_life_personality',
+    'rivalry_human_dynamics',
+    'career_crossroads_character',
+    'entertainment_cricket_drama',
+    'personal_battle_public_stage',
+    'leadership_personality_clash',
+    'legacy_beyond_boundaries'
+  ],
+  topics: [
+    { key: 'character_through_cricket', displayName: 'Character Revealed Through Cricket' },
+    { key: 'pressure_psychology', displayName: 'Psychology of Pressure Moments' },
+    { key: 'cricket_personalities', displayName: 'Larger-than-Life Cricket Personalities' },
+    { key: 'personal_battles_cricket', displayName: 'Personal Battles on Cricket Stage' },
+    { key: 'cricket_life_lessons', displayName: 'Life Lessons Through Cricket' },
+    { key: 'entertainment_cricket', displayName: 'Cricket as Entertainment & Drama' },
+    { key: 'rivalry_psychology', displayName: 'Psychology of Cricket Rivalries' },
+    { key: 'cultural_impact_cricket', displayName: 'Cultural Impact Beyond Cricket' }
+  ],
+  hashtag_sets: [
+    ['#Cricket', '#HumanStories', '#Character', '#Psychology'],
+    ['#CricketPersonalities', '#LifeLessons', '#Drama', '#Cricket'],
+    ['#CricketLegends', '#HumanNature', '#Pressure', '#Stories'],
+    ['#CricketPhilosophy', '#Entertainment', '#Personality', '#Cricket'],
+    ['#SportsPsychology', '#CricketDrama', '#Inspiration', '#Cricket'],
+    ['#CricketCulture', '#IconicMoments', '#HumanBehavior', '#Cricket']
+  ]
+};
+
 // Active personas optimized for current multi-account strategy
 export const PERSONAS: PersonaConfig[] = [
   VOCABULARY_BUILDER, 
   GRAMMAR_MASTER, 
   COMMUNICATION_EXPERT,
   SATIRIST,
-  BUSINESS_STORYTELLER
+  BUSINESS_STORYTELLER,
+  CRICKET_STORYTELLER
 ] as const;
 
 // Type helpers
@@ -223,7 +262,8 @@ const ACCOUNT_PERSONA_MAPPING: Record<string, string[]> = {
   // Prince Business Account (@princediwakar25)  
   'princediwakar25': [
     'satirist',
-    'business_storyteller'
+    'business_storyteller',
+    'cricket_storyteller'
   ]
 };
 
@@ -326,7 +366,8 @@ export function getHashtagsForPersona(persona: PersonaConfig, variation = 0): st
       english_grammar_master: ['#EnglishGrammar', '#Grammar', '#Writing', '#Learning'],
       english_communication_expert: ['#Communication', '#Speaking', '#English', '#Skills'],
       satirist: ['#StartupLife', '#TechHumor', '#BusinessReality', '#Satire'],
-      business_storyteller: ['#IndianBusiness', '#Entrepreneurship', '#StartupStories', '#Leadership']
+      business_storyteller: ['#IndianBusiness', '#Entrepreneurship', '#StartupStories', '#Leadership'],
+      cricket_storyteller: ['#Cricket', '#HumanStories', '#Character', '#Psychology']
     };
     
     return defaultHashtags[persona.key] || ['#Content', '#Learning', '#Growth', '#Tips'];

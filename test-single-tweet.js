@@ -6,7 +6,7 @@
 
 const { TwitterApi } = require('twitter-api-v2');
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://localhost:3001';
 
 async function testSingleTweet() {
   console.log('🐦 Testing single tweet posting\n');
@@ -64,11 +64,12 @@ async function testSingleTweet() {
       return;
     }
     
-    // Try posting a simple test tweet
-    const testTweetContent = `🧪 Twitter API test - ${new Date().toISOString()}`;
+    // Try posting a cricket storyteller style test tweet
+    const testTweetContent = `🏏 Cricket storyteller API test: Every cricket match tells a human story. Today we test if our voice can reach the digital pavilion. ${new Date().toISOString().split('T')[0]}`;
     
-    console.log('📝 Attempting to post test tweet...');
+    console.log('🏏 Attempting to post cricket-style test tweet...');
     console.log('📄 Content:', testTweetContent);
+    console.log('📊 Content length:', testTweetContent.length, 'characters');
     console.log();
     
     try {

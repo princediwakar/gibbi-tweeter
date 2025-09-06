@@ -150,10 +150,10 @@ async function generateForAccountEnhanced(accountId: string, debugMode = false) 
         continue;
       }
 
-      // Threading decision for business accounts
+      // Threading decision for storytelling personas
       let shouldGenerateThread = false;
-      if (supportsThreading && selectedPersonaKey === 'business_storyteller') {
-        // 70% chance to generate thread for business storyteller persona
+      if (supportsThreading && (selectedPersonaKey === 'business_storyteller' || selectedPersonaKey === 'cricket_storyteller')) {
+        // 70% chance to generate thread for storytelling personas
         shouldGenerateThread = Math.random() < 0.7;
       }
 

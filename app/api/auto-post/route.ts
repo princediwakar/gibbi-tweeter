@@ -305,7 +305,7 @@ export async function POST(request: NextRequest) {
         const debugMode = process.env.DEBUG_MODE === 'true';
         if (debugMode || isPostingScheduled(account.id, nowIST)) {
           // Get scheduled personas for this specific account
-          const accountScheduledPersonas = debugMode ? ['tech_commentary', 'business_storyteller', 'satirist'] : getScheduledPersonasForPosting(account.id, dayOfWeek, currentHourIST);
+          const accountScheduledPersonas = debugMode ? ['tech_commentary', 'business_storyteller', 'satirist', 'cricket_storyteller'] : getScheduledPersonasForPosting(account.id, dayOfWeek, currentHourIST);
           
           // PRIORITY 1: Post ready threads instantly (highest priority)
           const readyThreads = await getReadyThreads(account.id);

@@ -68,7 +68,7 @@ function splitLongTweet(content: string): string[] {
     const tweetContent = remaining.substring(0, splitIndex).trim();
     tweets.push(tweetContent);
     
-    // Continue with remaining content
+    // Continue with remaining content  
     remaining = remaining.substring(splitIndex).trim();
   }
   
@@ -94,8 +94,8 @@ function selectThreadTemplate(persona: PersonaConfig, templateOverride?: string)
     console.warn(`⚠️ Template "${templateOverride}" not found, using random selection`);
   }
 
-  // For business storyteller, select from available templates
-  if (persona.key === 'business_storyteller' && persona.thread_templates) {
+  // For threading personas (business_storyteller, cricket_storyteller), select from available templates
+  if ((persona.key === 'business_storyteller' || persona.key === 'cricket_storyteller') && persona.thread_templates) {
     const randomIndex = Math.floor(Math.random() * persona.thread_templates.length);
     const templateName = persona.thread_templates[randomIndex];
     const template = getThreadTemplate(templateName);
@@ -117,25 +117,81 @@ function selectThreadTemplate(persona: PersonaConfig, templateOverride?: string)
 }
 
 /**
- * Generate thread-specific prompt for Indian business storytelling
+ * Generate thread-specific prompt for storytelling (business or cricket)
  */
-function generateThreadPrompt(template: ThreadTemplate): string {
+function generateThreadPrompt(template: ThreadTemplate, persona?: PersonaConfig): string {
   const timeMarker = `T${Date.now()}`;
   const tokenMarker = `TK${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
   const diversityMarker = `D${Math.random().toString(36).substring(2, 4).toUpperCase()}`;
   
-  // Add variation instructions
-  const variationPrompts = [
-    "Focus on a lesser-known regional business story",
-    "Tell a story from the startup ecosystem (2010-2024)",
-    "Share a family business transition story", 
-    "Explore a crisis management story",
-    "Highlight an unexpected business pivot",
-    "Discuss a cultural adaptation success"
-  ];
+  // Add variation instructions based on persona type
+  let variationPrompts: string[];
+  let storyContext: string;
+  let storyRequirements: string;
+  let contextualElements: string;
+  
+  if (persona?.key === 'cricket_storyteller') {
+    variationPrompts = [
+      "Focus on a lesser-known cricket moment that revealed character",
+      "Tell a story about pressure and how a cricketer handled it",
+      "Share a comeback story from cricket history",
+      "Explore a rivalry that went beyond the game",
+      "Highlight a career-defining moment with life lessons",
+      "Discuss a cricket personality who transcended the sport"
+    ];
+    
+    storyContext = `You are an expert cricket storyteller creating compelling Twitter threads that use cricket as a backdrop to explore human nature, character, and life lessons.`;
+    
+    storyRequirements = `STORY REQUIREMENTS:
+• Focus on authentic cricket stories (international, domestic, historical moments)
+• Include emotional elements - human struggles, pressure moments, character revelations
+• Provide psychological insights and universal life lessons
+• Use specific match details, scores, and outcomes when possible
+• Connect cricket situations to broader human themes of resilience, pressure, and growth
+• Each tweet should be engaging standalone while advancing the narrative
+• IMPORTANT: Use Twitter handles (@username) instead of names when mentioning players, teams, or cricket personalities`;
+
+    contextualElements = `CRICKET STORYTELLING CONTEXT:
+• Draw from rich cricket history - from legendary matches to personal battles
+• Include human elements - how cricket moments revealed true character
+• Reference iconic cricket personalities and their psychological journeys
+• Highlight cricket as a mirror for human nature - pressure, rivalry, friendship, leadership
+• Connect with universal themes that non-cricket fans can relate to
+• Focus on entertainment value and larger-than-life personalities who transcended cricket`;
+
+  } else {
+    // Default to business storytelling
+    variationPrompts = [
+      "Focus on a lesser-known regional business story",
+      "Tell a story from the startup ecosystem (2010-2024)",
+      "Share a family business transition story", 
+      "Explore a crisis management story",
+      "Highlight an unexpected business pivot",
+      "Discuss a cultural adaptation success"
+    ];
+    
+    storyContext = `You are an expert Indian business storyteller creating compelling Twitter threads about authentic business stories with emotional depth and strategic insights.`;
+    
+    storyRequirements = `STORY REQUIREMENTS:
+• Focus on authentic Indian business stories (Tata, Reliance, Infosys, newer startups, family businesses, etc.)
+• Include emotional elements - human struggles, difficult decisions, family dynamics
+• Provide strategic business insights and universal lessons
+• Use specific numbers, dates, and concrete details when possible
+• Connect historical context with modern business principles
+• Each tweet should be engaging standalone while advancing the narrative
+• IMPORTANT: Use Twitter handles (@username) instead of names when mentioning people, companies, or organizations`;
+
+    contextualElements = `INDIAN BUSINESS CONTEXT:
+• Draw from rich Indian business history - from independence era to modern startups
+• Include cultural elements - family business dynamics, traditional vs modern approaches
+• Reference iconic Indian business leaders and their decision-making patterns
+• Highlight uniquely Indian business concepts like 'Jugaad', family succession, regulatory challenges
+• Connect with current Indian startup ecosystem and unicorn stories`;
+  }
+  
   const selectedVariation = variationPrompts[Math.floor(Math.random() * variationPrompts.length)];
 
-  return `You are an expert Indian business storyteller creating compelling Twitter threads about authentic business stories with emotional depth and strategic insights.
+  return `${storyContext}
 
 UNIQUENESS INSTRUCTION: ${selectedVariation}
 
@@ -144,26 +200,14 @@ THREAD TEMPLATE: "${template.displayName}"
 STORY BRIEF: ${template.story_prompt}
 
 CREATIVE FREEDOM:
-• Find and weave a compelling, authentic Indian business story
+• Find and weave a compelling, authentic story
 • Use your knowledge to discover interesting, lesser-known stories or fresh angles
-• Focus on emotional depth and strategic insights
+• Focus on emotional depth and meaningful insights
 • Each thread should be completely unique and original
 
-STORY REQUIREMENTS:
-• Focus on authentic Indian business stories (Tata, Reliance, Infosys, newer startups, family businesses, etc.)
-• Include emotional elements - human struggles, difficult decisions, family dynamics
-• Provide strategic business insights and universal lessons
-• Use specific numbers, dates, and concrete details when possible
-• Connect historical context with modern business principles
-• Each tweet should be engaging standalone while advancing the narrative
-• IMPORTANT: Use Twitter handles (@username) instead of names when mentioning people, companies, or organizations
+${storyRequirements}
 
-INDIAN BUSINESS CONTEXT:
-• Draw from rich Indian business history - from independence era to modern startups
-• Include cultural elements - family business dynamics, traditional vs modern approaches
-• Reference iconic Indian business leaders and their decision-making patterns
-• Highlight uniquely Indian business concepts like 'Jugaad', family succession, regulatory challenges
-• Connect with current Indian startup ecosystem and unicorn stories
+${contextualElements}
 
 CONTENT APPROACH:
 • Start with an engaging hook
@@ -309,7 +353,7 @@ export async function generateThread(config: ThreadGenerationConfig): Promise<Th
     const template = selectThreadTemplate(persona, config.template);
     
     // Generate thread content using AI
-    const prompt = generateThreadPrompt(template);
+    const prompt = generateThreadPrompt(template, persona);
     
     const response = await deepseekClient.chat.completions.create({
       model: "deepseek-chat",

@@ -9,7 +9,7 @@ const { TwitterApi } = require('twitter-api-v2');
 
 const BASE_URL = process.env.NODE_ENV === 'production' 
   ? 'https://gibbi-tweeter.vercel.app' 
-  : 'http://localhost:3000';
+  : 'http://localhost:3001';
 
 async function apiCall(endpoint, options = {}) {
   const url = `${BASE_URL}${endpoint}`;
@@ -64,6 +64,49 @@ async function generateBusinessThread(account) {
     console.log(`\n📝 Thread preview (${result.thread.length} tweets):`);
     result.thread.forEach((tweet, i) => {
       console.log(`\n${i + 1}/${result.thread.length} 🧵`);
+      console.log(`${tweet.content}`);
+      if (tweet.hashtags?.length > 0) {
+        console.log(`Hashtags: ${tweet.hashtags.join(' ')}`);
+      }
+    });
+  }
+  
+  return result;
+}
+
+async function generateCricketThread(account) {
+  console.log('\n🏏 Generating cricket storyteller thread...');
+  
+  // Use GET with query parameters and debug mode to bypass scheduling
+  const result = await apiCall(`/api/generate?account_id=${account.id}&debug=true`, {
+    headers: {
+      'Authorization': 'Bearer 4Hqw8Wp0otUVOR9oRKl3MJyKGq/Sj9kOkEASqUn8Lt4='
+    }
+  });
+  
+  console.log('✅ Cricket thread generated successfully!');
+  
+  if (result.generatedThreads && result.generatedThreads.length > 0) {
+    const cricketThreads = result.generatedThreads.filter(t => t.persona === 'cricket_storyteller');
+    if (cricketThreads.length > 0) {
+      console.log(`\n🏏 Cricket thread preview:`);
+      console.log(`Template: ${cricketThreads[0].template}`);
+      console.log(`Story Category: ${cricketThreads[0].story_category}`);
+      console.log(`Total tweets: ${cricketThreads[0].total_tweets}`);
+    }
+  }
+  
+  // Get the actual thread content from the tweets API
+  const tweetsResponse = await apiCall(`/api/tweets?account_id=${account.id}&limit=10`);
+  const tweets = tweetsResponse.data || tweetsResponse;
+  const cricketThreadTweets = tweets.filter(t => 
+    t.thread_id && t.persona === 'cricket_storyteller'
+  ).sort((a, b) => a.thread_sequence - b.thread_sequence);
+  
+  if (cricketThreadTweets.length > 0) {
+    console.log(`\n🏏 Latest cricket thread content (${cricketThreadTweets.length} tweets):`);
+    cricketThreadTweets.forEach((tweet) => {
+      console.log(`\n${tweet.thread_sequence}/${cricketThreadTweets.length} 🏏`);
       console.log(`${tweet.content}`);
       if (tweet.hashtags?.length > 0) {
         console.log(`Hashtags: ${tweet.hashtags.join(' ')}`);
@@ -170,6 +213,11 @@ async function runTest(testType = 'all') {
       await generateBusinessThread(account);
     }
     
+    if (testType === 'cricket' || testType === 'all') {
+      // Generate cricket thread
+      await generateCricketThread(account);
+    }
+    
     if (testType === 'post' || testType === 'all') {
       // Test posting
       await testInstantThreadPosting(account);
@@ -197,6 +245,10 @@ switch (command) {
   case '-g':
     runTest('generate');
     break;
+  case '--cricket':
+  case '-c':
+    runTest('cricket');
+    break;
   case '--post':
   case '-p':
     runTest('post');
@@ -215,6 +267,7 @@ Usage:
 
 Options:
   -g, --generate    Generate new business thread
+  -c, --cricket     Generate new cricket thread
   -p, --post        Test thread posting
   -s, --status      Show thread status
   -h, --help        Show this help
@@ -223,6 +276,7 @@ Options:
 
 Examples:
   node test-threads.js --generate
+  node test-threads.js --cricket
   node test-threads.js --post
   node test-threads.js --status
   node test-threads.js

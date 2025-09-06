@@ -28,13 +28,10 @@ interface AccountSchedules {
  * Focus: Global English learners across time zones
  */
 const gibbiGenerationPattern: HourlySchedule = {
-  2: ['english_communication_expert'],  // Early morning generation
   6: ['english_vocab_builder'],         // Mid-morning generation
   8: ['english_grammar_master'],        // Morning generation
   10: ['english_vocab_builder'],        // Late morning generation
-  14: ['english_vocab_builder'],         // TEMPORARY: For debug generation
   17: ['english_communication_expert'], // Evening generation
-  20: ['english_grammar_master'],       // Night generation
 };
 
 const gibbiPostingPattern: HourlySchedule = {
@@ -53,19 +50,21 @@ const gibbiPostingPattern: HourlySchedule = {
  * 5-minute interval support for thread progression
  */
 const princeGenerationPattern: HourlySchedule = {
-  8: ['satirist'],   // Morning thread generation
-  10: ['satirist'],              // Mid-morning satirical tweet
-  16: ['satirist'],              // Late afternoon satirical tweet
-  18: ['business_storyteller'],  // Evening thread generation
+  // 8: ['satirist'],   // Morning thread generation
+  // 10: ['satirist'],              // Mid-morning satirical tweet
+  // 16: ['satirist'],              // Late afternoon satirical tweet
+  14: ['business_storyteller'],  // Evening thread generation
+  20: ['cricket_storyteller'],   // Evening cricket story generation
 };
 
 const princePostingPattern: HourlySchedule = {
-  9: ['satirist'],          // Business hours thread posting
-  12: ['satirist'],                     // Lunch break satirical content
-  14: ['satirist'],         // Afternoon thread posting
-  17: ['satirist'],                     // Evening satirical content
-  19: ['business_storyteller'],         // Prime time thread posting
-  22: ['satirist'],         // Late evening thread posting
+  // 9: ['satirist'],          // Business hours thread posting
+  // 12: ['satirist'],                     // Lunch break satirical content
+  // 14: ['satirist'],         // Afternoon thread posting
+  // 17: ['satirist'],                     // Evening satirical content
+  15: ['business_storyteller'],         // Prime time thread posting
+  21: ['cricket_storyteller'],          // Prime time cricket story posting
+  // 22: ['satirist'],         // Late evening thread posting
 };
 
 // Account ID mapping - maps database UUIDs to schedule keys
@@ -94,7 +93,7 @@ const ACCOUNT_SCHEDULES: Record<string, AccountSchedules> = {
       0: gibbiGenerationPattern, // Sunday
       1: gibbiGenerationPattern, // Monday
       2: gibbiGenerationPattern, // Tuesday
-      3: gibbiGenerationPattern, // Wednesday
+      // 3: gibbiGenerationPattern, // Wednesday
       4: gibbiGenerationPattern, // Thursday
       5: gibbiGenerationPattern, // Friday
       6: gibbiGenerationPattern, // Saturday
@@ -103,7 +102,7 @@ const ACCOUNT_SCHEDULES: Record<string, AccountSchedules> = {
       0: gibbiPostingPattern, // Sunday
       1: gibbiPostingPattern, // Monday
       2: gibbiPostingPattern, // Tuesday
-      3: gibbiPostingPattern, // Wednesday
+      // 3: gibbiPostingPattern, // Wednesday
       4: gibbiPostingPattern, // Thursday
       5: gibbiPostingPattern, // Friday
       6: gibbiPostingPattern, // Saturday
@@ -122,7 +121,7 @@ const ACCOUNT_SCHEDULES: Record<string, AccountSchedules> = {
       0: princeGenerationPattern, // Sunday
       1: princeGenerationPattern, // Monday
       2: princeGenerationPattern, // Tuesday
-      3: princeGenerationPattern, // Wednesday
+      // 3: princeGenerationPattern, // Wednesday
       4: princeGenerationPattern, // Thursday
       5: princeGenerationPattern, // Friday
       6: princeGenerationPattern, // Saturday
@@ -131,7 +130,7 @@ const ACCOUNT_SCHEDULES: Record<string, AccountSchedules> = {
       0: princePostingPattern, // Sunday
       1: princePostingPattern, // Monday
       2: princePostingPattern, // Tuesday
-      3: princePostingPattern, // Wednesday
+      // 3: princePostingPattern, // Wednesday
       4: princePostingPattern, // Thursday
       5: princePostingPattern, // Friday
       6: princePostingPattern, // Saturday
@@ -291,7 +290,7 @@ export function getGenerationBatchInfo(accountId: string, date: Date = new Date(
     if (accountId.includes('gibbi') || accountId === 'bc1165c3-aa53-492c-83c2-d0fc68753f0f') {
       personas = ['english_vocab_builder', 'english_grammar_master', 'english_communication_expert'];
     } else if (accountId.includes('prince') || accountId === 'b36846db-08f1-4d1d-88ec-bd01ca964774') {
-      personas = ['business_storyteller', 'satirist'];
+      personas = ['business_storyteller', 'satirist', 'cricket_storyteller'];
     } else {
       // Generic default personas for unknown accounts
       personas = ['business_storyteller'];

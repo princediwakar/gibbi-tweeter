@@ -6,7 +6,7 @@
 
 const { TwitterApi } = require('twitter-api-v2');
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://localhost:3001';
 
 async function testThreadAPI() {
   console.log('🧵 Testing Twitter API tweetThread method\n');
@@ -33,10 +33,11 @@ async function testThreadAPI() {
     console.log('👤 Testing as:', credData.twitterHandle);
     console.log();
     
-    // Create a simple test thread (2 tweets)
+    // Create a cricket storyteller style test thread (3 tweets)
     const testThread = [
-      '🧵 Testing Twitter API thread functionality - Tweet 1/2 🧵',
-      '✅ This is the second tweet in the test thread - Tweet 2/2 🧵'
+      '🏏 Test cricket story: MS Dhoni\'s 2011 World Cup final six - the psychology behind the shot that defined a generation 1/3 🧵',
+      'The pressure was immense. 28 years of waiting. 1.3 billion dreams riding on his bat. But Dhoni chose to finish with a six, not a safe single. Why? 2/3',
+      'Because legends don\'t just win - they create moments that transcend sport. That six wasn\'t just about cricket; it was about belief, audacity, and destiny. 3/3 🏏'
     ];
     
     console.log('📝 Test thread content:');
@@ -84,8 +85,8 @@ async function testThreadAPI() {
       console.log('\n🔄 Trying with minimal content...');
       
       const simpleThread = [
-        'Test thread 1/2',
-        'Test thread 2/2'
+        'Cricket test thread 1/2 🏏',
+        'Simple cricket story test 2/2 🏏'
       ];
       
       try {
